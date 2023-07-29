@@ -42,6 +42,30 @@
                 <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-circle nav-icon"></i>
                     <p>
+                        Exams
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview" style="display: none;">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>All Exams</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('exam.create') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Create Exam</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-circle nav-icon"></i>
+                    <p>
                         Two-level menu
                         <i class="fas fa-angle-left right"></i>
                     </p>

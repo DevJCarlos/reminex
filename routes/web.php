@@ -26,6 +26,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
 
+
+    // exam
+    Route::get('exam/create', [\App\Http\Controllers\ExamController::class, 'create'])->name('exam.create');
+
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 });
