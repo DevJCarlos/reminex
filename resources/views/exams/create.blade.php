@@ -2,30 +2,35 @@
 
 
 @section('content')
-dri i butang ang FORM
-<form class="app-search position-absolute">
-                <input type="text" class="form-control" placeholder="Search &amp; enter">
-                <a class="srh-btn"><i class="mdi mdi-window-close"></i></a>
-</form>
+<div class="container-fluid">
 
-<form action="{{ route('upload.csv') }}" method="post" enctype="multipart/form-data" onsubmit="showSuccessMessage()">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="matrix" class="form-label">Upload Matrix</label>
-                            <input type="file" class="form-control" id="matrix" name="matrix" accept=".csv">
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-sm">Upload</button>
-                 
+  <form class="app-search position-absolute">
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Search &amp; enter">
+      <a class="srh-btn"><i class="mdi mdi-window-close"></i></a>
+    </div>
+      
+  </form>
+  
+  <form action="{-- route('upload.csv') --}" method="post" enctype="multipart/form-data" onsubmit="showSuccessMessage()">
+      @csrf
+      <div class="mb-3 form-group">
+          <label for="matrix" class="form-label">Upload Matrix</label>
+          <input type="file" class="form-control-file" id="matrix" name="matrix" accept=".csv">
+      </div>
+      <button type="submit" class="btn btn-primary btn-sm">Upload</button>
+  </form>
+  
+  <form action="{-- route('upload.classlist') --}" method="post" enctype="multipart/form-data">
+      @csrf
+      <div class="mb-3">
+          <label for="classsec" class="form-label">Upload Class list by Section</label>
+          <input type="file" class="form-control-file" id="classsec" name="Class_List" accept=".csv">
+      </div>
+      <button type="submit" class="btn btn-primary btn-sm">Upload</button>
+  </form>
+</div>
 
-</form>
-<form action="{{ route('upload.classlist') }}" method="post" enctype="multipart/form-data">
-                      @csrf
-                      <div class="mb-3">
-                          <label for="classsec" class="form-label">Upload Class list by Section</label>
-                          <input type="file" class="form-control" id="classsec" name="Class_List" accept=".csv">
-                      </div>
-                      <button type="submit" class="btn btn-primary btn-sm">Upload</button>
-</form>
 @endsection
 
 @section('script')
