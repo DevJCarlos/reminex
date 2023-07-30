@@ -4,7 +4,7 @@
 @section('content')
 <div class="container-fluid">
 
-  <form class="app-search position-absolute">
+  <form class="app-search">
     <div class="form-group">
       <input type="text" class="form-control" placeholder="Search &amp; enter">
       <a class="srh-btn"><i class="mdi mdi-window-close"></i></a>
