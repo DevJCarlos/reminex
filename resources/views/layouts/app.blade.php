@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name', 'Laravel') }}</title>
@@ -13,6 +14,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
     @yield('styles')
+    
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -100,5 +102,6 @@
 <script src="{{ asset('js/adminlte.min.js') }}" defer></script>
 
 @yield('scripts')
+
 </body>
 </html>
