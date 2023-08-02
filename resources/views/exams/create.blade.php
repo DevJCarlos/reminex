@@ -108,7 +108,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <!-- foreach($class_rooms as $room)-->
+               
                   <tr>
                     <th>
                       <label class="customcheckbox">
@@ -116,9 +116,9 @@
                         <span class="checkmark"></span>
                       </label>
                     </th>
-                    <!--<td>room_names</td>-->
+                    <td>  </td>
                   </tr>
-                  <!--{--endforeach--}-->
+                 
                 </tbody>
               </table>
               <button type="submit" class="btn btn-success text-white" onclick="addRooms()">Add Rooms</button>
@@ -181,7 +181,7 @@
 
 @endsection
 
-@section('script')
+@section('scripts')
 
 <script>
   var searchInput = document.getElementById('searchInput');
