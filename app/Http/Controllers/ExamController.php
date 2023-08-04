@@ -32,15 +32,15 @@ class ExamController extends Controller
             
             
             $originalFileName = $file->getClientOriginalName();
-            $fileNameWithoutSpaces = str_replace(' ', '_', $originalFileName);
+            $explodeName = explode(' ', $originalFileName);
+
             
-            
-            $fileName = time() . '_' . $fileNameWithoutSpaces;
+            $fileName = time() . '-' . implode('-', $explodeName);
             
             $file->storeAs('uploads', $fileName, 'public');
 
             $subject = new Subject();
-            $subject->name = $fileNameWithoutSpaces; 
+            $subject->name = $fileName; 
             $subject->url = Storage::url('uploads/' . $fileName);
             $subject->save();
         }
