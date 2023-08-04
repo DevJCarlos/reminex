@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
 
 
     // exam
-    Route::get('/rooms', [RoomController::class, 'index']);
+    
     Route::get('exam/create', [\App\Http\Controllers\ExamController::class, 'create'])->name('exam.create');
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');

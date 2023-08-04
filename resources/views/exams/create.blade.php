@@ -9,14 +9,14 @@
           <h3 class="card-title">Upload Schedule</h3>
           <form action="{-- route('upload.csv') --}" method="post" enctype="multipart/form-data" onsubmit="showSuccessMessage()">
             @csrf
+            <br>
+            <br>
             <div class="mb-3 form-group">
               <label for="matrix" class="form-label">Upload Matrix</label>
+              
               <input type="file" class="form-control-file" id="matrix" name="matrix" accept=".csv">
             </div>
-            <div class="mb-3">
-              <label for="classsec" class="form-label">Upload Class list by Section</label>
-              <input type="file" class="form-control-file" id="classsec" name="Class_List" accept=".csv">
-            </div>
+            
             <button type="submit" class="btn btn-primary btn-sm">Upload</button>
           </form>
 
@@ -98,7 +98,7 @@
                 <thead class="thead-light">
                   <tr>
                     <th>
-                      <label class="customcheckbox mb-3">
+                      <label class="customcheckbox mb-0">
                         <input type="checkbox" id="mainCheckbox1" onclick="selectAllRooms()">
                         <span class="checkmark"></span>
 
@@ -108,7 +108,7 @@
                   </tr>
                 </thead>
                 <tbody>
-               
+                  @foreach($rooms as $room)
                   <tr>
                     <th>
                       <label class="customcheckbox">
@@ -116,9 +116,9 @@
                         <span class="checkmark"></span>
                       </label>
                     </th>
-                    <td>  </td>
+                    <td>{{ $room->room_name }}</td>
                   </tr>
-                 
+                  @endforeach
                 </tbody>
               </table>
               <button type="submit" class="btn btn-success text-white" onclick="addRooms()">Add Rooms</button>

@@ -9,17 +9,18 @@ class ExamController extends Controller
 {
     //
     public function create(){
-        return view('exams.create');
+        $rooms = $this->getRooms();
+        return view('exams.create', compact('rooms'));
     }
 
     public function index()
     {
         
-        $rooms = Rooms::all();
-        dd($rooms);
         
-
-        return view('exams.create', compact('rooms'));
+    }
+    public function getRooms(){
+        $rooms = Rooms::all();
+        return $rooms;
     }
     
 }
