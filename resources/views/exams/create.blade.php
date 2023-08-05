@@ -7,18 +7,17 @@
       <div class="card">
         <div class="card-body">
           <h3 class="card-title">Upload Schedule</h3>
-          <form action="{-- route('upload.csv') --}" method="post" enctype="multipart/form-data" onsubmit="showSuccessMessage()">
-            @csrf
-            <br>
-            <br>
-            <div class="mb-3 form-group">
-              <label for="matrix" class="form-label">Upload Matrix</label>
-              
-              <input type="file" class="form-control-file" id="matrix" name="matrix" accept=".csv">
-            </div>
-            
-            <button type="submit" class="btn btn-primary btn-sm">Upload</button>
+          <form method="post" action="{{ route('upload.csv') }}" enctype="multipart/form-data">
+              @csrf
+              <br>
+              <br>
+              <div class="mb-3 form-group">
+                  <label for="matrix" class="form-label">Upload Matrix</label>
+                  <input type="file" class="form-control-file" id="matrix" name="matrix" accept=".csv">
+              </div>
+              <button type="submit" class="btn btn-primary btn-sm">Submit</button>
           </form>
+
 
         </div>
         <div class="border-top">
