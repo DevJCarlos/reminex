@@ -6,7 +6,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body">
-          <h3 class="card-title">Upload Schedule</h3>
+          <h2 class="card-title">Upload Schedule</h2>
           <form method="post" action="{{ route('upload.csv') }}" enctype="multipart/form-data">
               @csrf
               <br>
@@ -138,6 +138,7 @@
           <div class="card-body">
             <h3 class="card-title">You Selected</h3>
             <br>
+            <br>
             <div class="bd-example" id="Selected">
 
               <!-- /btn-group -->
@@ -249,7 +250,7 @@
       var subject = subjects[i];
       table += '<tr>';
       table += '<td><label class="customcheckbox"><input type="checkbox" class="listCheckbox"><span class="checkmark"></span></label></td>';
-      table += '<td>' + subject.subject + '</td>';
+      table += '<td>' + subject.course_title + '</td>';
       table += '<td>' + subject.program + '</td>';
       table += '<td>' + subject.year + '</td>';
       table += '<td>' + subject.serial + '</td>';

@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
 
     // exam
     
-    Route::post('/exam/fetch-subjects', [\App\Http\Controllers\ExamController::class, 'fetchSubjects'])
+    Route::post('/fetch-subjects', [\App\Http\Controllers\ExamController::class, 'fetchSubjects'])
     ->name('exam.fetch.subjects');
 
     Route::post('/upload-csv', [\App\Http\Controllers\ExamController::class, 'uploadCSV'])->name('upload.csv');

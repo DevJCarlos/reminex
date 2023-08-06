@@ -5,12 +5,13 @@ use App\Models\Rooms;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use League\Csv\Reader;
 
 
 class ExamController extends Controller
 
 {
-    //
+    //fetch rooms
     public function create(){
         $rooms = $this->getRooms();
         return view('exams.create', compact('rooms'));
@@ -21,6 +22,7 @@ class ExamController extends Controller
         $rooms = Rooms::all();
         return $rooms;
     }
+    //upload csv
     public function uploadCSV(Request $request)
     {
         $request->validate([
@@ -48,24 +50,27 @@ class ExamController extends Controller
         return redirect()->back()->with('success', 'File uploaded successfully.');
     }
 
-    //fetch
+    //fetch csv data
     public function fetchSubjects(Request $request)
     {
         $selectedPeriod = $request->input('period');
 
-        // If the selected period is "prelim", fetch data from the CSV
-        if ($selectedPeriod === 'prelim') {
-            // Change the path and filename according to your CSV file location
-            $csvPath = storage_path('app/public/uploads/1691279788-SPE-Matrix-(4).csv'); // Replace with your file path
-            $csv = Reader::createFromPath($csvPath, 'r');
-            $csv->setHeaderOffset(0); // Assumes the first row is the header
-            dd($csv->fetchAll());
-
-            $subjects = [];
+        if ($selectedPeriod === 'Prelim') {
             
-            // Loop through CSV rows and filter data based on condition
+            $files = Storage::files('public/uploads');
+            $latestFile = end($files); 
+    
+           
+            $csvPath = storage_path('app/' . $latestFile);
+    
+           
+            
+            $csv = Reader::createFromPath($csvPath, 'r');
+            $csv->setHeaderOffset(0);
+            
+            
             foreach ($csv as $record) {
-                dd($record);
+                
                 if ($record['PRELIM'] === 'Written') {
                     $subject = [
                         'course_title' => $record['COURSE TITLE'],
@@ -77,13 +82,113 @@ class ExamController extends Controller
                     
 
                 }
+                
+            }
+            
+
+            return response()->json($subjects);
+        }
+        if ($selectedPeriod === 'Midterm') {
+            
+            $files = Storage::files('public/uploads');
+            $latestFile = end($files); 
+    
+           
+            $csvPath = storage_path('app/' . $latestFile);
+    
+            
+            
+            $csv = Reader::createFromPath($csvPath, 'r');
+            $csv->setHeaderOffset(0);
+            
+            
+            foreach ($csv as $record) {
+                
+                if ($record['MIDTERM'] === 'Written') {
+                    $subject = [
+                        'course_title' => $record['COURSE TITLE'],
+                        'program' => $record['PROGRAM'],
+                        'year' => $record['YEAR'],
+                        'serial' => $record['SERIAL'],
+                    ];
+                    $subjects[] = $subject;
+                    
+
+                }
+                
+            }
+            
+
+            return response()->json($subjects);
+        }
+        if ($selectedPeriod === 'Pre-Final') {
+            
+            $files = Storage::files('public/uploads');
+            $latestFile = end($files); 
+    
+            
+            $csvPath = storage_path('app/' . $latestFile);
+    
+            
+            
+            $csv = Reader::createFromPath($csvPath, 'r');
+            $csv->setHeaderOffset(0);
+            
+            
+            foreach ($csv as $record) {
+                
+                if ($record['PRE-FINAL'] === 'Written') {
+                    $subject = [
+                        'course_title' => $record['COURSE TITLE'],
+                        'program' => $record['PROGRAM'],
+                        'year' => $record['YEAR'],
+                        'serial' => $record['SERIAL'],
+                    ];
+                    $subjects[] = $subject;
+                    
+
+                }
+                
+            }
+            
+
+            return response()->json($subjects);
+        }
+        if ($selectedPeriod === 'Finals') {
+            
+            $files = Storage::files('public/uploads');
+            $latestFile = end($files); 
+    
+            
+            $csvPath = storage_path('app/' . $latestFile);
+    
+            
+            
+            $csv = Reader::createFromPath($csvPath, 'r');
+            $csv->setHeaderOffset(0);
+            
+            
+            foreach ($csv as $record) {
+                
+                if ($record['FINAL'] === 'Written') {
+                    $subject = [
+                        'course_title' => $record['COURSE TITLE'],
+                        'program' => $record['PROGRAM'],
+                        'year' => $record['YEAR'],
+                        'serial' => $record['SERIAL'],
+                    ];
+                    $subjects[] = $subject;
+                    
+
+                }
+                
             }
             
 
             return response()->json($subjects);
         }
 
-        // Handle other cases or return an empty array if not prelim
+        
         return response()->json([]);
     }
 }
