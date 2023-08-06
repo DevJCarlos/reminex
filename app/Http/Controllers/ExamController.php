@@ -16,6 +16,7 @@ class ExamController extends Controller
         $rooms = $this->getRooms();
         return view('exams.create', compact('rooms'));
     }
+    
     public function index(){
         return view('exams.index');
     }
