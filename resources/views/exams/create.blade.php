@@ -27,11 +27,11 @@
             <div class="mb-3 d-flex align-items-center">
               <label for="period-select" class="me-2 mb-0">Select Period: </label>
               <select name="period-select" id="period-select" class="mr-3 ml-1">
-                <option value="-Select Period-">-Select Period-</option>
-                <option value="prelim">Prelims</option>
-                <option value="midterm">Midterms</option>
-                <option value="prefinals">Pre-Finals</option>
-                <option value="finals">Finals</option>
+                  <option value="-Select Period-">-Select Period-</option>
+                  <option value="Prelim">Prelims</option>
+                  <option value="Midterm">Midterms</option>
+                  <option value="Pre-Final">Pre-Finals</option>
+                  <option value="Finals">Finals</option>
               </select>
 
               <label for="date-picker" class="me-2 mb-0">Date of Exam: </label>
@@ -46,13 +46,18 @@
               <label for="time-picker" class="me-3 mb-0">Exam Starting Time: </label>
               <input type="time" name="time-picker" id="time-picker" class ="ml-1">
             </div>
-            <button type="submit" class="btn btn-success text-white" onclick="displaySelectedOption()">Add</button>
+            <button type="button" class="btn btn-success text-white" onclick="displaySelectedOption()">Add</button>
+            <div id="csvData"></div>
           </div>
           <div class="border-top">
             <div class="card-body">
               <h3 class="card-title">Selection of Subjects</h3>
-              <div class="table-responsive">
+              <br>
+              <br>
+              <div>
                 <input type="text" id="searchInput" placeholder="Search">
+                <br>
+                <br>
                 <table class="table" id="subjects">
                   <thead class="thead-light">
                     <tr>
@@ -127,7 +132,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    
       <div class="col-12">
         <div class="card">
           <div class="card-body">
@@ -171,7 +176,7 @@
         </div>
 
       </div>
-    </div>
+    
 
 
 
@@ -217,23 +222,23 @@
     var selectedText = 'Period: ' + selectedPeriod + '\n' + ' Date: ' + selectedDate + '\n' + 'Day: ' + selectedDay + '\n' + 'Time: ' + selectedTime;
     document.getElementById('Selected').innerText = selectedText;
 
-    // Make an AJAX request to fetch the data from the server
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/createschedule/generateschedule?fetch=' + selectedPeriod, true);
+    xhr.open('POST', '{{ route('exam.fetch.subjects') }}', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
     xhr.onreadystatechange = function() {
-      if (xhr.readyState === XMLHttpRequest.DONE) {
-        if (xhr.status === 200) {
-          var subjects = JSON.parse(xhr.responseText);
-          console.log(subjects); // Check if the parsed data is as expected
-          displaySubjects(subjects);
-        } else {
-          console.error('Error: ' + xhr.status);
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var subjects = JSON.parse(xhr.responseText);
+                displaySubjects(subjects);
+            } else {
+                console.error('Error: ' + xhr.status);
+            }
         }
-      }
     };
-    xhr.send();
+
+    var requestData = 'period=' + selectedPeriod;
+    xhr.send(requestData);
   }
 
 
@@ -340,141 +345,6 @@
     }
   }
 </script>
-<script>
-  function addAllSelected() {
-    var selectedSubjects = document.querySelectorAll('#subjects .listCheckbox:checked');
 
-    // Get the table element
-    var table = document.getElementById('gentab');
-
-    // Clear any existing content
-    table.innerHTML = '';
-
-    // Create the table structure for each selected subject
-    selectedSubjects.forEach(function(subject) {
-      var subjectName = subject.parentNode.parentNode.nextElementSibling.textContent;
-
-      // Create the table header
-      var thead = document.createElement('thead');
-      thead.innerHTML = `
-      <tr>
-        <th scope="col" id="time" rowspan="3">Time</th>
-        <th scope="col" id="code">no data</th>
-        <th scope="col" id="subject">${subjectName}</th>
-      </tr>
-      <tr>
-        <th scope="col">SECTION</th>
-        <th scope="col">CLASS #</th>
-        <th scope="col">ROOM</th>
-        <th scope="col">INSTRUCTOR</th>
-        <th scope="col"># OF STUDENTS</th>
-      </tr>
-    `;
-
-      // Create the table body
-      var tbody = document.createElement('tbody');
-      var tbodyRow = document.createElement('tr');
-      tbodyRow.innerHTML =
-        `
-      <td headers="time"> No data</td>
-      <td id="section">no data</td>
-      <td id="classnum">no data</td>
-      <td id="room">no data</td>
-      <td id="instructor">no data</td>
-      <td id="numstudent">no data</td>
-    `;
-      tbody.appendChild(tbodyRow);
-
-      // Append the table header and body to the table
-      table.appendChild(thead);
-      table.appendChild(tbody);
-    });
-  }
-</script>
-<script>
-  function addExaminationPeriod() {
-    var timePicker = document.getElementById('time-picker');
-    var selectedTime = timePicker.value;
-
-    // Create a Date object to parse the selected time
-    var startTime = new Date();
-    var [startHours, startMinutes] = selectedTime.split(':').map(Number);
-    startTime.setHours(startHours, startMinutes, 0);
-
-    // Set the ending time to 5:00 PM
-    var endTime = new Date();
-    endTime.setHours(17, 0, 0);
-
-    // Create a variable to store the time interval
-    var interval = 75; // 1 hour and 15 minutes in minutes
-
-    // Get the table element
-    var table = document.getElementById('gentab');
-
-    // Clear any existing content
-    table.innerHTML = '';
-
-    // Loop through the time intervals and create tables for each
-    while (startTime <= endTime && getEndTime(startTime, interval) <= endTime) {
-      // Create a new table
-      var newTable = document.createElement('table');
-      newTable.className = 'table';
-
-      // Create the table header
-      var thead = document.createElement('thead');
-      thead.innerHTML = `
-      <tr>
-        <th scope="col" id="time" rowspan="3"></th>
-      </tr>
-      <tr>
-        <th scope="col" id="code">no data</th>
-        <th scope="col" id="subject">no data</th>
-      </tr>
-      <tr>
-        <th scope="col">SECTION</th>
-        <th scope="col">CLASS #</th>
-        <th scope="col">ROOM</th>
-        <th scope="col">INSTRUCTOR</th>
-        <th scope="col"># OF STUDENTS</th>
-      </tr>
-    `;
-
-      // Create the table body
-      var tbody = document.createElement('tbody');
-      var tbodyRow = document.createElement('tr');
-      tbodyRow.innerHTML = `
-      <td headers="time">${formatTime(startTime)} - ${formatTime(getEndTime(startTime, interval))}</td>
-
-    `;
-      tbody.appendChild(tbodyRow);
-
-      // Append the table header and body to the table
-      newTable.appendChild(thead);
-      newTable.appendChild(tbody);
-
-      // Append the new table to the main table
-      table.appendChild(newTable);
-
-      // Increment the start time by the interval
-      startTime = new Date(startTime.getTime() + interval * 60000);
-    }
-  }
-
-  // Helper function to format time in HH:MM AM/PM format
-  function formatTime(time) {
-    var hours = time.getHours();
-    var minutes = time.getMinutes();
-    var amPm = hours >= 12 ? 'PM' : 'AM';
-    hours %= 12;
-    hours = hours ? hours : 12; // Convert 0 to 12
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    return hours + ':' + minutes + ' ' + amPm;
-  }
-
-  // Helper function to get the end time based on the start time and interval
-  function getEndTime(startTime, interval) {
-    return new Date(startTime.getTime() + interval * 60000);
-  }
-</script>
 
 @endsection
