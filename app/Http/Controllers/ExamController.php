@@ -135,7 +135,7 @@ class ExamController extends Controller
             $csv->setHeaderOffset(0);
             
             
-            foreach ($csv as $record) {
+            foreach ($csv as $record) { 
                 
                 if ($record['PRE-FINAL'] === 'Written') {
                     $subject = [
