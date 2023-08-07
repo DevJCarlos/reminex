@@ -177,6 +177,47 @@
         </div>
 
       </div>
+      
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <h3 class="card-title">Generate Exam Table</h3>
+                  <div class="bd-example" id = "gentable">
+                  <table class="table" id="gentab">
+                <thead>
+                  <tr>
+                    <th colspan="5" id="time" >no data</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td id="code">no data</td>
+                    <td colspan="4" id="subject">no data</td>
+                  </tr>
+                  <tr>
+                    <th >SECTION</th>
+                    <th >CLASS #</th>
+                    <th >ROOM</th>
+                    <th >INSTRUCTOR</th>
+                    <th ># OF STUDENTS</th>
+                  </tr>
+                  <tr>
+                    
+                    <td  id="section">no data</td>
+                    <td  id="classnum">no data</td>
+                    <td  id="room">no data</td>
+                    <td  id="instructor">no data</td>
+                    <td  id="numstudent">no data</td>
+                  </tr>
+                </tbody>
+                </table>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+
     
 
 
@@ -345,6 +386,91 @@
       roomDiv.appendChild(roomsList);
     }
   }
+</script>
+<script>
+function addExaminationPeriod() {
+  var timePicker = document.getElementById('time-picker');
+  var selectedTime = timePicker.value;
+
+  
+  var startTime = new Date();
+  var [startHours, startMinutes] = selectedTime.split(':').map(Number);
+  startTime.setHours(startHours, startMinutes, 0);
+
+  // ending time alas 5pm
+  var endTime = new Date();
+  endTime.setHours(17, 0, 0);
+
+ 
+  var interval = 75; // 1 hour and 15 minutes in minutes
+
+  // display in table named gentab
+  var table = document.getElementById('gentab');
+
+  
+  table.innerHTML = '';
+
+  
+  while (startTime <= endTime && getEndTime(startTime, interval) <= endTime) {
+    
+    var newTable = document.createElement('table');
+    newTable.className = 'table';
+
+    
+    var thead = document.createElement('thead');
+    thead.innerHTML = `
+      <tr>
+        <th scope="col" id="time" rowspan="3"></th>
+      </tr>
+      <tr>
+        <th scope="col" id="code">no data</th>
+        <th scope="col" id="subject">no data</th>
+      </tr>
+      <tr>
+        <th scope="col">SECTION</th>
+        <th scope="col">CLASS #</th>
+        <th scope="col">ROOM</th>
+        <th scope="col">INSTRUCTOR</th>
+        <th scope="col"># OF STUDENTS</th>
+      </tr>
+    `;
+
+    
+    var tbody = document.createElement('tbody');
+    var tbodyRow = document.createElement('tr');
+    tbodyRow.innerHTML = `
+      <td headers="time">${formatTime(startTime)} - ${formatTime(getEndTime(startTime, interval))}</td>
+
+    `;
+    tbody.appendChild(tbodyRow);
+
+    
+    newTable.appendChild(thead);
+    newTable.appendChild(tbody);
+
+    
+    table.appendChild(newTable);
+
+    
+    startTime = new Date(startTime.getTime() + interval * 60000);
+  }
+}
+
+
+function formatTime(time) {
+  var hours = time.getHours();
+  var minutes = time.getMinutes();
+  var amPm = hours >= 12 ? 'PM' : 'AM';
+  hours %= 12;
+  hours = hours ? hours : 12; // Convert 0 to 12
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  return hours + ':' + minutes + ' ' + amPm;
+}
+
+// Helper function to get the end time based on the start time and interval
+function getEndTime(startTime, interval) {
+  return new Date(startTime.getTime() + interval * 60000);
+}
 </script>
 
 
