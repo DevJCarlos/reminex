@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Rooms;
-use App\Models\Subject;
+
+use App\Models\upload_csv_matrix;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use League\Csv\Reader;
@@ -45,7 +46,7 @@ class ExamController extends Controller
             
             $file->storeAs('uploads', $fileName, 'public');
 
-            $subject = new Subject();
+            $subject = new upload_csv_matrix();
             $subject->name = $fileName; 
             $subject->url = Storage::url('uploads/' . $fileName);
             $subject->save();
