@@ -29,8 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 
-    // exam
-    Route::get('exam/index', [\App\Http\Controllers\ExamController::class, 'index'])->name('exam.index');
+    //exam
     Route::get('exam/create', [\App\Http\Controllers\ExamController::class, 'create'])->name('exam.create');
     Route::post('/fetch-subjects', [\App\Http\Controllers\ExamController::class, 'fetchSubjects'])->name('exam.fetch.subjects');
     Route::post('/upload-csv', [\App\Http\Controllers\ExamController::class, 'uploadCSV'])->name('upload.csv');

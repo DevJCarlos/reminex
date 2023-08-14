@@ -7,8 +7,5 @@ use Illuminate\Http\Request;
 
 class SubjectController extends Controller
 {
-    public function fetchSubjects(Request $request)
-    {
- 
-}
+
 }

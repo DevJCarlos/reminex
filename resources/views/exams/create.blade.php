@@ -420,9 +420,7 @@ function addExaminationPeriod() {
     var thead = document.createElement('thead');
     thead.innerHTML = `
       <tr>
-        <th scope="col" id="time" rowspan="3"></th>
-      </tr>
-      <tr>
+        <th id="time"></th>
         <th scope="col" id="code">no data</th>
         <th scope="col" id="subject">no data</th>
       </tr>

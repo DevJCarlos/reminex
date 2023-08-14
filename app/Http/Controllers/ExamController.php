@@ -19,7 +19,7 @@ class ExamController extends Controller
     }
     
     public function index(){
-        return view('exams.index');
+        return view('exam.index');
     }
 
 
@@ -196,6 +196,7 @@ class ExamController extends Controller
         
         return response()->json([]);
     }
+    
 }
 
     

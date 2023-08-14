@@ -48,7 +48,9 @@
                 </a>
                 <ul class="nav nav-treeview" style="display: none;">
                     <li class="nav-item">
-                        <a href="{{ route('exam.index') }}" class="nav-link">
+                        <!-- " route('exam.index') " -->
+                        <!--ibutang ang route sa href -->
+                        <a href="" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>All Exams</p>
                         </a>

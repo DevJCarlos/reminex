@@ -18,13 +18,17 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="card-text">
-                                {{ __('You are logged in!') }}
-                            </p>
-                        </div>
+                    <form method="post" action="{{ route('upload.csv') }}" enctype="multipart/form-data">
+                    @csrf
+                    <br>
+                    <br>
+                    <div class="mb-3 form-group">
+                        <label for="matrix" class="form-label">Upload Matrix</label>
+                        <input type="file" class="form-control-file" id="matrix" name="matrix" accept=".csv">
                     </div>
+                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                </form>
+                    
                 </div>
             </div>
             <!-- /.row -->
