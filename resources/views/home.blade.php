@@ -18,13 +18,13 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <form method="post" action="{{ route('upload.csv') }}" enctype="multipart/form-data">
+                    <form method="post" action="{{ route('listbysec.csv') }}" enctype="multipart/form-data">
                     @csrf
                     <br>
                     <br>
                     <div class="mb-3 form-group">
-                        <label for="matrix" class="form-label">Upload Matrix</label>
-                        <input type="file" class="form-control-file" id="matrix" name="matrix" accept=".csv">
+                        <label for="section" class="form-label">Upload Class list by section</label>
+                        <input type="file" class="form-control-file" id="section" name="section" accept=".csv">
                     </div>
                     <button type="submit" class="btn btn-primary btn-sm">Submit</button>
                 </form>

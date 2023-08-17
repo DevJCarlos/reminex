@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('sections', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('subject_id');
-            $table->string('name');
-            $table->string('class_num');
+            $table->string('subject_id')->nullable()->default(null);
+            $table->string('name')->nullable()->default(null);
+            $table->string('class_num')->nullable()->default(null);
             $table->timestamps();
         });
     }
