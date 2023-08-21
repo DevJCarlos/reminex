@@ -1,6 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+  .accordion {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    margin: 0 auto;
+  }
+
+  .accordion-item {
+    border: none;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+
+  .accordion-header {
+    background-color: #f0f0f0;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .accordion-arrow {
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .accordion-content {
+    padding: 10px;
+    display: none;
+  }
+</style>
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

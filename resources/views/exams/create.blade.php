@@ -2,11 +2,16 @@
 
 @section('content')
 <div class="container-fluid">
+<div class="accordion">
   <div class="row">
     <div class="col-12">
       <div class="card">
+      <div class="accordion-item">
         <div class="card-body">
-          <h2 class="card-title">Upload Schedule</h2>
+        <div class="accordion-header">Upload CSV and Selections
+        <i class="accordion-arrow fas fa-chevron-down"></i>
+        </div>
+        <div class="accordion-content">
           <form method="post" action="{{ route('upload.csv') }}" enctype="multipart/form-data">
               @csrf
               <br>
@@ -16,10 +21,12 @@
                   <input type="file" class="form-control-file" id="matrix" name="matrix" accept=".csv">
               </div>
               <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+              <br>
+              <br>
           </form>
 
 
-        </div>
+        
         <div class="border-top">
           <div class="card-body">
             <h3 class="card-title">Selection</h3>
@@ -130,22 +137,27 @@
             </div>
           </div>
         </div>
+        </div>
+        </div>
       </div>
+     </div>
     </div>
     
       <div class="col-12">
         <div class="card">
+        <div class="accordion-item">
           <div class="card-body">
-            <h3 class="card-title">You Selected</h3>
-            <br>
-            <br>
+          <div class="accordion-header">View Selections
+        <i class="accordion-arrow fas fa-chevron-down"></i>
+        </div>
+        <div class="accordion-content">
             <div class="bd-example" id="Selected">
 
-              <!-- /btn-group -->
+              
 
             </div>
 
-          </div>
+          
 
           <div class="border-top">
             <div class="card-body">
@@ -175,7 +187,8 @@
           </div>
 
         </div>
-
+        </div>
+        </div>
       </div>
       
             <div class="col-12">
@@ -216,7 +229,8 @@
                 </div>
               </div>
             </div>
-          
+  
+  </div>
 
     
 
@@ -224,10 +238,27 @@
 
   </div>
 </div>
-
+</div>
 @endsection
 
 @section('scripts')
+<!--for accordion script drop and down contents-->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const accordionItems = document.querySelectorAll(".accordion-item");
+
+    accordionItems.forEach(item => {
+      const header = item.querySelector(".accordion-header");
+      const content = item.querySelector(".accordion-content");
+      const arrow = item.querySelector(".accordion-arrow");
+
+      header.addEventListener("click", () => {
+        content.style.display = content.style.display === "none" ? "block" : "none";
+        arrow.style.transform = content.style.display === "none" ? "rotate(0deg)" : "rotate(180deg)";
+      });
+    });
+  });
+</script>
 
 <script>
   var searchInput = document.getElementById('searchInput');
