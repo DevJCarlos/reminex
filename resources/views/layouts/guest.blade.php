@@ -15,17 +15,15 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
 </head>
-<body class="hold-transition login-page">
-<div class="login-box">
-    <div class="login-logo">
-        <a href="/">{{ config('app.name', 'Laravel') }}</a>
-    </div>
-    <!-- /.login-logo -->
-    <div class="card">
-        @yield('content')
-    </div>
-</div>
-<!-- /.login-box -->
+<body class="hold-transition">
+    <header>
+        @auth
+            @include('layouts.partial.guest-nav')
+        @endauth
+    </header>
+
+    @yield('content')
+
 
 @vite('resources/js/app.js')
 <!-- Bootstrap 4 -->
