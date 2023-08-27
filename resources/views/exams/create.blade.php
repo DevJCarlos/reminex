@@ -105,33 +105,22 @@
           <div class="border-top">
             <div class="card-body">
               <h3 class="card-title">Selection of Rooms</h3>
-              <table class="table" id="t2">
-                <thead class="thead-light">
-                  <tr>
-                    <th>
-                      <label class="customcheckbox mb-0">
-                        <input type="checkbox" id="mainCheckbox1" onclick="selectAllRooms()">
-                        <span class="checkmark"></span>
+              <br>
+              <br>
+              <ul class="room-list">
+                @foreach($rooms as $room)
+                <li class="room-item">
+                  <label class="customcheckbox">
+                    <input type="checkbox" class="listCheckbox1">
+                    <span class="checkmark"></span>
+                  </label>
+                  
+                  <span class="room-name">{{ $room->room_name }}</span>
+                </li>
+                @endforeach
+              </ul>
+              <br>
 
-                      </label>
-                    </th>
-                    <th scope="col">Rooms Available</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach($rooms as $room)
-                  <tr>
-                    <th>
-                      <label class="customcheckbox">
-                        <input type="checkbox" class="listCheckbox1">
-                        <span class="checkmark"></span>
-                      </label>
-                    </th>
-                    <td>{{ $room->room_name }}</td>
-                  </tr>
-                  @endforeach
-                </tbody>
-              </table>
               <button type="submit" class="btn btn-success text-white" onclick="addRooms()">Add Rooms</button>
 
             </div>
@@ -163,10 +152,13 @@
             <div class="card-body">
               <h3 class="card-title">Subjects</h3>
               <br>
+              <br>
               <div class="bd-example" id="Sub">
-                <!-- /btn-group -->
+                <p>
+                  <strong>No Data selected </strong>
+                </p>
+
               </div>
-              <button type="submit" class="btn btn-success text-white">Fetch</button>
             </div>
           </div>
 
@@ -174,8 +166,13 @@
             <div class="card-body">
               <h3 class="card-title">Rooms</h3>
               <br>
+              <br>
+                <br>
               <div class="bd-example" id="room">
-                <!-- /btn-group -->
+
+                 <p>
+                  <strong>No Data selected </strong>
+                </p>
               </div>
               <button type="submit" class="btn btn-primary text-white" onclick="addAllSelected()">Add All Selected</button>
               <button type="submit" class="btn btn-success text-white" onclick="addExaminationPeriod()">Add Time</button>
@@ -346,77 +343,90 @@
 </script>
 
 <script>
-  function addSubjects() {
-    var checkboxes = document.getElementsByClassName('listCheckbox');
-    var selectedSubjects = [];
+ function addSubjects() {
+  var checkboxes = document.getElementsByClassName('listCheckbox');
+  var selectedSubjects = [];
 
-    for (var i = 0; i < checkboxes.length; i++) {
-      if (checkboxes[i].checked) {
-        var row = checkboxes[i].closest('tr'); // Get the closest parent <tr> element
-        var cells = row.cells; // Access the cells of the row
-        var subject = {
-          subject: cells[1].textContent,
-          program: cells[2].textContent,
-          year: cells[3].textContent,
-          serial: cells[4].textContent
-        };
-        selectedSubjects.push(subject);
-      }
-    }
-
-    if (selectedSubjects.length > 0) {
-      var subroomDiv = document.getElementById('Sub');
-      var table = document.createElement('table');
-      table.className = 'table';
-      var thead = document.createElement('thead');
-      var tr = document.createElement('tr');
-      tr.innerHTML = '<th>Course Title</th><th>Program</th><th>Year</th><th>Serial</th><th>CLASS #</th><th>SECTION</th> <th>INSTRUCTOR</th><th># OF STUDENTS</th>';
-      thead.appendChild(tr);
-      table.appendChild(thead);
-      var tbody = document.createElement('tbody');
-
-      for (var j = 0; j < selectedSubjects.length; j++) {
-        var subject = selectedSubjects[j];
-        var row = document.createElement('tr');
-        row.innerHTML = '<td>' + subject.subject + '</td><td>' + subject.program + '</td><td>' + subject.year + '</td><td>' + subject.serial + '</td><td id="section">no data</td><td id="classnum">no data</td><td id="instructor">no data</td><td id="numstudent">no data</td>';
-        tbody.appendChild(row);
-      }
-
-      table.appendChild(tbody);
-
-      // Clear the existing content of Subroom before adding the updated table
-      subroomDiv.innerHTML = '';
-      subroomDiv.appendChild(table);
+  for (var i = 0; i < checkboxes.length; i++) {
+    if (checkboxes[i].checked) {
+      var row = checkboxes[i].closest('tr');
+      var cells = row.cells;
+      var subject = {
+        subject: cells[1].textContent,
+        program: cells[2].textContent,
+        year: cells[3].textContent,
+        serial: cells[4].textContent,
+      };
+      selectedSubjects.push(subject);
     }
   }
+
+  if (selectedSubjects.length > 0) {
+    var subroomDiv = document.getElementById('Sub');
+    var ul = document.createElement('ul');
+    ul.className = 'subject-grid';
+
+    for (var j = 0; j < selectedSubjects.length; j++) {
+      var subject = selectedSubjects[j];
+      var li = document.createElement('li');
+      li.className = 'subject-item';
+      li.innerHTML =
+        '<strong>Course Title:</strong> ' +
+        subject.subject +
+        '<br><strong>Program:</strong> ' +
+        subject.program +
+        '<br><strong>Year:</strong> ' +
+        subject.year +
+        '<br><strong>Serial:</strong> ' +
+        subject.serial;
+      ul.appendChild(li);
+    }
+
+    // Clear the existing content of Subroom before adding the updated list
+    subroomDiv.innerHTML = '';
+    subroomDiv.appendChild(ul);
+  }
+}
+
 </script>
 
 <script>
   function addRooms() {
-    var checkboxes = document.getElementsByClassName('listCheckbox1');
-    var selectedRooms = [];
+  var checkboxes = document.getElementsByClassName('listCheckbox1');
+  var selectedRooms = [];
 
-    for (var i = 0; i < checkboxes.length; i++) {
-      if (checkboxes[i].checked) {
-        var room = checkboxes[i].parentNode.parentNode.nextElementSibling.textContent;
-        selectedRooms.push(room);
+  for (var i = 0; i < checkboxes.length; i++) {
+    if (checkboxes[i].checked) {
+      var parent = checkboxes[i].closest('.room-item'); // Check the closest parent with the class 'room-item'
+      if (parent) {
+        var roomNameElement = parent.querySelector('.room-name'); // Get the element with class 'room-name'
+        if (roomNameElement) {
+          var roomName = roomNameElement.textContent;
+          selectedRooms.push(roomName);
+        } else {
+          console.log('No room name element found.');
+        }
+      } else {
+        console.log('No parent element found.');
       }
-    }
-
-    if (selectedRooms.length > 0) {
-      var roomDiv = document.getElementById('room');
-      var roomsList = document.createElement('ul');
-
-      for (var j = 0; j < selectedRooms.length; j++) {
-        var roomItem = document.createElement('li');
-        roomItem.textContent = selectedRooms[j];
-        roomsList.appendChild(roomItem);
-      }
-
-      roomDiv.innerHTML = ''; // Clear any existing content
-      roomDiv.appendChild(roomsList);
     }
   }
+
+  if (selectedRooms.length > 0) {
+    var roomDiv = document.getElementById('room');
+    var roomsList = document.createElement('ul');
+
+    for (var j = 0; j < selectedRooms.length; j++) {
+      var roomItem = document.createElement('li');
+      roomItem.textContent = selectedRooms[j];
+      roomsList.appendChild(roomItem);
+    }
+
+    roomDiv.innerHTML = ''; // Clear any existing content
+    roomDiv.appendChild(roomsList);
+  }
+}
+
 </script>
 <script>
 function addExaminationPeriod() {

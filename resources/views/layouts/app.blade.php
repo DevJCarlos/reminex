@@ -35,6 +35,42 @@
     padding: 10px;
     display: none;
   }
+  .subject-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  list-style: none;
+}
+
+.subject-item {
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+p {
+    text-align: center;
+  }
+  .room-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.room-item {
+  display: flex;
+  
+}
+.customcheckbox {
+  display: inline-block;
+  margin-right: 10px; /* Adjust the margin as needed */
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
 </style>
     
     <meta charset="utf-8">

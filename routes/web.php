@@ -41,7 +41,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
 
     // class recor
-    Route::post('home/save', [\App\Http\Controllers\homeController::class, 'SaveData'])->name('save.data');
+    
+    Route::post('/upload-sec', [\App\Http\Controllers\HomeController::class, 'saveData'])->name('listbysec.csv');
 
 
 });
