@@ -149,7 +149,7 @@
           
 
           <div class="border-top">
-            <div class="card-body">
+            <div class="card-body" >
               <h3 class="card-title">Subjects</h3>
               <br>
               <br>
@@ -342,14 +342,27 @@
   }
 </script>
 
+
+
+
 <script>
- function addSubjects() {
-  var checkboxes = document.getElementsByClassName('listCheckbox');
+function addSubjects() {
+  // Get the container element (the parent of all checkboxes)
+  var container = document.getElementById('subjects');
+
+  // Initialize an array to store selected subjects
   var selectedSubjects = [];
 
-  for (var i = 0; i < checkboxes.length; i++) {
-    if (checkboxes[i].checked) {
-      var row = checkboxes[i].closest('tr');
+  // Add a click event listener to the container (event delegation)
+  container.addEventListener('click', function(event) {
+    var target = event.target;
+
+    // Check if the clicked element is a checkbox
+    if (target.classList.contains('listCheckbox')) {
+      // Get the closest row (parent TR)
+      var row = target.closest('tr');
+
+      // Extract data from the row's cells
       var cells = row.cells;
       var subject = {
         subject: cells[1].textContent,
@@ -357,38 +370,128 @@
         year: cells[3].textContent,
         serial: cells[4].textContent,
       };
-      selectedSubjects.push(subject);
+
+      // Toggle selection (add/remove from array) based on checkbox state
+      if (target.checked) {
+        selectedSubjects.push(subject);
+      } else {
+        // Remove the subject from the array if the checkbox is unchecked
+        var index = selectedSubjects.findIndex(function(item) {
+          return (
+            item.subject === subject.subject &&
+            item.program === subject.program &&
+            item.year === subject.year &&
+            item.serial === subject.serial
+          );
+        });
+
+        if (index !== -1) {
+          selectedSubjects.splice(index, 1);
+        }
+      }
+
+      // Update the UI to display selected subjects
+      displaySelectedSubjects(selectedSubjects);
+
+      // Call the fetchAdditionalInfo function when there's a change
+      fetchAdditionalInfo(selectedSubjects);
     }
+  });
+
+  // Rest of your addSubjects() function...
+}
+
+// Call the addSubjects() function when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+  addSubjects();
+});
+
+</script>
+
+
+
+<script>
+  function fetchAdditionalInfo(selectedSubjects) {
+  // Create an array to store the selected subject names
+  var selectedSubjectNames = selectedSubjects.map(function (subject) {
+    return subject.subject;
+  });
+
+  // Send a request to fetch additional information
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '{{ route('exam.fetch.additionalInfo') }}', true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      
+      if (xhr.status === 200) {
+        var additionalInfo = JSON.parse(xhr.responseText);
+        // Display selected subjects
+        displaySelectedSubjects(selectedSubjects);
+        // Display additional info
+        displayAdditionalInfo(additionalInfo, selectedSubjects);
+      } else {
+        
+      }
+      console.log(xhr.responseText);
+    }
+  };
+
+  // Send the selected subject names as JSON data
+  xhr.send(JSON.stringify(selectedSubjectNames));
+}
+
+function displaySelectedSubjects(selectedSubjects) {
+  var subroomDiv = document.getElementById('Sub');
+  var ul = document.createElement('ul');
+  ul.className = 'subject-grid';
+
+  for (var i = 0; i < selectedSubjects.length; i++) {
+    var subject = selectedSubjects[i];
+    var li = document.createElement('li');
+    li.className = 'subject-item';
+    li.innerHTML =
+      '<strong>Course Title:</strong> ' +
+      subject.subject +
+      '<br><strong>Program:</strong> ' +
+      subject.program +
+      '<br><strong>Year:</strong> ' +
+      subject.year +
+      '<br><strong>Serial:</strong> ' +
+      subject.serial;
+    ul.appendChild(li);
   }
 
-  if (selectedSubjects.length > 0) {
-    var subroomDiv = document.getElementById('Sub');
-    var ul = document.createElement('ul');
-    ul.className = 'subject-grid';
+  // Clear the existing content of Subroom before adding the updated list
+  subroomDiv.innerHTML = '';
+  subroomDiv.appendChild(ul);
+}
 
-    for (var j = 0; j < selectedSubjects.length; j++) {
-      var subject = selectedSubjects[j];
+function displayAdditionalInfo(additionalInfo, selectedSubjects) {
+  // Assuming additionalInfo is an object with subject names as keys
+  var subroomDiv = document.getElementById('Sub');
+
+  for (var i = 0; i < selectedSubjects.length; i++) {
+    var subject = selectedSubjects[i];
+    var info = additionalInfo[subject.subject];
+
+    // Check if info exists for the selected subject
+    if (info) {
       var li = document.createElement('li');
-      li.className = 'subject-item';
+      li.className = 'additional-info';
       li.innerHTML =
-        '<strong>Course Title:</strong> ' +
-        subject.subject +
-        '<br><strong>Program:</strong> ' +
-        subject.program +
-        '<br><strong>Year:</strong> ' +
-        subject.year +
-        '<br><strong>Serial:</strong> ' +
-        subject.serial;
-      ul.appendChild(li);
+        '<strong>Section:</strong> ' + info['Section'] +
+        '<br><strong>CLASS #:</strong> ' + info['CLASS #'] +
+        '<br><strong>Instructor:</strong> ' + info['Instructor'] +
+        '<br><strong># of students:</strong> ' + info['# of students'];
+      subroomDiv.appendChild(li);
     }
-
-    // Clear the existing content of Subroom before adding the updated list
-    subroomDiv.innerHTML = '';
-    subroomDiv.appendChild(ul);
   }
 }
 
 </script>
+
 
 <script>
   function addRooms() {
