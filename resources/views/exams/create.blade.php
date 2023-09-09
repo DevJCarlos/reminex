@@ -97,7 +97,7 @@
                     </tr>
                   </tbody>
                 </table>
-                <button type="submit" class="btn btn-success text-white" onclick="addSubjects()">Add Subjects</button>
+                
               </div>
 
             </div>
@@ -159,6 +159,7 @@
                 </p>
 
               </div>
+              <button type="submit" class="btn btn-primary text-white" id =  "addsub">Add Subjects</button>
             </div>
           </div>
 
@@ -194,17 +195,17 @@
                   <h3 class="card-title">Generate Exam Table</h3>
                   <div class="bd-example" id = "gentable">
                   <table class="table" id="gentab">
-                <thead>
-                  <tr>
-                    <th colspan="5" id="time" >no data</th>
-                  </tr>
-                </thead>
+
+                  <thead>
+                    <th id = "time"> no data</th>
+                  </thead>
                 <tbody>
                 <tr>
                     <td id="code">no data</td>
-                    <td colspan="4" id="subject">no data</td>
+                    <td id="subject">no data</td>
                   </tr>
                   <tr>
+                    
                     <th >SECTION</th>
                     <th >CLASS #</th>
                     <th >ROOM</th>
@@ -212,7 +213,6 @@
                     <th ># OF STUDENTS</th>
                   </tr>
                   <tr>
-                    
                     <td  id="section">no data</td>
                     <td  id="classnum">no data</td>
                     <td  id="room">no data</td>
@@ -391,27 +391,15 @@ function addSubjects() {
       }
 
       // Update the UI to display selected subjects
-      displaySelectedSubjects(selectedSubjects);
-
-      // Call the fetchAdditionalInfo function when there's a change
       fetchAdditionalInfo(selectedSubjects);
     }
   });
-
-  // Rest of your addSubjects() function...
 }
-
-// Call the addSubjects() function when the page loads
-document.addEventListener('DOMContentLoaded', function() {
-  addSubjects();
-});
 
 </script>
 
-
-
 <script>
-  function fetchAdditionalInfo(selectedSubjects) {
+ function fetchAdditionalInfo(selectedSubjects) {
   // Create an array to store the selected subject names
   var selectedSubjectNames = selectedSubjects.map(function (subject) {
     return subject.subject;
@@ -424,17 +412,13 @@ document.addEventListener('DOMContentLoaded', function() {
   xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
   xhr.onreadystatechange = function() {
     if (xhr.readyState === XMLHttpRequest.DONE) {
-      
       if (xhr.status === 200) {
         var additionalInfo = JSON.parse(xhr.responseText);
-        // Display selected subjects
-        displaySelectedSubjects(selectedSubjects);
-        // Display additional info
-        displayAdditionalInfo(additionalInfo, selectedSubjects);
+        // Display selected subjects and additional info
+        displaySubjectsAndAdditionalInfo(selectedSubjects, additionalInfo);
       } else {
-        
+        console.error('Error: ' + xhr.status);
       }
-      console.log(xhr.responseText);
     }
   };
 
@@ -442,7 +426,7 @@ document.addEventListener('DOMContentLoaded', function() {
   xhr.send(JSON.stringify(selectedSubjectNames));
 }
 
-function displaySelectedSubjects(selectedSubjects) {
+function displaySubjectsAndAdditionalInfo(selectedSubjects, additionalInfo) {
   var subroomDiv = document.getElementById('Sub');
   var ul = document.createElement('ul');
   ul.className = 'subject-grid';
@@ -458,8 +442,15 @@ function displaySelectedSubjects(selectedSubjects) {
       subject.program +
       '<br><strong>Year:</strong> ' +
       subject.year +
-      '<br><strong>Serial:</strong> ' +
+      '<br><strong>Serial:</strong>' +
       subject.serial;
+
+    // Check if additionalInfo is available and has info for this subject
+    if (additionalInfo && additionalInfo[subject.subject]) {
+      var info = additionalInfo[subject.subject];
+      li.innerHTML += info; // Append the additional information
+    }
+
     ul.appendChild(li);
   }
 
@@ -468,27 +459,10 @@ function displaySelectedSubjects(selectedSubjects) {
   subroomDiv.appendChild(ul);
 }
 
-function displayAdditionalInfo(additionalInfo, selectedSubjects) {
-  // Assuming additionalInfo is an object with subject names as keys
-  var subroomDiv = document.getElementById('Sub');
-
-  for (var i = 0; i < selectedSubjects.length; i++) {
-    var subject = selectedSubjects[i];
-    var info = additionalInfo[subject.subject];
-
-    // Check if info exists for the selected subject
-    if (info) {
-      var li = document.createElement('li');
-      li.className = 'additional-info';
-      li.innerHTML =
-        '<strong>Section:</strong> ' + info['Section'] +
-        '<br><strong>CLASS #:</strong> ' + info['CLASS #'] +
-        '<br><strong>Instructor:</strong> ' + info['Instructor'] +
-        '<br><strong># of students:</strong> ' + info['# of students'];
-      subroomDiv.appendChild(li);
-    }
-  }
-}
+// Call the addSubjects() function when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+  addSubjects();
+});
 
 </script>
 
@@ -613,6 +587,45 @@ function formatTime(time) {
 function getEndTime(startTime, interval) {
   return new Date(startTime.getTime() + interval * 60000);
 }
+</script>
+<!--wala pani experimental pani nga script-->
+<script>
+  function populateTableWithData(data) {
+  // Extract data
+  var code = data['Serial']; // Assuming 'Serial' is the key for course code
+  var subject = data['Course Title']; // Assuming 'Course Title' is the key for course title
+  var section = data['Section'];
+  var classNum = data['CLASS #'];
+  var instructor = data['Instructor'];
+  var numStudents = data['# of students'];
+
+  // Populate table cells with data
+  document.getElementById('code').textContent = code;
+  document.getElementById('subject').textContent = subject;
+  document.getElementById('section').textContent = section;
+  document.getElementById('classnum').textContent = classNum;
+  document.getElementById('instructor').textContent = instructor;
+  document.getElementById('numstudent').textContent = numStudents;
+}
+
+  // Add an event listener to the button
+document.getElementById('addsub').addEventListener('click', function() {
+  // Example data object (replace this with your actual data)
+  var data = {
+    'Serial': 'ABC123',
+    'Course Title': 'Introduction to Programming',
+    'Section': 'A1',
+    'CLASS #': '101',
+    'Instructor': 'John Doe',
+    '# of students': '25'
+  };
+  
+
+
+  // Call the function to populate the table
+  populateTableWithData(data);
+});
+
 </script>
 
 

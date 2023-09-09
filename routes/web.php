@@ -39,6 +39,9 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::post('/fetch-subjects', [\App\Http\Controllers\ExamController::class, 'fetchSubjects'])->name('exam.fetch.subjects');
     Route::post('/upload-csv', [\App\Http\Controllers\ExamController::class, 'uploadCSV'])->name('upload.csv');
     Route::post('exam/additionalInfo',[\App\Http\Controllers\ExamController::class,'fetchAdditionalInfo'])->name('exam.fetch.additionalInfo');
+    Route::post('exam/additionalInfos',[\App\Http\Controllers\ExamController::class,'fetchAdditionalInfo'])->name('exam.additionalInfo');
+
+
 
 
 
