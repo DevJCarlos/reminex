@@ -159,7 +159,7 @@
                 </p>
 
               </div>
-              <button type="submit" class="btn btn-primary text-white" id =  "addsub">Add Subjects</button>
+              <button type="submit" class="btn btn-primary text-white" id="populateButton">Add Subjects</button>
             </div>
           </div>
 
@@ -203,6 +203,8 @@
                 <tr>
                     <td id="code">no data</td>
                     <td id="subject">no data</td>
+                    <td id="year">no data</td>
+                    <td id="program">no data</td>
                   </tr>
                   <tr>
                     
@@ -218,6 +220,7 @@
                     <td  id="room">no data</td>
                     <td  id="instructor">no data</td>
                     <td  id="numstudent">no data</td>
+                    <td  id="additionalInfo">no data</td>
                   </tr>
                 </tbody>
                 </table>
@@ -425,11 +428,16 @@ function addSubjects() {
   // Send the selected subject names as JSON data
   xhr.send(JSON.stringify(selectedSubjectNames));
 }
+// Define the subjectsArray variable in a global scope
+var subjectsArray = [];
 
 function displaySubjectsAndAdditionalInfo(selectedSubjects, additionalInfo) {
   var subroomDiv = document.getElementById('Sub');
   var ul = document.createElement('ul');
   ul.className = 'subject-grid';
+
+  // Clear the existing content of subjectsArray
+  subjectsArray = [];
 
   for (var i = 0; i < selectedSubjects.length; i++) {
     var subject = selectedSubjects[i];
@@ -449,6 +457,15 @@ function displaySubjectsAndAdditionalInfo(selectedSubjects, additionalInfo) {
     if (additionalInfo && additionalInfo[subject.subject]) {
       var info = additionalInfo[subject.subject];
       li.innerHTML += info; // Append the additional information
+
+      // Add the information to the array
+      subjectsArray.push({
+        subject: subject.subject,
+        program: subject.program,
+        year: subject.year,
+        serial: subject.serial,
+        additionalInfo: info,
+      });
     }
 
     ul.appendChild(li);
@@ -463,6 +480,14 @@ function displaySubjectsAndAdditionalInfo(selectedSubjects, additionalInfo) {
 document.addEventListener('DOMContentLoaded', function() {
   addSubjects();
 });
+
+// Add an event listener to the button with the id 'populateButton'
+document.getElementById('populateButton').addEventListener('click', function() {
+  console.log('Button clicked');
+  // Call the populateTableWithSubjectsArray function with your subjectsArray
+  populateTableWithSubjectsArray(subjectsArray);
+});
+
 
 </script>
 
@@ -505,6 +530,7 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 </script>
+<!--exam time-->
 <script>
 function addExaminationPeriod() {
   var timePicker = document.getElementById('time-picker');
@@ -588,45 +614,53 @@ function getEndTime(startTime, interval) {
   return new Date(startTime.getTime() + interval * 60000);
 }
 </script>
-<!--wala pani experimental pani nga script-->
-<script>
-  function populateTableWithData(data) {
-  // Extract data
-  var code = data['Serial']; // Assuming 'Serial' is the key for course code
-  var subject = data['Course Title']; // Assuming 'Course Title' is the key for course title
-  var section = data['Section'];
-  var classNum = data['CLASS #'];
-  var instructor = data['Instructor'];
-  var numStudents = data['# of students'];
 
-  // Populate table cells with data
-  document.getElementById('code').textContent = code;
-  document.getElementById('subject').textContent = subject;
-  document.getElementById('section').textContent = section;
-  document.getElementById('classnum').textContent = classNum;
-  document.getElementById('instructor').textContent = instructor;
-  document.getElementById('numstudent').textContent = numStudents;
+<!-- dislpay the data to table -->
+<script>
+ function populateTableWithSubjectsArray(subjectsArray) {
+  // Get the table element
+  const table = document.getElementById("gentab");
+
+  // Create a document fragment to hold the table rows and cells
+  const fragment = document.createDocumentFragment();
+
+  
+  subjectsArray.forEach((subject) => {
+    
+    const row = document.createElement("tr");
+
+
+    const code = document.createElement("td");
+    code.id = "code";
+    code.textContent = subject.serial;
+
+    const subjectName = document.createElement("td");
+    subjectName.id = "subject";
+    subjectName.textContent = subject.subject;
+
+    const year = document.createElement("td");
+    year.id = "year";
+    year.textContent = subject.year;
+
+    const program = document.createElement("td");
+    program.id = "program";
+    program.textContent = subject.program;
+
+    // Append the table cells to the table row
+    row.appendChild(time);
+    row.appendChild(code);
+    row.appendChild(subjectName);
+    row.appendChild(year);
+    row.appendChild(program);
+
+    // Append the table row to the document fragment
+    fragment.appendChild(row);
+  });
+
+  // Append the document fragment to the table
+  table.appendChild(fragment);
 }
 
-  // Add an event listener to the button
-document.getElementById('addsub').addEventListener('click', function() {
-  // Example data object (replace this with your actual data)
-  var data = {
-    'Serial': 'ABC123',
-    'Course Title': 'Introduction to Programming',
-    'Section': 'A1',
-    'CLASS #': '101',
-    'Instructor': 'John Doe',
-    '# of students': '25'
-  };
-  
-
-
-  // Call the function to populate the table
-  populateTableWithData(data);
-});
-
 </script>
-
 
 @endsection
