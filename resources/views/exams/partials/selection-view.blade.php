@@ -12,10 +12,11 @@
                         <h3 class="card-title">Subjects</h3>
                         <div class="bd-example" id="Sub">
                             <p>
-                            <strong>No Data selected </strong>
+                                <strong>No Data selected </strong>
                             </p>
                         </div>
-                        <button type="submit" class="btn btn-primary text-white" id="populateButton">Add Subjects</button>
+                        <button type="submit" class="btn btn-primary text-white" id="populateButton">Add
+                            Subjects</button>
                     </div>
                 </div>
 
@@ -24,14 +25,19 @@
                         <h3 class="card-title">Rooms</h3>
                         <div class="bd-example" id="room">
                             <p>
-                            <strong>No Data selected </strong>
+                                <strong>No Data selected </strong>
                             </p>
                         </div>
-                        <button type="submit" class="btn btn-primary text-white" onclick="addAllSelected()">Add All Selected</button>
-                        <button type="submit" class="btn btn-success text-white" onclick="addExaminationPeriod()">Add Time</button>
+
+                        <button type="submit" class="btn btn-primary text-white" onclick="addAllSelected()">Add All
+                            Selected</button>
+
+                        <button type="submit" class="btn btn-success text-white" onclick="addExaminationPeriod()">Add
+                            Time</button>
                     </div>
+
                 </div>
-            <div>
-        <div>
+            </div>
+        </div>
     </div>
 </div>
