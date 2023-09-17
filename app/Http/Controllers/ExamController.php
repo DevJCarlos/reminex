@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Rooms;
 
 use Illuminate\Support\Facades\DB;
@@ -29,6 +30,7 @@ class ExamController extends Controller
         $rooms = Rooms::all();
         return $rooms;
     }
+
     //upload csv
     public function uploadCSV(Request $request)
     {

@@ -5,189 +5,15 @@
   <div class="accordion">
     <div class="row">
       <div class="col-12">
-        <div class="card">
-          <div class="accordion-item">
-            <div class="card-body">
-              <div class="accordion-header">Upload CSV and Selections
-                <i class="accordion-arrow fas fa-chevron-down"></i>
-              </div>
-              <div class="accordion-content">
-                <form method="post" action="{{ route('upload.csv') }}" enctype="multipart/form-data">
-                  @csrf
-                  <br>
-                  <br>
-                  <div class="mb-3 form-group">
-                    <label for="matrix" class="form-label">Upload Matrix</label>
-                    <input type="file" class="form-control-file" id="matrix" name="matrix" accept=".csv">
-                  </div>
-                  <button type="submit" class="btn btn-primary btn-sm">Submit</button>
-                  <br>
-                  <br>
-                </form>
-
-
-
-                <div class="border-top">
-                  <div class="card-body">
-                    <h3 class="card-title">Selection</h3>
-                    <br>
-                    <div class="mb-3 d-flex align-items-center">
-                      <label for="period-select" class="me-2 mb-0">Select Period: </label>
-                      <select name="period-select" id="period-select" class="mr-3 ml-1">
-                        <option value="-Select Period-">-Select Period-</option>
-                        <option value="Prelim">Prelims</option>
-                        <option value="Midterm">Midterms</option>
-                        <option value="Pre-Final">Pre-Finals</option>
-                        <option value="Finals">Finals</option>
-                      </select>
-
-                      <label for="date-picker" class="me-2 mb-0">Date of Exam: </label>
-                      <input type="date" name="date-picker" id="date-picker" class="mr-3 ml-1">
-
-                      <label for="day-select" class="me-2 mb-0">Select Day:</label>
-                      <select name="day-select" id="day-select" class="mr-3 ml-1">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                      </select>
-                      <label for="time-picker" class="me-3 mb-0">Exam Starting Time: </label>
-                      <input type="time" name="time-picker" id="time-picker" class="ml-1">
-                    </div>
-                    <button type="button" class="btn btn-success text-white" onclick="displaySelectedOption()">Add</button>
-                    <div id="csvData"></div>
-                  </div>
-                  <div class="border-top">
-                    <div class="card-body">
-                      <h3 class="card-title">Selection of Subjects</h3>
-                      <br>
-                      <br>
-                      <div>
-                        <input type="text" id="searchInput" placeholder="Search">
-                        <br>
-                        <br>
-                        <table class="table" id="subjects">
-                          <thead class="thead-light">
-                            <tr>
-                              <th>
-                                <label class="customcheckbox mb-0">
-                                  <input type="checkbox" id="mainCheckbox">
-                                  <span class="checkmark"></span>
-                                </label>
-                              </th>
-                              <th scope="col">Course Title</th>
-                              <th scope="col">Program</th>
-                              <th scope="col">Year</th>
-                              <th scope="col">Serial</th>
-
-                            </tr>
-                          </thead>
-
-                          <tbody class="customtable">
-                            <tr>
-                              <th>
-                                <label class="customcheckbox">
-                                  <input type="checkbox" class="listCheckbox">
-                                  <span class="checkmark"></span>
-                                </label>
-                              </th>
-                              <td>no data</td>
-                              <td>no data</td>
-                              <td>no data</td>
-                              <td>no data</td>
-                            </tr>
-                          </tbody>
-                        </table>
-
-                      </div>
-
-                    </div>
-                  </div>
-                  <div class="border-top">
-                    <div class="card-body">
-                      <h3 class="card-title">Selection of Rooms</h3>
-                      <br>
-                      <br>
-                      <ul class="room-list">
-                        @foreach($rooms as $room)
-                        <li class="room-item">
-                          <label class="customcheckbox">
-                            <input type="checkbox" class="listCheckbox1">
-                            <span class="checkmark"></span>
-                          </label>
-
-                          <span class="room-name">{{ $room->room_name }}</span>
-                        </li>
-                        @endforeach
-                      </ul>
-                      <br>
-
-                      <button type="submit" class="btn btn-success text-white" onclick="addRooms()">Add Rooms</button>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        {{-- includes upload and selection form --}}
+        @include('exams.partials.csv-selection')
       </div>
 
       <div class="col-12">
-        <div class="card">
-          <div class="accordion-item">
-            <div class="card-body">
-              <div class="accordion-header">View Selections
-                <i class="accordion-arrow fas fa-chevron-down"></i>
-              </div>
-              <div class="accordion-content">
-                <div class="bd-example" id="Selected">
+        {{-- includes upload and selection form --}}
+        @include('exams.partials.selection-view')
 
-
-
-                </div>
-
-
-
-                <div class="border-top">
-                  <div class="card-body">
-                    <h3 class="card-title">Subjects</h3>
-                    <br>
-                    <br>
-                    <div class="bd-example" id="Sub">
-                      <p>
-                        <strong>No Data selected </strong>
-                      </p>
-
-                    </div>
-                    <button type="submit" class="btn btn-primary text-white" id="populateButton">Add Subjects</button>
-                  </div>
-                </div>
-
-                <div class="border-top">
-                  <div class="card-body">
-                    <h3 class="card-title">Rooms</h3>
-                    <br>
-                    <br>
-                    <br>
-                    <div class="bd-example" id="room">
-
-                      <p>
-                        <strong>No Data selected </strong>
-                      </p>
-                    </div>
-                    <button type="submit" class="btn btn-primary text-white" onclick="addAllSelected()">Add All Selected</button>
-                    <button type="submit" class="btn btn-success text-white" onclick="addExaminationPeriod()">Add Time</button>
-
-
-
-                  </div>
-
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
+      </div>
 
         <div class="col-12">
           <div class="card">
@@ -225,19 +51,11 @@
                     </tr>
                   </tbody>
                 </table>
-
-
               </div>
             </div>
           </div>
         </div>
-
       </div>
-
-
-
-
-
     </div>
   </div>
 </div>
@@ -298,12 +116,11 @@
     document.getElementById('Selected').innerText = selectedText;
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '{{ route('
-      exam.fetch.subjects ') }}', true);
+    xhr.open('POST', '{{ route('exam.fetch.subjects') }}', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
     xhr.onreadystatechange = function() {
-      if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.readyState === XMLHttpRequest.DONE) { 
         if (xhr.status === 200) {
           var subjects = JSON.parse(xhr.responseText);
           displaySubjects(subjects);
@@ -402,9 +219,7 @@
       }
     });
   }
-</script>
 
-<script>
   function fetchAdditionalInfo(selectedSubjects) {
     // Create an array to store the selected subject names
     var selectedSubjectNames = selectedSubjects.map(function(subject) {
@@ -413,8 +228,7 @@
 
     // Send a request to fetch additional information
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '{{ route('
-      exam.fetch.additionalInfo ') }}', true);
+    xhr.open('POST', '{{ route('exam.fetch.additionalInfo') }}', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
     xhr.onreadystatechange = function() {
@@ -529,9 +343,9 @@
     //console.log(selectedRooms);
     generateExam(selectedRooms);
   }
-</script>
-<!--exam time-->
-<script>
+
+// <!--exam time-->
+
   function addExaminationPeriod() {
     // Create an array to store the time periods
     var timePeriods = [];
@@ -606,29 +420,22 @@
       return new Date(startTime.getTime() + interval * 60000);
 
     }
-
-
    //console.log(timePeriods);
     generateExam(timePeriods);
 
-
   }
-</script>
 
-
-
-
-<script>
   function displayfromgentable(selectedSubjects) {
+
     // Create an array to store the selected subject names
     var selectedSubjectNames1 = selectedSubjects.map(function(subject) {
-      return subject.subject;
-    });
+    return subject.subject;
+
+  });
 
     // Send a request to fetch additional information
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '{{ route('
-      displaygentab ') }}', true);
+    xhr.open('POST', '{{ route('displaygentab') }}', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
     xhr.onreadystatechange = function() {
@@ -669,10 +476,7 @@
     xhr.send(JSON.stringify(selectedSubjectNames1));
     //console.log(selectedSubjectNames1);
   }
-</script>
 
-
-<script>
   // mali ang output ani sa console kay daapat sabay mag trigger ang buttons
   function generateExam(response) {
     //Check if selectedRooms has data
