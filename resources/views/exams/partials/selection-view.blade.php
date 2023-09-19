@@ -15,8 +15,6 @@
                                 <strong>No Data selected </strong>
                             </p>
                         </div>
-                        <button type="submit" class="btn btn-primary text-white" id="populateButton">Add
-                            Subjects</button>
                     </div>
                 </div>
 
@@ -28,10 +26,6 @@
                                 <strong>No Data selected </strong>
                             </p>
                         </div>
-
-                        <button type="submit" class="btn btn-primary text-white" onclick="addAllSelected()">Add All
-                            Selected</button>
-
                         <button type="submit" class="btn btn-success text-white" onclick="addExaminationPeriod()">Add
                             Time</button>
                     </div>

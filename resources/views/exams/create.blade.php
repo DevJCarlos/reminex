@@ -248,47 +248,55 @@
 
 
 
+        // Add an event listener to all checkboxes with the class 'listCheckbox1'
+        var checkboxes = document.getElementsByClassName('listCheckbox1');
+        for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].addEventListener('change', function() {
+            addRooms(); // Trigger addRooms when a checkbox is checked or unchecked
+        });
+        }
+
         function addRooms() {
             var checkboxes = document.getElementsByClassName('listCheckbox1');
             var selectedRooms = [];
 
             for (var i = 0; i < checkboxes.length; i++) {
                 if (checkboxes[i].checked) {
-                    var parent = checkboxes[i].closest('.room-item'); // Check the closest parent with the class 'room-item'
-                    if (parent) {
-                        var roomNameElement = parent.querySelector('.room-name'); // Get the element with class 'room-name'
-                        if (roomNameElement) {
-                            var roomName = roomNameElement.textContent;
-                            selectedRooms.push(roomName);
-                        } else {
-                            console.log('No room name element found.');
-                        }
+                var parent = checkboxes[i].closest('.room-item'); 
+                if (parent) {
+                    var roomNameElement = parent.querySelector('.room-name'); 
+                    if (roomNameElement) {
+                    var roomName = roomNameElement.textContent;
+                    selectedRooms.push(roomName);
                     } else {
-                        console.log('No parent element found.');
+                    console.log('No room name element found.');
                     }
+                } else {
+                    console.log('No parent element found.');
+                }
                 }
             }
 
+                if (selectedRooms.length > 0) {
+                    var roomDiv = document.getElementById('room');
+                    var roomsList = document.createElement('ul');
 
-            if (selectedRooms.length > 0) {
-                var roomDiv = document.getElementById('room');
-                var roomsList = document.createElement('ul');
-
-                for (var j = 0; j < selectedRooms.length; j++) {
+                    for (var j = 0; j < selectedRooms.length; j++) {
                     var roomItem = document.createElement('li');
                     roomItem.textContent = selectedRooms[j];
                     roomsList.appendChild(roomItem);
+                    }
+
+                    roomDiv.innerHTML = ''; 
+                    roomDiv.appendChild(roomsList);
                 }
+                //console.log(selectedRooms);
+                generateExam(selectedRooms);
 
-                roomDiv.innerHTML = ''; // Clear any existing content
-                roomDiv.appendChild(roomsList);
-
-            }
-            //console.log(selectedRooms);
-            generateExam(selectedRooms);
         }
 
-        // <!--exam time-->
+
+        
 
         function addExaminationPeriod() {
             // Create an array to store the time periods
@@ -369,6 +377,7 @@
 
         }
 
+        //pull data from controller
         function displayfromgentable(selectedSubjects) {
 
             // Create an array to store the selected subject names
@@ -407,32 +416,69 @@
                                 //console.log('Class Numbers:', classNumberData);
                                 //console.log('Instructors:', instructorData);
                                 //console.log('Number of Students:', numOfStudentsData);
+                                generateExam(subjectName, sectionData, classNumberData, instructorData, numOfStudentsData);
                             }
                         }
                     } else {
                         console.error('Error: ' + xhr.status);
                     }
-                    generateExam(response);
+                    
                     //console.log(response);
                 }
             };
 
             xhr.send(JSON.stringify(selectedSubjectNames1));
             //console.log(selectedSubjectNames1);
+            //generateExam(displayfromgentable);
         }
+        
+        // error pani kay need og DOM wrapped para di mag trigger dayon
+        // ug walay data ang var sa first console sya gadisplay
+        function generateExam(subjectName, sectionData, classNumberData, instructorData, numOfStudentsData, selectedRooms, timePeriods) {
+            //Constraint Side//
+            //set the data types
+            const maxRoomCapacity = 50;
+            var timeSlots = [];
+            var AvailableRooms = selectedRooms;
 
-        // mali ang output ani sa console kay daapat sabay mag trigger ang buttons
-        function generateExam(response) {
-            //Check if selectedRooms has data
-            console.log('Rooms:', selectedRooms);
+            
+            
+            ///check data
+            //console.log('subjects:',subjectName);
+            //console.log('section:',sectionData);
+            //console.log('class Number:',classNumberData);
+            //console.log('instructor:',instructorData);
+            //console.log('student count:',numOfStudentsData);
+            //console.log('Rooms:',AvailableRooms);
+            //console.log('Periods:',TimeSlots);
 
-            //Check if response has data
-            console.log('response:', response);
+            //constraint handling section here!!!!!!!
+            //setting time slots for every array of time is a 1 timeslot
+             
+            for (var i = 0; i < timePeriods.length; i++) {
+                var timePeriod = timePeriods[i];
 
-            //Check if timePeriods has data
-            console.log('timePeriods:', timePeriods);
+                //copying the arrays 
+                var timeSlot = [...AvailableRooms];
 
-            // Rest of your code here
-        }
+            
+                timeSlot.timePeriod = timePeriod;
+
+            
+                timeSlot.push(timeSlot);
+            }
+            if (timeSlot.length > 0) {
+                console.log('Time Slot', i + 1, ':', timeSlot);
+    }
+
+            // adding for handling the constraint for rooms
+        // for (const room of selectedRooms) {
+        //     if (room.capacity > maxRoomCapacity) {
+        //         console.error(`Room ${room.name} exceeds the maximum capacity of ${maxRoomCapacity} students.`);
+        //         // Handle this constraint violation, such as rescheduling the exam or selecting a different room.
+        //     }
+        // }
+    }
+
     </script>
 @endsection
