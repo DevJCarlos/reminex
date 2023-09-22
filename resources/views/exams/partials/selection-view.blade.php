@@ -28,6 +28,9 @@
                         </div>
                         <button type="submit" class="btn btn-success text-white" onclick="addExaminationPeriod()">Add
                             Time</button>
+
+                        <button type="submit" class="btn btn-success text-white" onclick="generateExam()">Add
+                            Submit</button>    
                     </div>
 
                 </div>

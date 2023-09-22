@@ -21,8 +21,9 @@
 @endsection
 
 @section('scripts')
-    <!--for accordion script drop and down contents-->
+    
     <script>
+        //accordion functions
         document.addEventListener("DOMContentLoaded", function() {
             const accordionItems = document.querySelectorAll(".accordion-item");
 
@@ -38,7 +39,7 @@
                 });
             });
         });
-
+        //searchbar
         var searchInput = document.getElementById('searchInput');
         var tableRows = document.querySelectorAll('#subjects tbody tr');
 
@@ -56,7 +57,7 @@
                 }
             }
         });
-
+        //selection
         function displaySelectedOption() {
             var periodSelect = document.getElementById('period-select');
             var selectedPeriod = periodSelect.options[periodSelect.selectedIndex].value;
@@ -256,10 +257,12 @@
         });
         }
 
+        //globalVariable
+        var GlobalRooms = [];
         function addRooms() {
             var checkboxes = document.getElementsByClassName('listCheckbox1');
             var selectedRooms = [];
-
+            GlobalRooms = selectedRooms;
             for (var i = 0; i < checkboxes.length; i++) {
                 if (checkboxes[i].checked) {
                 var parent = checkboxes[i].closest('.room-item'); 
@@ -289,18 +292,19 @@
 
                     roomDiv.innerHTML = ''; 
                     roomDiv.appendChild(roomsList);
-                }
-                //console.log(selectedRooms);
-                generateExam(selectedRooms);
-
+                    
+                    return(selectedRooms);
+                    
+                }    
+              
         }
 
-
-        
-
+        //timeFunction
+        //global var of time
+        var timePeriods = [];
         function addExaminationPeriod() {
             // Create an array to store the time periods
-            var timePeriods = [];
+            
 
             var timePicker = document.getElementById('time-picker');
             var selectedTime = timePicker.value;
@@ -326,27 +330,27 @@
 
                 var thead = document.createElement('thead');
                 thead.innerHTML = `
-      <tr>
-        <th id="time"></th>
-        <th scope="col" id="code">no data</th>
-        <th scope="col" id="subject">no data</th>
-      </tr>
-      <tr>
-        <th scope="col">SECTION</th>
-        <th scope="col">CLASS #</th>
-        <th scope="col">ROOM</th>
-        <th scope="col">INSTRUCTOR</th>
-        <th scope="col"># OF STUDENTS</th>
-      </tr>
-    `;
+                    <tr>
+                        <th id="time"></th>
+                        <th scope="col" id="code">no data</th>
+                        <th scope="col" id="subject">no data</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">SECTION</th>
+                        <th scope="col">CLASS #</th>
+                        <th scope="col">ROOM</th>
+                        <th scope="col">INSTRUCTOR</th>
+                        <th scope="col"># OF STUDENTS</th>
+                    </tr>
+                    `;
 
                 var tbody = document.createElement('tbody');
                 var tbodyRow = document.createElement('tr');
                 var timePeriod = formatTime(startTime) + ' - ' + formatTime(getEndTime(startTime, interval));
                 timePeriods.push(timePeriod); // Push the time period string to the array
                 tbodyRow.innerHTML = `
-      <td headers="time">${timePeriod}</td>
-    `;
+                <td headers="time">${timePeriod}</td>
+                `;
                 tbody.appendChild(tbodyRow);
 
                 newTable.appendChild(thead);
@@ -373,112 +377,95 @@
 
             }
             //console.log(timePeriods);
-            generateExam(timePeriods);
+            //generateExam(timePeriods);
 
         }
 
-        //pull data from controller
+        
+        //global var
+        var Sections = [];
+        var ClassNumbers = [];
+        var Instructors = [];
+        var StudentCount = [];
+        var selectedSubjectNames1;
+
         function displayfromgentable(selectedSubjects) {
-
-            // Create an array to store the selected subject names
-            var selectedSubjectNames1 = selectedSubjects.map(function(subject) {
+            selectedSubjectNames1 = selectedSubjects.map(function(subject) {
                 return subject.subject;
-
             });
 
-            // Send a request to fetch additional information
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '{{ route('displaygentab') }}', true);
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        var response = JSON.parse(xhr.responseText); // Parse the response here
-                        // Display selected subjects and additional info
-                        //console.log(response);
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText); 
 
-                        var sections = response.sections;
-                        var classNumbers = response.classNumbers;
-                        var instructors = response.instructors;
-                        var numOfStudents = response.numOfStudents;
-
-                        for (var subjectName in sections) {
-                            if (sections.hasOwnProperty(subjectName)) {
-
-                                var sectionData = sections[subjectName];
-                                var classNumberData = classNumbers[subjectName];
-                                var instructorData = instructors[subjectName];
-                                var numOfStudentsData = numOfStudents[subjectName];
-
-                                //console.log('Subject Name:', subjectName);
-                                //console.log('Sections:', sectionData);
-                                //console.log('Class Numbers:', classNumberData);
-                                //console.log('Instructors:', instructorData);
-                                //console.log('Number of Students:', numOfStudentsData);
-                                generateExam(subjectName, sectionData, classNumberData, instructorData, numOfStudentsData);
-                            }
-                        }
-                    } else {
-                        console.error('Error: ' + xhr.status);
-                    }
                     
-                    //console.log(response);
+                    selectedSubjectNames1.forEach(function(subjectName) {
+                    Sections[subjectName] = [];
+                    ClassNumbers[subjectName] = [];
+                    Instructors[subjectName] = [];
+                    StudentCount[subjectName] = [];
+                    });
+
+                    
+                    Object.keys(response.sections).forEach(function(subjectName) {
+                    if (selectedSubjectNames1.includes(subjectName)) {
+                        Sections[subjectName] = response.sections[subjectName];
+                        ClassNumbers[subjectName] = response.classNumbers[subjectName];
+                        Instructors[subjectName] = response.instructors[subjectName];
+                        StudentCount[subjectName] = response.numOfStudents[subjectName];
+                    }
+                    });
+
+                    
+                    //console.log('Sections:', Sections);
+                    //console.log('Class Numbers:', ClassNumbers);
+                    //console.log('Instructors:', Instructors);
+                    //console.log('Student Count:', StudentCount);
+                } else {
+                    console.error('Error: ' + xhr.status);
+                }
                 }
             };
 
             xhr.send(JSON.stringify(selectedSubjectNames1));
             //console.log(selectedSubjectNames1);
-            //generateExam(displayfromgentable);
         }
+
         
-        // error pani kay need og DOM wrapped para di mag trigger dayon
-        // ug walay data ang var sa first console sya gadisplay
-        function generateExam(subjectName, sectionData, classNumberData, instructorData, numOfStudentsData, selectedRooms, timePeriods) {
-            //Constraint Side//
-            //set the data types
+
+        function generateExam() {
+             console.log('Rooms:', GlobalRooms);
+            // console.log('Periods:', timePeriods);
+            // console.log('Subject:', selectedSubjectNames1);
+            // console.log('Sections:', Sections);
+            // console.log('Class Numbers:', ClassNumbers);
+            // console.log('Instructors:', Instructors);
+            // console.log('Student Count:', StudentCount);
+
+            // Set the data types
             const maxRoomCapacity = 50;
-            var timeSlots = [];
-            var AvailableRooms = selectedRooms;
+            const maxSubjectInsert = 15;
+            var timeSlotRooms = [];
 
             
-            
-            ///check data
-            //console.log('subjects:',subjectName);
-            //console.log('section:',sectionData);
-            //console.log('class Number:',classNumberData);
-            //console.log('instructor:',instructorData);
-            //console.log('student count:',numOfStudentsData);
-            //console.log('Rooms:',AvailableRooms);
-            //console.log('Periods:',TimeSlots);
-
-            //constraint handling section here!!!!!!!
-            //setting time slots for every array of time is a 1 timeslot
-             
             for (var i = 0; i < timePeriods.length; i++) {
                 var timePeriod = timePeriods[i];
 
-                //copying the arrays 
-                var timeSlot = [...AvailableRooms];
+                var timeSlot = {
 
-            
-                timeSlot.timePeriod = timePeriod;
-
-            
-                timeSlot.push(timeSlot);
+                    timeSlot: timePeriod,
+                    rooms: GlobalRooms 
+                };
+                timeSlotRooms.push(timeSlot);
             }
-            if (timeSlot.length > 0) {
-                console.log('Time Slot', i + 1, ':', timeSlot);
-    }
+            console.log('Time Slots with Rooms:', timeSlotRooms);
+        }
 
-            // adding for handling the constraint for rooms
-        // for (const room of selectedRooms) {
-        //     if (room.capacity > maxRoomCapacity) {
-        //         console.error(`Room ${room.name} exceeds the maximum capacity of ${maxRoomCapacity} students.`);
-        //         // Handle this constraint violation, such as rescheduling the exam or selecting a different room.
-        //     }
-        // }
-    }
-
+       
     </script>
 @endsection
