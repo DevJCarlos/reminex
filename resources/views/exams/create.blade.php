@@ -439,7 +439,7 @@
         
 
         function generateExam() {
-             console.log('Rooms:', GlobalRooms);
+            // console.log('Rooms:', GlobalRooms);
             // console.log('Periods:', timePeriods);
             // console.log('Subject:', selectedSubjectNames1);
             // console.log('Sections:', Sections);
