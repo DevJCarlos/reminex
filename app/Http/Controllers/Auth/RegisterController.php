@@ -64,7 +64,7 @@ class RegisterController extends Controller
      *
      * @param  array  $data
      * @return \App\Models\User
-     */
+     **/
     protected function create(array $data)
     {
         //add role before creatung user

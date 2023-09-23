@@ -92,9 +92,6 @@
                                     </li>
                                 @endforeach
                             </ul>
-                            <button type="submit" class="btn btn-success text-white" onclick="addRooms()">Add
-                                Rooms
-                            </button>
                         </div>
                     </div>
                 </div>
