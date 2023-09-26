@@ -93,8 +93,7 @@
             var requestData = 'period=' + selectedPeriod;
             xhr.send(requestData);
         }
-
-
+        //subject pull in csv
         function displaySubjects(subjects) {
             var table =
                 '<table class="table"><thead class="thead-light"><tr><th style="vertical-align: middle;"><label class="customcheckbox"><input type="checkbox" id="mainCheckbox" onclick="selectAllSubjects()"><span class="checkmark"></span></label></th><th>Course Title</th><th>Program</th><th>Year</th><th>Serial</th></tr></thead><tbody>';
@@ -164,7 +163,7 @@
                 }
             });
         }
-
+        //additional Info
         function fetchAdditionalInfo(selectedSubjects) {
             // Create an array to store the selected subject names
             var selectedSubjectNames = selectedSubjects.map(function(subject) {
@@ -194,7 +193,7 @@
         }
 
 
-
+        
         function displaySubjectsAndAdditionalInfo(selectedSubjects, additionalInfo) {
             var subroomDiv = document.getElementById('Sub');
             var ul = document.createElement('ul');
@@ -246,9 +245,6 @@
             addSubjects();
         });
 
-
-
-
         // Add an event listener to all checkboxes with the class 'listCheckbox1'
         var checkboxes = document.getElementsByClassName('listCheckbox1');
         for (var i = 0; i < checkboxes.length; i++) {
@@ -256,7 +252,7 @@
             addRooms(); // Trigger addRooms when a checkbox is checked or unchecked
         });
         }
-
+        //Rooms pull
         //globalVariable
         var GlobalRooms = [];
         function addRooms() {
@@ -301,10 +297,11 @@
 
         //timeFunction
         //global var of time
-        var timePeriods = [];
+        var GlobalTime;
         function addExaminationPeriod() {
-            // Create an array to store the time periods
-            
+    
+            var timePeriods = [];
+            GlobalTime = timePeriods;
 
             var timePicker = document.getElementById('time-picker');
             var selectedTime = timePicker.value;
@@ -313,18 +310,31 @@
             var [startHours, startMinutes] = selectedTime.split(':').map(Number);
             startTime.setHours(startHours, startMinutes, 0);
 
-            // Ending time is 5pm
+            //end time
             var endTime = new Date();
-            endTime.setHours(17, 0, 0);
+            endTime.setHours(19, 0, 0);
 
-            var interval = 75; // 1 hour and 15 minutes in minutes
+            var interval = 75; 
 
-            // Display in table named gentab
+            
             var table = document.getElementById('gentab');
 
             table.innerHTML = '';
+            
 
             while (startTime <= endTime && getEndTime(startTime, interval) <= endTime) {
+                // Check if the current start time is 12:00 PM
+                if (startTime.getHours() >= 12 && startTime.getMinutes() <= 59) {
+                    // Add the 30-minute break
+                    var breakEndTime = new Date(startTime.getTime() + 30 * 60000);
+                    var breakTimePeriod = formatTime(startTime) + ' - ' + formatTime(breakEndTime);
+                    //timePeriods.push(breakTimePeriod);
+                    
+                    // Update the startTime to be the end of the break
+                    startTime = breakEndTime;
+                    
+                }
+                
                 var newTable = document.createElement('table');
                 newTable.className = 'table';
 
@@ -342,14 +352,14 @@
                         <th scope="col">INSTRUCTOR</th>
                         <th scope="col"># OF STUDENTS</th>
                     </tr>
-                    `;
+                `;
 
                 var tbody = document.createElement('tbody');
                 var tbodyRow = document.createElement('tr');
                 var timePeriod = formatTime(startTime) + ' - ' + formatTime(getEndTime(startTime, interval));
                 timePeriods.push(timePeriod); // Push the time period string to the array
                 tbodyRow.innerHTML = `
-                <td headers="time">${timePeriod}</td>
+                    <td headers="time">${timePeriod}</td>
                 `;
                 tbody.appendChild(tbodyRow);
 
@@ -357,6 +367,8 @@
                 newTable.appendChild(tbody);
 
                 table.appendChild(newTable);
+
+
 
                 startTime = new Date(startTime.getTime() + interval * 60000);
             }
@@ -371,15 +383,13 @@
                 return hours + ':' + minutes + ' ' + amPm;
             }
 
-
             function getEndTime(startTime, interval) {
                 return new Date(startTime.getTime() + interval * 60000);
-
             }
             //console.log(timePeriods);
-            //generateExam(timePeriods);
-
+            
         }
+
 
         
         //global var
@@ -440,7 +450,7 @@
 
         function generateExam() {
              console.log('Rooms:', GlobalRooms);
-            // console.log('Periods:', timePeriods);
+             console.log('Periods:', GlobalTime);
             // console.log('Subject:', selectedSubjectNames1);
             // console.log('Sections:', Sections);
             // console.log('Class Numbers:', ClassNumbers);
@@ -453,8 +463,8 @@
             var timeSlotRooms = [];
 
             
-            for (var i = 0; i < timePeriods.length; i++) {
-                var timePeriod = timePeriods[i];
+            for (var i = 0; i < GlobalTime.length; i++) {
+                var timePeriod = GlobalTime[i];
 
                 var timeSlot = {
 
@@ -465,6 +475,7 @@
             }
             console.log('Time Slots with Rooms:', timeSlotRooms);
         }
+
 
        
     </script>
