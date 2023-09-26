@@ -449,8 +449,13 @@
         
 
         function generateExam() {
+<<<<<<< HEAD
              console.log('Rooms:', GlobalRooms);
              console.log('Periods:', GlobalTime);
+=======
+            // console.log('Rooms:', GlobalRooms);
+            // console.log('Periods:', timePeriods);
+>>>>>>> 782e8498e3ac98ccc9f74cfb431118e5c0ac43bc
             // console.log('Subject:', selectedSubjectNames1);
             // console.log('Sections:', Sections);
             // console.log('Class Numbers:', ClassNumbers);
