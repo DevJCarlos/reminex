@@ -179,8 +179,7 @@
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
                         var additionalInfo = JSON.parse(xhr.responseText);
-                        // Display selected subjects and additional info
-
+                        
                         displaySubjectsAndAdditionalInfo(selectedSubjects, additionalInfo);
                     } else {
                         console.error('Error: ' + xhr.status);
@@ -188,7 +187,7 @@
                 }
             };
 
-
+            
             xhr.send(JSON.stringify(selectedSubjectNames));
         }
 
@@ -234,8 +233,8 @@
 
                 ul.appendChild(li);
             }
-
-            // Clear the existing content of Subroom before adding the updated list
+            //console.log('new', subjectsArray);
+            
             subroomDiv.innerHTML = '';
             subroomDiv.appendChild(ul);
         }
@@ -253,7 +252,7 @@
         });
         }
         //Rooms pull
-        //globalVariable
+        //global var for rooms
         var GlobalRooms = [];
         function addRooms() {
             var checkboxes = document.getElementsByClassName('listCheckbox1');
@@ -296,7 +295,7 @@
         }
 
         //timeFunction
-        //global var of time
+        //global var for time
         var GlobalTime;
         function addExaminationPeriod() {
     
@@ -390,8 +389,6 @@
             
         }
 
-
-        
         //global var
         var Sections = [];
         var ClassNumbers = [];
@@ -445,43 +442,72 @@
             xhr.send(JSON.stringify(selectedSubjectNames1));
             //console.log(selectedSubjectNames1);
         }
-
-        
+        function shuffleArray(array) {
+        // Function to shuffle an array randomly
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
 
         function generateExam() {
-<<<<<<< HEAD
-             console.log('Rooms:', GlobalRooms);
-             console.log('Periods:', GlobalTime);
-=======
-            // console.log('Rooms:', GlobalRooms);
-            // console.log('Periods:', timePeriods);
->>>>>>> 782e8498e3ac98ccc9f74cfb431118e5c0ac43bc
-            // console.log('Subject:', selectedSubjectNames1);
-            // console.log('Sections:', Sections);
-            // console.log('Class Numbers:', ClassNumbers);
-            // console.log('Instructors:', Instructors);
-            // console.log('Student Count:', StudentCount);
+         
 
-            // Set the data types
-            const maxRoomCapacity = 50;
-            const maxSubjectInsert = 15;
-            var timeSlotRooms = [];
+            //console.log('Rooms:', GlobalRooms);
+            //console.log('Periods:', GlobalTime);
 
+            //console.log('Subject:', selectedSubjectNames1);
+            //console.log('Sections:', Sections);
+            //console.log('Class Numbers:', ClassNumbers);
+            //console.log('Instructors:', Instructors);
+            //console.log('Student Count:', StudentCount);
             
-            for (var i = 0; i < GlobalTime.length; i++) {
-                var timePeriod = GlobalTime[i];
+            // Set the data types
+
+
+            const maxRoomCapacity = 50;
+            const maxSubjectInsert = 20;
+            var timeSlotRooms = [];
+            var SubProperty = [];
+            
+
+            // for (var b = 0; b < selectedSubjectNames1; b++){
+
+            // }
+
+            for (var subjectName in Sections) {
+                if (Sections.hasOwnProperty(subjectName)) {
+                    var sectionData = Sections[subjectName];
+                    var ClassNumbersData = ClassNumbers[subjectName];
+                    var InstructorsData = Instructors[subjectName];
+                    var StudentCountData = StudentCount[subjectName];
+                    // Include subjectName, sectionData, ClassNumbers, Instructors, and StudentCount in the array
+                    SubProperty.push({
+                        subjectName: subjectName,
+                        sectionData: sectionData,
+                        ClassNumbers:  ClassNumbersData, // Assuming ClassNumbers is a property of sectionData
+                        Instructors: InstructorsData,   // Assuming Instructors is a property of sectionData
+                        StudentCount: StudentCountData // Assuming StudentCount is a property of sectionData
+                    });
+                }
+            }
+
+            console.log('Subject Properties:', SubProperty);
+
+
+            //shuffleArray(selectedSubjectNames1);
+            for (var a = 0; a < GlobalTime.length; a++) {
+                var timePeriod = GlobalTime[a];
+                // Pop subjects from the shuffled array and insert them into the time slots
+                //var subjectsForTimeSlot = selectedSubjectNames1.splice(0, maxSubjectInsert);
 
                 var timeSlot = {
-
                     timeSlot: timePeriod,
-                    rooms: GlobalRooms 
+                    rooms: GlobalRooms,
                 };
                 timeSlotRooms.push(timeSlot);
             }
-            console.log('Time Slots with Rooms:', timeSlotRooms);
+            console.log('TimeSlots with Rooms', timeSlotRooms);
         }
-
-
-       
     </script>
 @endsection
