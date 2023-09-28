@@ -481,33 +481,34 @@
                     var ClassNumbersData = ClassNumbers[subjectName];
                     var InstructorsData = Instructors[subjectName];
                     var StudentCountData = StudentCount[subjectName];
-                    // Include subjectName, sectionData, ClassNumbers, Instructors, and StudentCount in the array
+                  
                     SubProperty.push({
                         subjectName: subjectName,
                         sectionData: sectionData,
-                        ClassNumbers:  ClassNumbersData, // Assuming ClassNumbers is a property of sectionData
-                        Instructors: InstructorsData,   // Assuming Instructors is a property of sectionData
-                        StudentCount: StudentCountData // Assuming StudentCount is a property of sectionData
+                        ClassNumbers:  ClassNumbersData, 
+                        Instructors: InstructorsData,   
+                        StudentCount: StudentCountData 
                     });
                 }
             }
 
-            console.log('Subject Properties:', SubProperty);
+            console.log('Subject Property',SubProperty);
 
 
             //shuffleArray(selectedSubjectNames1);
             for (var a = 0; a < GlobalTime.length; a++) {
                 var timePeriod = GlobalTime[a];
-                // Pop subjects from the shuffled array and insert them into the time slots
-                //var subjectsForTimeSlot = selectedSubjectNames1.splice(0, maxSubjectInsert);
 
-                var timeSlot = {
-                    timeSlot: timePeriod,
-                    rooms: GlobalRooms,
-                };
-                timeSlotRooms.push(timeSlot);
+                // Create an object with a property for the time slot and a property for the room array
+                var timeSlotObj = {};
+                timeSlotObj[timePeriod] = GlobalRooms;
+
+                // Push the time slot object into the timeSlotRooms array
+                timeSlotRooms.push(timeSlotObj);
             }
+
             console.log('TimeSlots with Rooms', timeSlotRooms);
+
         }
     </script>
 @endsection
