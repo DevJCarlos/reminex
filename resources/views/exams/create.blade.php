@@ -496,18 +496,71 @@
 
 
             //shuffleArray(selectedSubjectNames1);
-            for (var a = 0; a < GlobalTime.length; a++) {
-                var timePeriod = GlobalTime[a];
-
-                // Create an object with a property for the time slot and a property for the room array
-                var timeSlotObj = {};
-                timeSlotObj[timePeriod] = GlobalRooms;
-
-                // Push the time slot object into the timeSlotRooms array
-                timeSlotRooms.push(timeSlotObj);
+            for (var i = 0; i < GlobalTime.length; i++) {
+                var timePeriod = GlobalTime[i];
+                var timeSlot = {
+                    timeSlot: timePeriod,
+                    rooms: GlobalRooms 
+                };
+                timeSlotRooms.push(timeSlot);
             }
 
             console.log('TimeSlots with Rooms', timeSlotRooms);
+
+            var examSchedule = [];
+            var allRoomsUsed = false;
+
+            for (var i = 0; i < timeSlotRooms.length; i++) {
+                var timeSlot = timeSlotRooms[i];
+
+                // Initialize an array to store subjects for this time slot
+                var subjectsForTimeSlot = [];
+                var availableRooms = [...timeSlot.rooms]; // Create a copy of available rooms for this time slot
+
+                // Iterate through each subject
+                for (var j = 0; j < SubProperty.length; j++) {
+                    var subject = SubProperty[j];
+                    var sectionData = subject.sectionData;
+
+                    // Check if there are available rooms for this time slot
+                    if (Array.isArray(timeSlot.rooms) && sectionData.length <= availableRooms.length) {
+                        // There are enough rooms, add the subject to this time slot
+                        subjectsForTimeSlot.push(subject);
+
+                        // Remove the assigned subject from the SubProperty array
+                        SubProperty.splice(j, 1);
+
+                        // Remove the used rooms from available rooms
+                        availableRooms.splice(0, sectionData.length);
+
+                        // Decrement the loop variable j as we modified the SubProperty array
+                        j--;
+                    }
+                }
+
+                // Add the time slot and its subjects to the exam schedule
+                examSchedule.push({
+                    timeSlot: timeSlot.timeSlot,
+                    subjects: subjectsForTimeSlot,
+                    //room: timeSlot.rooms,
+                });
+
+                // Check if all rooms are used
+                if (SubProperty.length === 0) {
+                    allRoomsUsed = true;
+                    break;
+                }
+            }
+
+            // Print the generated exam schedule
+            console.log('Generated Exam Schedule:', examSchedule);
+
+            // Alert if there are subjects with no available rooms
+            if (!allRoomsUsed) {
+                alert('Some subjects could not be inserted due to insufficient rooms in all time slots.');
+            }
+
+
 
         }
     </script>
