@@ -124,7 +124,8 @@
                 checkboxes[i].checked = mainCheckbox.checked;
             }
         }
-
+        //global var for sub and prog
+        var SubjectsProgram = [];
         function addSubjects() {
             var container = document.getElementById('subjects');
             var selectedSubjects = [];
@@ -156,6 +157,12 @@
                             selectedSubjects.splice(index, 1);
                         }
                     }
+                    SubjectsProgram.push({
+                    SubjectName: subject.subject,
+                    Program: subject.program
+                    });
+                    
+                    //console.log(subjectsArray1);
 
                     fetchAdditionalInfo(selectedSubjects);
                     displayfromgentable(selectedSubjects);
@@ -193,6 +200,7 @@
 
 
         
+        
         function displaySubjectsAndAdditionalInfo(selectedSubjects, additionalInfo) {
             var subroomDiv = document.getElementById('Sub');
             var ul = document.createElement('ul');
@@ -215,11 +223,14 @@
                     '<br><strong>Serial:</strong>' +
                     subject.serial;
 
+                    
+
                 // Check if additionalInfo is available and has info for this subject
                 if (additionalInfo && additionalInfo[subject.subject]) {
                     var info = additionalInfo[subject.subject];
                     li.innerHTML += info; // Append the additional information
-
+                    
+                    // console.log('subject.program', subprog);
                     // Add the information to the array
                     subjectsArray.push({
                         subject: subject.subject,
@@ -228,8 +239,8 @@
                         serial: subject.serial,
                         additionalInfo: info,
                     });
-                }
 
+                }
 
                 ul.appendChild(li);
             }
@@ -400,6 +411,7 @@
             selectedSubjectNames1 = selectedSubjects.map(function(subject) {
                 return subject.subject;
             });
+            
 
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '{{ route('displaygentab') }}', true);
@@ -417,7 +429,8 @@
                     Instructors[subjectName] = [];
                     StudentCount[subjectName] = [];
                     });
-
+                   
+             
                     
                     Object.keys(response.sections).forEach(function(subjectName) {
                     if (selectedSubjectNames1.includes(subjectName)) {
@@ -427,12 +440,13 @@
                         StudentCount[subjectName] = response.numOfStudents[subjectName];
                     }
                     });
+                    
 
                     
                     //console.log('Sections:', Sections);
                     //console.log('Class Numbers:', ClassNumbers);
-                    //console.log('Instructors:', Instructors);
-                    //console.log('Student Count:', StudentCount);
+                    // console.log('Instructors:', Instructors);
+                    // console.log('Student Count:', StudentCount);
                 } else {
                     console.error('Error: ' + xhr.status);
                 }
@@ -451,36 +465,20 @@
         }
 
         function generateExam() {
-         
-
-            //console.log('Rooms:', GlobalRooms);
-            //console.log('Periods:', GlobalTime);
-
-            //console.log('Subject:', selectedSubjectNames1);
-            //console.log('Sections:', Sections);
-            //console.log('Class Numbers:', ClassNumbers);
-            //console.log('Instructors:', Instructors);
-            //console.log('Student Count:', StudentCount);
-            
-            // Set the data types
-
 
             const maxRoomCapacity = 50;
             const maxSubjectInsert = 20;
             var timeSlotRooms = [];
             var SubProperty = [];
+            var ClassNumbersArray = [];
             
-
-            // for (var b = 0; b < selectedSubjectNames1; b++){
-
-            // }
 
             for (var subjectName in Sections) {
                 if (Sections.hasOwnProperty(subjectName)) {
                     var sectionData = Sections[subjectName];
                     var ClassNumbersData = ClassNumbers[subjectName];
                     var InstructorsData = Instructors[subjectName];
-                    var StudentCountData = StudentCount[subjectName];
+                    var StudentCountData = StudentCount[subjectName].map(Number);//str to int 
                   
                     SubProperty.push({
                         subjectName: subjectName,
@@ -489,13 +487,13 @@
                         Instructors: InstructorsData,   
                         StudentCount: StudentCountData 
                     });
+                    console.log(subjectName);
+                    
                 }
             }
-
             console.log('Subject Property',SubProperty);
+            
 
-
-            //shuffleArray(selectedSubjectNames1);
             for (var i = 0; i < GlobalTime.length; i++) {
                 var timePeriod = GlobalTime[i];
                 var timeSlot = {
@@ -507,61 +505,115 @@
 
             console.log('TimeSlots with Rooms', timeSlotRooms);
 
+            //filtering rooms in every timeslot
             var examSchedule = [];
             var allRoomsUsed = false;
+            
 
             for (var i = 0; i < timeSlotRooms.length; i++) {
                 var timeSlot = timeSlotRooms[i];
 
-                // Initialize an array to store subjects for this time slot
+                
                 var subjectsForTimeSlot = [];
-                var availableRooms = [...timeSlot.rooms]; // Create a copy of available rooms for this time slot
+                var UsedRooms = [];
+                var availableRooms = [...timeSlot.rooms];
 
                 // Iterate through each subject
                 for (var j = 0; j < SubProperty.length; j++) {
                     var subject = SubProperty[j];
+                    
                     var sectionData = subject.sectionData;
-
-                    // Check if there are available rooms for this time slot
+                    
                     if (Array.isArray(timeSlot.rooms) && sectionData.length <= availableRooms.length) {
-                        // There are enough rooms, add the subject to this time slot
+                        
                         subjectsForTimeSlot.push(subject);
-
-                        // Remove the assigned subject from the SubProperty array
                         SubProperty.splice(j, 1);
 
-                        // Remove the used rooms from available rooms
-                        availableRooms.splice(0, sectionData.length);
-
-                        // Decrement the loop variable j as we modified the SubProperty array
+                        
+                        UsedRooms.push(availableRooms.splice(0, sectionData.length));
+                        
                         j--;
                     }
                 }
 
-                // Add the time slot and its subjects to the exam schedule
                 examSchedule.push({
-                    timeSlot: timeSlot.timeSlot,
+                    time: timeSlot.timeSlot,
                     subjects: subjectsForTimeSlot,
-                    //room: timeSlot.rooms,
+                    room: UsedRooms,
+                    //combined: combinedData
                 });
-
-                // Check if all rooms are used
+               
                 if (SubProperty.length === 0) {
                     allRoomsUsed = true;
                     break;
                 }
             }
 
-            // Print the generated exam schedule
-            console.log('Generated Exam Schedule:', examSchedule);
-
-            // Alert if there are subjects with no available rooms
             if (!allRoomsUsed) {
                 alert('Some subjects could not be inserted due to insufficient rooms in all time slots.');
             }
+            console.log('Generated Exam Schedule:', examSchedule);
 
+            //merging Section
+           
+            
+            var sortSchedule = JSON.parse(JSON.stringify(examSchedule));
+            sortSchedule.forEach((timeSlot) => {
+                var mergedData = [];
+                var currentMergedStudentCount = 0;
+                var currentMergedSectionData = [];
+                var currentMergedInstructors = [];
+                var currentMergedClassNumbers = [];
+
+                timeSlot.subjects.forEach((subject) => {
+                    subject.StudentCount.sort((a, b) => a - b);
+                    //console.log('check',subject.StudentCount);
+                    var SubwithProg = [...SubjectsProgram];
+                    if (subject.StudentCount) {
+                        subject.StudentCount.forEach((count, index) => {
+                            currentMergedStudentCount += count;
+                                currentMergedSectionData.push(subject.sectionData[index].trim());
+                                currentMergedInstructors.push(subject.Instructors[index].trim());
+                                currentMergedClassNumbers.push(subject.ClassNumbers[index].trim());
+                            
+                            if (currentMergedStudentCount + count >= 50) {
+                                
+                                    // Push the current merged data to the mergedData array
+                                mergedData.push({
+                                    Subject: SubwithProg,
+                                    StudentCount: currentMergedStudentCount,
+                                    SectionData: currentMergedSectionData.join(', '),
+                                    ClassCode: currentMergedClassNumbers.join(', '),
+                                    Instructors: currentMergedInstructors.join(', '), // Join the SectionData with a comma
+                                });
+
+                                //     // Reset counters
+                                currentMergedStudentCount = 0;
+                                currentMergedSectionData = [];
+                                currentMergedInstructors = [];
+                                currentMergedClassNumbers = [];
+                            }
+                             
+                        });
+                    }
+                });
+                if (currentMergedSectionData.length > 0) {
+                    mergedData.push({
+                        StudentCount: currentMergedStudentCount,
+                        SectionData: currentMergedSectionData.join(', '),
+                        ClassCode: currentMergedClassNumbers.join(', '),
+                        Instructors: currentMergedInstructors.join(', '), // Join the Instructors with a comma
+                    });
+                }
+
+                timeSlot.subject = mergedData;
+            });
+
+            console.log('Merged Data:', sortSchedule);
 
 
         }
+
+        
     </script>
 @endsection
