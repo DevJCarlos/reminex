@@ -558,6 +558,7 @@
            
             
             var sortSchedule = JSON.parse(JSON.stringify(examSchedule));
+
             sortSchedule.forEach((timeSlot) => {
                 var mergedData = [];
                 var currentMergedStudentCount = 0;
@@ -567,46 +568,50 @@
 
                 timeSlot.subjects.forEach((subject) => {
                     subject.StudentCount.sort((a, b) => a - b);
-                    //console.log('check',subject.StudentCount);
-                    var SubwithProg = [...SubjectsProgram];
+
                     if (subject.StudentCount) {
                         subject.StudentCount.forEach((count, index) => {
-                            currentMergedStudentCount += count;
+                            
+                            // Check if adding the current count exceeds 50
+                            if (currentMergedStudentCount + count <= 50) {
+                                currentMergedStudentCount += count;
+                                
                                 currentMergedSectionData.push(subject.sectionData[index].trim());
                                 currentMergedInstructors.push(subject.Instructors[index].trim());
                                 currentMergedClassNumbers.push(subject.ClassNumbers[index].trim());
-                            
-                            if (currentMergedStudentCount + count >= 50) {
-                                
-                                    // Push the current merged data to the mergedData array
+                            } else {
+                                // If it exceeds 50, don't add the current count, and push the current merged data
                                 mergedData.push({
-                                    Subject: SubwithProg,
+                                    // Subject: SubjectsProgram,
                                     StudentCount: currentMergedStudentCount,
                                     SectionData: currentMergedSectionData.join(', '),
                                     ClassCode: currentMergedClassNumbers.join(', '),
-                                    Instructors: currentMergedInstructors.join(', '), // Join the SectionData with a comma
+                                    Instructors: currentMergedInstructors.join(', '),
                                 });
 
-                                //     // Reset counters
-                                currentMergedStudentCount = 0;
-                                currentMergedSectionData = [];
-                                currentMergedInstructors = [];
-                                currentMergedClassNumbers = [];
+                                // Reset counters and start a new group
+                                currentMergedStudentCount = count;
+                                
+                                currentMergedSectionData = [subject.sectionData[index].trim()];
+                                currentMergedInstructors = [subject.Instructors[index].trim()];
+                                currentMergedClassNumbers = [subject.ClassNumbers[index].trim()];
                             }
-                             
                         });
                     }
                 });
-                if (currentMergedSectionData.length > 0) {
+
+                // Push the last group of merged data (if any)
+                if (currentMergedStudentCount > 0) {
                     mergedData.push({
                         StudentCount: currentMergedStudentCount,
                         SectionData: currentMergedSectionData.join(', '),
                         ClassCode: currentMergedClassNumbers.join(', '),
-                        Instructors: currentMergedInstructors.join(', '), // Join the Instructors with a comma
+                        Instructors: currentMergedInstructors.join(', '),
                     });
                 }
 
                 timeSlot.subject = mergedData;
+                timeSlot.subjectprogram = SubjectsProgram;
             });
 
             console.log('Merged Data:', sortSchedule);
