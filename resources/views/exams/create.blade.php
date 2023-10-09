@@ -23,6 +23,9 @@
 @section('scripts')
     
     <script>
+        
+
+
         //accordion functions
         document.addEventListener("DOMContentLoaded", function() {
             const accordionItems = document.querySelectorAll(".accordion-item");

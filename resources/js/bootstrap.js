@@ -2,6 +2,7 @@ import Popper from '@popperjs/core/dist/umd/popper.js';
 import jQuery from 'jquery';
 import axios from 'axios';
 import 'bootstrap';
+import 'datatables.net-bs4';
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -42,8 +43,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
 //     enabledTransports: ['ws', 'wss'],
 // });
-window.$ = window.jQuery = require('jquery');
-require('bootstrap');
 
-require('datatables.net-bs4');
+
+
+
 
