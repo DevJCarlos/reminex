@@ -255,13 +255,27 @@
             addSubjects();
         });
 
-        // Add an event listener to all checkboxes with the class 'listCheckbox1'
+        
+        //checbox function for rooms
+        document.getElementById('selectAllRooms').addEventListener('change', function () {
+            var checkboxes = document.querySelectorAll('.listCheckbox1');
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = this.checked;
+            }
+            addRooms();
+        });
+
         var checkboxes = document.getElementsByClassName('listCheckbox1');
         for (var i = 0; i < checkboxes.length; i++) {
-        checkboxes[i].addEventListener('change', function() {
-            addRooms(); // Trigger addRooms when a checkbox is checked or unchecked
-        });
+            checkboxes[i].addEventListener('change', function () {
+                addRooms();
+            });
         }
+
+        function addRooms() {
+            // Your logic to handle the selected rooms goes here
+        }
+
         //Rooms pull
         //global var for rooms
         var GlobalRooms = [];
@@ -565,6 +579,8 @@
                 var currentMergedSectionData = [];
                 var currentMergedInstructors = [];
                 var currentMergedClassNumbers = [];
+                var currentMergedSubject = [];
+
 
                 timeSlot.subjects.forEach((subject) => {
                     subject.StudentCount.sort((a, b) => a - b);
@@ -575,14 +591,16 @@
                             // Check if adding the current count exceeds 50
                             if (currentMergedStudentCount + count <= 50) {
                                 currentMergedStudentCount += count;
+
+                                currentMergedSubject.push(subject.subjectName);
+                                currentMergedSectionData.push(subject.sectionData[index]);
+                                currentMergedInstructors.push(subject.Instructors[index]);
+                                currentMergedClassNumbers.push(subject.ClassNumbers[index]);
                                 
-                                currentMergedSectionData.push(subject.sectionData[index].trim());
-                                currentMergedInstructors.push(subject.Instructors[index].trim());
-                                currentMergedClassNumbers.push(subject.ClassNumbers[index].trim());
                             } else {
                                 // If it exceeds 50, don't add the current count, and push the current merged data
                                 mergedData.push({
-                                    // Subject: SubjectsProgram,
+                                    Subject: currentMergedSubject.join(', '),
                                     StudentCount: currentMergedStudentCount,
                                     SectionData: currentMergedSectionData.join(', '),
                                     ClassCode: currentMergedClassNumbers.join(', '),
@@ -591,10 +609,10 @@
 
                                 // Reset counters and start a new group
                                 currentMergedStudentCount = count;
-                                
-                                currentMergedSectionData = [subject.sectionData[index].trim()];
-                                currentMergedInstructors = [subject.Instructors[index].trim()];
-                                currentMergedClassNumbers = [subject.ClassNumbers[index].trim()];
+                                currentMergedSubject = [subject.subjectName];
+                                currentMergedSectionData = [subject.sectionData[index]];
+                                currentMergedInstructors = [subject.Instructors[index]];
+                                currentMergedClassNumbers = [subject.ClassNumbers[index]];
                             }
                         });
                     }
@@ -603,6 +621,7 @@
                 // Push the last group of merged data (if any)
                 if (currentMergedStudentCount > 0) {
                     mergedData.push({
+                        Subject: currentMergedSubject.join(', '),
                         StudentCount: currentMergedStudentCount,
                         SectionData: currentMergedSectionData.join(', '),
                         ClassCode: currentMergedClassNumbers.join(', '),
@@ -611,7 +630,7 @@
                 }
 
                 timeSlot.subject = mergedData;
-                timeSlot.subjectprogram = SubjectsProgram;
+                //timeSlot.subjectprogram = SubjectsProgram;
             });
 
             console.log('Merged Data:', sortSchedule);

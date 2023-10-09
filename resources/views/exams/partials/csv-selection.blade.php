@@ -80,14 +80,24 @@
                     <div class="border-top">
                         <div class="card-body">
                             <h3 class="card-title">Selection of Rooms</h3>
+                            <br>
                             <ul class="room-list">
+                                <!-- "Select All" checkbox -->
+                                <li class="room-item">
+                                    <label class="customcheckbox">
+                                        <input type="checkbox" id="selectAllRooms">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <span class="room-name">Select All</span>
+                                </li>
+
+                                <!-- Room checkboxes -->
                                 @foreach ($rooms as $room)
                                     <li class="room-item">
                                         <label class="customcheckbox">
                                             <input type="checkbox" class="listCheckbox1">
                                             <span class="checkmark"></span>
                                         </label>
-
                                         <span class="room-name">{{ $room->room_name }}</span>
                                     </li>
                                 @endforeach
