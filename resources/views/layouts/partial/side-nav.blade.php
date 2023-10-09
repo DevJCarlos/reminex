@@ -34,7 +34,7 @@
                     <i class="align-middle" data-feather="eye"></i> <span class="align-middle">View Requests</span>
                 </a>
             </li>
-
+            
             <li class="sidebar-header">
                 Upshots
             </li>
