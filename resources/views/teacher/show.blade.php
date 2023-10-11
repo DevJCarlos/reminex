@@ -57,6 +57,12 @@
 						</a>
 					</li>
 
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="requestarchive.html">
+							<i class="align-middle" data-feather="hard-drive"></i> <span class="align-middle">Requests Archive</span>
+						</a>
+					</li>
+
 				</ul>
 			</div>
 		</nav>

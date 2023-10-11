@@ -17,7 +17,6 @@
 	<title>Reminex Faculty</title>
 
 	<link href="css/app.css" rel="stylesheet">
-	<link href="css/collapse.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
@@ -39,7 +38,7 @@
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="index.html">
 							<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
-							</a>
+						</a>
 					</li>
 
 					<li class="sidebar-item">
@@ -52,18 +51,17 @@
 						Request
 					</li>
 
-					<li class="sidebar-item active">
+					<li class="sidebar-item">
 						<a class="sidebar-link" href="managenewsched.html">
 							<i class="align-middle" data-feather="edit-3"></i> <span class="align-middle">Manage New Schedule</span>
 						</a>
 					</li>
 
-					<li class="sidebar-item">
+					<li class="sidebar-item active">
 						<a class="sidebar-link" href="requestarchive.html">
 							<i class="align-middle" data-feather="hard-drive"></i> <span class="align-middle">Requests Archive</span>
 						</a>
 					</li>
-
 
 				</ul>
 			</div>
@@ -168,14 +166,15 @@
 			<main class="content">
 				<div class="container-fluid p-0">
 
-					<h1 class="h3 mb-3">Manage<strong> New Schedule</strong></h1>
+					<h1 class="h3 mb-3">Requests <strong>Archive</strong></h1>
 
 					<div class="row">
-						<div class="col-12 col-lg-6">
+						<div class="col-7">
 							<div class="card">
-								<div class="card-body">					
-									<label for="request"><strong>Your Student Requests </strong></label><br><br>
-									<form action="#" method="#">
+								<div class="card-header">
+									<h5 class="card-title mb-0">Archive is empty.</h5><br>
+
+										<form action="#" method="#">
 											<button type="button" class="collapsible">Basan, Gian Rogel Y. <span class="badge bg-success">OK</span></button>
 												<div class="content2"><br>
 													<label for="request"><strong>Date and Time: &nbsp;</strong></label><label for="request"> 10/10/2023 01:30 PM</label><br>
@@ -185,39 +184,10 @@
 													<label for="request"><strong>Time Availability:  &nbsp;</strong></label><label for="request"> 10:00 AM - 12:00 PM</label><br><br>
 													<input type="submit" class="btn btn-warning btn-lg" id="createSched" value="Create New Schedule"><br><br>
 												</div>
-									</form>
-									<form action="#" method="#">
-											<button type="button" class="collapsible">Degamo, Maedy Luna E.</button>
-												<div class="content2"><br>
-													<label for="request"><strong>Date and Time: &nbsp;</strong></label><label for="request"> 10/10/2023 01:30 PM</label><br>
-													<label for="request"><strong>Request Type: &nbsp;</strong></label><label for="request" id="studName"> Reschedule Request</label><br>
-													<label for="request"><strong>Subject to Take:  &nbsp;</strong></label><label for="request"> Event-Driven Programming</label><br>
-													<label for="request"><strong>Instructor:  &nbsp;</strong></label><label for="request"> Mr. Elbert Gumban</label><br>
-													<label for="request"><strong>Time Availability:  &nbsp;</strong></label><label for="request"> 10:00 AM - 12:00 PM</label><br><br>
-													<input type="submit" class="btn btn-warning btn-lg" id="createSched" value="Create New Schedule"><br><br>
-												</div>
-									</form>
+										</form>
 								</div>
 							</div>
-						</div>
-						<div class="col-12 col-lg-6">
-							<div class="card">
-								<div class="card-body">
-									<form action="#" method="#">
-										<label for="request"><h1 class="h3 d-inline align-middle">New Schedule</h1></label><br><br>
-													<label for="request"><strong>Name: &nbsp;</strong></label><label for="request"> </label><br>
-													<label for="request"><strong>Subject to Take:  &nbsp;</strong></label><label for="request"> </label><br>
-													<label for="request"><strong>Instructor:  &nbsp;</strong></label><label for="request"> </label><br>
-													<label for="request"><strong>Exam Day Schedule:  &nbsp;</strong></label><br>
-													<input type="text" class="form-control" placeholder="Ex. September 9, 2023"><br>
-													<label for="request"><strong>Exam Time Schedule:  &nbsp;</strong></label><br>
-													<input type="text" class="form-control" placeholder="Ex. 10:00 AM - 11:00 AM"><br>
-													<input type="submit" class="btn btn-warning btn-lg" id="createSched" value="Submit Schedule"><br><br>
-												</div>
-									</form>
-								</div>
-							</div>
-						</div>				
+						</div>					
 					</div>
 
 				</div>
@@ -254,7 +224,6 @@
 	</div>
 
 	<script src="js/app.js"></script>
-	<script src="js/collapse.js"></script>
 
 	
 
