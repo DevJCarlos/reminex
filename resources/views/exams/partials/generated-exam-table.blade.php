@@ -15,21 +15,14 @@
                     <th >Class Count</th>
                 </thead>
                 <tr>
-                    <td rowspan = "40">7:30 am - 8:45 am</td>
-                    <td rowspan = "40">Ethics</td>
+                    <td>no data</td>
+                    <td>no data</td>
                     <td>no data</td>
                     <td>no data</td>
                     <td>no data</td>
                     <td>no data</td>
                     <td>no data</td>
                     
-                </tr>
-                <tr>
-                    <td>no data</td>
-                    <td>no data</td>
-                    <td>no data</td>
-                    <td>no data</td>
-                    <td>no data</td>
                 </tr>
             </table>
         </div>

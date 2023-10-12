@@ -342,12 +342,6 @@
             }
             
         };
- 
-
-        
-            
-
-
         //global var
         var Sections = [];
         var ClassNumbers = [];
@@ -419,9 +413,6 @@
 
 
         function generateExam() {
-
-            const maxRoomCapacity = 50;
-            const maxSubjectInsert = 20;
             var timeSlotRooms = [];
             var SubProperty = [];
             var ClassNumbersArray = [];
@@ -445,9 +436,6 @@
                     
                 }
             }
-            
-            
-
             for (var i = 0; i < GlobalTime.length; i++) {
                 var timePeriod = GlobalTime[i];
                 var timeSlot = {
@@ -460,12 +448,8 @@
             //console.log('TimeSlots with Rooms', timeSlotRooms)
             var examSchedule = [];
             var allRoomsUsed = false;
-            
-
             for (var i = 0; i < timeSlotRooms.length; i++) {
                 var timeSlot = timeSlotRooms[i];
-
-                
                 var subjectsForTimeSlot = [];
                 var UsedRooms = [];
                 var availableRooms = [...timeSlot.rooms];
@@ -642,43 +626,50 @@
             });
 
             console.log('Updated sortSchedule:', sortSchedule);
+            
+            const tableBody = document.getElementById('gentab');
 
-            sortSchedule = finalSchedule;
-        }
+            sortSchedule.forEach((timeSlot) => {
+    // Create a new row for each time slot
+            const row = document.createElement('tr');
 
-        var finalSchedule;
-        
-        function displayGenerate() {
-            const tableBody = document.getElementById('schedule-table-body');
+            // Add the time data
+            const timeCell = document.createElement('td');
+            timeCell.textContent = timeSlot.time;
+            row.appendChild(timeCell);
 
-            finalSchedule.forEach((timeSlot) => {
-                const row = document.createElement('tr');
-                
-                const timeCell = document.createElement('td');
-                timeCell.textContent = timeSlot.time;
-                row.appendChild(timeCell);
+            // Add the room data
+           
 
-                const roomCell = document.createElement('td');
-                roomCell.textContent = timeSlot.room.join(', ');
-                row.appendChild(roomCell);
-
-                const subjectsCell = document.createElement('td');
-                timeSlot.finalmergedSort.forEach((subject) => {
-                    const subjectPara = document.createElement('p');
-                    subjectPara.textContent = subject.subjectName;
-                    subjectsCell.appendChild(subjectPara);
-                });
-                row.appendChild(subjectsCell);
-
-                tableBody.appendChild(row);
+            // Add the subjects data (finalmergedSort)
+            const subjectsCell = document.createElement('td');
+            // Loop through finalmergedSort and add the subject data
+            timeSlot.finalmergedSort.forEach((subject) => {
+                // Create a new paragraph for each subject
+                const subjectPara = document.createElement('p');
+                subjectPara.textContent = subject.subjectName;
+                subjectsCell.appendChild(subjectPara);
             });
-        }
+            row.appendChild(subjectsCell);
 
-        // Ensure this code is executed after the DOM has loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            // Call the displayGenerate function to populate the table
-            displayGenerate();
+            // Add the row to the table
+            tableBody.appendChild(row);
+
+            
+            var roomCell = document.createElement('td');
+            // Loop through the room data and create a <td> for each room
+            timeSlot.room.forEach((room) => {
+                const roomTd = document.createElement('tr');
+                roomTd.textContent = room;
+                roomCell.appendChild(roomTd);
+            });
+
+            row.appendChild(roomCell);
         });
+
+                
+        }
+        
 
 
         
