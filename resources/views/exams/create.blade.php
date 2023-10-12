@@ -441,11 +441,11 @@
                         Instructors: InstructorsData,   
                         StudentCount: StudentCountData 
                     });
-                    console.log(subjectName);
+                    //console.log(subjectName);
                     
                 }
             }
-            console.log('Subject Property',SubProperty);
+            
             
 
             for (var i = 0; i < GlobalTime.length; i++) {
@@ -457,9 +457,7 @@
                 timeSlotRooms.push(timeSlot);
             }
 
-            console.log('TimeSlots with Rooms', timeSlotRooms);
-
-           
+            //console.log('TimeSlots with Rooms', timeSlotRooms)
             var examSchedule = [];
             var allRoomsUsed = false;
             
@@ -584,29 +582,32 @@
             var subjectMap;
             var mergedFinalSort;
             sortSchedule.forEach((timeSlot) => {
-                finalmergedData = [];
+                var finalmergedData = [];
+
                 timeSlot.MergedData.forEach((MergedData) => {
                     var currentMergedSectionData = MergedData.SectionData.split(', ');
                     var currentMergedSubject = MergedData.Subject;
                     var currentMergedClassNumbers = MergedData.ClassCode.split(', ');
                     var currentMergedInstructors = MergedData.Instructors.split(', ');
-                    var currentMergedStudentCount = MergedData.StudentCount; // Assuming StudentCount is a number
+                    var currentMergedStudentCount = MergedData.StudentCount;
 
                     var subjectObj = {
                         subjectName: currentMergedSubject,
                         sectionData: currentMergedSectionData,
                         ClassNumbers: currentMergedClassNumbers,
                         Instructors: currentMergedInstructors,
-                        StudentCount: currentMergedStudentCount,
+                        StudentCount: [currentMergedStudentCount], // Convert to an array
                     };
+
                     finalmergedData.push(subjectObj);
                 });
-                // timeSlot.finalSort = finalmergedData;
 
-                mergedFinalSort = [];
-                subjectMap = new Map();
+                var mergedFinalSort = [];
+                var subjectMap = new Map();
+
                 finalmergedData.forEach((data) => {
                     var subjectName = data.subjectName;
+
                     if (!subjectMap.has(subjectName)) {
                         // If subjectName is not already in the map, add it
                         subjectMap.set(subjectName, data);
@@ -614,80 +615,71 @@
                         // If subjectName is already in the map, merge the data
                         var existingData = subjectMap.get(subjectName);
 
-                        if (!Array.isArray(existingData.StudentCount)) {
-                            existingData.StudentCount = [existingData.StudentCount];
-                        }
-                        if (!Array.isArray(data.StudentCount)) {
-                            data.StudentCount = [data.StudentCount];
-                        }
-
                         existingData.StudentCount.push(...data.StudentCount);
-
-                        if (!Array.isArray(existingData.sectionData)) {
-                            existingData.sectionData = [existingData.sectionData];
-                        }
-                        if (!Array.isArray(data.sectionData)) {
-                            data.sectionData = [data.sectionData];
-                        }
-
                         existingData.sectionData.push(...data.sectionData);
                         existingData.ClassNumbers.push(...data.ClassNumbers);
                         existingData.Instructors.push(...data.Instructors);
-                        
                     }
+
                     mergedFinalSort = Array.from(subjectMap.values());
                     timeSlot.finalmergedSort = mergedFinalSort;
-                
                 });
-
             });
-           
+            //update the number of rooms
+            sortSchedule.forEach((timeSlot) => {
+                var combinedRooms = [].concat(...timeSlot.room);                               
+                var roomCount = combinedRooms.length;
 
-            // finalmergedData.forEach((data) => {
-            //     var subjectName = data.subjectName;
-            //     if (!subjectMap.has(subjectName)) {
-            //         // If subjectName is not already in the map, add it
-            //         subjectMap.set(subjectName, data);
-            //     } else {
-            //         // If subjectName is already in the map, merge the data
-            //         var existingData = subjectMap.get(subjectName);
+                var roomsNeeded = timeSlot.MergedData.length;
 
-            //         if (!Array.isArray(existingData.StudentCount)) {
-            //             existingData.StudentCount = [existingData.StudentCount];
-            //         }
-            //         if (!Array.isArray(data.StudentCount)) {
-            //             data.StudentCount = [data.StudentCount];
-            //         }
+                if (roomCount > roomsNeeded) {    
+                    combinedRooms = combinedRooms.slice(0, roomsNeeded);
+                } 
+                timeSlot.room = [];
+                while (combinedRooms.length > 0) {
+                    timeSlot.room.push([combinedRooms.shift()]);
+                }
+            });
 
-            //         existingData.StudentCount.push(...data.StudentCount);
+            console.log('Updated sortSchedule:', sortSchedule);
 
-            //         if (!Array.isArray(existingData.sectionData)) {
-            //             existingData.sectionData = [existingData.sectionData];
-            //         }
-            //         if (!Array.isArray(data.sectionData)) {
-            //             data.sectionData = [data.sectionData];
-            //         }
-
-            //         existingData.sectionData.push(...data.sectionData);
-            //         existingData.ClassNumbers.push(...data.ClassNumbers);
-            //         existingData.Instructors.push(...data.Instructors);
-            //     }
-                
-            // });
-
-            // Convert the map values back to an array
-
-            console.log('Merged final sort:', mergedFinalSort);
-            console.log('sortsched:', sortSchedule);
-
-
-
-
-                
-
-
+            sortSchedule = finalSchedule;
         }
+
+        var finalSchedule;
         
+        function displayGenerate() {
+            const tableBody = document.getElementById('schedule-table-body');
+
+            finalSchedule.forEach((timeSlot) => {
+                const row = document.createElement('tr');
+                
+                const timeCell = document.createElement('td');
+                timeCell.textContent = timeSlot.time;
+                row.appendChild(timeCell);
+
+                const roomCell = document.createElement('td');
+                roomCell.textContent = timeSlot.room.join(', ');
+                row.appendChild(roomCell);
+
+                const subjectsCell = document.createElement('td');
+                timeSlot.finalmergedSort.forEach((subject) => {
+                    const subjectPara = document.createElement('p');
+                    subjectPara.textContent = subject.subjectName;
+                    subjectsCell.appendChild(subjectPara);
+                });
+                row.appendChild(subjectsCell);
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Ensure this code is executed after the DOM has loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Call the displayGenerate function to populate the table
+            displayGenerate();
+        });
+
 
         
     </script>
