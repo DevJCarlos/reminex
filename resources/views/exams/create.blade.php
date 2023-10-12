@@ -24,43 +24,16 @@
     
     <script>
         
-
-
-        //accordion functions
-        document.addEventListener("DOMContentLoaded", function() {
-            const accordionItems = document.querySelectorAll(".accordion-item");
-
-            accordionItems.forEach(item => {
-                const header = item.querySelector(".accordion-header");
-                const content = item.querySelector(".accordion-content");
-                const arrow = item.querySelector(".accordion-arrow");
-
-                header.addEventListener("click", () => {
-                    content.style.display = content.style.display === "none" ? "block" : "none";
-                    arrow.style.transform = content.style.display === "none" ? "rotate(0deg)" :
-                        "rotate(180deg)";
-                });
-            });
-        });
-        //searchbar
-        var searchInput = document.getElementById('searchInput');
-        var tableRows = document.querySelectorAll('#subjects tbody tr');
-
-        searchInput.addEventListener('input', function() {
-            var searchText = searchInput.value.toLowerCase();
-
-            for (var i = 0; i < tableRows.length; i++) {
-                var row = tableRows[i];
-                var rowData = row.innerText.toLowerCase();
-
-                if (rowData.includes(searchText)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
+        
+        function selectAllSubjects() {
+            var checkboxes = document.getElementsByClassName('listCheckbox');
+            var mainCheckbox = document.getElementById('mainCheckbox');
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = mainCheckbox.checked;
             }
-        });
-        //selection
+        }
+        //searchbar & checkbox
+
         function displaySelectedOption() {
             var periodSelect = document.getElementById('period-select');
             var selectedPeriod = periodSelect.options[periodSelect.selectedIndex].value;
@@ -117,16 +90,11 @@
             document.getElementById('subjects').innerHTML = table;
 
             // Update the tableRows variable with the new table rows
+            
             tableRows = document.querySelectorAll('#subjects tbody tr');
         }
 
-        function selectAllSubjects() {
-            var checkboxes = document.getElementsByClassName('listCheckbox');
-            var mainCheckbox = document.getElementById('mainCheckbox');
-            for (var i = 0; i < checkboxes.length; i++) {
-                checkboxes[i].checked = mainCheckbox.checked;
-            }
-        }
+    
         //global var for sub and prog
         var SubjectsProgram = [];
         function addSubjects() {
@@ -324,11 +292,10 @@
 
         //timeFunction
         //global var for time
-        var GlobalTime;
+        var GlobalTime = [];
         function addExaminationPeriod() {
-    
-            var timePeriods = [];
-            GlobalTime = timePeriods;
+            
+            var timePeriods = GlobalTime;
 
             var timePicker = document.getElementById('time-picker');
             var selectedTime = timePicker.value;
@@ -337,17 +304,11 @@
             var [startHours, startMinutes] = selectedTime.split(':').map(Number);
             startTime.setHours(startHours, startMinutes, 0);
 
-            //end time
+            // End time
             var endTime = new Date();
             endTime.setHours(19, 0, 0);
 
-            var interval = 75; 
-
-            
-            var table = document.getElementById('gentab');
-
-            table.innerHTML = '';
-            
+            var interval = 75;
 
             while (startTime <= endTime && getEndTime(startTime, interval) <= endTime) {
                 // Check if the current start time is 12:00 PM
@@ -355,47 +316,13 @@
                     // Add the 30-minute break
                     var breakEndTime = new Date(startTime.getTime() + 30 * 60000);
                     var breakTimePeriod = formatTime(startTime) + ' - ' + formatTime(breakEndTime);
-                    //timePeriods.push(breakTimePeriod);
                     
                     // Update the startTime to be the end of the break
                     startTime = breakEndTime;
-                    
                 }
-                
-                var newTable = document.createElement('table');
-                newTable.className = 'table';
 
-                var thead = document.createElement('thead');
-                thead.innerHTML = `
-                    <tr>
-                        <th id="time"></th>
-                        <th scope="col" id="code">no data</th>
-                        <th scope="col" id="subject">no data</th>
-                    </tr>
-                    <tr>
-                        <th scope="col">SECTION</th>
-                        <th scope="col">CLASS #</th>
-                        <th scope="col">ROOM</th>
-                        <th scope="col">INSTRUCTOR</th>
-                        <th scope="col"># OF STUDENTS</th>
-                    </tr>
-                `;
-
-                var tbody = document.createElement('tbody');
-                var tbodyRow = document.createElement('tr');
                 var timePeriod = formatTime(startTime) + ' - ' + formatTime(getEndTime(startTime, interval));
                 timePeriods.push(timePeriod); // Push the time period string to the array
-                tbodyRow.innerHTML = `
-                    <td headers="time">${timePeriod}</td>
-                `;
-                tbody.appendChild(tbodyRow);
-
-                newTable.appendChild(thead);
-                newTable.appendChild(tbody);
-
-                table.appendChild(newTable);
-
-
 
                 startTime = new Date(startTime.getTime() + interval * 60000);
             }
@@ -413,9 +340,13 @@
             function getEndTime(startTime, interval) {
                 return new Date(startTime.getTime() + interval * 60000);
             }
-            //console.log(timePeriods);
             
-        }
+        };
+ 
+
+        
+            
+
 
         //global var
         var Sections = [];
@@ -473,13 +404,19 @@
             xhr.send(JSON.stringify(selectedSubjectNames1));
             //console.log(selectedSubjectNames1);
         }
-        function shuffleArray(array) {
-        // Function to shuffle an array randomly
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
+        // function shuffleArray(array) {
+        // // Function to shuffle an array randomly
+        //     for (let i = array.length - 1; i > 0; i--) {
+        //         const j = Math.floor(Math.random() * (i + 1));
+        //         [array[i], array[j]] = [array[j], array[i]];
+        //     }
+        // }
+
+        function addAndGenerate() {
+            addExaminationPeriod(); 
+            generateExam(); 
         }
+
 
         function generateExam() {
 
@@ -522,7 +459,7 @@
 
             console.log('TimeSlots with Rooms', timeSlotRooms);
 
-            //filtering rooms in every timeslot
+           
             var examSchedule = [];
             var allRoomsUsed = false;
             
@@ -535,7 +472,7 @@
                 var UsedRooms = [];
                 var availableRooms = [...timeSlot.rooms];
 
-                // Iterate through each subject
+               
                 for (var j = 0; j < SubProperty.length; j++) {
                     var subject = SubProperty[j];
                     
@@ -551,13 +488,14 @@
                         
                         j--;
                     }
+                    // console.log('check',subjectsForTimeSlot);
                 }
 
                 examSchedule.push({
                     time: timeSlot.timeSlot,
                     subjects: subjectsForTimeSlot,
                     room: UsedRooms,
-                    //combined: combinedData
+                    
                 });
                
                 if (SubProperty.length === 0) {
@@ -570,19 +508,25 @@
                 alert('Some subjects could not be inserted due to insufficient rooms in all time slots.');
             }
             console.log('Generated Exam Schedule:', examSchedule);
+            
 
             //merging Section
-           
-            
             var sortSchedule = JSON.parse(JSON.stringify(examSchedule));
 
+                var mergedData;
+                var currentMergedStudentCount;
+                var currentMergedSectionData;
+                var currentMergedInstructors;
+                var currentMergedClassNumbers;
+                var currentMergedSubject;
+
             sortSchedule.forEach((timeSlot) => {
-                var mergedData = [];
-                var currentMergedStudentCount = 0;
-                var currentMergedSectionData = [];
-                var currentMergedInstructors = [];
-                var currentMergedClassNumbers = [];
-                var currentMergedSubject = [];
+                mergedData = [];
+                currentMergedStudentCount = 0;
+                currentMergedSectionData = [];
+                currentMergedInstructors = [];
+                currentMergedClassNumbers = [];
+                currentMergedSubject = [];
 
 
                 timeSlot.subjects.forEach((subject) => {
@@ -632,14 +576,118 @@
                     });
                 }
 
-                timeSlot.subject = mergedData;
+                timeSlot.MergedData = mergedData;
                 //timeSlot.subjectprogram = SubjectsProgram;
             });
+            // console.log('sortsched:', sortSchedule);
+            var finalmergedData;
+            var subjectMap;
+            var mergedFinalSort;
+            sortSchedule.forEach((timeSlot) => {
+                finalmergedData = [];
+                timeSlot.MergedData.forEach((MergedData) => {
+                    var currentMergedSectionData = MergedData.SectionData.split(', ');
+                    var currentMergedSubject = MergedData.Subject;
+                    var currentMergedClassNumbers = MergedData.ClassCode.split(', ');
+                    var currentMergedInstructors = MergedData.Instructors.split(', ');
+                    var currentMergedStudentCount = MergedData.StudentCount; // Assuming StudentCount is a number
 
-            console.log('Merged Data:', sortSchedule);
+                    var subjectObj = {
+                        subjectName: currentMergedSubject,
+                        sectionData: currentMergedSectionData,
+                        ClassNumbers: currentMergedClassNumbers,
+                        Instructors: currentMergedInstructors,
+                        StudentCount: currentMergedStudentCount,
+                    };
+                    finalmergedData.push(subjectObj);
+                });
+                // timeSlot.finalSort = finalmergedData;
+
+                mergedFinalSort = [];
+                subjectMap = new Map();
+                finalmergedData.forEach((data) => {
+                    var subjectName = data.subjectName;
+                    if (!subjectMap.has(subjectName)) {
+                        // If subjectName is not already in the map, add it
+                        subjectMap.set(subjectName, data);
+                    } else {
+                        // If subjectName is already in the map, merge the data
+                        var existingData = subjectMap.get(subjectName);
+
+                        if (!Array.isArray(existingData.StudentCount)) {
+                            existingData.StudentCount = [existingData.StudentCount];
+                        }
+                        if (!Array.isArray(data.StudentCount)) {
+                            data.StudentCount = [data.StudentCount];
+                        }
+
+                        existingData.StudentCount.push(...data.StudentCount);
+
+                        if (!Array.isArray(existingData.sectionData)) {
+                            existingData.sectionData = [existingData.sectionData];
+                        }
+                        if (!Array.isArray(data.sectionData)) {
+                            data.sectionData = [data.sectionData];
+                        }
+
+                        existingData.sectionData.push(...data.sectionData);
+                        existingData.ClassNumbers.push(...data.ClassNumbers);
+                        existingData.Instructors.push(...data.Instructors);
+                        
+                    }
+                    mergedFinalSort = Array.from(subjectMap.values());
+                    timeSlot.finalmergedSort = mergedFinalSort;
+                
+                });
+
+            });
+           
+
+            // finalmergedData.forEach((data) => {
+            //     var subjectName = data.subjectName;
+            //     if (!subjectMap.has(subjectName)) {
+            //         // If subjectName is not already in the map, add it
+            //         subjectMap.set(subjectName, data);
+            //     } else {
+            //         // If subjectName is already in the map, merge the data
+            //         var existingData = subjectMap.get(subjectName);
+
+            //         if (!Array.isArray(existingData.StudentCount)) {
+            //             existingData.StudentCount = [existingData.StudentCount];
+            //         }
+            //         if (!Array.isArray(data.StudentCount)) {
+            //             data.StudentCount = [data.StudentCount];
+            //         }
+
+            //         existingData.StudentCount.push(...data.StudentCount);
+
+            //         if (!Array.isArray(existingData.sectionData)) {
+            //             existingData.sectionData = [existingData.sectionData];
+            //         }
+            //         if (!Array.isArray(data.sectionData)) {
+            //             data.sectionData = [data.sectionData];
+            //         }
+
+            //         existingData.sectionData.push(...data.sectionData);
+            //         existingData.ClassNumbers.push(...data.ClassNumbers);
+            //         existingData.Instructors.push(...data.Instructors);
+            //     }
+                
+            // });
+
+            // Convert the map values back to an array
+
+            console.log('Merged final sort:', mergedFinalSort);
+            console.log('sortsched:', sortSchedule);
+
+
+
+
+                
 
 
         }
+        
 
         
     </script>

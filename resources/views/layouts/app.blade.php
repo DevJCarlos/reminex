@@ -3,7 +3,19 @@
 
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    
+    
     <style>
+
+        div[id="gentab_length"] {
+            margin-right: 500px;
+            
+        }
+        div[id="gentab_filter"] {
+            margin-left: 500px;
+            
+        }
         .accordion {
             display: flex;
             flex-direction: column;
@@ -85,6 +97,7 @@
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+        
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('css/fontawesome.min.css') }}">
     <!-- Theme style -->
@@ -176,6 +189,7 @@
         </footer>
     </div>
     <!-- ./wrapper -->
+    
 
     <!-- REQUIRED SCRIPTS -->
 
@@ -184,6 +198,94 @@
     <script src="{{ asset('js/adminlte.min.js') }}" defer></script>
 
     @yield('scripts')
+
+    <script>
+
+          //datatable
+        //   $(document).ready(function () {
+        // $('#gentab').dataTable({
+
+        // });
+        // });
+   
+
+        //accordion functions(dropdown)
+        document.addEventListener("DOMContentLoaded", function() {
+            const accordionItems = document.querySelectorAll(".accordion-item");
+
+            accordionItems.forEach(item => {
+                const header = item.querySelector(".accordion-header");
+                const content = item.querySelector(".accordion-content");
+                const arrow = item.querySelector(".accordion-arrow");
+
+                header.addEventListener("click", () => {
+                    content.style.display = content.style.display === "none" ? "block" : "none";
+                    arrow.style.transform = content.style.display === "none" ? "rotate(0deg)" :
+                        "rotate(180deg)";
+                });
+            });
+        });
+
+        
+        //Search and chekboxes
+        var searchColumnSelect = document.getElementById('searchProgram');
+
+        
+        searchColumnSelect.addEventListener('change', function () {
+            
+            var selectedProgram = searchColumnSelect.value;
+
+            
+            for (var i = 0; i < tableRows.length; i++) {
+                var row = tableRows[i];
+                var programColumn = row.querySelector('td:nth-child(3)'); 
+
+                if (selectedProgram === '--Select Program--' || programColumn.textContent === selectedProgram) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        });
+        var searchColumnSelectyear = document.getElementById('searchYear');
+
+        
+        searchColumnSelectyear.addEventListener('change', function () {
+            
+            var selectedYear = searchColumnSelectyear.value;
+
+            
+            for (var i = 0; i < tableRows.length; i++) {
+                var row = tableRows[i];
+                var YearColumn = row.querySelector('td:nth-child(4)'); 
+
+                if (selectedYear === '--Select Year--' || YearColumn.textContent === selectedYear) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        });
+
+
+        //searchbar & checkbox Section
+        var searchInput = document.getElementById('searchInput');
+        var tableRows = document.querySelectorAll('#subjects tbody tr');
+        searchInput.addEventListener('input', function() {
+            var searchText = searchInput.value.toLowerCase();
+
+            for (var i = 0; i < tableRows.length; i++) {
+                var row = tableRows[i];
+                var rowData = row.innerText.toLowerCase();
+
+                if (rowData.includes(searchText)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        });
+    </script>
 
 </body>
 

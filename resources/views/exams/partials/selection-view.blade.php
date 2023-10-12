@@ -26,12 +26,8 @@
                                 <strong>No Data selected </strong>
                             </p>
                         </div>
-                        <button type="submit" class="btn btn-success text-white" onclick="addExaminationPeriod()">Add
-                            Time</button>
-
-                        <button type="submit" class="btn btn-success text-white" onclick="generateExam()">Add
-                            Submit</button>  
-                            
+                        <button type="submit" class="btn btn-success text-white" onclick="addAndGenerate()">
+                        Generate Exam Schedule</button>    
                     </div>
 
                 </div>
