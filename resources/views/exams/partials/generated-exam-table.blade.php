@@ -14,16 +14,6 @@
                     <th >Instructor</th>
                     <th >Class Count</th>
                 </thead>
-                <tr>
-                    <td>no data</td>
-                    <td>no data</td>
-                    <td>no data</td>
-                    <td>no data</td>
-                    <td>no data</td>
-                    <td>no data</td>
-                    <td>no data</td>
-                    
-                </tr>
             </table>
         </div>
     </div>

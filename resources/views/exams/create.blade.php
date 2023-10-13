@@ -609,7 +609,6 @@
                     timeSlot.finalmergedSort = mergedFinalSort;
                 });
             });
-            //update the number of rooms
             sortSchedule.forEach((timeSlot) => {
                 var combinedRooms = [].concat(...timeSlot.room);                               
                 var roomCount = combinedRooms.length;
@@ -629,42 +628,90 @@
             
             const tableBody = document.getElementById('gentab');
 
-            sortSchedule.forEach((timeSlot) => {
-    // Create a new row for each time slot
+
+
+           sortSchedule.forEach((timeSlot) => {
+           
             const row = document.createElement('tr');
 
-            // Add the time data
+            //timedata
             const timeCell = document.createElement('td');
             timeCell.textContent = timeSlot.time;
             row.appendChild(timeCell);
 
-            // Add the room data
-           
-
-            // Add the subjects data (finalmergedSort)
+            //subjectdata
             const subjectsCell = document.createElement('td');
-            // Loop through finalmergedSort and add the subject data
             timeSlot.finalmergedSort.forEach((subject) => {
-                // Create a new paragraph for each subject
                 const subjectPara = document.createElement('p');
                 subjectPara.textContent = subject.subjectName;
                 subjectsCell.appendChild(subjectPara);
             });
             row.appendChild(subjectsCell);
 
-            // Add the row to the table
-            tableBody.appendChild(row);
-
-            
-            var roomCell = document.createElement('td');
-            // Loop through the room data and create a <td> for each room
+            //roomdata
+            const roomCell = document.createElement('td');
             timeSlot.room.forEach((room) => {
                 const roomTd = document.createElement('tr');
                 roomTd.textContent = room;
                 roomCell.appendChild(roomTd);
             });
-
             row.appendChild(roomCell);
+
+            //sectiondata      
+            const sectionCell = document.createElement('td');
+            timeSlot.finalmergedSort.forEach((subject) => {
+                subject.sectionData.forEach((section) => {
+                    const sectionPara = document.createElement('p');
+                    sectionPara.textContent = section;
+                    sectionCell.appendChild(sectionPara);
+                });
+                
+                row.appendChild(sectionCell);
+                tableBody.appendChild(row);
+            });
+            tableBody.appendChild(row);
+
+            //sectionNum
+            const sectionCodeCell = document.createElement('td');
+            timeSlot.finalmergedSort.forEach((subject) => {
+                subject.ClassNumbers.forEach((classcode) => {
+                    const codePara = document.createElement('p');
+                    codePara.textContent = classcode;
+                    sectionCodeCell.appendChild(codePara);
+                });
+                
+                row.appendChild(sectionCodeCell);
+                tableBody.appendChild(row);
+            });
+            tableBody.appendChild(row);
+            //instructor
+            const InsCell = document.createElement('td');
+            timeSlot.finalmergedSort.forEach((subject) => {
+                subject.Instructors.forEach((Ins) => {
+                    const InsPara = document.createElement('p');
+                    InsPara.textContent = Ins;
+                    InsCell.appendChild(InsPara);
+                });
+                
+                row.appendChild(InsCell);
+                tableBody.appendChild(row);
+            });
+            tableBody.appendChild(row);
+
+            const StudentCountCell = document.createElement('td');
+            timeSlot.finalmergedSort.forEach((subject) => {
+                subject.StudentCount.forEach((Stcount) => {
+                    const StcountPara = document.createElement('p');
+                    StcountPara.textContent = Stcount;
+                    StudentCountCell.appendChild(StcountPara);
+                });
+                
+                row.appendChild(StudentCountCell);
+                tableBody.appendChild(row);
+            });
+            tableBody.appendChild(row);
+
+
         });
 
                 
