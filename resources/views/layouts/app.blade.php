@@ -83,11 +83,12 @@
         .customcheckbox {
             display: inline-block;
             margin-right: 10px;
-            /* Adjust the margin as needed */
+            
             position: relative;
             cursor: pointer;
             user-select: none;
         }
+   
     </style>
 
     <meta charset="utf-8">

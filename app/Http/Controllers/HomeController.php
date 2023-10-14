@@ -111,7 +111,7 @@ class HomeController extends Controller
         foreach ($filteredSections as $sectionData) {
             $this->saveSection($sectionData);
         }
-
+ 
         
         $filteredTeachers = collect($dataFromCsv['teacher'])
         ->reject(function ($teacherData) {

@@ -4,7 +4,7 @@
         <br>
         <br>
         <div class="bd-example" id="gentable" style="text-align: center;">
-            <table class="table table-bordered" id="gentab" cellspacing="0" width="100%">
+            <table class="table table-bordered" id="gentab" cellspacing="0" width="100%" style="border-collapse: collapse; border: 1px solid black;">
                 <thead>
                     <th colspan = "1">Time</th>
                     <th >Subject</th>
@@ -15,6 +15,7 @@
                     <th >Class Count</th>
                 </thead>
             </table>
+           
         </div>
     </div>
 </div>
