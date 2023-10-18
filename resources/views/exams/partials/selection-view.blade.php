@@ -10,6 +10,8 @@
                 <div class="border-top">
                     <div class="card-body">
                         <h3 class="card-title">Subjects</h3>
+                        <br>
+                        <br>
                         <div class="bd-example" id="Sub">
                             <p>
                                 <strong>No Data selected </strong>
@@ -21,6 +23,8 @@
                 <div class="border-top">
                     <div class="card-body">
                         <h3 class="card-title">Rooms</h3>
+                        <br>
+                        <br>
                         <div class="bd-example" id="room">
                             <p>
                                 <strong>No Data selected </strong>

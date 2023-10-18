@@ -267,7 +267,21 @@
                 }
             }
         });
+       //checbox function for rooms
+       document.getElementById('selectAllRooms').addEventListener('change', function () {
+            var checkboxes = document.querySelectorAll('.listCheckbox1');
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = this.checked;
+            }
+            addRooms();
+        });
 
+        var checkboxes = document.getElementsByClassName('listCheckbox1');
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].addEventListener('change', function () {
+                addRooms();
+            });
+        }
 
         //searchbar & checkbox Section
         var searchInput = document.getElementById('searchInput');

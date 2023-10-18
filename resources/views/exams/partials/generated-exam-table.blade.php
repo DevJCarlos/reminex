@@ -4,18 +4,22 @@
         <br>
         <br>
         <div class="bd-example" id="gentable" style="text-align: center;">
-            <table class="table table-bordered" id="gentab" cellspacing="0" width="100%" style="border-collapse: collapse; border: 1px solid black;">
-                <thead>
-                    <th colspan = "1">Time</th>
-                    <th >Subject</th>
-                    <th >Room</th>
-                    <th >Sections</th>
-                    <th >Section Number</th>
-                    <th >Instructor</th>
-                    <th >Class Count</th>
-                </thead>
-            </table>
-           
+        <table id="gentab" class="table table-bordered" width="100%" style="text-align: center;">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Subject</th>
+                    <th>Room</th>
+                    <th>Sections</th>
+                    <th>Section Number</th>
+                    <th>Instructor</th>
+                    <th>Class Count</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                
+            </tbody>
+        </table>
         </div>
     </div>
 </div>
