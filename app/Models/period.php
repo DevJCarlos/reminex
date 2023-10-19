@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class period extends Model
 {
     use HasFactory;
+    
+    protected $fillable = ['date', 'day_num'];
 }

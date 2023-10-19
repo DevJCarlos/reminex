@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('periods', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('time');
-            $table->string('day_num');
-            $table->string('date');
+            $table->string('name')->nullable()->default(null);
+            $table->string('time')->nullable()->default(null);
+            $table->string('day_num')->nullable()->default(null);
+            $table->date('date')->nullable()->default(null);
             $table->timestamps();
         });
     }

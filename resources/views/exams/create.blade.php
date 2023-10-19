@@ -24,7 +24,7 @@
     
     <script>
         
-        
+   
         function selectAllSubjects() {
             var checkboxes = document.getElementsByClassName('listCheckbox');
             var mainCheckbox = document.getElementById('mainCheckbox');
@@ -46,6 +46,15 @@
 
             var timePicker = document.getElementById('time-picker');
             var selectedTime = timePicker.value;
+
+            if (selectedDay && selectedDate) {
+     
+            } else {
+                    
+                alert('Please select all Selections.');
+                location.reload(); 
+            }
+
 
             var selectedText = 'Period: ' + selectedPeriod + '\n' + ' Date: ' + selectedDate + '\n' + 'Day: ' +
                 selectedDay + '\n' + 'Time: ' + selectedTime;
@@ -376,31 +385,35 @@
         }
 
         var GlobalPeriod = [];
-        function PeriodData() {   
-            var datePicker = document.getElementById('date-picker');
-            var daySelect = document.getElementById('day-select');
-            var Pname = document.getElementById('period-select');
-            var dateValue = datePicker.value; 
+        function PeriodData() {
+        var datePicker = document.getElementById('date-picker');
+        var daySelect = document.getElementById('day-select');
+            var dateValue = datePicker.value;
             var selectedDay = daySelect.value;
-            var periodname = Pname.value;
 
-            if (dateValue && selectedDay && periodname) {
-            var periods = [];
-                periods.push({
-                    period: periodname,
+            if (dateValue && selectedDay) {
+                // Create an object to hold your data
+                var data = {
                     date: dateValue,
-                    day: selectedDay,
-                });
-            
+                    day_num: selectedDay
+                };
+
+                // Call the SaveInfo function to send the data
+                SaveInfo(data);
             } else {
-                
                 alert('Please select date and day of the exam Schedule.');
                 location.reload(); // Refresh the page
             }
-            GlobalPeriod = periods;
-            console.log('periods ni:',GlobalPeriod);
-            
         }
+        
+
+        // function validateanddisplay() {
+        //     displaySelectedOption(); 
+        //     ValidateSelection(); 
+        // }
+
+
+
 
         function addAndGenerate() {
             addExaminationPeriod(); 
@@ -656,11 +669,30 @@
                 });
             });
 
-
                 
         }
-        
+            function SaveInfo(data) {
+                // Retrieve the CSRF token from the meta tag
+                var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+                // Make an HTTP POST request to your controller
+                fetch('/periods', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken // Use the retrieved CSRF token
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response data here if needed
+                    console.log('Response:', data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
 
         
     </script>

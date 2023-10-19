@@ -33,7 +33,6 @@
                         <button type="submit" class="btn btn-success text-white" onclick="addAndGenerate()">
                         Generate Exam Schedule</button>    
                     </div>
-
                 </div>
             </div>
         </div>

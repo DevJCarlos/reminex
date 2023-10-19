@@ -26,7 +26,7 @@
                             <input type="date" name="date-picker" id="date-picker"  class="form-control ml-1" style="width: 200px;">
 
                             <label for="day-select" class="ml-3 mb-0">Select Day:</label>
-                            <select name="day-select" id="day-select" class="form-control ml-1" style="width: 200px;">
+                            <select type="text" name="day-select" id="day-select" class="form-control ml-1" style="width: 200px;">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3" >3</option>

@@ -104,6 +104,8 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
     @yield('styles')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
 
 </head>
