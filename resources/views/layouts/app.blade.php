@@ -83,11 +83,12 @@
         .customcheckbox {
             display: inline-block;
             margin-right: 10px;
-            /* Adjust the margin as needed */
+            
             position: relative;
             cursor: pointer;
             user-select: none;
         }
+   
     </style>
 
     <meta charset="utf-8">
@@ -103,6 +104,8 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
     @yield('styles')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
 
 </head>
@@ -266,7 +269,21 @@
                 }
             }
         });
+       //checbox function for rooms
+       document.getElementById('selectAllRooms').addEventListener('change', function () {
+            var checkboxes = document.querySelectorAll('.listCheckbox1');
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = this.checked;
+            }
+            addRooms();
+        });
 
+        var checkboxes = document.getElementsByClassName('listCheckbox1');
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].addEventListener('change', function () {
+                addRooms();
+            });
+        }
 
         //searchbar & checkbox Section
         var searchInput = document.getElementById('searchInput');

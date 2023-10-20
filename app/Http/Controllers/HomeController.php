@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
+
 use App\Models\Course;
 use App\Models\Subject;
 use App\Models\Section;
@@ -111,7 +113,7 @@ class HomeController extends Controller
         foreach ($filteredSections as $sectionData) {
             $this->saveSection($sectionData);
         }
-
+ 
         
         $filteredTeachers = collect($dataFromCsv['teacher'])
         ->reject(function ($teacherData) {
@@ -127,11 +129,9 @@ class HomeController extends Controller
     //message
     return redirect()->back()->with('success', 'File uploaded successfully.');
 
-}
+    }
 
-    
 
-    
     public function getDataFromCsv(){
 
     $files = Storage::files('public/listsection');
@@ -181,7 +181,7 @@ class HomeController extends Controller
         'teacher' => $teacherData
     ];
     
-}
+    }
     
     public function saveCourse($courseData){
         Course::create($courseData);
@@ -195,5 +195,7 @@ class HomeController extends Controller
     public function saveTeacher($teacherData){
         Teacher::create($teacherData);
     }
+
+   
     
 }

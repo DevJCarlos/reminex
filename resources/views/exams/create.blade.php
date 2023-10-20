@@ -24,7 +24,7 @@
     
     <script>
         
-        
+   
         function selectAllSubjects() {
             var checkboxes = document.getElementsByClassName('listCheckbox');
             var mainCheckbox = document.getElementById('mainCheckbox');
@@ -32,7 +32,7 @@
                 checkboxes[i].checked = mainCheckbox.checked;
             }
         }
-        //searchbar & checkbox
+        
 
         function displaySelectedOption() {
             var periodSelect = document.getElementById('period-select');
@@ -46,6 +46,15 @@
 
             var timePicker = document.getElementById('time-picker');
             var selectedTime = timePicker.value;
+
+            if (selectedDay && selectedDate) {
+     
+            } else {
+                    
+                alert('Please select all Selections.');
+                location.reload(); 
+            }
+
 
             var selectedText = 'Period: ' + selectedPeriod + '\n' + ' Date: ' + selectedDate + '\n' + 'Day: ' +
                 selectedDay + '\n' + 'Time: ' + selectedTime;
@@ -225,28 +234,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             addSubjects();
         });
-
         
-        //checbox function for rooms
-        document.getElementById('selectAllRooms').addEventListener('change', function () {
-            var checkboxes = document.querySelectorAll('.listCheckbox1');
-            for (var i = 0; i < checkboxes.length; i++) {
-                checkboxes[i].checked = this.checked;
-            }
-            addRooms();
-        });
-
-        var checkboxes = document.getElementsByClassName('listCheckbox1');
-        for (var i = 0; i < checkboxes.length; i++) {
-            checkboxes[i].addEventListener('change', function () {
-                addRooms();
-            });
-        }
-
-        function addRooms() {
-            // Your logic to handle the selected rooms goes here
-        }
-
         //Rooms pull
         //global var for rooms
         var GlobalRooms = [];
@@ -271,22 +259,22 @@
                 }
             }
 
-                if (selectedRooms.length > 0) {
-                    var roomDiv = document.getElementById('room');
-                    var roomsList = document.createElement('ul');
+            if (selectedRooms.length > 0) {
+                var roomDiv = document.getElementById('room');
+                var roomsList = document.createElement('ul');
 
-                    for (var j = 0; j < selectedRooms.length; j++) {
-                    var roomItem = document.createElement('li');
-                    roomItem.textContent = selectedRooms[j];
-                    roomsList.appendChild(roomItem);
-                    }
+                for (var j = 0; j < selectedRooms.length; j++) {
+                var roomItem = document.createElement('li');
+                roomItem.textContent = selectedRooms[j];
+                roomsList.appendChild(roomItem);
+                }
 
-                    roomDiv.innerHTML = ''; 
-                    roomDiv.appendChild(roomsList);
+                roomDiv.innerHTML = ''; 
+                roomDiv.appendChild(roomsList);
                     
-                    return(selectedRooms);
+                return(selectedRooms);
                     
-                }    
+            }    
               
         }
 
@@ -317,7 +305,7 @@
                     var breakEndTime = new Date(startTime.getTime() + 30 * 60000);
                     var breakTimePeriod = formatTime(startTime) + ' - ' + formatTime(breakEndTime);
                     
-                    // Update the startTime to be the end of the break
+                    
                     startTime = breakEndTime;
                 }
 
@@ -381,10 +369,7 @@
                         Instructors[subjectName] = response.instructors[subjectName];
                         StudentCount[subjectName] = response.numOfStudents[subjectName];
                     }
-                    });
-                    
-
-                    
+                    }); 
                     //console.log('Sections:', Sections);
                     //console.log('Class Numbers:', ClassNumbers);
                     // console.log('Instructors:', Instructors);
@@ -398,17 +383,42 @@
             xhr.send(JSON.stringify(selectedSubjectNames1));
             //console.log(selectedSubjectNames1);
         }
-        // function shuffleArray(array) {
-        // // Function to shuffle an array randomly
-        //     for (let i = array.length - 1; i > 0; i--) {
-        //         const j = Math.floor(Math.random() * (i + 1));
-        //         [array[i], array[j]] = [array[j], array[i]];
-        //     }
+
+        var GlobalPeriod = [];
+        function PeriodData() {
+        var datePicker = document.getElementById('date-picker');
+        var daySelect = document.getElementById('day-select');
+            var dateValue = datePicker.value;
+            var selectedDay = daySelect.value;
+
+            if (dateValue && selectedDay) {
+                // Create an object to hold your data
+                var data = {
+                    date: dateValue,
+                    day_num: selectedDay
+                };
+
+                // Call the SaveInfo function to send the data
+                SaveInfo(data);
+            } else {
+                alert('Please select date and day of the exam Schedule.');
+                location.reload(); // Refresh the page
+            }
+        }
+        
+
+        // function validateanddisplay() {
+        //     displaySelectedOption(); 
+        //     ValidateSelection(); 
         // }
+
+
+
 
         function addAndGenerate() {
             addExaminationPeriod(); 
-            generateExam(); 
+            generateExam();
+            PeriodData(); 
         }
 
 
@@ -417,25 +427,29 @@
             var SubProperty = [];
             var ClassNumbersArray = [];
             
-
+            //pulling info from DB and pushing
             for (var subjectName in Sections) {
                 if (Sections.hasOwnProperty(subjectName)) {
                     var sectionData = Sections[subjectName];
                     var ClassNumbersData = ClassNumbers[subjectName];
                     var InstructorsData = Instructors[subjectName];
-                    var StudentCountData = StudentCount[subjectName].map(Number);//str to int 
+                    var StudentCountData = StudentCount[subjectName].map(Number);//str to int
+                    var StudentCountstrData = StudentCount[subjectName]; 
                   
                     SubProperty.push({
                         subjectName: subjectName,
                         sectionData: sectionData,
                         ClassNumbers:  ClassNumbersData, 
                         Instructors: InstructorsData,   
-                        StudentCount: StudentCountData 
+                        StudentCount: StudentCountData,
+                        StudentCountstr: StudentCountstrData,
                     });
                     //console.log(subjectName);
                     
                 }
             }
+            
+            //pushing the rooms in timeslot
             for (var i = 0; i < GlobalTime.length; i++) {
                 var timePeriod = GlobalTime[i];
                 var timeSlot = {
@@ -444,8 +458,9 @@
                 };
                 timeSlotRooms.push(timeSlot);
             }
-
             //console.log('TimeSlots with Rooms', timeSlotRooms)
+            
+            //inserting the subjects in the time period
             var examSchedule = [];
             var allRoomsUsed = false;
             for (var i = 0; i < timeSlotRooms.length; i++) {
@@ -487,128 +502,106 @@
             }
 
             if (!allRoomsUsed) {
-                alert('Some subjects could not be inserted due to insufficient rooms in all time slots.');
+                alert('Some subjects could not be inserted due to insufficient rooms in all time slots or there is no time Selected.');
+                window.location.reload();
             }
-            console.log('Generated Exam Schedule:', examSchedule);
+            //console.log('Generated Exam Schedule:', examSchedule);
             
 
             //merging Section
             var sortSchedule = JSON.parse(JSON.stringify(examSchedule));
 
-                var mergedData;
-                var currentMergedStudentCount;
-                var currentMergedSectionData;
-                var currentMergedInstructors;
-                var currentMergedClassNumbers;
-                var currentMergedSubject;
-
             sortSchedule.forEach((timeSlot) => {
-                mergedData = [];
-                currentMergedStudentCount = 0;
-                currentMergedSectionData = [];
-                currentMergedInstructors = [];
-                currentMergedClassNumbers = [];
-                currentMergedSubject = [];
-
-
+                const mergedData = [];
+                
                 timeSlot.subjects.forEach((subject) => {
+                    let currentMergedSubject = subject.subjectName;
+                    let currentMergedStudentCount = 0;
+                    let currentMergedSectionData = [];
+                    let currentMergedClassNumbers = [];
+                    let currentMergedInstructors = [];
+                    let currentMergedStudentCountStr = [];
                     subject.StudentCount.sort((a, b) => a - b);
+                    subject.StudentCountstr.sort((a, b) => parseInt(a) - parseInt(b));
 
-                    if (subject.StudentCount) {
-                        subject.StudentCount.forEach((count, index) => {
-                            
-                            // Check if adding the current count exceeds 50
-                            if (currentMergedStudentCount + count <= 50) {
-                                currentMergedStudentCount += count;
+                    subject.StudentCount.forEach((count, index) => {
+                        if (currentMergedStudentCount + count <= 50) {
+                            currentMergedStudentCount += count;
+                            currentMergedSectionData.push(subject.sectionData[index]);
+                            currentMergedClassNumbers.push(subject.ClassNumbers[index]);
+                            currentMergedInstructors.push(subject.Instructors[index]);
+                            currentMergedStudentCountStr.push(subject.StudentCountstr[index]);
+                        } else {
+                            // Push the current merged data
+                            mergedData.push({
+                                Subject: currentMergedSubject,
+                                StudentCount: currentMergedStudentCount,
+                                SectionData: currentMergedSectionData.join(', '),
+                                ClassCode: currentMergedClassNumbers.join(', '),
+                                Instructors: currentMergedInstructors.join(', '),
+                                StudentCountstr: currentMergedStudentCountStr.join(', '),
+                            });
 
-                                currentMergedSubject.push(subject.subjectName);
-                                currentMergedSectionData.push(subject.sectionData[index]);
-                                currentMergedInstructors.push(subject.Instructors[index]);
-                                currentMergedClassNumbers.push(subject.ClassNumbers[index]);
-                                
-                            } else {
-                                // If it exceeds 50, don't add the current count, and push the current merged data
-                                mergedData.push({
-                                    Subject: currentMergedSubject.join(', '),
-                                    StudentCount: currentMergedStudentCount,
-                                    SectionData: currentMergedSectionData.join(', '),
-                                    ClassCode: currentMergedClassNumbers.join(', '),
-                                    Instructors: currentMergedInstructors.join(', '),
-                                });
+                            // Reset the current merged data
+                            currentMergedStudentCount = count;
+                            currentMergedSubject = subject.subjectName;
+                            currentMergedSectionData = [subject.sectionData[index]];
+                            currentMergedClassNumbers = [subject.ClassNumbers[index]];
+                            currentMergedInstructors = [subject.Instructors[index]];
+                            currentMergedStudentCountStr = [subject.StudentCountstr[index]];
+                        }
+                    });
 
-                                // Reset counters and start a new group
-                                currentMergedStudentCount = count;
-                                currentMergedSubject = [subject.subjectName];
-                                currentMergedSectionData = [subject.sectionData[index]];
-                                currentMergedInstructors = [subject.Instructors[index]];
-                                currentMergedClassNumbers = [subject.ClassNumbers[index]];
-                            }
-                        });
-                    }
-                });
-
-                // Push the last group of merged data (if any)
-                if (currentMergedStudentCount > 0) {
+                    // Push the last group of merged data (if any)
                     mergedData.push({
-                        Subject: currentMergedSubject.join(', '),
+                        Subject: currentMergedSubject,
                         StudentCount: currentMergedStudentCount,
                         SectionData: currentMergedSectionData.join(', '),
                         ClassCode: currentMergedClassNumbers.join(', '),
                         Instructors: currentMergedInstructors.join(', '),
+                        StudentCountstr: currentMergedStudentCountStr.join(', '),
                     });
-                }
+                });
 
                 timeSlot.MergedData = mergedData;
-                //timeSlot.subjectprogram = SubjectsProgram;
             });
+
             // console.log('sortsched:', sortSchedule);
-            var finalmergedData;
-            var subjectMap;
-            var mergedFinalSort;
+
             sortSchedule.forEach((timeSlot) => {
-                var finalmergedData = [];
-
-                timeSlot.MergedData.forEach((MergedData) => {
-                    var currentMergedSectionData = MergedData.SectionData.split(', ');
-                    var currentMergedSubject = MergedData.Subject;
-                    var currentMergedClassNumbers = MergedData.ClassCode.split(', ');
-                    var currentMergedInstructors = MergedData.Instructors.split(', ');
-                    var currentMergedStudentCount = MergedData.StudentCount;
-
-                    var subjectObj = {
-                        subjectName: currentMergedSubject,
-                        sectionData: currentMergedSectionData,
-                        ClassNumbers: currentMergedClassNumbers,
-                        Instructors: currentMergedInstructors,
-                        StudentCount: [currentMergedStudentCount], // Convert to an array
-                    };
-
-                    finalmergedData.push(subjectObj);
-                });
-
-                var mergedFinalSort = [];
                 var subjectMap = new Map();
+                timeSlot.MergedData.forEach((MergedData) => {
+                    var currentMergedSubject = MergedData.Subject;
 
-                finalmergedData.forEach((data) => {
-                    var subjectName = data.subjectName;
-
+                    var subjectName = currentMergedSubject;
                     if (!subjectMap.has(subjectName)) {
-                        // If subjectName is not already in the map, add it
-                        subjectMap.set(subjectName, data);
-                    } else {
-                        // If subjectName is already in the map, merge the data
-                        var existingData = subjectMap.get(subjectName);
-
-                        existingData.StudentCount.push(...data.StudentCount);
-                        existingData.sectionData.push(...data.sectionData);
-                        existingData.ClassNumbers.push(...data.ClassNumbers);
-                        existingData.Instructors.push(...data.Instructors);
+                        // If subjectName is not already in the map, create an entry
+                        subjectMap.set(subjectName, {
+                            subjectName: currentMergedSubject,
+                            StudentCount: [],
+                            sectionData: [],
+                            ClassNumbers: [],
+                            Instructors: [],
+                            StudentCountstr: [],
+                        });
                     }
 
-                    mergedFinalSort = Array.from(subjectMap.values());
-                    timeSlot.finalmergedSort = mergedFinalSort;
+                    var existingData = subjectMap.get(subjectName);
+                    
+                    existingData.StudentCount.push(MergedData.StudentCount);
+                    existingData.sectionData.push(MergedData.SectionData);
+                    existingData.ClassNumbers.push(MergedData.ClassCode);
+                    existingData.Instructors.push(MergedData.Instructors);
+                    existingData.StudentCountstr.push(MergedData.StudentCountstr);
+
+                    
                 });
-            });
+
+                timeSlot.finalmergedSort = Array.from(subjectMap.values());
+            }); 
+
+            //room adjustments
+            const list = document.getElementById('schedule-list');
             sortSchedule.forEach((timeSlot) => {
                 var combinedRooms = [].concat(...timeSlot.room);                               
                 var roomCount = combinedRooms.length;
@@ -624,100 +617,82 @@
                 }
             });
 
-            console.log('Updated sortSchedule:', sortSchedule);
-            
-            const tableBody = document.getElementById('gentab');
+                console.log('Updated sortSchedule:', sortSchedule);
 
+                // Get the table body element
+                const tableBody = document.getElementById('tableBody'); // Assuming you have a tbody element with the id "tableBody"
 
+                sortSchedule.forEach((timeSlot) => {
+                timeSlot.MergedData.forEach((subject, index) => {
+                    const row = document.createElement('tr');
 
-           sortSchedule.forEach((timeSlot) => {
-           
-            const row = document.createElement('tr');
+                    // Time (only for the first row)
+                    if (index === 0) {
+                        const timeCell = document.createElement('td');
+                        timeCell.rowSpan = timeSlot.room.length;
+                        timeCell.textContent = timeSlot.time;
+                        row.appendChild(timeCell);
+                    }
 
-            //timedata
-            const timeCell = document.createElement('td');
-            timeCell.textContent = timeSlot.time;
-            row.appendChild(timeCell);
+                    // Subject
+                    const subjectCell = document.createElement('td');
+                    subjectCell.textContent = subject.Subject;
+                    row.appendChild(subjectCell);
 
-            //subjectdata
-            const subjectsCell = document.createElement('td');
-            timeSlot.finalmergedSort.forEach((subject) => {
-                const subjectPara = document.createElement('p');
-                subjectPara.textContent = subject.subjectName;
-                subjectsCell.appendChild(subjectPara);
-            });
-            row.appendChild(subjectsCell);
+                     // Room
+                    const roomCell = document.createElement('td');
+                    roomCell.textContent = timeSlot.room[index]; // Display each room for the time slot separately
+                    row.appendChild(roomCell);
 
-            //roomdata
-            const roomCell = document.createElement('td');
-            timeSlot.room.forEach((room) => {
-                const roomTd = document.createElement('tr');
-                roomTd.textContent = room;
-                roomCell.appendChild(roomTd);
-            });
-            row.appendChild(roomCell);
+                    // Section
+                    const sectionCell = document.createElement('td');
+                    sectionCell.textContent = subject.SectionData;
+                    row.appendChild(sectionCell);
 
-            //sectiondata      
-            const sectionCell = document.createElement('td');
-            timeSlot.finalmergedSort.forEach((subject) => {
-                subject.sectionData.forEach((section) => {
-                    const sectionPara = document.createElement('p');
-                    sectionPara.textContent = section;
-                    sectionCell.appendChild(sectionPara);
+                    // Section Number
+                    const sectionNumberCell = document.createElement('td');
+                    sectionNumberCell.textContent = subject.ClassCode;
+                    row.appendChild(sectionNumberCell);
+
+                    // Instructor
+                    const instructorCell = document.createElement('td');
+                    instructorCell.textContent = subject.Instructors;
+                    row.appendChild(instructorCell);
+
+                    // Class Count
+                    const classCountCell = document.createElement('td');
+                    classCountCell.textContent = subject.StudentCountstr;
+                    row.appendChild(classCountCell);
+
+                    // Append the row for subject data to the table
+                    tableBody.appendChild(row);
                 });
-                
-                row.appendChild(sectionCell);
-                tableBody.appendChild(row);
             });
-            tableBody.appendChild(row);
-
-            //sectionNum
-            const sectionCodeCell = document.createElement('td');
-            timeSlot.finalmergedSort.forEach((subject) => {
-                subject.ClassNumbers.forEach((classcode) => {
-                    const codePara = document.createElement('p');
-                    codePara.textContent = classcode;
-                    sectionCodeCell.appendChild(codePara);
-                });
-                
-                row.appendChild(sectionCodeCell);
-                tableBody.appendChild(row);
-            });
-            tableBody.appendChild(row);
-            //instructor
-            const InsCell = document.createElement('td');
-            timeSlot.finalmergedSort.forEach((subject) => {
-                subject.Instructors.forEach((Ins) => {
-                    const InsPara = document.createElement('p');
-                    InsPara.textContent = Ins;
-                    InsCell.appendChild(InsPara);
-                });
-                
-                row.appendChild(InsCell);
-                tableBody.appendChild(row);
-            });
-            tableBody.appendChild(row);
-
-            const StudentCountCell = document.createElement('td');
-            timeSlot.finalmergedSort.forEach((subject) => {
-                subject.StudentCount.forEach((Stcount) => {
-                    const StcountPara = document.createElement('p');
-                    StcountPara.textContent = Stcount;
-                    StudentCountCell.appendChild(StcountPara);
-                });
-                
-                row.appendChild(StudentCountCell);
-                tableBody.appendChild(row);
-            });
-            tableBody.appendChild(row);
-
-
-        });
 
                 
         }
-        
+            function SaveInfo(data) {
+                // Retrieve the CSRF token from the meta tag
+                var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+                // Make an HTTP POST request to your controller
+                fetch('/periods', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken // Use the retrieved CSRF token
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response data here if needed
+                    console.log('Response:', data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
 
         
     </script>
