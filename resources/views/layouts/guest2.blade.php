@@ -37,7 +37,7 @@
     </header>
     
     <div class="wrapper">
-        @include('layouts.partial.side-nav')
+        @include('layouts.partial.side-nav2')
         @yield('content')
     </div>
     
@@ -45,8 +45,11 @@
     
 
 
-@vite('resources/js/app.js')
-@vite('resources/js/collapse.js')
+@vite([
+    'resources/js/app.js',
+    'resources/js/collapse.js'
+])
+
 <!-- Bootstrap 4 -->
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 <!-- AdminLTE App -->

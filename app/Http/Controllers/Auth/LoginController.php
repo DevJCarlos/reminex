@@ -43,6 +43,8 @@ class LoginController extends Controller
 
         if(Auth::user()->hasRole('admin')){
             return route('admin.index');
+        }elseif(Auth::user()->hasRole('teacher')){
+            
         }else{
             return route('student');
         }

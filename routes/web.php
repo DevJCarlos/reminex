@@ -20,7 +20,16 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => ['auth', 'role:student']], function(){
+    Route::get('student/', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
+
+    // 
     
+    // about us
+    Route::get('/bout-us', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
+});
+
+
+Route::group(['middleware' => ['auth', 'role:teacher']], function(){
     Route::get('student/', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
 });
 
@@ -43,11 +52,6 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
     //saving periods
     Route::post('/periods', [\App\Http\Controllers\PeriodController::class, 'store'])->name('periods.store');
-
-
-
-
-
 
     // class recor
     
