@@ -41,8 +41,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::post('exam/additionalInfo',[\App\Http\Controllers\ExamController::class,'fetchAdditionalInfo'])->name('exam.fetch.additionalInfo');
     Route::post('exam/displaytable',[\App\Http\Controllers\ExamController::class,'displaygentable'])->name('displaygentab');
 
-    //saving periods
-    Route::post('/periods', [\App\Http\Controllers\PeriodController::class, 'store'])->name('periods.store');
+    //saving schedule
+    Route::post('/periods', [\App\Http\Controllers\ExamDayController::class, 'saveDay'])->name('periods.saveDay');
 
 
 

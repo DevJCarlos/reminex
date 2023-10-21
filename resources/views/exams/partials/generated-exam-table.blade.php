@@ -21,13 +21,10 @@
                 </tbody>
             </table>
         </div>
-            <!-- <form action="{{ route('periods.store') }}" method="POST">
-                @csrf 
-                 -->
                 
                 
                 <button type="button" class="btn btn-success text-white"
-                            onclick="SaveInfo()">Save Schedule</button>
-            <!-- </form> -->
+                            id="save-button">Save Schedule</button>
+            
     </div>
 </div>
