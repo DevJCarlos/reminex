@@ -1,0 +1,27 @@
+@extends('layouts.guest')
+
+@section('content') 
+        <div class="main">
+            <main class="content">
+				<div class="container-fluid p-0">
+
+					<h1 class="h3 mb-3"><strong>Exam Schedule</strong></h1>
+
+					<div class="row">
+						<div class="col-6">
+							<div class="card">
+								<div class="card-header">
+									<h5 class="card-title mb-0">Your Exam Schedule is <span class="badge bg-warning">Not Yet Available</span>.</h5>
+								</div>
+							</div>
+						</div>					
+					</div>
+				</div>
+			</main>
+        </div>
+
+@endsection
+
+@section('scripts')
+<script src="{{asset('import/js/app.js')}}"></script>
+@endsection

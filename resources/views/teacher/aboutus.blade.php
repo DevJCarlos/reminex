@@ -35,10 +35,10 @@
 						Pages
 					</li>
 
-					<li class="sidebar-item">
+					<li class="sidebar-item active">
 						<a class="sidebar-link" href="index.html">
-							<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
-						</a>
+              				<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
+           				 </a>
 					</li>
 
 					<li class="sidebar-item">
@@ -57,7 +57,7 @@
 						</a>
 					</li>
 
-					<li class="sidebar-item active">
+					<li class="sidebar-item">
 						<a class="sidebar-link" href="requestarchive.html">
 							<i class="align-middle" data-feather="hard-drive"></i> <span class="align-middle">Requests Archive</span>
 						</a>
@@ -166,29 +166,13 @@
 			<main class="content">
 				<div class="container-fluid p-0">
 
-					<h1 class="h3 mb-3">Requests <strong>Archive</strong></h1>
+					<h1 class="h3 mb-3"><strong class="text-warning">Reminex</strong> Dashboard</h1>
 
 					<div class="row">
-						<div class="col-7">
+						<div class="col-6">
 							<div class="card">
 								<div class="card-header">
-									<h5 class="card-title mb-0">Archive is empty.</h5><br>
-
-										<form action="#" method="#">
-										<button type="button" class="collapsible">
-												<div class="row">
-													<div class="col-9">Basan, Gian Rogel Y. </div>
-													<div class="col-3"><span class="badge bg-secondary">10/10/23 10:00 AM</span></div>
-												</div>
-											</button>
-												<div class="content2"><br>
-													<label for="request"><strong>Request Type: &nbsp;</strong></label><label for="request"> Reschedule Request</label><br>
-													<label for="request"><strong>Subject to Take:  &nbsp;</strong></label><label for="request"> Event-Driven Programming</label><br>
-													<label for="request"><strong>Instructor:  &nbsp;</strong></label><label for="request"> Mr. Elbert Gumban</label><br>
-													<label for="request"><strong>Time Availability:  &nbsp;</strong></label><label for="request"> 10:00 AM - 12:00 PM</label><br><br>
-													<input type="submit" class="btn btn-warning btn-lg" id="createSched" value="Create New Schedule"><br><br>
-												</div>
-										</form>
+									<h5 class="card-title mb-0">Exam Schedule is <span class="badge bg-warning">Not Yet Available</span>.</h5>
 								</div>
 							</div>
 						</div>					

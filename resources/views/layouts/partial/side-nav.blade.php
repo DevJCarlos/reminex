@@ -10,12 +10,12 @@
                 Pages
             </li>
             <li class="sidebar-item active">
-                <a class="sidebar-link" href="index.html">
+                <a class="sidebar-link" href="{{url('student/index')}}">
                     <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
                 </a>
             </li>
             <li class="sidebar-item">
-                <a class="sidebar-link" href="examSchedule.html">
+                <a class="sidebar-link" href="{{url('student/show')}}">
                     <i class="align-middle" data-feather="calendar"></i> <span class="align-middle">Exam Schedule</span>
                 </a>
             </li>
@@ -24,13 +24,13 @@
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="createRequest.html">
+                <a class="sidebar-link" href="{{url('student/createrequest')}}">
                     <i class="align-middle" data-feather="edit-3"></i> <span class="align-middle">Create Request</span>
                 </a>
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="viewRequest.html">
+                <a class="sidebar-link" href="{{url('student/viewrequest')}}">
                     <i class="align-middle" data-feather="eye"></i> <span class="align-middle">View Requests</span>
                 </a>
             </li>
@@ -40,7 +40,7 @@
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="newSchedule.html">
+                <a class="sidebar-link" href="{{url('student/newsched')}}">
                     <i class="align-middle" data-feather="calendar"></i> <span class="align-middle">Your New Schedule</span>
                 </a> 
             </li>

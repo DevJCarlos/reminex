@@ -118,7 +118,7 @@
       <div class="container" data-aos="fade-up">
 
         <div class="section-title">
-          <h2>Developers</h2>
+          <h2>Capstone Project Members</h2>
         </div>
 
         <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
