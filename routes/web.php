@@ -14,8 +14,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('student.index');
+    return view('login.loginstudent');
 })->name('student');
+
+Route::get('/faculty', function () {
+    return view('login.loginfaculty');
+})->name('faculty');
+
+Route::get('/admin', function () {
+    return view('login.loginadmin');
+})->name('admin');
+
+
 
 Auth::routes();
 

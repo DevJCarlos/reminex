@@ -10,25 +10,25 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/ReminExlogolink3.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="{{ asset('import2/img/ReminExlogolink3.png') }}" rel="icon">
+  <link href="{{ asset('import2/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <!-- <link href="assets/vendor/aos/aos.css" rel="stylesheet"> -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="{{ asset('import2/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('import2/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+  <link href="{{ asset('import2/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('import2/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('import2/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="{{ asset('import2/css/style.css') }}" rel="stylesheet">
 
   <!-- Login Form -->
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <link href="maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
   <!-- =======================================================
   * Template Name: MyResume
@@ -62,7 +62,7 @@
     <div class="col-lg-6 col-md-6 d-flex align-items-stretch">
       <div class="card">
             <div class="container" data-aos="zoom-in" data-aos-delay="100">
-              <h1><img src="assets/img/loginlogo31.png" 
+              <h1><img src="{{ asset('import2/img/loginlogo31.png') }}" 
                       alt="logo"
                       width="400">
               </h1>
@@ -87,6 +87,7 @@
               <input type="password" id="password" class="fadeIn third" name="login" placeholder="Password">
               <input type="submit" class="fadeIn fourth" value="Log In">
             </form>
+            <a href="{{ route('student') }}">Sign In as Student</a> &nbsp;&nbsp; <a href="{{ route('admin') }}">Sign In as Admin</a>
         
             <!-- Remind Passowrd -->
             <div id="formFooter">
@@ -107,7 +108,7 @@
       <div class="container" data-aos="fade-up">
 
         <div class="section-title">
-          <h2><img src="assets/img/loginlogoabout.png" id="icon" alt="User Icon" /></h2>
+          <h2><img src="{{ asset('import2/img/loginlogoabout.png') }}" id="icon" alt="User Icon" /></h2>
           <p>ReminEx is an Exam Reminder and Scheduling Management System that provides a comprehensive solution for scheduling exams, managing conflicts, and facilitating rescheduling requests. By incorporating an efficient algorithm and considering various constraints, the system streamlines the exam management process, ensuring accuracy, transparency, and optimal resource utilization. 
           </p>
         </div>
@@ -125,12 +126,11 @@
 
             <div class="swiper-slide">
               <div class="testimonial-item">
-                <img src="assets/img/testimonials/basan.png" class="testimonial-img" alt="">
+                <img src="{{ asset('import2/img/testimonials/basan.png') }}" class="testimonial-img" alt="">
                 <h3>Gian Rogel Y. Basan</h3>
                 <h4>STI College Gensan - BSIT Student</h4><br>
                 <h4>Calumpang, General Santos City</h4>
                 <h4>gbasan008@gmail.com</h4>
-                <h4>09972282229</h4>
                 <p>
                   <i class="bx bxs-quote-alt-left quote-icon-left"></i>
                   Verify and Execute. Ipasa mi Sir Dan!
@@ -141,12 +141,11 @@
 
             <div class="swiper-slide">
               <div class="testimonial-item">
-                <img src="assets/img/testimonials/ano.jpg" class="testimonial-img" alt="">
+                <img src="{{ asset('import2/img/testimonials/ano.jpg') }}" class="testimonial-img" alt="">
                 <h3>Ryan Jun A. Año</h3>
                 <h4>STI College Gensan - BSIT Student</h4><br>
                 <h4>Phas1 1 La Consolacion, Apopong, General Santos City</h4>
                 <h4>ryan.rain79@gmail.com</h4>
-                <h4>09217390747</h4>
                 <p>
                   <i class="bx bxs-quote-alt-left quote-icon-left"></i>
                   Pen is Mightier than the Sword.
@@ -157,12 +156,11 @@
             
             <div class="swiper-slide">
               <div class="testimonial-item">
-                <img src="assets/img/testimonials/degamo.jpg" class="testimonial-img" alt="">
+                <img src="{{ asset('import2/img/testimonials/degamo.jpg') }}" class="testimonial-img" alt="">
                 <h3>Maedy Luna E. Degamo</h3>
                 <h4>STI College Gensan - BSIT Student</h4><br>
                 <h4>Prk. 19, Promiseland 2, Mabuhay, General Santos City</h4>
                 <h4>Degamo.2384140@gmail.com</h4>
-                <h4>09661348195</h4>
                 <p>
                   <i class="bx bxs-quote-alt-left quote-icon-left"></i>
                   Time is Gold.
@@ -173,12 +171,11 @@
 
             <div class="swiper-slide">
               <div class="testimonial-item">
-                <img src="assets/img/testimonials/begtasen.jpg" class="testimonial-img" alt="">
+                <img src="{{ asset('import2/img/testimonials/begtasen.jpg') }}" class="testimonial-img" alt="">
                 <h3>Rhea Mave C. Begtasen</h3>
                 <h4>STI College Gensan - BSIT Student</h4><br>
                 <h4>Prk. Malinawon, Poblacion, Polomolok, South Cotabato</h4>
                 <h4>rheamavec@gmail.com</h4>
-                <h4>093170009789</h4>
                 <p>
                   <i class="bx bxs-quote-alt-left quote-icon-left"></i>
                   Pamasahe is the key.
@@ -259,22 +256,22 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/typed.js/typed.umd.js"></script>
-  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="{{ asset('import2/vendor/purecounter/purecounter_vanilla.js') }}"></script>
+  <script src="{{ asset('import2/vendor/aos/aos.js') }}"></script>
+  <script src="{{ asset('import2/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('import2/vendor/glightbox/js/glightbox.min.js') }}"></script>
+  <script src="{{ asset('import2/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+  <script src="{{ asset('import2/vendor/swiper/swiper-bundle.min.js') }}"></script>
+  <script src="{{ asset('import2/vendor/typed.js/typed.umd.js') }}"></script>
+  <script src="{{ asset('import2/vendor/waypoints/noframework.waypoints.js') }}"></script>
+  <script src="{{ asset('import2/vendor/php-email-form/validate.js') }}"></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <script src="{{ asset('import2/js/main.js') }}"></script>
 
   <!-- Login Form JS -->
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 </body>
 
