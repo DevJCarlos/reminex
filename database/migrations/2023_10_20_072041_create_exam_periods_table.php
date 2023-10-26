@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Auto-fill the 'period_name' column
+        
         DB::table('exam_periods')->insert([
             ['period_name' => 'Prelims'],
             ['period_name' => 'Midterms'],

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('exam_proctors', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('exam_section_ID'); // Foreign key reference to ExamSection
-            $table->string('proc_name');
+            $table->unsignedBigInteger('exam_section_ID')->nullable()->default(null); // Foreign key reference to ExamSection
+            $table->string('proc_name')->nullable()->default(null);
             $table->timestamps();
 
             $table->foreign('exam_section_ID')

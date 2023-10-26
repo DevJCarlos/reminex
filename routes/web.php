@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/upload-sec', [\App\Http\Controllers\HomeController::class, 'saveData'])->name('listbysec.csv');
 
     // exam generate sa create
     Route::get('exam/index', [\App\Http\Controllers\ExamController::class, 'index'])->name('exam.index');
@@ -42,7 +43,9 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::post('exam/displaytable',[\App\Http\Controllers\ExamController::class,'displaygentable'])->name('displaygentab');
 
     //saving schedule
-    Route::post('/periods', [\App\Http\Controllers\ExamDayController::class, 'saveDay'])->name('periods.saveDay');
+    Route::post('/exam-days', [\App\Http\Controllers\ExamDayController::class, 'saveDay'])->name('examdays.save');
+    Route::post('/exam-times', [\App\Http\Controllers\ExamTimeController::class, 'saveExamTimes'])->name('examtimes.save');
+
 
 
 

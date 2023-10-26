@@ -58,7 +58,7 @@ class ExamController extends Controller
             DB::table('upload_csv_matrices')->insert($data);
         }
 
-        return redirect()->back()->with('success', 'File uploaded successfully.');
+        return redirect()->back()->with('message', 'File uploaded successfully.');
     }
 
     //fetch csv data
@@ -107,11 +107,6 @@ class ExamController extends Controller
         return response()->json($subjects);
     } 
     
-
-
-
-
-  
     public function fetchAdditionalInfo(Request $request){
         $selectedSubjectNames = $request->json()->all();
     
@@ -170,7 +165,6 @@ class ExamController extends Controller
     
         return response()->json($additionalInfo);
     }
-    
     
     public function displaygentable(Request $request) {
         $selectedSubjectNames1 = $request->json()->all();
@@ -238,7 +232,6 @@ class ExamController extends Controller
         
     }
     
-    
-        }    
+}    
     
 

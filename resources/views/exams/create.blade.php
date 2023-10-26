@@ -383,17 +383,13 @@
 
             xhr.send(JSON.stringify(selectedSubjectNames1));
             //console.log(selectedSubjectNames1);
-        }
-
-        
-        
+        }       
         function addAndGenerate() {
             addExaminationPeriod(); 
             generateExam();
             
         }
-
-
+        var sortSchedule;
         function generateExam() {
             var timeSlotRooms = [];
             var SubProperty = [];
@@ -481,7 +477,7 @@
             
 
             //merging Section
-            var sortSchedule = JSON.parse(JSON.stringify(examSchedule));
+            sortSchedule = JSON.parse(JSON.stringify(examSchedule));
 
             sortSchedule.forEach((timeSlot) => {
                 const mergedData = [];
@@ -591,6 +587,20 @@
 
                 console.log('Updated sortSchedule:', sortSchedule);
 
+                // var timeSlotsAndRooms = sortSchedule.map(timeSlot => {
+                //     return {
+                //         time: timeSlot.time,
+                //         rooms: timeSlot.room,
+                //         subjectName: timeSlot.subjects.map(subject => subject.subjectName),
+                //         sectionData: timeSlot.finalmergedSort.map(mergedData => mergedData.sectionData),
+                //         ClassNumbers: timeSlot.finalmergedSort.map(mergedData => mergedData.ClassNumbers),
+                //         Instructors: timeSlot.finalmergedSort.map(mergedData => mergedData.Instructors),
+                //         StudentCounts: timeSlot.finalmergedSort.map(mergedData => mergedData.StudentCountstr),
+                //     };
+                // });
+                // console.log('check', timeSlotsAndRooms);
+
+
                 // Get the table body element
                 const tableBody = document.getElementById('tableBody'); // Assuming you have a tbody element with the id "tableBody"
 
@@ -640,30 +650,39 @@
                     tableBody.appendChild(row);
                 });
             });
+            var timeSlotsAndRooms = examData(sortSchedule);
+            //console.log('check', timeSlotsAndRooms);
+
 
                 
         }
-        function SaveInfo(data) {
-                
-            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            fetch('/periods', {
+        function saveDay(data) {
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            
+            return fetch('/exam-days', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken 
+                    'X-CSRF-TOKEN': csrfToken
                 },
                 body: JSON.stringify(data)
+                
             })
-            .then(response => response.json())
-            .then(data => {
-                    
-                console.log('Response:', data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+            .then(response => response.json());
+            
         }
+
+        function examData(sortSchedule) {
+            var times = sortSchedule.map(timeSlot => timeSlot.time);
+
+            var data = {
+                times: JSON.stringify(times)
+            };
+
+            return data; 
+        }
+
         var saveButton = document.getElementById('save-button');
         saveButton.addEventListener('click', function() {
             var datePicker = document.getElementById('date-picker');
@@ -675,20 +694,56 @@
             var periodSelectVal = periodSelect.value;
 
             if (dateValue && selectedDay && periodSelectVal) {
-                var data = {
+                var requestData = {
                     date: dateValue,
                     day_num: selectedDay,
                     period: periodSelectVal,
                 };
-                console.log('new', data);
 
-                // Call the SaveInfo function to send the data
-                SaveInfo(data);
+                
+                saveDay(requestData)
+                
+                .then(data => {
+                    console.log('Response:', data);
+                    
+                    // location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+
+                
+                var examTimesData = examData(sortSchedule);
+
+                var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                
+                fetch('/exam-times', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify(examTimesData)
+                })
+                .then(response => response.json())
+
+                .then(data => {
+                    console.log('Response from the server (exam-times):', data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
             } else {
                 alert('Please select date and day of the exam Schedule.');
-                location.reload(); // Refresh the page
             }
         });
+
+
+
+        
+
 
         
     </script>

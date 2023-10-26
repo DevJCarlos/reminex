@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('exam_sections', function (Blueprint $table) {
             $table->id();
-            $table->string('section_name');
-            $table->string('class_num');
-            $table->string('Instructor');
-            $table->unsignedBigInteger('exam_subject_ID'); // Foreign key reference to ExamSubject
+            $table->string('section_name')->nullable()->default(null);
+            $table->string('class_num')->nullable()->default(null);
+            $table->string('Instructor')->nullable()->default(null);
+            $table->unsignedBigInteger('exam_subject_ID')->nullable()->default(null); // Foreign key reference to ExamSubject
             $table->timestamps();
 
             $table->foreign('exam_subject_ID')

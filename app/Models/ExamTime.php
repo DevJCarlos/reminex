@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class ExamTime extends Model
 {
     use HasFactory;
+    
+    protected $fillable = ['exam_time'];
+    protected $table = 'exam_times';
+    
+
+    public function examDay()
+    {
+        return $this->belongsTo(ExamDay::class, 'exam_day_ID', 'id');
+    }
 }

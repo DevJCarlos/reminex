@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('exam_rooms', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('exam_time_ID'); // Foreign key reference to ExamTime
-            $table->string('room_name');
+            $table->unsignedBigInteger('exam_time_ID')->nullable()->default(null); // Foreign key reference to ExamTime
+            $table->string('room_name')->nullable()->default(null);
             $table->timestamps();
 
             $table->foreign('exam_time_ID')
