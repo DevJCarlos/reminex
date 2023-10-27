@@ -88,6 +88,28 @@
             cursor: pointer;
             user-select: none;
         }
+        /* Hide all content sections by default */
+        .accordion-content {
+            display: none;
+        }
+
+        /* Style the buttons for better appearance */
+        .accordion-button {
+            background-color: #f1f1f1;
+            color: #333;
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            text-align: left;
+        }
+
+        /* Style the card body */
+        .card-body {
+            background-color: #fff;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
    
     </style>
 
@@ -106,6 +128,8 @@
     @yield('styles')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    
  
     
 

@@ -9,27 +9,32 @@ use Illuminate\Support\Facades\Log;
 class ExamTimeController extends Controller
 {
     public function saveExamTimes(Request $request)
-    {
-        $data = $request->json()->all();
-        $timesString = str_replace(['[', ']', '"'], '', $data['times']);
-        $timesArray = explode(',', $timesString);
-        
-        foreach ($timesArray as $time) {
-            $trimmedTime = trim($time);
+{
+    $data = $request->json()->all();
+    $timesString = str_replace(['[', ']', '"'], '', $data['times']);
+    $timesArray = explode(',', $timesString);
     
-            if (!empty($trimmedTime)) {
-                // Create an ExamTime
-                $examTime = new ExamTime(['exam_time' => $trimmedTime]);
-                $examTime->save();
+    // Get the latest ExamDay ID from the 'exam_days' table
+    $latestExamDayID = ExamDay::latest('id')->value('id');
 
-                // Create an associated ExamDay and attach the ExamTime to it
-                $examDay = new ExamDay();
-                $examDay->examTimes()->save($examTime);
-            }
+    foreach ($timesArray as $time) {
+        $trimmedTime = trim($time);
+
+        if (!empty($trimmedTime)) {
+            $examTime = new ExamTime([
+                'exam_time' => $trimmedTime,
+                'exam_day_ID' => $latestExamDayID
+            ]);
+            $examTime->save();
         }
-
-        return response()->json([])->header('Location', route('exam.create'));
     }
+
+    return response()->json([])->header('Location', route('exam.create'));
+}
+
+    
+    
+
 }
     
     

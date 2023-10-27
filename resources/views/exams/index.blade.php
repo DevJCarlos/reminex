@@ -1,7 +1,175 @@
 @extends('layouts.app')
 
+
 @section('content')
-    <div class="container">
-        dri ang list sa tanan exam na naka table. ang name is link pa dulung sa edit file kung asa mag edit ang exam
+<div class="accordion">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="accordion-item">
+                    <div class="card-body">
+                        <div class="accordion-header">Prelims Exam Table
+                            <i class="accordion-arrow fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                        <table class="table table-bordered" width="100%" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Subject</th>
+                                    <th>Section</th>
+                                    <th>Class Number</th>
+                                    <th>Instructor</th>
+                                    <th>Student Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th>no data</th>
+                                <th>no data</th>
+                                <th>no data</th>
+                                <th>no data</th>
+                                <th>no data</th>
+                                <th>no data</th>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="col-12">
+                <div class="card">
+                    <div class="accordion-item">
+                    <div class="card-body">
+                        <div class="accordion-header">Midterms Exam Table
+                            <i class="accordion-arrow fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                        <table class="table table-bordered" width="100%" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Subject</th>
+                                    <th>Section</th>
+                                    <th>Class Number</th>
+                                    <th>Instructor</th>
+                                    <th>Student Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th>no data</th>
+                                <th>no data</th>
+                                <th>no data</th>
+                                <th>no data</th>
+                                <th>no data</th>
+                                <th>no data</th>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="accordion-item">
+                    <div class="card-body">
+                        <div class="accordion-header">Pre-Finals Exam Table
+                            <i class="accordion-arrow fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                        <table class="table table-bordered" width="100%" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Subject</th>
+                                    <th>Section</th>
+                                    <th>Class Number</th>
+                                    <th>Instructor</th>
+                                    <th>Student Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th>no data</th>
+                                <th>no data</th>
+                                <th>no data</th>
+                                <th>no data</th>
+                                <th>no data</th>
+                                <th>no data</th>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="accordion-item">
+                    <div class="card-body">
+                        <div class="accordion-header">Finals Exam Table
+                            <i class="accordion-arrow fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                        <table class="table table-bordered" width="100%" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Subject</th>
+                                    <th>Section</th>
+                                    <th>Class Number</th>
+                                    <th>Instructor</th>
+                                    <th>Student Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th>no data</th>
+                                <th>no data</th>
+                                <th>no data</th>
+                                <th>no data</th>
+                                <th>no data</th>
+                                <th>no data</th>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+@endsection
+
+@section('scripts')
+
+<script>
+    var accordionButtons = document.querySelectorAll('.accordion-button');
+
+// Add click event listeners to each button
+accordionButtons.forEach(function(button) {
+    button.addEventListener('click', function() {
+        // Toggle the next sibling element (the content section)
+        var content = this.nextElementSibling;
+        if (content.style.display === 'block') {
+            content.style.display = 'none';
+        } else {
+            content.style.display = 'block';
+        }
+    });
+});
+
+</script>
 @endsection

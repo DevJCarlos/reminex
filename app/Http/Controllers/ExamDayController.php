@@ -12,38 +12,37 @@ class ExamDayController extends Controller
     
     public function saveDay(Request $request)
     {
-        
         $date = $request->date;
         $day_num = $request->day_num;
         $period = $request->period;
-
-        // Log::info("Received date: $date, day_num: $day_num");
-        // Log::info("Received date: $period");
-
-        
+    
         if ($period === 'Prelim') {
-            
             $examPeriod = ExamPeriod::where('period_name', 'Prelims')->first();
-
-            // Log::info("ExamPeriod query result: " . json_encode($examPeriod));
-
-            if ($examPeriod) {
-               
-                $examDay = new ExamDay([
-                    'date' => $date,
-                    'day_num' => $day_num,
-                ]);
-
-                $examPeriod->examDays()->save($examDay);
-
-                
-                return response()->json([])->header('Location', route('exam.create'));
-            }
+        } elseif ($period === 'Midterm') {
+            $examPeriod = ExamPeriod::where('period_name', 'Midterms')->first();
+        }elseif ($period === 'Pre-Final') {
+            $examPeriod = ExamPeriod::where('period_name', 'Pre-Finals')->first();
+        }elseif ($period === 'Finals') {
+            $examPeriod = ExamPeriod::where('period_name', 'Finals')->first();
         }
-
-        
-        return response()->json(['message' => 'Invalid period or ExamPeriod not found'], 400);
+         else {
+            return response()->json(['message' => 'Invalid period'], 400);
+        }
+    
+        if ($examPeriod) {
+            $examDay = new ExamDay([
+                'date' => $date,
+                'day_num' => $day_num,
+            ]);
+    
+            $examPeriod->examDays()->save($examDay);
+    
+            return response()->json([])->header('Location', route('exam.create'));
+        }
+    
+        return response()->json(['message' => 'ExamPeriod not found'], 400);
     }
+    
 
     
 }

@@ -9,7 +9,7 @@ class ExamTime extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['exam_time'];
+    protected $fillable = ['exam_time', 'exam_day_ID'];
     protected $table = 'exam_times';
     
 
