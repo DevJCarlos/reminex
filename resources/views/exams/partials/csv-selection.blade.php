@@ -5,7 +5,7 @@
                 <i class="accordion-arrow fas fa-chevron-down"></i>
             </div>
             <div class="accordion-content">
-                {{-- include the cvs upload file --}}
+                {{-- include the csv upload file --}}
                 @include('exams.partials.csv-upload-form')
                 <div class="border-top">
                     <div class="card-body">

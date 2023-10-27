@@ -51,9 +51,11 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/upload-sec', [\App\Http\Controllers\HomeController::class, 'saveData'])->name('listbysec.csv');
 
     // exam generate sa create
-    Route::get('exam/index', [\App\Http\Controllers\ExamController::class, 'index'])->name('exam.index');
+    Route::get('exam/index', [\App\Http\Controllers\ExamController::class, 'index'])->name('exams.index');
+
     Route::get('exam/create', [\App\Http\Controllers\ExamController::class, 'create'])->name('exam.create');
     Route::post('/fetch-subjects', [\App\Http\Controllers\ExamController::class, 'fetchSubjects'])->name('exam.fetch.subjects');
     Route::post('/upload-csv', [\App\Http\Controllers\ExamController::class, 'uploadCSV'])->name('upload.csv');
@@ -62,6 +64,11 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
     //saving periods
     Route::post('/periods', [\App\Http\Controllers\PeriodController::class, 'store'])->name('periods.store');
+
+
+
+
+
 
     // class recor
     

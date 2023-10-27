@@ -149,10 +149,10 @@ class HomeController extends Controller
 
     foreach ($csv as $record) {
 
-        $coursecode = $record[0]; // First column sa csv
-        $coursedesc = $record[3]; // Fourth column sa csv
-        $sectioncourse = $record[2]; // third column
-        $teachername = mb_convert_encoding($record[24], 'UTF-8', 'auto');
+        $coursecode = $record[1]; // First column sa csv
+        $coursedesc = $record[4]; // Fourth column sa csv
+        $sectioncourse = $record[3]; // third column
+        $teachername = mb_convert_encoding($record[25], 'UTF-8', 'auto');
         
 
         $subjectData[] = [

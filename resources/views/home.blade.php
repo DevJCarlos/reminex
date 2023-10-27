@@ -20,6 +20,10 @@
             <div class="col-lg-12">
                 <form method="post" action="{{ route('listbysec.csv') }}" enctype="multipart/form-data">
                     @csrf
+
+                    @if (session('success'))
+                    <div class="alert alert success">{{session('success')}}</div>
+                    @endif
                     <br>
                     <br>
                     <div class="mb-3 form-group">
