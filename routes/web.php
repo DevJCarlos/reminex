@@ -40,7 +40,11 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
 
 
 Route::group(['middleware' => ['auth', 'role:teacher']], function(){
-    Route::get('student/', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
+    //butangi ang mga wala dri 
+    // Route::get('faculty/', [App\Http\Controllers\TeacherController::class, 'index'])->name('faculty.index');
+    // Route::get('/faculty/examsched', [App\Http\Controllers\TeacherController::class, 'index'])->name('faculty.index');
+    // Route::get('/faculty/managerequests', [App\Http\Controllers\TeacherController::class, 'index'])->name('faculty.index');
+    // Route::get('/faculty/archive', [App\Http\Controllers\TeacherController::class, 'index'])->name('faculty.index');
 });
 
 

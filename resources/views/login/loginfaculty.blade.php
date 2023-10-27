@@ -205,19 +205,19 @@
               <div class="address">
                 <i class="bi bi-geo-alt"></i>
                 <h4>Location:</h4>
-                <p>STI College General Santos</p>
+                <p>J.Catolico Avenue, General Santos City, 9500</p>
               </div>
 
               <div class="email">
                 <i class="bi bi-envelope"></i>
                 <h4>Email:</h4>
-                <p>stigensan@gmail.com</p>
+                <p>sti.gensan@gmail.com</p>
               </div>
 
               <div class="phone">
                 <i class="bi bi-phone"></i>
                 <h4>Call:</h4>
-                <p>+1 5589 55488 55s</p>
+                <p>(083) 554 3038</p>
               </div>
 
             </div>
@@ -235,7 +235,7 @@
   <footer id="footer">
     <div class="container">
       <h3>STI College General Santos</h3>
-      <h4>Lagao, General Santos City</h4>
+      <h4>J.Catolico Avenue, General Santos City</h4>
       <div class="copyright">
         <strong><span>Reminex</span></strong>. All Rights Reserved
       </div>
