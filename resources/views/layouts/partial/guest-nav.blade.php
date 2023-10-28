@@ -107,8 +107,10 @@
                     <div class="dropdown-menu dropdown-menu-end">
                         <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Profile</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="help-circle"></i> Help Center</a>
-                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="changePassword.html"><i class="align-middle me-1" data-feather="user"></i> Change Password</a>
+								<div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="aboutus.html"><i class="align-middle me-1" data-feather="info"></i> About Us</a>
+								<div class="dropdown-divider"></div>
                     {{-- <a class="dropdown-item" href="{{ route('logout') }}">Log out</a> --}}
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
