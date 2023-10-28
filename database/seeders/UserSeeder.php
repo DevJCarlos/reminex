@@ -27,12 +27,20 @@ class UserSeeder extends Seeder
             'password' => Hash::make('admin123'),
         ]);
 
-        Role::createMany([
-            ['name' => 'admin'],
-            ['name' => 'student'],
-            ['name' => 'teacher'],
+        DB::table('users')->insert([
+            'name' => 'student',
+            'email' => 'student@reminex.com',
+            'password' => Hash::make('admin123'),
         ]);
-        
+
+        DB::table('users')->insert([
+            'name' => 'teacher',
+            'email' => 'teacher@reminex.com',
+            'password' => Hash::make('admin123'),
+        ]);
+
         \App\Models\User::where('email','admin@reminex.com')->first()->assignRole('admin');
+        \App\Models\User::where('email','student@reminex.com')->first()->assignRole('student');
+        \App\Models\User::where('email','teacher@reminex.com')->first()->assignRole('teacher');
     }
 }

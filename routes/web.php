@@ -17,11 +17,11 @@ Route::get('/', function () {
     return view('login.loginstudent');
 })->name('student');
 
-Route::get('/faculty', function () {
+Route::get('/facultyLogin', function () {
     return view('login.loginfaculty');
 })->name('faculty');
 
-Route::get('/admin', function () {
+Route::get('/adminLogin', function () {
     return view('login.loginadmin');
 })->name('admin');
 
@@ -32,10 +32,8 @@ Auth::routes();
 Route::group(['middleware' => ['auth', 'role:student']], function(){
     Route::get('student/', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
 
-    // 
-    
     // about us
-    Route::get('/bout-us', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
+    // Route::get('/bout-us', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
 });
 
 
@@ -51,6 +49,9 @@ Route::group(['middleware' => ['auth', 'role:teacher']], function(){
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('admin.index');
     Route::view('about', 'about')->name('about');
+    Route::get('/register', function () {
+        return view('auth.register');
+    })->name('register');
     Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
     
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');

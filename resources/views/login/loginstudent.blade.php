@@ -82,9 +82,10 @@
             </div>
         
             <!-- Login Form -->
-                <form>
-                  <input type="number" id="login" class="fadeIn second" name="login" placeholder="Student IDN">
-                  <input type="password" id="password" class="fadeIn third" name="login" placeholder="Password">
+                <form action="{{ route('login') }}" method="POST">
+                  @csrf
+                  <input type="text" id="login" class="fadeIn second" name="username" placeholder="Student IDN">
+                  <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password">
                   <input type="submit" class="fadeIn fourth" value="Log In">
                 </form>
                 <a href="{{ route('faculty') }}">Sign In as Faculty</a> &nbsp;&nbsp; <a href="{{ route('admin') }}">Sign In as Admin</a>
