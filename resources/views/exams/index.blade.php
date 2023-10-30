@@ -1,4 +1,7 @@
 @extends('layouts.app')
+<head>
+    
+</head>
 
 
 @section('content')
@@ -12,11 +15,12 @@
                             <i class="accordion-arrow fas fa-chevron-down"></i>
                         </div>
                         <div class="accordion-content">
-                        <table class="table table-bordered" width="100%" style="text-align: center;">
+                        <table id="Prelims" class="display" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Time</th>
                                     <th>Subject</th>
+                                    <th>Rooms</th>
                                     <th>Section</th>
                                     <th>Class Number</th>
                                     <th>Instructor</th>
@@ -25,6 +29,7 @@
                             </thead>
                             <tbody>
                             <tr>
+                                <th>no data</th>
                                 <th>no data</th>
                                 <th>no data</th>
                                 <th>no data</th>
@@ -158,18 +163,34 @@
 <script>
     var accordionButtons = document.querySelectorAll('.accordion-button');
 
-// Add click event listeners to each button
-accordionButtons.forEach(function(button) {
-    button.addEventListener('click', function() {
-        // Toggle the next sibling element (the content section)
-        var content = this.nextElementSibling;
-        if (content.style.display === 'block') {
-            content.style.display = 'none';
-        } else {
-            content.style.display = 'block';
-        }
+    // Add click event listeners to each button
+    accordionButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            // Toggle the next sibling element (the content section)
+            var content = this.nextElementSibling;
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+            } else {
+                content.style.display = 'block';
+            }
+        });
     });
-});
+
+    $(document).ready(function() {
+    $('#Prelims').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                title: 'Data export'
+            },
+            {
+                extend: 'pdfHtml5',
+                title: 'Data export'
+            }
+        ]
+    } );
+} );
 
 </script>
 @endsection

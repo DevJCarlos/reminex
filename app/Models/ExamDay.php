@@ -22,6 +22,10 @@ class ExamDay extends Model
         return $this->belongsTo(ExamPeriod::class, 'exam_period_ID','id');
     }
 
+    public function examRooms()
+    {
+    return $this->hasMany(ExamRoom::class, 'exam_day_ID','id');
     
+    }
 
 }

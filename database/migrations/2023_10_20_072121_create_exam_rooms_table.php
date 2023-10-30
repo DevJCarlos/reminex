@@ -14,12 +14,18 @@ return new class extends Migration
         Schema::create('exam_rooms', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('exam_time_ID')->nullable()->default(null); // Foreign key reference to ExamTime
+            $table->unsignedBigInteger('exam_day_ID')->nullable()->default(null);
             $table->string('room_name')->nullable()->default(null);
             $table->timestamps();
 
             $table->foreign('exam_time_ID')
             ->references('id')
             ->on('exam_times')
+            ->onDelete('cascade');
+
+            $table->foreign('exam_day_ID')
+            ->references('id')
+            ->on('exam_days')
             ->onDelete('cascade');
         });
     }

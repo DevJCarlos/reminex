@@ -70,6 +70,13 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     //saving periods
     Route::post('/periods', [\App\Http\Controllers\PeriodController::class, 'store'])->name('periods.store');
 
+      //saving schedule
+      Route::post('/exam-days', [\App\Http\Controllers\ExamDayController::class, 'saveDay'])->name('examdays.save');
+      Route::post('/exam-times', [\App\Http\Controllers\ExamTimeController::class, 'saveExamTimes'])->name('examtimes.save');
+      Route::post('/exam-rooms', [\App\Http\Controllers\ExamRoomController::class, 'saveExamRooms'])->name('examrooms.save');
+      Route::post('/exam-subjects', [\App\Http\Controllers\ExamSubjectController::class, 'saveExamSubjects'])->name('examsubjects.save');
+      Route::post('/exam-SecPro', [\App\Http\Controllers\ExamSectionController::class, 'saveExamSections'])->name('examsections.save');
+
 
 
 

@@ -13,6 +13,7 @@ class ExamTimeController extends Controller
     $data = $request->json()->all();
     $timesString = str_replace(['[', ']', '"'], '', $data['times']);
     $timesArray = explode(',', $timesString);
+    // dd($timesArray);
     
     // Get the latest ExamDay ID from the 'exam_days' table
     $latestExamDayID = ExamDay::latest('id')->value('id');
@@ -25,6 +26,8 @@ class ExamTimeController extends Controller
                 'exam_time' => $trimmedTime,
                 'exam_day_ID' => $latestExamDayID
             ]);
+
+            // dd($examTime);
             $examTime->save();
         }
     }

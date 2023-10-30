@@ -683,10 +683,12 @@
         //room
         function examRoom(sortSchedule) {
             var room = sortSchedule.map(timeSlot => timeSlot.room);
+            var roomtimes = sortSchedule.map(timeSlot => timeSlot.time);
             var data = {
+                roomtime:roomtimes,
                 room: room,
             };
-            // console.log('room', data);
+            console.log('room', data);
             return data; 
         }
         //subject
@@ -862,12 +864,6 @@
 
             
         });
-
-
-
-        
-
-
-        
+   
     </script>
 @endsection
