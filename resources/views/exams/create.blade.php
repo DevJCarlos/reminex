@@ -587,19 +587,6 @@
 
                 console.log('Updated sortSchedule:', sortSchedule);
 
-                // var timeSlotsAndRooms = sortSchedule.map(timeSlot => {
-                //     return {
-                //         time: timeSlot.time,
-                //         rooms: timeSlot.room,
-                //         subjectName: timeSlot.subjects.map(subject => subject.subjectName),
-                //         sectionData: timeSlot.finalmergedSort.map(mergedData => mergedData.sectionData),
-                //         ClassNumbers: timeSlot.finalmergedSort.map(mergedData => mergedData.ClassNumbers),
-                //         Instructors: timeSlot.finalmergedSort.map(mergedData => mergedData.Instructors),
-                //         StudentCounts: timeSlot.finalmergedSort.map(mergedData => mergedData.StudentCountstr),
-                //     };
-                // });
-                // console.log('check', timeSlotsAndRooms);
-
 
                 // Get the table body element
                 const tableBody = document.getElementById('tableBody'); // Assuming you have a tbody element with the id "tableBody"
@@ -683,34 +670,26 @@
         //room
         function examRoom(sortSchedule) {
             var room = sortSchedule.map(timeSlot => timeSlot.room);
-            var roomtimes = sortSchedule.map(timeSlot => timeSlot.time);
             var data = {
-                roomtime:roomtimes,
                 room: room,
             };
-            console.log('room', data);
+            // console.log('room', data);
             return data; 
         }
         //subject
         function examSubjects(sortSchedule) {
-            var subjects = [];
-            sortSchedule.forEach(timeSlot => {
-                if (Array.isArray(timeSlot.finalmergedSort)) {
-                    timeSlot.finalmergedSort.forEach(subject => {
-                        if (subject.subjectName) {
-                            subjects.push(subject.subjectName); 
-                        }
-                    });
-                }
-            });
-  
+            var time = sortSchedule.map(timeSlot => timeSlot.time);
+            var subjectNames = sortSchedule.map(timeSlot => timeSlot.subjects.map(subject => subject.subjectName));
+            
             var data = {
-            subjects: subjects 
+                time: time,
+                subjects: subjectNames
             };
 
-            // console.log('data', data);
+            // console.log('examsubject', data);
             return data;
         }
+        //section
         function examSectionProperties(sortSchedule) {
 
             var data = {
@@ -739,12 +718,10 @@
                 }
             });
 
-            console.log('data', data);
+            // console.log('data', data);
             return data;
         }
-
-
-
+        //json response
         var saveButton = document.getElementById('save-button');
         saveButton.addEventListener('click', function() {
             var datePicker = document.getElementById('date-picker');

@@ -3,8 +3,26 @@
 
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" class="rel">
     
-    
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <!-- <script>
+        $(document).ready(function () {
+                displaySubjects(subjects); // Call your function to populate the table with data
+                $('#subjectsTable').DataTable();
+        });
+
+    </script> -->
+
+    <!-- <script>
+    $(document).ready(function () {
+        $('#subjectsTable').DataTable();
+    });
+    </script> -->
+
     
     <style>
 

@@ -39,10 +39,10 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
 
 Route::group(['middleware' => ['auth', 'role:teacher']], function(){
     //butangi ang mga wala dri 
-    // Route::get('faculty/', [App\Http\Controllers\TeacherController::class, 'index'])->name('faculty.index');
-    // Route::get('/faculty/examsched', [App\Http\Controllers\TeacherController::class, 'index'])->name('faculty.index');
-    // Route::get('/faculty/managerequests', [App\Http\Controllers\TeacherController::class, 'index'])->name('faculty.index');
-    // Route::get('/faculty/archive', [App\Http\Controllers\TeacherController::class, 'index'])->name('faculty.index');
+    Route::get('faculty/', [App\Http\Controllers\TeacherController::class, 'index'])->name('faculty.index');
+    Route::get('/faculty/examsched', [App\Http\Controllers\TeacherController::class, 'index'])->name('faculty.index');
+    Route::get('/faculty/managerequests', [App\Http\Controllers\TeacherController::class, 'index'])->name('faculty.index');
+    Route::get('/faculty/archive', [App\Http\Controllers\TeacherController::class, 'index'])->name('faculty.index');
 });
 
 
@@ -60,29 +60,26 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
     // exam generate sa create
     Route::get('exam/index', [\App\Http\Controllers\ExamController::class, 'index'])->name('exams.index');
-
     Route::get('exam/create', [\App\Http\Controllers\ExamController::class, 'create'])->name('exam.create');
     Route::post('/fetch-subjects', [\App\Http\Controllers\ExamController::class, 'fetchSubjects'])->name('exam.fetch.subjects');
     Route::post('/upload-csv', [\App\Http\Controllers\ExamController::class, 'uploadCSV'])->name('upload.csv');
     Route::post('exam/additionalInfo',[\App\Http\Controllers\ExamController::class,'fetchAdditionalInfo'])->name('exam.fetch.additionalInfo');
     Route::post('exam/displaytable',[\App\Http\Controllers\ExamController::class,'displaygentable'])->name('displaygentab');
 
-    //saving periods
+    //saving exam periods
     Route::post('/periods', [\App\Http\Controllers\PeriodController::class, 'store'])->name('periods.store');
-
-      //saving schedule
-      Route::post('/exam-days', [\App\Http\Controllers\ExamDayController::class, 'saveDay'])->name('examdays.save');
-      Route::post('/exam-times', [\App\Http\Controllers\ExamTimeController::class, 'saveExamTimes'])->name('examtimes.save');
-      Route::post('/exam-rooms', [\App\Http\Controllers\ExamRoomController::class, 'saveExamRooms'])->name('examrooms.save');
-      Route::post('/exam-subjects', [\App\Http\Controllers\ExamSubjectController::class, 'saveExamSubjects'])->name('examsubjects.save');
-      Route::post('/exam-SecPro', [\App\Http\Controllers\ExamSectionController::class, 'saveExamSections'])->name('examsections.save');
+    Route::post('/exam-days', [\App\Http\Controllers\ExamDayController::class, 'saveDay'])->name('examdays.save');
+    Route::post('/exam-times', [\App\Http\Controllers\ExamTimeController::class, 'saveExamTimes'])->name('examtimes.save');
+    Route::post('/exam-rooms', [\App\Http\Controllers\ExamRoomController::class, 'saveExamRooms'])->name('examrooms.save');
+    Route::post('/exam-subjects', [\App\Http\Controllers\ExamSubjectController::class, 'saveExamSubjects'])->name('examsubjects.save');
+    Route::post('/exam-SecPro', [\App\Http\Controllers\ExamSectionController::class, 'saveExamSections'])->name('examsections.save');
 
 
 
 
 
 
-    // class recor
+    // class record
     
     Route::post('/upload-sec', [\App\Http\Controllers\HomeController::class, 'saveData'])->name('listbysec.csv');
 

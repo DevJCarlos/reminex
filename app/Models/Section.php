@@ -11,7 +11,7 @@ class Section extends Model
     protected $fillable = ['name'];
 
     public function subject(){
-        return $this->belongsToMany(Subject::class,'model_classes');
+        return $this->belongsTo(Subject::class,'model_classes');
     }
 
     public function student(){
