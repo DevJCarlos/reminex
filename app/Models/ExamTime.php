@@ -12,12 +12,6 @@ class ExamTime extends Model
     protected $fillable = ['exam_time', 'exam_day_ID'];
     protected $table = 'exam_times';
     
-
-    public function examDay()
-    {
-        return $this->belongsTo(ExamDay::class, 'exam_day_ID', 'id');
-    }
-    
     public function examSub()
     {
         return $this->hasMany(ExamSubject::class, 'exam_time_ID', 'id');

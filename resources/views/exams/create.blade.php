@@ -762,83 +762,140 @@
                     body: JSON.stringify(examTimesData)
                 })
                 .then(response => response.json())
-
                 .then(data => {
-                    //console.log('Response from the server (exam-times):', data);
+                    if(data.message === 'Successful'){
+                        var examSubjectData = examSubjects(sortSchedule);
+                        fetch('/exam-subjects', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken
+                            },
+                        body: JSON.stringify(examSubjectData)
+                        })
+                        .then(response => response.json())
+
+                        .then(data => {
+                            if(data.message === 'Successful'){
+                                var examRoomData = examRoom(sortSchedule);
+                                fetch('/exam-rooms', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': csrfToken
+                                    },
+                                    body: JSON.stringify(examRoomData)
+                                })
+                                .then(response => response.json())
+
+                                .then(data => {
+                                     var examSectionPropertiesData = examSectionProperties(sortSchedule);
+                                    fetch('/exam-SecPro', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRF-TOKEN': csrfToken
+                                        },
+                                        body: JSON.stringify(examSectionPropertiesData)
+                                    })
+                                    .then(response => response.json())
+
+                                    .then(data => {
+                                        if(data.message === 'Successful'){
+                                            alert('Exam Schedule Saved Successfully');
+                                            location.reload();
+                                        } 
+                                    })
+                                    .catch(error => {
+                                        console.error('Error:', error);
+                                    });
+
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                });
+                                                                
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+
+                        }
+                        })
+                        .catch(roomError => {
+                            console.error('Error:', roomError);
+                        });
+                    }
                 })
-                .catch(error => {
-                    console.error('Error:', error);
+                    .catch(error => {
+                        console.error('Error:', error);
                 });
 
                 //RoomResponse
-                var examRoomData = examRoom(sortSchedule);
-                var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                fetch('/exam-rooms', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    body: JSON.stringify(examRoomData)
-                })
-                .then(response => response.json())
+                // var examRoomData = examRoom(sortSchedule);
+                // var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                // fetch('/exam-rooms', {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //         'X-CSRF-TOKEN': csrfToken
+                //     },
+                //     body: JSON.stringify(examRoomData)
+                // })
+                // .then(response => response.json())
 
-                .then(data => {
-                    console.log('Response from the server (room):', data);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+                // .then(data => {
+                //     console.log('Response from the server (room):', data);
+                // })
+                // .catch(error => {
+                //     console.error('Error:', error);
+                // });
 
                 // examSubjects(sortSchedule);
                 //subjects
-                var examSubjectData = examSubjects(sortSchedule);
-                var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                fetch('/exam-subjects', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    body: JSON.stringify(examSubjectData)
-                })
-                .then(response => response.json())
+                // var examSubjectData = examSubjects(sortSchedule);
+                // var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                // fetch('/exam-subjects', {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //         'X-CSRF-TOKEN': csrfToken
+                //     },
+                //     body: JSON.stringify(examSubjectData)
+                // })
+                // .then(response => response.json())
 
-                .then(data => {
-                    console.log('Response from the server (subjects):', data);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+                // .then(data => {
+                //     console.log('Response from the server (subjects):', data);
+                // })
+                // .catch(error => {
+                //     console.error('Error:', error);
+                // });
 
                 //examSectionProperties(sortSchedule);
-                var examSectionPropertiesData = examSectionProperties(sortSchedule);
-                var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                fetch('/exam-SecPro', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    body: JSON.stringify(examSectionPropertiesData)
-                })
-                .then(response => response.json())
+                // var examSectionPropertiesData = examSectionProperties(sortSchedule);
+                // var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                // fetch('/exam-SecPro', {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //         'X-CSRF-TOKEN': csrfToken
+                //     },
+                //     body: JSON.stringify(examSectionPropertiesData)
+                // })
+                // .then(response => response.json())
 
-                .then(data => {
-                    console.log('Response from the server (subjects):', data);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+                // .then(data => {
+                //     console.log('Response from the server (subjects):', data);
+                // })
+                // .catch(error => {
+                //     console.error('Error:', error);
+                // });
 
 
-                
-            } else {
-                alert('Please select date and day of the exam Schedule.');
-            }
-
+              
             
-        });
    
     </script>
 @endsection

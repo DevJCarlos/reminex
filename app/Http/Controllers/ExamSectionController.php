@@ -83,10 +83,11 @@ class ExamSectionController extends Controller
                     $latestExamSubject->examSections()->save($examSubject);
                 }
             }
-        }
         
+        }
+        return response()->json(['message' => 'Successful'])->header('Location', route('exam.create'));
     
-        return response()->json([])->header('Location', route('exam.create'));
+        
     }
     
 }

@@ -37,7 +37,7 @@ class ExamDayController extends Controller
     
             $examPeriod->examDays()->save($examDay);
     
-            return response()->json([])->header('Location', route('exam.create'));
+            return response()->json(['message' => 'Successful'])->header('Location', route('exam.create'));
         }
     
         return response()->json(['message' => 'ExamPeriod not found'], 400);

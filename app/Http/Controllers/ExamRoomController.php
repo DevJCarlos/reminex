@@ -33,6 +33,6 @@ class ExamRoomController extends Controller
             }
         }
     
-        return response()->json([])->header('Location', route('exam.create'));
+        return response()->json(['message' => 'Successful'])->header('Location', route('exam.create'));
     }
 }
