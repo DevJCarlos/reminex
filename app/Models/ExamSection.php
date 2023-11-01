@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ExamSection extends Model
 {
     use HasFactory;
+    protected $fillable = ['subject_name', 'section_name', 'class_num', 'instructor', 'class_count'];
 
     
 }

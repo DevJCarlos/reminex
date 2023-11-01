@@ -14,32 +14,34 @@
                         <div class="accordion-header">Prelims Exam Table
                             <i class="accordion-arrow fas fa-chevron-down"></i>
                         </div>
-                        <div class="accordion-content">
-                        <table id="Prelims" class="display" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Time</th>
-                                    <th>Subject</th>
-                                    <th>Rooms</th>
-                                    <th>Section</th>
-                                    <th>Class Number</th>
-                                    <th>Instructor</th>
-                                    <th>Student Count</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <th>no data</th>
-                                <th>no data</th>
-                                <th>no data</th>
-                                <th>no data</th>
-                                <th>no data</th>
-                                <th>no data</th>
-                                <th>no data</th>
-                            </tr>
-                            </tbody>
-                        </table>
-                        </div>
+                            <div class="accordion-content">
+                                <div class="container"> 
+                                    <table id="Prelims" class="display" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Subject</th>
+                                                <th>Rooms</th>
+                                                <th>Section</th>
+                                                <th>Class Number</th>
+                                                <th>Instructor</th>
+                                                <th>Student Count</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <th>no data</th>
+                                            <th>no data</th>
+                                            <th>no data</th>
+                                            <th>no data</th>
+                                            <th>no data</th>
+                                            <th>no data</th>
+                                            <th>no data</th>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>  
+                            </div>
                         </div>
                     </div>
                 </div>

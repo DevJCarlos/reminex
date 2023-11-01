@@ -11,10 +11,11 @@ class ExamSubject extends Model
 
     protected $fillable = ['subject_name'];
 
-    public function examSecs()
+    public function examSections()
     {
-        return $this->belongsTo(ExamTime::class, 'exam_time_ID', 'id');
+        return $this->hasMany(ExamTime::class, 'exam_subject_ID', 'id');
     }
+
 
 
 }

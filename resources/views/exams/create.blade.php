@@ -678,15 +678,13 @@
         }
         //subject
         function examSubjects(sortSchedule) {
-            var time = sortSchedule.map(timeSlot => timeSlot.time);
             var subjectNames = sortSchedule.map(timeSlot => timeSlot.subjects.map(subject => subject.subjectName));
             
             var data = {
-                time: time,
                 subjects: subjectNames
             };
 
-            // console.log('examsubject', data);
+            console.log('examsubject', data);
             return data;
         }
         //section
@@ -718,7 +716,7 @@
                 }
             });
 
-            // console.log('data', data);
+            console.log('section data', data);
             return data;
         }
         //json response

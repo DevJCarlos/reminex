@@ -11,12 +11,12 @@ class ExamSubjectController extends Controller
     function saveExamSubjects(Request $request) {
         $subjects = $request->subjects;
     
-        // Initialize an array to store exploded subjects
+        
         $explodedSubjects = [];
     
         foreach ($subjects as $subjectData) {
             if (is_array($subjectData)) {
-                // Explode strings within the sub-array and trim each part
+                
                 $explodedSubjectArray = [];
                 foreach ($subjectData as $subjectString) {
                     if (is_string($subjectString)) {
@@ -25,7 +25,7 @@ class ExamSubjectController extends Controller
                 }
                 $explodedSubjects[] = $explodedSubjectArray;
             } else {
-                
+                dd('error in ExamSubjectController', $subjectData);
             }
         }
         // $latestExamTime = ExamTime::latest()->first();
@@ -37,7 +37,7 @@ class ExamSubjectController extends Controller
         
                 foreach ($subjectNameArray as $subjectName) {
                     $examSubject = new ExamSubject(['subject_name' => $subjectName]);
-                    $examTime->examSec()->save($examSubject);
+                    $examTime->examSub()->save($examSubject);
                 }
             }
         }
