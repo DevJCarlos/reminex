@@ -1,7 +1,9 @@
 <form method="post" action="{{ route('upload.csv') }}" enctype="multipart/form-data">
     @csrf
-    @if (session('message'))
-        <div class="alert alert success">{{session('message')}}</div>
+    @if (session('message') === 'File Upload Successfully')
+        <script>
+            alert('File Uploaded Successfully');
+        </script>
     @endif
     <div class="mb-3 form-group">
         <label for="matrix" class="form-label">Upload Matrix</label>

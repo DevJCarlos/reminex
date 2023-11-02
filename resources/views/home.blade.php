@@ -21,8 +21,11 @@
                 <form method="post" action="{{ route('listbysec.csv') }}" enctype="multipart/form-data">
                     @csrf
 
-                    @if (session('success'))
-                    <div class="alert alert success">{{session('success')}}</div>
+                    @csrf
+                    @if (session('Message') === 'File Upload Successfully')
+                        <script>
+                            alert('File Uploaded Successfully');
+                        </script>
                     @endif
                     <br>
                     <br>

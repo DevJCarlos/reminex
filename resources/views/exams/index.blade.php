@@ -69,12 +69,12 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <th>no data</th>
-                                <th>no data</th>
-                                <th>no data</th>
-                                <th>no data</th>
-                                <th>no data</th>
-                                <th>no data</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
                             </tr>
                             </tbody>
                         </table>

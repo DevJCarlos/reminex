@@ -59,7 +59,7 @@ class ExamController extends Controller
             DB::table('upload_csv_matrices')->insert($data);
         }
 
-        return redirect()->back()->with('message', 'File uploaded successfully.');
+        return redirect()->back()->with('message', 'File Upload Successfully');
     }
 
     //fetch csv data

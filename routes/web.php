@@ -74,8 +74,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::post('/exam-subjects', [\App\Http\Controllers\ExamSubjectController::class, 'saveExamSubjects'])->name('examsubjects.save');
     Route::post('/exam-SecPro', [\App\Http\Controllers\ExamSectionController::class, 'saveExamSections'])->name('examsections.save');
 
-
-
+    Route::post('exams/room', [\App\Http\Controllers\ExamSectionController::class, ''])->name('exams.room');
+    
 
 
 

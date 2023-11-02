@@ -127,7 +127,7 @@ class HomeController extends Controller
     }
 
     //message
-    return redirect()->back()->with('success', 'File uploaded successfully.');
+    return redirect()->back()->with('Message', 'File Upload Successfully');
 
     }
 
