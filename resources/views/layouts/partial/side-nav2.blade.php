@@ -21,7 +21,7 @@
 
 			<li class="sidebar-header">Request</li>
                 <li class="sidebar-item">
-						<a class="sidebar-link" href="managenewsched.html">
+						<a class="sidebar-link" href="{{ route('managerequest.index') }}">
 							<i class="align-middle" data-feather="edit-3"></i> <span class="align-middle">Manage New Schedule</span>
 						</a>
 				</li>

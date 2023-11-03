@@ -116,6 +116,12 @@ class LoginController extends Controller
         return $user->getRoleNames();
     }
 
-    
+    // public function logouts()
+    // {
+    //     Auth::logout();
+    //     return redirect('/adminLogin');
+    //     // return response()->json(['message' => 'Successful'])->header('Location', route('exam.create'));
+    // }
+
 
 }

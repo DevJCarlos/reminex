@@ -37,7 +37,7 @@ class HomeController extends Controller
         return view('home');
     }
 
-    // dri ka sugod
+    
     public function saveData(Request $request)
 {
     $request->validate([

@@ -7,5 +7,8 @@ use App\Models\Room;
 
 class RoomController extends Controller
 {
-    //
+    public function index()
+    {
+        return view('exams.room');
+    }
 }

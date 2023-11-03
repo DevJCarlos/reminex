@@ -16,4 +16,10 @@ class ExamTime extends Model
     {
         return $this->hasMany(ExamSubject::class, 'exam_time_ID', 'id');
     }
+
+    public function examPeriod()
+    {
+        return $this->belongsTo(ExamPeriod::class, 'exam_period_ID', 'id');
+    }
+
 }

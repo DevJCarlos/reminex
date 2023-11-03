@@ -24,18 +24,21 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'Admin',
             'email' => 'admin@reminex.com',
+            'username' => 'admin',
             'password' => Hash::make('admin123'),
         ]);
 
         DB::table('users')->insert([
             'name' => 'student',
             'email' => 'student@reminex.com',
+            'username' => 'student',
             'password' => Hash::make('admin123'),
         ]);
 
         DB::table('users')->insert([
             'name' => 'teacher',
             'email' => 'teacher@reminex.com',
+            'username' => 'teacher',
             'password' => Hash::make('admin123'),
         ]);
 

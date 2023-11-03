@@ -13,6 +13,7 @@ class ExamRoomController extends Controller
 
         
         $latestExamDayID = ExamDay::latest('id')->value('id');
+        $latestExamPeriodID = ExamDay::latest('id')->value('exam_period_ID');
 
         foreach ($room as $nestedRooms){
 
@@ -26,7 +27,8 @@ class ExamRoomController extends Controller
                 if (!empty($trimmedRoomString)) {
                     $examRoom = new ExamRoom([
                         'room_name' => $trimmedRoomString,
-                        'exam_day_ID' => $latestExamDayID
+                        'exam_day_ID' => $latestExamDayID,
+                        'exam_time_ID' => $latestExamPeriodID
                     ]);
                     $examRoom->save();
                 }

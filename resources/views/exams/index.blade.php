@@ -5,6 +5,47 @@
 
 
 @section('content')
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Prelims</h4>
+                </div>
+                <div class="card-body">
+                    <table class = "table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Subject</th>
+                                <th>Rooms</th>
+                                <th>Section</th>
+                                <th>Section Number</th>
+                                <th>Instructor</th>
+                                <th>Student Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach ($examTimes as $examTime)
+                            @if ($examTime->exam_period = 1)
+                                <tr>
+                                    <td>{{ $examTime->exam_time }}</td>
+                                </tr>
+                            @endif
+                        @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+
+
+
+
+
 <div class="accordion">
         <div class="row">
             <div class="col-12">
@@ -16,28 +57,15 @@
                         </div>
                             <div class="accordion-content">
                                 <div class="container"> 
-                                    <table id="Prelims" class="display" style="width:100%">
+                                    <table id="Prelimss" class="display" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>Time</th>
-                                                <th>Subject</th>
-                                                <th>Rooms</th>
-                                                <th>Section</th>
-                                                <th>Class Number</th>
-                                                <th>Instructor</th>
-                                                <th>Student Count</th>
+                                                <th>Subjects</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <th>no data</th>
-                                            <th>no data</th>
-                                            <th>no data</th>
-                                            <th>no data</th>
-                                            <th>no data</th>
-                                            <th>no data</th>
-                                            <th>no data</th>
-                                        </tr>
+                                            
                                         </tbody>
                                     </table>
                                 </div>  
@@ -60,15 +88,15 @@
                             <thead>
                                 <tr>
                                     <th>Time</th>
-                                    <th>Subject</th>
+                                    <!-- <th>Subject</th>
                                     <th>Section</th>
                                     <th>Class Number</th>
                                     <th>Instructor</th>
-                                    <th>Student Count</th>
+                                    <th>Student Count</th> -->
                                 </tr>
                             </thead>
                             <tbody>
-                            <tr>
+                     
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -76,6 +104,7 @@
                                 <th></th>
                                 <th></th>
                             </tr>
+                            
                             </tbody>
                         </table>
                         </div>

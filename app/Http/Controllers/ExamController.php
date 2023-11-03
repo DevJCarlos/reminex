@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Rooms;
+use App\Models\Room;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -28,7 +28,7 @@ class ExamController extends Controller
 
 
     public function getRooms(){
-        $rooms = Rooms::all();
+        $rooms = Room::all();
         return $rooms;
     }
 

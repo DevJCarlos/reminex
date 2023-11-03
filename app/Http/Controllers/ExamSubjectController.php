@@ -43,4 +43,12 @@ class ExamSubjectController extends Controller
         }
         return response()->json(['message' => 'Successful'])->header('Location', route('exam.create'));
     }
+
+    public function index()
+    {
+    
+        $examSubjects = ExamSubject::all();
+        
+        return view('exams.index', compact('examSubjects'));
+    }
 }

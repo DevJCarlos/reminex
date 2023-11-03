@@ -821,16 +821,14 @@
                             console.error('Error:', error);
                         });
 
-                        }
-                        })
-                        .catch(roomError => {
-                            console.error('Error:', roomError);
-                        });
                     }
                 })
-                    .catch(error => {
-                        console.error('Error:', error);
+                .catch(error => {
+                     console.error('Error:', error);
                 });
+            }
+        })
+                    
 
                 //RoomResponse
                 // var examRoomData = examRoom(sortSchedule);
