@@ -14,6 +14,7 @@ class ExamTimeController extends Controller
         // dd($timesArray);
         
         $latestExamDayID = ExamDay::latest('id')->value('id');
+        $latestExamPeriodID = ExamDay::latest('id')->value('exam_period_ID');
 
         foreach ($timesArray as $time) {
             $trimmedTime = trim($time);
@@ -21,7 +22,8 @@ class ExamTimeController extends Controller
             if (!empty($trimmedTime)) {
                 $examTime = new ExamTime([
                     'exam_time' => $trimmedTime,
-                    'exam_day_ID' => $latestExamDayID
+                    'exam_day_ID' => $latestExamDayID,
+                    'exam_period_ID' => $latestExamPeriodID
                 ]);
 
                 // dd($examTime);

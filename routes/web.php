@@ -74,6 +74,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::post('/periods', [\App\Http\Controllers\PeriodController::class, 'store'])->name('periods.store');
 
     Route::post('/exam-days', [\App\Http\Controllers\ExamDayController::class, 'saveDay'])->name('examdays.save');
+    Route::get('/exam-days-show', [\App\Http\Controllers\ExamDayController::class, 'index'])->name('examdays.show');
 
     //ExamsTime
     Route::post('/exam-times', [\App\Http\Controllers\ExamTimeController::class, 'saveExamTimes'])->name('examtimes.save');

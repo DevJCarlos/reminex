@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('exam_times', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('exam_day_ID')->nullable()->default(null);
+            $table->integer('exam_period_ID')->nullable()->default(null);
             $table->string('exam_time')->nullable()->default(null);
             $table->timestamps();
 

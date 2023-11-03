@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('exam_rooms', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('exam_period_ID')->nullable()->default(null); // Foreign key reference to ExamTime
+            $table->integer('exam_period_ID')->nullable()->default(null);
             $table->unsignedBigInteger('exam_day_ID')->nullable()->default(null);
             $table->string('room_name')->nullable()->default(null);
             $table->timestamps();
@@ -22,6 +22,8 @@ return new class extends Migration
             ->references('id')
             ->on('exam_days')
             ->onDelete('cascade');
+
+
         });
     }
 

@@ -5,12 +5,52 @@
 
 
 @section('content')
-<div class="container">
+<!-- <div class="container"> -->
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Prelims</h4>
+                    <h4>Exam Schedule Table</h4>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="dropdown1" class="text-right">Select Period:</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control" id="dropdown1" name="option1">
+                                        <option value="option1_1">Prelims</option>
+                                        <option value="option1_2">Midterms</option>
+                                        <option value="option1_3">Pre-Finals</option>
+                                        <option value="option1_3">Finals</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="dropdown2" class="text-right">Select Day:</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="form-control" id="dropdown2" name="option2">
+                                        <option value="option2_1">Day 1</option>
+                                        <option value="option2_2">Day 2</option>
+                                        <option value="option2_3">Day 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </form>
+                    <button type="submit" class="btn btn-success">Excel</button>
                 </div>
                 <div class="card-body">
                     <table class = "table table-bordered">
@@ -23,169 +63,40 @@
                                 <th>Section Number</th>
                                 <th>Instructor</th>
                                 <th>Student Count</th>
+                                <th>Proctors</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach ($examTimes as $examTime)
-                            @if ($examTime->exam_period = 1)
-                                <tr>
-                                    <td>{{ $examTime->exam_time }}</td>
-                                </tr>
-                            @endif
-                        @endforeach
-
+                            @foreach ($examDays as $examDay)
+                                @foreach ($examDay->examTime as $examTime)
+                                    @php
+                                        $examSub = $examTime->examSub;
+                                    @endphp
+                                    <tr>
+                                        <td rowspan="{{ count($examSub) }}">{{ $examTime->exam_time }}</td>
+                                        <td>{{ count($examSub) > 0 ? $examSub[0]->subject_name : 'NO DATA CREATED' }}</td>
+                                    </tr>
+                                    @for ($i = 1; $i < count($examSub); $i++)
+                                        <tr>
+                                            <td>{{ $examSub[$i]->subject_name }}</td>
+                                        </tr>
+                                    @endfor
+                                @endforeach
+                            @endforeach
                         </tbody>
                     </table>
+                    <br>
+                    <button type="submit" class="btn btn-success" style="width: 150px;">Release To Teachers</button>
+                    <button type="submit" class="btn btn-success" style="width: 150px;">Release To Students</button>
+                    
                 </div>
+                
             </div> 
         </div>
     </div>
-</div>
+<!-- </div> -->
 
-
-
-
-
-<div class="accordion">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="accordion-item">
-                    <div class="card-body">
-                        <div class="accordion-header">Prelims Exam Table
-                            <i class="accordion-arrow fas fa-chevron-down"></i>
-                        </div>
-                            <div class="accordion-content">
-                                <div class="container"> 
-                                    <table id="Prelimss" class="display" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Time</th>
-                                                <th>Subjects</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                        </tbody>
-                                    </table>
-                                </div>  
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            
-            <div class="col-12">
-                <div class="card">
-                    <div class="accordion-item">
-                    <div class="card-body">
-                        <div class="accordion-header">Midterms Exam Table
-                            <i class="accordion-arrow fas fa-chevron-down"></i>
-                        </div>
-                        <div class="accordion-content">
-                        <table class="table table-bordered" width="100%" style="text-align: center;">
-                            <thead>
-                                <tr>
-                                    <th>Time</th>
-                                    <!-- <th>Subject</th>
-                                    <th>Section</th>
-                                    <th>Class Number</th>
-                                    <th>Instructor</th>
-                                    <th>Student Count</th> -->
-                                </tr>
-                            </thead>
-                            <tbody>
-                     
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            
-                            </tbody>
-                        </table>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12">
-                <div class="card">
-                    <div class="accordion-item">
-                    <div class="card-body">
-                        <div class="accordion-header">Pre-Finals Exam Table
-                            <i class="accordion-arrow fas fa-chevron-down"></i>
-                        </div>
-                        <div class="accordion-content">
-                        <table class="table table-bordered" width="100%" style="text-align: center;">
-                            <thead>
-                                <tr>
-                                    <th>Time</th>
-                                    <th>Subject</th>
-                                    <th>Section</th>
-                                    <th>Class Number</th>
-                                    <th>Instructor</th>
-                                    <th>Student Count</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <th>no data</th>
-                                <th>no data</th>
-                                <th>no data</th>
-                                <th>no data</th>
-                                <th>no data</th>
-                                <th>no data</th>
-                            </tr>
-                            </tbody>
-                        </table>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12">
-                <div class="card">
-                    <div class="accordion-item">
-                    <div class="card-body">
-                        <div class="accordion-header">Finals Exam Table
-                            <i class="accordion-arrow fas fa-chevron-down"></i>
-                        </div>
-                        <div class="accordion-content">
-                        <table class="table table-bordered" width="100%" style="text-align: center;">
-                            <thead>
-                                <tr>
-                                    <th>Time</th>
-                                    <th>Subject</th>
-                                    <th>Section</th>
-                                    <th>Class Number</th>
-                                    <th>Instructor</th>
-                                    <th>Student Count</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <th>no data</th>
-                                <th>no data</th>
-                                <th>no data</th>
-                                <th>no data</th>
-                                <th>no data</th>
-                                <th>no data</th>
-                            </tr>
-                            </tbody>
-                        </table>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
 @endsection
 

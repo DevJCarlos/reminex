@@ -16,10 +16,26 @@ class ExamDay extends Model
         return $this->belongsTo(ExamPeriod::class, 'exam_period_ID','id');
     }
 
-    public function examRooms()
+    public function examRoom()
     {
-    return $this->hasMany(ExamRoom::class, 'exam_day_ID','id');
+        return $this->hasMany(ExamRoom::class, 'exam_day_ID','id');
+    }
+
+    public function examTime()
+    {
+    return $this->hasMany(ExamTime::class, 'exam_day_ID','id');
     
     }
 
+    public function examSub()
+    {
+    return $this->hasMany(ExamSubject::class, 'exam_day_ID','id');
+    
+    }
+
+    public function examSec()
+    {
+    return $this->hasMany(ExamSection::class, 'exam_day_ID','id');
+    
+    }
 }

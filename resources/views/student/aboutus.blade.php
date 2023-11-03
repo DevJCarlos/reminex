@@ -17,7 +17,7 @@
 										the system streamlines the exam management process, ensuring accuracy, transparency, and optimal 
 										resource utilization. </h5>
 								</div>
-							</div>
+							</div>	
 						</div>
 					</div>	
 

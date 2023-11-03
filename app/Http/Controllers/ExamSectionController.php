@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ExamSection;
 use App\Models\ExamSubject;
+use App\Models\ExamDay;
 use Illuminate\Http\Request;
 
 
@@ -62,7 +63,8 @@ class ExamSectionController extends Controller
                     
             }
         }
-
+        $latestExamDayID = ExamDay::latest('id')->value('id');
+        $latestExamPeriodID = ExamDay::latest('id')->value('exam_period_ID');
         $latestExamSubjects = ExamSubject::latest()->get();
         for ($i = 0; $i < count($explodedSections); $i++) {
             if (isset($latestExamSubjects[$i])) {
@@ -73,9 +75,11 @@ class ExamSectionController extends Controller
                 
                 $latestExamSubject = $latestExamSubjects[$i];
         
-                foreach ($sectionNameArray as $index => $subjectName) {
+                foreach ($sectionNameArray as $index => $sectionName) {
                     $examSubject = new ExamSection([
-                        'section_name' => $subjectName,
+                        'exam_day_ID' => $latestExamDayID,
+                        'exam_period_ID' => $latestExamPeriodID,
+                        'section_name' => $sectionName,
                         'class_num' => $classnumArray[$index], // Include class number
                         'instructor' => $InstructorArray[$index], // Include instructor
                         'class_count' => $classcountArray[$index] // Include class count

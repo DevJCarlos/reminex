@@ -9,7 +9,7 @@ class ExamTime extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['exam_time', 'exam_day_ID'];
+    protected $fillable = ['exam_time', 'exam_day_ID', 'exam_period_ID'];
     protected $table = 'exam_times';
     
     public function examSub()
@@ -17,9 +17,9 @@ class ExamTime extends Model
         return $this->hasMany(ExamSubject::class, 'exam_time_ID', 'id');
     }
 
-    public function examPeriod()
+    public function examDay()
     {
-        return $this->belongsTo(ExamPeriod::class, 'exam_period_ID', 'id');
+        return $this->belongsTo(ExamPeriod::class, 'exam_day_ID', 'id');
     }
 
 }

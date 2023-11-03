@@ -13,14 +13,23 @@ return new class extends Migration
     {
         Schema::create('exam_subjects', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('exam_time_ID')->nullable()->default(null); // Foreign key reference to ExamTime
+            $table->unsignedBigInteger('exam_time_ID')->nullable()->default(null);
+            $table->unsignedBigInteger('exam_day_ID')->nullable()->default(null);
+            $table->integer('exam_period_ID')->nullable()->default(null);
+            
             $table->string('subject_name')->nullable()->default(null);
             $table->timestamps();
 
-            $table->foreign('exam_time_id')
+            $table->foreign('exam_time_ID')
             ->references('id')
             ->on('exam_times')
-            ->onDelete('cascade'); 
+            ->onDelete('cascade');
+
+            
+            $table->foreign('exam_day_ID')
+            ->references('id')
+            ->on('exam_days')
+            ->onDelete('cascade');
         });
     }
 

@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ExamRoom extends Model
 {
     use HasFactory;
-    protected $fillable = ['exam_day_ID', 'room_name'];
+    protected $fillable = ['exam_day_ID', 'room_name', 'exam_period_ID'];
     
-    public function examDay()
+    public function examRoom()
     {
         return $this->belongsTo(ExamDay::class, 'exam_day_ID', 'id');
     }

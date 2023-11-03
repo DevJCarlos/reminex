@@ -28,7 +28,7 @@ class ExamRoomController extends Controller
                     $examRoom = new ExamRoom([
                         'room_name' => $trimmedRoomString,
                         'exam_day_ID' => $latestExamDayID,
-                        'exam_time_ID' => $latestExamPeriodID
+                        'exam_period_ID' => $latestExamPeriodID
                     ]);
                     $examRoom->save();
                 }

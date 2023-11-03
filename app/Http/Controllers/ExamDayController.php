@@ -42,6 +42,11 @@ class ExamDayController extends Controller
     
         return response()->json(['message' => 'ExamPeriod not found'], 400);
     }
+    function index(){
+        
+        $examDays = ExamDay::all();
+        return view('exams.index', compact('examDays'));
+    }
     
 
     

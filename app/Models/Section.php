@@ -17,5 +17,6 @@ class Section extends Model
     public function student(){
         return $this->belongsToMany(Student::class,'model_classes');
     }
+    
 
 }

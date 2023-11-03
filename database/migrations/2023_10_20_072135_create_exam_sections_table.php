@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('exam_sections', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('exam_subject_ID')->nullable()->default(null);
+            $table->unsignedBigInteger('exam_day_ID')->nullable()->default(null);
+            $table->integer('exam_period_ID')->nullable()->default(null);
             $table->string('section_name')->nullable()->default(null);
             $table->string('class_num')->nullable()->default(null);
             $table->string('Instructor')->nullable()->default(null);
@@ -23,6 +25,11 @@ return new class extends Migration
             $table->foreign('exam_subject_ID')
             ->references('id')
             ->on('exam_subjects')
+            ->onDelete('cascade');
+
+            $table->foreign('exam_day_ID')
+            ->references('id')
+            ->on('exam_days')
             ->onDelete('cascade');
         });
     }
