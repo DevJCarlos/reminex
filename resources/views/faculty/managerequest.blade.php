@@ -15,26 +15,26 @@
 										<form action="#" method="#">
 												<button type="button" class="collapsible">
 													<div class="row">
-														<div class="col-9">{{ $requestrecord->stud_name }}</div>
-														<div class="col-3"><span class="badge bg-secondary"></span>{{ $requestrecord->created_at }}</div>
+														<div class="col-9"></div>
+														<div class="col-3"><span class="badge bg-secondary"></span></div>
 													</div>
 												</button> 
 												<div class="content2"><br>
-													<label for="request"><strong>Request Type: &nbsp;</strong></label><label for="request">{{ $requestrecord->request_type }}</label><br>
-													<label for="request"><strong>Subject to Take:  &nbsp;</strong></label><label for="request">{{ $requestrecord->subject }}</label><br>
-													<label for="request"><strong>Instructor:  &nbsp;</strong></label><label for="request">{{ $requestrecord->instructor }}</label><br>
-													<label for="request"><strong>Reason:  &nbsp;</strong></label><label for="request">{{ $requestrecord->reason }}</label><br>
-													<label for="request"><strong>Time Availability:  &nbsp;</strong></label><label for="request">{{ $requestrecord->time_available}}</label><br>
+													<label for="request"><strong>Request Type: &nbsp;</strong></label><label for="request"></label><br>
+													<label for="request"><strong>Subject to Take:  &nbsp;</strong></label><label for="request"></label><br>
+													<label for="request"><strong>Instructor:  &nbsp;</strong></label><label for="request"></label><br>
+													<label for="request"><strong>Reason:  &nbsp;</strong></label><label for="request"></label><br>
+													<label for="request"><strong>Time Availability:  &nbsp;</strong></label><label for="request"></label><br>
 													<label for="request"><strong>Exam Permit: &nbsp;</strong></label>
-														<a href="{{ asset('storage/' . $requestrecord->exam_permit) }}" download="{{ $requestrecord->exam_permit }}">
+														<a href="#">
 															Download Exam Permit
 														</a><br>
 
 													<label for="request"><strong>Requirements: &nbsp;</strong></label>
-														<a href="{{ asset('storage/' . $requestrecord->requirements) }}" download="{{ $requestrecord->requirements }}">
+														<a href="#">
 															Download Requirements
 														</a><br>
-													<label for="request"><strong>Remarks:  &nbsp;</strong></label><label for="request">{{ $requestrecord->remarks}}</label><br><br>
+													<label for="request"><strong>Remarks:  &nbsp;</strong></label><label for="request"></label><br><br>
 													<input type="submit" class="btn btn-warning btn-lg" id="createSched" value="Create New Schedule">
 													<input type="submit" class="btn btn-warning btn-lg" id="createSched" value="Approve">
 													<input type="submit" class="btn btn-warning btn-lg" id="createSched" value="Decline and Send Remark"><br><br>

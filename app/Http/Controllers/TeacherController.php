@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class TeacherController extends Controller
 {
     public function index(){
-        return view('teacher.index');
+        return view('faculty.index');
     }
     
     // public function examsched(){
@@ -15,7 +15,7 @@ class TeacherController extends Controller
     // }
 
     public function ManageRequest(){
-        return view('teacher.managerequest');
+        return view('faculty.managerequest');
     }
     
 
