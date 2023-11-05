@@ -5,25 +5,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" class="rel">
-
-    <link href="{{asset('import/css/collapse.css')}}" rel="stylesheet">
     
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <!-- <script>
-        $(document).ready(function () {
-                displaySubjects(subjects); // Call your function to populate the table with data
-                $('#subjectsTable').DataTable();
-        });
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.7.0/js/dataTables.select.min.js"></script>
+    <script src="https://cdn.datatables.net/datetime/1.5.1/js/dataTables.dateTime.min.js"></script>
+    <script src="../../extensions/Editor/js/dataTables.editor.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('css/my-styles.css') }}">
 
-    </script> -->
+    
 
-    <!-- <script>
-    $(document).ready(function () {
-        $('#subjectsTable').DataTable();
-    });
-    </script> -->
+
 
     
     <style>
@@ -123,7 +116,7 @@
             text-align: left;
         }
 
-        /* Style the card body */
+        Style the card body
         .card-body {
             background-color: #fff;
             padding: 10px;
@@ -267,7 +260,7 @@
     <script src="{{ asset('js/adminlte.min.js') }}" defer></script>
 
     @yield('scripts')
-
+    <script src="{{ asset('js/my-script.js') }}"></script>
     <script>
 
           //datatable

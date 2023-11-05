@@ -803,7 +803,7 @@
                                     .then(data => {
                                         if(data.message === 'Successful'){
                                             alert('Exam Schedule Saved Successfully');
-                                            // location.reload();
+                                            location.reload();
                                         } 
                                     })
                                     .catch(error => {

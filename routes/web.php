@@ -63,10 +63,11 @@ Route::group(['middleware' => ['auth', 'role:teacher']], function(){
 
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
-    // Route::get('/logout', [\App\Http\Controllers\Auth\LoginController::class, 'logouts'])->name('logout');
+    Route::get('/logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('admin.index');
     Route::view('about', 'about')->name('about');
+<<<<<<< HEAD
 
     //registration
     Route::post('createadmin',  [\App\Http\Controllers\Auth\RegisterController::class, 'createAdmin'])->name('createadmin');
@@ -74,6 +75,13 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
     //Users module
     Route::get('admin-users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
+=======
+    Route::get('/register', function () {
+        return view('auth.register');
+    })->name('register');
+
+    Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
+>>>>>>> 9cfac3a6f299f0f8bdcc008699bba2f735a8c42f
     
     //
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
@@ -110,6 +118,12 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
     //Rooms
     Route::get('exams/room', [\App\Http\Controllers\RoomController::class, 'index'])->name('exams.room');
+    Route::post('/add-room', [\App\Http\Controllers\RoomController::class, 'addRoom']);
+    Route::post('/delete-room', [\App\Http\Controllers\RoomController::class, 'deleteRoom']);
+    Route::post('/update-room', [\App\Http\Controllers\RoomController::class, 'updateRoom']);
+
+
+
     
 
 
