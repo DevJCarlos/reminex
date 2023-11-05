@@ -23,7 +23,7 @@
                         <form action="{{route ('createadmin')}}" method="POST">
                             @csrf
                             @method('post')
-
+                            <div class="card">
                             <div class="card-body">
                                 <h4>Add User</h4><br>
 
@@ -92,11 +92,12 @@
                                 <input type="submit" class="btn btn-primary" value="Add Admin">
                                 </div>
                             </div>
+                            </div>
                         </form>
                     </div>
                 </div>
-                <!-- <div class="col-4">
-                    <div>
+                <div class="col-4">
+                    <div class="card">
                         <form action="/upload" method="post" enctype="multipart/form-data">
                             @csrf
                             @method('post')
@@ -116,7 +117,7 @@
                             </div>
                         </form>
                     </div>
-                </div> -->
+                </div>
             </div><br>
 
             <div class="row">
