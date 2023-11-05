@@ -12,20 +12,16 @@
                                @include('student.partials.request-form')
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12 col-lg-6">
-                        <div class="card">
-                            <div class="card-body">
-                            </div>
-                        </div>
-                    </div>				
+                    </div>			
                 </div>
 
 			</div>
 		</main>
 	</div>
-@endsection
 
-@section('scripts')
 <script src="{{asset('import/js/app.js')}}"></script>
+<script src="{{asset('import/js/fileInput.js')}}"></script>
+<script src="{{asset('import/js/requesttype.js')}}"></script>
+
+</body>
 @endsection

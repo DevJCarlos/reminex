@@ -68,22 +68,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($examDays as $examDay)
-                                @foreach ($examDay->examTime as $examTime)
-                                    @php
-                                        $examSub = $examTime->examSub;
-                                    @endphp
-                                    <tr>
-                                        <td rowspan="{{ count($examSub) }}">{{ $examTime->exam_time }}</td>
-                                        <td>{{ count($examSub) > 0 ? $examSub[0]->subject_name : 'NO DATA CREATED' }}</td>
-                                    </tr>
-                                    @for ($i = 1; $i < count($examSub); $i++)
-                                        <tr>
-                                            <td>{{ $examSub[$i]->subject_name }}</td>
-                                        </tr>
-                                    @endfor
-                                @endforeach
-                            @endforeach
+                          
                         </tbody>
                     </table>
                     <br>

@@ -13,9 +13,8 @@
 					</a>
 				</li>
 
-
-				<li class="sidebar-item">
-						<a class="sidebar-link" href="#">
+				<li class="sidebar-item {{ request()->routeIs('faculty.show') ? 'active' : '' }}">
+						<a class="sidebar-link" href="{{ route('faculty.show') }}">
 							<i class="align-middle" data-feather="calendar"></i> <span class="align-middle">Proctor Subject</span>
 						</a>
 				</li>
@@ -24,6 +23,12 @@
 				<li class="sidebar-item {{ request()->routeIs('faculty.managerequest') ? 'active' : '' }}">
 					<a class="sidebar-link" href="{{ route('faculty.managerequest') }}">
 						<i class="align-middle" data-feather="edit-3"></i> <span class="align-middle">Manage New Schedule</span>
+					</a>
+				</li>
+
+				<li class="sidebar-item {{ request()->routeIs('faculty.requestarchive') ? 'active' : '' }}">
+					<a class="sidebar-link" href="{{ route('faculty.requestarchive') }}">
+						<i class="align-middle" data-feather="hard-drive"></i> <span class="align-middle">Request Archive</span>
 					</a>
 				</li>
 

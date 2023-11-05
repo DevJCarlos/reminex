@@ -12,7 +12,7 @@
 								<div class="col-7">
 									<div class="card">
 										<div class="card-header">
-											<h5 class="card-title mb-0"><strong class="text-danger">Prelim</strong> Examination</h5><br>
+											<h5 class="card-title mb-0"><strong class="text-warning">Requests</strong></h5><br><br>
 
 												<form action="#" method="#">
 													<button type="button" class="collapsible">
@@ -38,6 +38,8 @@
 						</div>
 					</main>
 			</div>
+
+<script src="{{asset('import/js/app.js')}}"></script>
 
 </body>
 

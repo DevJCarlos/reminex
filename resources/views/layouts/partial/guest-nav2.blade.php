@@ -105,11 +105,11 @@
                     <img src="{{asset('import/img/avatars/basan.png')}}" class="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span class="text-dark">{{ Auth::user()->name }}</span>
                 </a>
                     <div class="dropdown-menu dropdown-menu-end">
-                        <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="user"></i>Change Profile Image</a>
+                        <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i>Change Profile Image</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ route('student.changepass') }}"><i class="align-middle me-1" data-feather="user"></i> Change Password</a>
+                        <a class="dropdown-item" href="{{ route('faculty.changepass') }}"><i class="align-middle me-1" data-feather="user"></i> Change Password</a>
 								<div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ route('student.aboutus') }}"><i class="align-middle me-1" data-feather="info"></i> About Us</a>
+                        <a class="dropdown-item" href="{{ route('faculty.aboutus') }}"><i class="align-middle me-1" data-feather="info"></i> About Us</a>
 								<div class="dropdown-divider"></div>
                     {{-- <a class="dropdown-item" href="{{ route('logout') }}">Log out</a> --}}
                     <form method="POST" action="{{ route('logout') }}">

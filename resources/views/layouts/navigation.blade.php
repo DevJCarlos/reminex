@@ -71,6 +71,16 @@
                 </ul>
             
             </li>
+
+            <li class="nav-item">
+                <a href="{{ route('requests') }}" class="nav-link">
+                    <i class="nav-icon fas fa-circle nav-icon"></i>
+                    <p>
+                        {{ __('Requests') }}
+                    </p>
+                </a>
+            </li>
+
         </ul>
     </nav>
     <!-- /.sidebar-menu -->

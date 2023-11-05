@@ -22,6 +22,8 @@
 				</main>
 			</div>
 
+<script src="{{asset('import/js/app.js')}}"></script>
+
 </body>
 
 @endsection

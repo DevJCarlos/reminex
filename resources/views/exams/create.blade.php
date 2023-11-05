@@ -827,7 +827,7 @@
                      console.error('Error:', error);
                 });
             }
-        })
+        });
                     
 
                 //RoomResponse

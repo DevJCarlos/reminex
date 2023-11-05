@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
 use Spatie\Permission\Traits\HasRoles;
+
+
+
+
 
 class RegisterController extends Controller
 {
@@ -23,33 +26,6 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
-    use RegistersUsers;
-    use HasRoles;
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
-
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
     protected function validator(array $data)
     {
         return Validator::make($data, [
@@ -59,23 +35,35 @@ class RegisterController extends Controller
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     **/
-    protected function create(array $data)
+    public function createAdmin(Request $data)
     {
         //add role before creatung user
         $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'name' => $data->name, 
+            'department' => $data->department,
+            'username' => $data->username, 
+            'email' => $data->email,
+            'role' => $data->role,
+            'password' => Hash::make($data->password),
         ]);
+        
+        $user->assignRole($data->role);
+        $user->save();
+        return redirect()->route('users.index')->with('success', 'Successfully Registered!');
+    } 
+    
+    public function destroy(Request $request, $id)
+    {
+        $user = User::find($id);
 
-        $user->assignRole('admin');
+        if (!$user) {
+            return redirect()->route('users.index')->with('error', 'User not found!');
+        }
 
-        return $user;
+        $user->delete();
+
+        return redirect()->route('users.index')->with('success', 'User successfully deleted!');
     }
+
+
 }

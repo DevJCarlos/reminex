@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,8 +31,18 @@ Route::get('/adminLogin', function () {
 Auth::routes();
 
 Route::group(['middleware' => ['auth', 'role:student']], function(){
-    Route::get('student/', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
+    Route::get('/student', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
+    Route::get('/student/show', [App\Http\Controllers\StudentController::class, 'show'])->name('student.show');
+    Route::get('/student/createrequest', [App\Http\Controllers\StudentController::class, 'createRequest'])->name('student.createrequest');
+    Route::get('/student/viewrequest', [App\Http\Controllers\StudentController::class, 'viewRequest'])->name('student.viewrequest');
+    Route::get('/student/newsched', [App\Http\Controllers\StudentController::class, 'newSched'])->name('student.newsched');
+    Route::get('/student/aboutus', [App\Http\Controllers\StudentController::class, 'aboutUs'])->name('student.aboutus');
+    Route::get('/student/changepass', [App\Http\Controllers\StudentController::class, 'changePass'])->name('student.changepass');
+    // Route::get('changeprofilePic', [App\Http\Controllers\StudentController::class, 'changeprofilePic'])->name('profilepic.update');
+    
 
+    //Request 
+    Route::post('/student/createrequest', [RequestController::class, 'storeRequest'])->name('request.store');
     // about us
     // Route::get('/bout-us', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
 });
@@ -40,10 +51,13 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
 Route::group(['middleware' => ['auth', 'role:teacher']], function(){
     //butangi ang mga wala dri 
     Route::get('/faculty', [App\Http\Controllers\TeacherController::class, 'index'])->name('faculty.index');
-    Route::get('/faculty/examsched', [App\Http\Controllers\TeacherController::class, 'examsched'])->name('faculty.examsched');
-
-    Route::get('/faculty/managerequest', [App\Http\Controllers\TeacherController::class, 'ManageRequest'])->name('faculty.managerequest');
-    Route::get('/faculty/requestarchive', [App\Http\Controllers\TeacherController::class, 'definethis'])->name('faculty.archive');
+    Route::get('/faculty/examsched', [App\Http\Controllers\TeacherController::class, 'show'])->name('faculty.show');
+    Route::get('/faculty/managerequest', [App\Http\Controllers\TeacherController::class, 'manageRequest'])->name('faculty.managerequest');
+    Route::get('/faculty/requestarchive', [App\Http\Controllers\TeacherController::class, 'requestArchive'])->name('faculty.requestarchive');
+    Route::get('/faculty/aboutus', [App\Http\Controllers\TeacherController::class, 'aboutUs'])->name('faculty.aboutus');
+    Route::get('/faculty/changepass', [App\Http\Controllers\TeacherController::class, 'changePass'])->name('faculty.changepass');
+    // Route::get('changeprofilePic', [App\Http\Controllers\TeacherController::class, 'changeprofilePic'])->name('profilepic.update');
+    
 });
 
 
@@ -53,11 +67,15 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('admin.index');
     Route::view('about', 'about')->name('about');
-    Route::get('/register', function () {
-        return view('auth.register');
-    })->name('register');
-    Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
+
+    //registration
+    Route::post('createadmin',  [\App\Http\Controllers\Auth\RegisterController::class, 'createAdmin'])->name('createadmin');
+    Route::delete('users/{user}', [\App\Http\Controllers\Auth\RegisterController::class, 'destroy'])->name('users.destroy');
+
+    //Users module
+    Route::get('admin-users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
     
+    //
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
     Route::post('/upload-sec', [\App\Http\Controllers\HomeController::class, 'saveData'])->name('listbysec.csv');
@@ -98,6 +116,12 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     // class record
     
     Route::post('/upload-sec', [\App\Http\Controllers\HomeController::class, 'saveData'])->name('listbysec.csv');
+
+    //request management
+
+    Route::get('/requests', [\App\Http\Controllers\RequestController::class, 'requests'])->name('requests');
+
+
 
 
 });

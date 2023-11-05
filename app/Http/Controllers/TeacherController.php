@@ -10,16 +10,28 @@ class TeacherController extends Controller
         return view('faculty.index');
     }
     
-    // public function examsched(){
-    //     return view('teacher.managerequest');
-    // }
+    public function show(){
+        return view('faculty.show');
+    }
 
-    public function ManageRequest(){
+    public function manageRequest(){
         return view('faculty.managerequest');
     }
     
+    public function requestArchive(){
+        return view('faculty.requestarchive');
+    }
 
+    // public function changeprofilePic(){
+    //     return view('faculty.changeprofilepic');
+    // }
 
+    public function changePass(){
+        return view('faculty.changepass');
+    }
 
+    public function aboutUs(){
+        return view('faculty.aboutus');
+    }
 
 }

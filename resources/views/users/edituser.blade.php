@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0"><strong>ADMIN </strong>{{ __('Users') }}</h1>
+                    <h1 class="m-0"><strong>{{ __('Users') }}</strong></h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -20,12 +20,12 @@
             <div class="row">
                 <div class="col-4">
                     <div>
-                        <form action="{{route ('createadmin')}}" method="POST">
+                        <form action="#" method="POST">
                             @csrf
                             @method('post')
 
                             <div class="card-body">
-                                <h4>Add User</h4><br>
+                                <h4>Update User</h4><br>
 
                                 <div class="form-group row">
                                 <label for="aidn" class="col-sm-3 text-end control-label col-form-label">User IDN</label>
@@ -94,93 +94,7 @@
                             </div>
                         </form>
                     </div>
-                </div>
-                <!-- <div class="col-4">
-                    <div>
-                        <form action="/upload" method="post" enctype="multipart/form-data">
-                            @csrf
-                            @method('post')
-
-                            <div class="card-body">
-                                <h4>Upload CSV (for many users)</h4><br>
-
-                                <div class="form-group row">
-                                    <div class="col-sm-9">
-                                        <input type="file" id="fileInput" name="file" accept=".csv" onchange="displayFileName()">
-                                            <label for="fileInput" class="custom-file-input">Choose CSV File</label>
-                                    </div>
-                                </div>
-                                <div class="border-top">
-                                    <input type="submit" class="btn btn-secondary" value="Submit">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div> -->
             </div><br>
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-body text-danger">
-
-                        <div class="alert alert-info">
-                            Admin Users Datatable
-                        </div>
-
-                            <div class="card">
-                                <div class="table-responsive">
-
-                                    <table id="example" class="table table-striped" style="width:100%">
-                                        <thead>
-                                        <tr>
-                                                <th>ID Number</th>
-                                                <th>Name</th>
-                                                <th>Department</th>
-                                                <th>Email</th>
-                                                <th>Password</th>
-                                                <th>Role</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($users as $user)
-                                            <tr>
-                                                <td>{{ $user->username }}</td>
-                                                <td>{{ $user->name }}</td>  
-                                                <td>{{ $user->department }}</td>  
-                                                <td>{{ $user->email }}</td>   
-                                                <td>{{ $user->password }}</td>  
-                                                <td>{{ $user->role }}</td> 
-                                                <td>
-                                                    <a href="#"
->
-                                                        <input type="submit" class="btn btn-primary" value="Edit">
-                                                    </a>
-
-                                                    <form method="POST" action="{{ route('users.destroy', $user->id) }}" style="display: inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
-                                                    </form>
-
-
-                                                </td> 
-                                            </tr>
-                                        @endforeach    
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- /.card-body -->
-
-                                    <div class="card-footer clearfix">
-                                        {{ $users->links() }}
-                                    </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-            </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>

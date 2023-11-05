@@ -30,7 +30,7 @@
 <body class="hold-transition">
     <header>
         {{-- @auth --}}
-            @include('layouts.partial.guest-nav')
+            @include('layouts.partial.guest-nav2')
             
         {{-- @endauth --}}
     </header>

@@ -18,9 +18,9 @@
 			</div>
 		</main>
 	</div>
-@endsection
 
-@section('scripts')
 <script src="{{asset('import/js/app.js')}}"></script>
+
+</body>
 @endsection
 			

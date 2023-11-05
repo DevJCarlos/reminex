@@ -27,7 +27,7 @@
 							<div class="card">
 								<div class="card-body">
 								<div class="d-flex flex-column align-items-center text-center">
-									<img src="img/photos/members/basan.jpg" alt="Admin" class="rounded-circle" width="150">
+									<img src="{{asset('import2/img/testimonials/basan.jpg')}}" alt="Admin" class="rounded-circle" width="150">
 									<div class="mt-3">
 									<h4>Gian Rogel Y. Basan</h4>
 									<p class="text-secondary mb-1">BS in Information Technology</p>
@@ -42,7 +42,7 @@
 							<div class="card">
 								<div class="card-body">
 								<div class="d-flex flex-column align-items-center text-center">
-									<img src="img/photos/members/ano.jpg" alt="Admin" class="rounded-circle" width="150">
+									<img src="{{asset('import2/img/testimonials/ano.jpg')}}" alt="Admin" class="rounded-circle" width="150">
 									<div class="mt-3">
 									<h4>Ryan Jun A. Año</h4>
 									<p class="text-secondary mb-1">BS in Information Technology</p>
@@ -57,7 +57,7 @@
 							<div class="card">
 								<div class="card-body">
 								<div class="d-flex flex-column align-items-center text-center">
-									<img src="img/photos/members/degamo.jpg" alt="Admin" class="rounded-circle" width="150">
+									<img src="{{asset('import2/img/testimonials/degamo.jpg')}}" alt="Admin" class="rounded-circle" width="150">
 									<div class="mt-3">
 									<h4>Maedy Luna E. Degamo</h4>
 									<p class="text-secondary mb-1">BS in Information Technology</p>
@@ -72,7 +72,7 @@
 							<div class="card">
 								<div class="card-body">
 								<div class="d-flex flex-column align-items-center text-center">
-									<img src="img/photos/members/begtasen.jpg" alt="Admin" class="rounded-circle" width="150">
+									<img src="{{asset('import2/img/testimonials/begtasen.jpg')}}" alt="Admin" class="rounded-circle" width="150">
 									<div class="mt-3">
 									<h4>Rhea Mave C. Begtasen</h4>
 									<p class="text-secondary mb-1">BS in Information Technology</p>
@@ -83,6 +83,7 @@
 								</div>
 							</div>
 						</div>
+					</div>
 
 						<h1 class="h3 mb-3">Contact Us</h1>
 						<div class="row">
@@ -104,8 +105,7 @@
 			</main>
         </div>
 
-@endsection
-
-@section('scripts')
 <script src="{{asset('import/js/app.js')}}"></script>
+
+</body>
 @endsection

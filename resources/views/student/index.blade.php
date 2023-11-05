@@ -3,13 +3,13 @@
 @section('content')
 
 	<div class="main">
-		<main class="content">
+	<main class="content">
 				<div class="container-fluid p-0">
 
 					<h1 class="h3 mb-3"><strong class="text-warning">Reminex</strong> Dashboard</h1>
 
 					<div class="row">
-						<div class="col-7">
+						<div class="col-12 col-lg-7">
 							<div class="card">
 								<div class="card-header">
 									<h5 class="card-title mb-0">Exam Schedule is <span class="badge bg-warning">Not Yet Available</span>.</h5>
@@ -17,10 +17,10 @@
 							</div>
 						</div>			
 						
-						<div class="col-5">
-							<div class="card">
+						<div class="col-12 col-lg-5">
+							<div class="card-responsive">
 								<div class="card-header">
-									<h2 class="col-12 badge bg-danger" id="spetitle"><strong>SPE REMINDERS for the STUDENTS</strong></h2><br><br>
+									<h2 class="col-12 col-lg-12 badge bg-danger" id="spetitle"><strong>SPE REMINDERS for the STUDENTS</strong></h2><br><br>
 									<h4><strong>1.</strong> Students must be at the assigned exam room at least 10 minutes before the exam time.</h4>
 									<h4><strong>2.</strong> No Premit, No Exam will be <strong class="text-danger">STRICTLY IMPLEMENTED</strong>.</h4>
 									<h4><strong>3.</strong> <strong class="text-danger">Rescheduling of Exam </strong>within the 3-day exam period is <strong class="text-danger">allowed</strong>
@@ -45,10 +45,7 @@
 			</main>
 	</div>
 
-
 <script src="{{asset('import/js/app.js')}}"></script>
-
-	
 
 </body>
 @endsection
