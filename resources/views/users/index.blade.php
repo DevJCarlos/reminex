@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0"><strong>ADMIN </strong>{{ __('Users') }}</h1>
+                    <h1 class="m-0"><strong>{{ __('Users') }}</strong></h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -18,7 +18,7 @@
         <div class="container-fluid">
 
             <div class="row">
-                <div class="col-4">
+                <div class="col-12 col-lg-4">
                     <div>
                         <form action="{{route ('createadmin')}}" method="POST">
                             @csrf
@@ -89,14 +89,14 @@
                             
                             <div class="border-top">
                                 <div class="card-body">
-                                <input type="submit" class="btn btn-primary" value="Add Admin">
+                                <input type="submit" class="btn btn-primary" value="Add Users">
                                 </div>
                             </div>
                             </div>
                         </form>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-12 col-lg-4">
                     <div class="card">
                         <form action="/upload" method="post" enctype="multipart/form-data">
                             @csrf
@@ -118,6 +118,25 @@
                         </form>
                     </div>
                 </div>
+                <div class="col-12 col-lg-4">
+                    <div class="mt-3">
+                        @if ($errors->any())
+                            <div class="col-12">
+                                @foreach ($errors->all() as $error)
+                                    <div class="alert alert-danger">{{$error}}</div>                               
+                                @endforeach
+                            </div>
+                        @endif
+
+                        @if (session()->has('error'))
+                            <div class="alert alert-danger">{{session('error')}}</div>                       
+                        @endif
+
+                        @if (session()->has('success'))
+                            <div class="alert alert-success">{{session('success')}}</div>                       
+                        @endif
+                    </div>
+                </div>	
             </div><br>
 
             <div class="row">
@@ -126,7 +145,7 @@
                         <div class="card-body text-danger">
 
                         <div class="alert alert-info">
-                            Admin Users Datatable
+                            Users Datatable
                         </div>
 
                             <div class="card">

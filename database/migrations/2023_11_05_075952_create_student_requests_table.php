@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('time_available');
             $table->string('file_name');
             $table->string('file_path');
-            $table->string('status');
+            $table->string('status')->nullable();
             $table->string('remarks')->nullable();
             $table->timestamps();
         });

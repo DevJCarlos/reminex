@@ -36,7 +36,7 @@
 			<label class="col-md-3"><strong>Requirements: </strong></label><br>
                 <input type="file" id="fileInput" name="requirement" accept=".pdf, .docx" onchange="displayFileName()">
                     <label for="fileInput" class="custom-file-input">Choose File</label>
-                <div>______________________________________________________________________________________</div>
+                    
 		<p class="text-danger"><em>*Requirements should be in one (1) file only, either in .docx or .pdf format. It must include your <strong>request letter</strong>, <strong>photocopy of your guardian's ID with guardian's signature below</strong>, <strong>proof of your excuse (e.g. Medical Certificate)</strong>, and your <strong>exam permit</strong>.</em></p>
         <p class="text-danger"><em>*For those <strong>subject conflict</strong> as reason, you can only submit your <strong>exam permit</strong>.</em></p>
 		<br><br>

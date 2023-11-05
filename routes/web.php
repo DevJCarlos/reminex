@@ -42,7 +42,7 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
     
 
     //Request 
-    Route::post('/student/createrequest', [RequestController::class, 'storeRequest'])->name('request.store');
+    Route::post('/student/createrequest', [App\Http\Controllers\RequestController::class, 'storeRequest'])->name('request.store');
     // about us
     // Route::get('/bout-us', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
 });
