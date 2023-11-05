@@ -131,7 +131,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>ReminEx Admin</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -197,8 +197,17 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="/" class="brand-link">
-                <img src="{{ asset('import/img/photos/loginlogoadmin1.png') }}" width="200" alt="Reminex Logo">
+            <a href="{{url('/home')}}" class="brand-link">
+                <img src="{{ asset('import/img/photos/brandicon.png') }}" width="50" alt="Reminex Logo">
+            <span class="logo-text ms-2" style="padding-left: 10px;">
+                <!-- dark Logo text -->
+                <img
+                  src="{{asset('import/img/photos/brandtext.png')}}"
+                  alt="homepage"
+                  class="light-logo"
+                  width="150"
+                />
+              </span>
             </a>
 
             @include('layouts.navigation')

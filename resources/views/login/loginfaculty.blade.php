@@ -84,9 +84,27 @@
             <!-- Login Form -->
             <form action="{{ route('login') }}" method="POST">
               @csrf
-              <input type="text" id="login" class="fadeIn second" name="username" placeholder="Faculty IDN">
+              <input type="number" id="login" class="fadeIn second" name="username" placeholder="Faculty IDN">
               <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password">
               <input type="submit" class="fadeIn fourth" value="Log In">
+
+                    <div>
+                      @if ($errors->any())
+                        <div class="col-12">
+                          @foreach ($errors->all() as $error)
+                            <div class="alert alert-danger">{{$error}}</div>                               
+                          @endforeach
+                        </div>
+                      @endif
+            
+                      @if (session()->has('error'))
+                        <div class="alert alert-danger">{{session('error')}}</div>                       
+                      @endif
+            
+                      @if (session()->has('success'))
+                        <div class="alert alert-success">{{session('success')}}</div>                       
+                      @endif
+                    </div>
             </form>
             <a href="{{ route('student') }}">Sign In as Student</a> &nbsp;&nbsp; <a href="{{ route('admin') }}">Sign In as Admin</a>
         
