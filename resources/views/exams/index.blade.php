@@ -68,8 +68,41 @@
                             </tr>
                         </thead>
                         <tbody>
-                          
-                        </tbody>
+    @foreach ($examDays as $examDay)
+        @foreach ($examDay->examTime as $examTime)
+            @php
+                $examSub = $examTime->examSub;
+            @endphp
+            @if (count($examSub) > 0)
+                @foreach ($examSub as $index => $examSubject)
+                    <tr>
+                        @if ($index === 0)
+                            <td rowspan="{{ count($examSub) }}">{{ $examTime->exam_time }}</td>
+                        @endif
+                        <td>{{ $examSubject->subject_name }}</td>
+                        <td rowspan="{{ count($examSubject->examSec) }}">{{ $examSubject->section_name }}</td>
+                    </tr>
+                    @php $firstSection = true; @endphp
+                    @foreach ($examSubject->examSec as $examSection)
+                        <tr>
+                            @if ($firstSection)
+                                <td rowspan="{{ count($examSubject->examSec) }}"></td>
+                                @php $firstSection = false; @endphp
+                            @endif
+                            <td>{{ $examSection->section_name }}</td>
+                        </tr>
+                    @endforeach
+                @endforeach
+            @else
+                <tr>
+                    <td rowspan="1">{{ $examTime->exam_time }}</td>
+                    <td>NO DATA CREATED</td>
+                </tr>
+            @endif
+        @endforeach
+    @endforeach
+</tbody>
+
                     </table>
                     <br>
                     <button type="submit" class="btn btn-success" style="width: 150px;">Release To Teachers</button>

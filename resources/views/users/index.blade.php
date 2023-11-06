@@ -103,7 +103,7 @@
                             @method('post')
 
                             <div class="card-body">
-                                <h4>Upload CSV (for many users)</h4><br>
+                                <h4>User Batch Upload</h4><br>
 
                                 <div class="form-group row">
                                     <div class="col-sm-9">
