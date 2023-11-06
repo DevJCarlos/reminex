@@ -4,9 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\RequestModel;
 use Illuminate\Http\Request;
+use App\Models\Room;
+use App\Models\NewSched;
+use Illuminate\Support\Facades\Storage;
 
 class RequestController extends Controller
 {
+
+    //creating student request
     public function storeRequest(Request $request)
     {
         $request->validate([
@@ -55,8 +60,150 @@ class RequestController extends Controller
         return redirect(route('student.createrequest'))->with('success', 'Successfully Requested!');
     }
 
-    public function requests(Request $request)
+    
+    //showing request to assigned admin for approval
+    public function showRequest()
     {
-        return view('requests');
+        $requestrecords = RequestModel::all();
+
+        return view('requests', compact('requestrecords'));
+    }
+
+    //showing request to assigned faculty
+    public function showRequest2()
+    {
+        $requestrecords2 = RequestModel::all();
+        $rooms = Room::all();
+
+        return view('faculty.managerequest', compact('requestrecords2', 'rooms'));
+    }
+
+    //showing request to student
+    public function showstudentRequest()
+    {
+        $requestrecords3 = RequestModel::all();
+
+        return view('student.viewrequest', compact('requestrecords3'));
+    }
+
+    public function adminRequestArchive()
+    {
+        $requestrecords5 = RequestModel::all();
+
+        return view('adminArchiveRequest', compact('requestrecords5'));
+    }
+
+
+    //admin approving request
+    public function approveRequest($id)
+    {
+        $data = RequestModel::find($id);
+
+        $data->status = 'Approved';
+        $data->remarks = 'Please wait for your new schedule. Thank you.';
+        $data->save();
+
+        return redirect()->back();
+        
+    }
+
+    //admin rejecting request
+    public function rejectRequest($id)
+    {
+        $data = RequestModel::find($id);
+
+        $data->status = 'Rejected';
+        $data->remarks = 'Your data or requirements are invalid. Please check your request and try again.';
+        $data->save();
+
+        return redirect()->back();
+        
+    }
+
+    public function newschedCreated($id)
+    {
+        $data = RequestModel::find($id);
+
+        $data->status = 'New Schedule Created';
+        $data->save();
+
+        return redirect()->back();
+        
+    }
+
+
+    //download requirement
+    public function requestDownload($filePaths)
+    {
+        try {
+            list($requirement) = explode(',', urldecode($filePaths));
+
+            $requirement_path = "uploads/{$requirement}";
+
+            if (!Storage::exists($requirement_path)) {
+                throw new \Exception("Files do not exist. Requirement Path: $requirement_path");
+            }
+
+            $zipFileName = 'downloaded_files.zip';
+            $zipPath = storage_path("app/$zipFileName");
+
+            $zip = new \ZipArchive();
+            if ($zip->open($zipPath, \ZipArchive::CREATE)) {
+                $zip->addFile(storage_path("app/$requirement_path"), $requirement);
+                $zip->close();
+
+                return response()->download($zipPath)->deleteFileAfterSend(true);
+            } else {
+                throw new \Exception("Failed to create a ZIP archive.");
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function storeSched(Request $request)
+    {
+        $request->validate([
+            'stud_name2' => 'required',
+            'request_type2' => 'required',
+            'subject2' => 'required',
+            'instructor2' => 'required',
+            'exam_day' => 'required',
+            'exam_time' => 'required',
+            'room' => 'required',
+        ]);
+        
+        $stud_name2 = $request->stud_name2;
+        $request_type2 = $request->request_type2;
+        $subject2 = $request->subject2;
+        $instructor2 = $request->instructor2;
+        $exam_day = $request->exam_day;
+        $exam_time = $request->exam_time;
+        $room = $request->room;
+    
+        // Save file information to the database
+        $newRequest = NewSched::create([
+
+            'stud_name2' => $stud_name2,
+            'request_type2' => $request_type2,
+            'subject2' => $subject2,
+            'instructor2' => $instructor2,
+            'exam_day' => $exam_day,
+            'exam_time' => $exam_time,
+            'room' => $room,
+        ]);
+
+        if (!$newRequest) {
+            return redirect(route('faculty.managerequest'))->with('error', 'Application Failed! Try Again!');
+        }
+    
+        return redirect(route('faculty.managerequest'))->with('success', 'New Schedule Made Successfully!');
+    }
+
+    public function showstudentNewSched()
+    {
+        $requestrecords4 = NewSched::all();
+
+        return view('student.newsched', compact('requestrecords4'));
     }
 }

@@ -69,22 +69,46 @@
                         </a>
                     </li>
                 </ul>
-                <li class="nav-item">
-                    <a href="{{ route('logout') }}" class="nav-link">
-                        <i class="nav-icon far fa-user"></i>
-                        <p>
-                            Logout
-                        </p>
-                    </a>
-                </li>
-            
             </li>
 
             <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-circle nav-icon"></i>
+                    <p>
+                        Requests
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview" style="display: none;">
+                    <li class="nav-item">
+                        <a href="{{ route('requests') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Pending Requests</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('adminArchiveRequest') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Archived</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- <li class="nav-item">
                 <a href="{{ route('requests') }}" class="nav-link">
                     <i class="nav-icon fas fa-circle nav-icon"></i>
                     <p>
                         {{ __('Requests') }}
+                    </p>
+                </a>
+            </li> -->
+
+            <li class="nav-item">
+                <a href="{{ route('logout') }}" class="nav-link">
+                    <i class="nav-icon far fa-user"></i>
+                    <p>
+                        Logout
                     </p>
                 </a>
             </li>

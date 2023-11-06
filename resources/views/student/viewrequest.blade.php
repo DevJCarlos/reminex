@@ -22,22 +22,33 @@
                                             <th>Subject</th>
                                             <th>Instructor</th>
                                             <th>Requirements</th>
+                                            <th>Status</th>
                                             <th>Remarks</th>
                                         </tr>
                                         </thead>
+
                                             <tbody>
+                                            @foreach($requestrecords3 as $requestrecord3)
+                                            @if ($requestrecord3->stud_name === auth()->user()->name)
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>   
-                                                <td>
-                                                    <a href="#">
-                                                    <input type="submit" class="btn btn-secondary" value="Download">
-                                                    </a>
-                                                </td>    
-                                                <td></td>          
+                                                <td>{{ $requestrecord3->created_at }}</td>
+                                                <td>{{ $requestrecord3->request_type }}</td>
+                                                <td>{{ $requestrecord3->subject }}</td>
+                                                <td>{{ $requestrecord3->instructor }}</td>   
+                                                <td>{{ $requestrecord3->file_name }}
+                                                <a href="{{ route('request.download', ['filePaths' => urlencode($requestrecord3->file_path)]) }}" class="btn btn-outline-warning">Download</a>
+                                                </td>
+                                                @if($requestrecord3->status === "Approved")
+                                                <td class="badge badge-outline-success">{{ $requestrecord3->status }}
+                                                <td class="text-success"><em>{{ $requestrecord3->remarks }}</em></td>   
+                                                @endif
+                                                @if($requestrecord3->status === "Rejected")
+                                                <td class="badge badge-outline-danger">{{ $requestrecord3->status }}
+                                                <td class="text-danger"><em>{{ $requestrecord3->remarks }}</em></td>   
+                                                @endif
                                             </tr> 
+                                            @endif
+                                            @endforeach
                                             </tbody>                 
 								  </table>
 								</div>

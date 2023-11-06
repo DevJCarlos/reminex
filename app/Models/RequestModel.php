@@ -21,5 +21,7 @@ class RequestModel extends Model
         'time_available',
         'file_name',
         'file_path',
+        'status',
+        'remarks',
     ];
 }

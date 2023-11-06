@@ -34,8 +34,8 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
     Route::get('/student', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
     Route::get('/student/show', [App\Http\Controllers\StudentController::class, 'show'])->name('student.show');
     Route::get('/student/createrequest', [App\Http\Controllers\StudentController::class, 'createRequest'])->name('student.createrequest');
-    Route::get('/student/viewrequest', [App\Http\Controllers\StudentController::class, 'viewRequest'])->name('student.viewrequest');
-    Route::get('/student/newsched', [App\Http\Controllers\StudentController::class, 'newSched'])->name('student.newsched');
+    // Route::get('/student/viewrequest', [App\Http\Controllers\StudentController::class, 'viewRequest'])->name('student.viewrequest');
+    // Route::get('/student/newsched', [App\Http\Controllers\StudentController::class, 'newSched'])->name('student.newsched');
     Route::get('/student/aboutus', [App\Http\Controllers\StudentController::class, 'aboutUs'])->name('student.aboutus');
     Route::get('/student/changepass', [App\Http\Controllers\StudentController::class, 'changePass'])->name('student.changepass');
     // Route::get('changeprofilePic', [App\Http\Controllers\StudentController::class, 'changeprofilePic'])->name('profilepic.update');
@@ -43,6 +43,8 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
 
     //Request 
     Route::post('/student/createrequest', [App\Http\Controllers\RequestController::class, 'storeRequest'])->name('request.store');
+    Route::get('/student/viewrequest', [App\Http\Controllers\RequestController::class, 'showstudentRequest'])->name('student.viewrequest');
+    Route::get('/student/newsched', [App\Http\Controllers\RequestController::class, 'showstudentNewSched'])->name('student.newsched');
     // about us
     // Route::get('/bout-us', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
 });
@@ -52,11 +54,16 @@ Route::group(['middleware' => ['auth', 'role:teacher']], function(){
     //butangi ang mga wala dri 
     Route::get('/faculty', [App\Http\Controllers\TeacherController::class, 'index'])->name('faculty.index');
     Route::get('/faculty/examsched', [App\Http\Controllers\TeacherController::class, 'show'])->name('faculty.show');
-    Route::get('/faculty/managerequest', [App\Http\Controllers\TeacherController::class, 'manageRequest'])->name('faculty.managerequest');
+    // Route::get('/faculty/managerequest', [App\Http\Controllers\TeacherController::class, 'manageRequest'])->name('faculty.managerequest');
     Route::get('/faculty/requestarchive', [App\Http\Controllers\TeacherController::class, 'requestArchive'])->name('faculty.requestarchive');
     Route::get('/faculty/aboutus', [App\Http\Controllers\TeacherController::class, 'aboutUs'])->name('faculty.aboutus');
     Route::get('/faculty/changepass', [App\Http\Controllers\TeacherController::class, 'changePass'])->name('faculty.changepass');
     // Route::get('changeprofilePic', [App\Http\Controllers\TeacherController::class, 'changeprofilePic'])->name('profilepic.update');
+
+    //Request 
+    Route::get('/faculty/managerequest', [App\Http\Controllers\RequestController::class, 'showRequest2'])->name('faculty.managerequest');
+    Route::post('/faculty/managerequest', [App\Http\Controllers\RequestController::class, 'storeSched'])->name('sched.store');
+    Route::get('/newsched_created/{id}', [\App\Http\Controllers\RequestController::class, 'newschedCreated'])->name('newsched_created');
     
 });
 
@@ -136,9 +143,11 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
     //request management
 
-    Route::get('/requests', [\App\Http\Controllers\RequestController::class, 'requests'])->name('requests');
-
-
-
+    // Route::get('/requests', [\App\Http\Controllers\RequestController::class, 'requests'])->name('requests');
+    Route::get('/requests', [App\Http\Controllers\RequestController::class, 'showRequest'])->name('requests');
+    Route::get('/approve_request/{id}', [\App\Http\Controllers\RequestController::class, 'approveRequest'])->name('approve_request');
+    Route::get('/reject_request/{id}', [\App\Http\Controllers\RequestController::class, 'rejectRequest'])->name('reject_request');
+    Route::get('/requests/download/{filePaths}', [\App\Http\Controllers\RequestController::class, 'requestDownload'])->name('request.download');
+    Route::get('adminArchiveRequest', [App\Http\Controllers\RequestController::class, 'adminRequestArchive'])->name('adminArchiveRequest');
 
 });
