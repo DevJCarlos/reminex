@@ -1,8 +1,5 @@
 @extends('layouts.app')
-<head>
-    
-</head>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 @section('content')
 <!-- <div class="container"> -->
@@ -23,10 +20,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <select class="form-control" id="dropdown1" name="option1">
-                                        <option value="option1_1">Prelims</option>
-                                        <option value="option1_2">Midterms</option>
-                                        <option value="option1_3">Pre-Finals</option>
-                                        <option value="option1_3">Finals</option>
+                                        <option value=" ">--Choose Period--</option>
+                                        <option value="Prelims">Prelims</option>
+                                        <option value="Midterms">Midterms</option>
+                                        <option value="Pre-Finals">Pre-Finals</option>
+                                        <option value="Finals">Finals</option>
                                     </select>
                                 </div>
                             </div>
@@ -41,19 +39,19 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <select class="form-control" id="dropdown2" name="option2">
-                                        <option value="option2_1">Day 1</option>
-                                        <option value="option2_2">Day 2</option>
-                                        <option value="option2_3">Day 3</option>
+                                    <option value =" ">--Choose Day--</option>
+                                        <option value="1">Day 1</option>
+                                        <option value="2">Day 2</option>
+                                        <option value="3">Day 3</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        
                     </form>
                     <button type="submit" class="btn btn-success">Excel</button>
                 </div>
                 <div class="card-body">
-                    <table class = "table table-bordered">
+                    <table class = "table table-bordered" id = "schedule">
                         <thead>
                             <tr>
                                 <th>Time</th>
@@ -68,41 +66,9 @@
                             </tr>
                         </thead>
                         <tbody>
-    @foreach ($examDays as $examDay)
-        @foreach ($examDay->examTime as $examTime)
-            @php
-                $examSub = $examTime->examSub;
-            @endphp
-            @if (count($examSub) > 0)
-                @foreach ($examSub as $index => $examSubject)
-                    <tr>
-                        @if ($index === 0)
-                            <td rowspan="{{ count($examSub) }}">{{ $examTime->exam_time }}</td>
-                        @endif
-                        <td>{{ $examSubject->subject_name }}</td>
-                        <td rowspan="{{ count($examSubject->examSec) }}">{{ $examSubject->section_name }}</td>
-                    </tr>
-                    @php $firstSection = true; @endphp
-                    @foreach ($examSubject->examSec as $examSection)
-                        <tr>
-                            @if ($firstSection)
-                                <td rowspan="{{ count($examSubject->examSec) }}"></td>
-                                @php $firstSection = false; @endphp
-                            @endif
-                            <td>{{ $examSection->section_name }}</td>
-                        </tr>
-                    @endforeach
-                @endforeach
-            @else
-                <tr>
-                    <td rowspan="1">{{ $examTime->exam_time }}</td>
-                    <td>NO DATA CREATED</td>
-                </tr>
-            @endif
-        @endforeach
-    @endforeach
-</tbody>
 
+                        </tbody>
+                    
                     </table>
                     <br>
                     <button type="submit" class="btn btn-success" style="width: 150px;">Release To Teachers</button>
@@ -121,36 +87,102 @@
 @section('scripts')
 
 <script>
-    var accordionButtons = document.querySelectorAll('.accordion-button');
 
-    // Add click event listeners to each button
-    accordionButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            // Toggle the next sibling element (the content section)
-            var content = this.nextElementSibling;
-            if (content.style.display === 'block') {
-                content.style.display = 'none';
-            } else {
-                content.style.display = 'block';
+var selectedValues = [];
+var selectedValuesDay = [];
+
+function getValue() {
+    selectedValues = [$('#dropdown1').val()];
+    selectedValuesDay = [$('#dropdown2').val()];
+}
+
+$(document).ready(function() {
+    $('#dropdown2').change(function() {
+        selectedOption1 = $('#dropdown2 option:selected').text();
+        if (selectedOption1 === "Day 1" || selectedOption1 === "Day 2" || selectedOption1 === "Day 3") {
+            getValue();
+            if (selectedValues) {
+                handleFormSubmit();
             }
-        });
+        }
     });
 
-    $(document).ready(function() {
-    $('#Prelims').DataTable( {
-        dom: 'Bfrtip',
-        buttons: [
-            {
-                extend: 'excelHtml5',
-                title: 'Data export'
-            },
-            {
-                extend: 'pdfHtml5',
-                title: 'Data export'
+    $('#dropdown1').change(function() {
+        selectedOption = $('#dropdown1 option:selected').text();
+        if (selectedOption === "Prelims" || selectedOption === "Midterms" || selectedOption === "Pre-Finals" || selectedOption === "Finals") {
+            getValue();
+            if (selectedValues) {
+                handleFormSubmit();
             }
-        ]
-    } );
-} );
+        }
+    });
+});
+
+function handleFormSubmit() {
+    var period = selectedValues; // Get the first selected value
+    var day = selectedValuesDay;
+    console.log('sabays', period, day);
+
+    // Include the CSRF token in the request headers
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        }
+    });
+
+    $.ajax({
+        url: '{{ route('exams.fetch') }}', // Adjust the route to handle filtering
+        type: 'POST', // You can use POST to send the selected options
+        data: { period: period, day: day },
+        dataType: 'json',
+        success: function(data) {
+            var examTimes = data.examTimes.map(function(item) {
+                return item.exam_time;
+            });
+            // var examSubjects = data.examSubjects.map(function(item) {
+            //     return item.subject_name;
+            // });
+
+            var examSubjects = data.examSubjects;
+            console.log(examSubjects);
+
+            var tableBody = $('#schedule tbody');
+            tableBody.empty();
+
+            examTimes.forEach(function(examTime, index) {
+                var examSubject = examSubjects[index];
+
+                var row = $('<tr>');
+                row.append($('<td>').text(examTime));
+                row.append($('<td>').text(examSubject)); // Subject
+                row.append($('<td>').text()); // Rooms
+                row.append($('<td>').text()); // Section
+                row.append($('<td>').text()); // Section Number
+                row.append($('<td>').text()); // Instructor
+                row.append($('<td>').text()); // Student Count
+                row.append($('<td>').text()); // Proctors
+
+                // Optionally, you can add actions like edit or delete buttons
+                var actionsColumn = $('<td>');
+                actionsColumn.append($('<button>').text('Edit'));
+                actionsColumn.append($('<button>').text('Delete'));
+
+                row.append(actionsColumn);
+
+                // Append the row to the table body
+                tableBody.append(row);
+            });
+        },
+
+
+
+        error: function() {
+            console.log('Error fetching data');
+        }
+    });
+}
+   
 
 </script>
 @endsection

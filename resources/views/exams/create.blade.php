@@ -103,8 +103,6 @@
             
             tableRows = document.querySelectorAll('#subjects tbody tr');
         }
-
-    
         //global var for sub and prog
         var SubjectsProgram = [];
         function addSubjects() {
@@ -178,10 +176,6 @@
             
             xhr.send(JSON.stringify(selectedSubjectNames));
         }
-
-
-        
-        
         function displaySubjectsAndAdditionalInfo(selectedSubjects, additionalInfo) {
             var subroomDiv = document.getElementById('Sub');
             var ul = document.createElement('ul');
@@ -828,72 +822,6 @@
                 });
             }
         });
-                    
-
-                //RoomResponse
-                // var examRoomData = examRoom(sortSchedule);
-                // var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                // fetch('/exam-rooms', {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //         'X-CSRF-TOKEN': csrfToken
-                //     },
-                //     body: JSON.stringify(examRoomData)
-                // })
-                // .then(response => response.json())
-
-                // .then(data => {
-                //     console.log('Response from the server (room):', data);
-                // })
-                // .catch(error => {
-                //     console.error('Error:', error);
-                // });
-
-                // examSubjects(sortSchedule);
-                //subjects
-                // var examSubjectData = examSubjects(sortSchedule);
-                // var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                // fetch('/exam-subjects', {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //         'X-CSRF-TOKEN': csrfToken
-                //     },
-                //     body: JSON.stringify(examSubjectData)
-                // })
-                // .then(response => response.json())
-
-                // .then(data => {
-                //     console.log('Response from the server (subjects):', data);
-                // })
-                // .catch(error => {
-                //     console.error('Error:', error);
-                // });
-
-                //examSectionProperties(sortSchedule);
-                // var examSectionPropertiesData = examSectionProperties(sortSchedule);
-                // var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                // fetch('/exam-SecPro', {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //         'X-CSRF-TOKEN': csrfToken
-                //     },
-                //     body: JSON.stringify(examSectionPropertiesData)
-                // })
-                // .then(response => response.json())
-
-                // .then(data => {
-                //     console.log('Response from the server (subjects):', data);
-                // })
-                // .catch(error => {
-                //     console.error('Error:', error);
-                // });
-
-
-              
-            
-   
+        
     </script>
 @endsection

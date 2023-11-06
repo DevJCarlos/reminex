@@ -21,10 +21,10 @@ class ExamController extends Controller
         return view('exams.create', compact('rooms'));
     }
     
-    public function index(){
+    // public function index(){
 
-        return view('exams.index');
-    }
+    //     return view('exams.index');
+    // }
 
 
     public function getRooms(){

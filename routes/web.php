@@ -86,7 +86,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::post('/upload-sec', [\App\Http\Controllers\HomeController::class, 'saveData'])->name('listbysec.csv');
 
     // exam generate sa create
-    Route::get('/exam', [\App\Http\Controllers\ExamController::class, 'index'])->name('exams.index');
+    // Route::get('/exam', [\App\Http\Controllers\ExamController::class, 'index'])->name('exams.index');
+    
     Route::get('exam/create', [\App\Http\Controllers\ExamController::class, 'create'])->name('exam.create');
     Route::post('/fetch-subjects', [\App\Http\Controllers\ExamController::class, 'fetchSubjects'])->name('exam.fetch.subjects');
     Route::post('/upload-csv', [\App\Http\Controllers\ExamController::class, 'uploadCSV'])->name('upload.csv');
@@ -101,8 +102,13 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
     //ExamsTime
     Route::post('/exam-times', [\App\Http\Controllers\ExamTimeController::class, 'saveExamTimes'])->name('examtimes.save');
-    Route::get('/exam-times-index', [\App\Http\Controllers\ExamTimeController::class, 'index'])->name('examtimes.index');
+    Route::get('/exam', [\App\Http\Controllers\ExamTimeController::class, 'index'])->name('exams.index');
+
+
+    //fetch
+    Route::post('/exam/fetch', [\App\Http\Controllers\ExamTimeController::class, 'fetch'])->name('exams.fetch');
     
+
 
     //ExamRooms
     Route::post('/exam-rooms', [\App\Http\Controllers\ExamRoomController::class, 'saveExamRooms'])->name('examrooms.save');
