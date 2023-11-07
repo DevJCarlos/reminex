@@ -137,42 +137,44 @@ function handleFormSubmit() {
         data: { period: period, day: day },
         dataType: 'json',
         success: function(data) {
-            var examTimes = data.examTimes.map(function(item) {
-                return item.exam_time;
-            });
+            console.log(data);
+            // var examTimes = data.examTimes.map(function(item) {
+            //     return item.exam_time;
+            // });
             // var examSubjects = data.examSubjects.map(function(item) {
             //     return item.subject_name;
             // });
 
-            var examSubjects = data.examSubjects;
-            console.log(examSubjects);
+            // var examSubjects = data.examSubjects;
+            // console.log(examSubjects);
+
 
             var tableBody = $('#schedule tbody');
             tableBody.empty();
 
-            examTimes.forEach(function(examTime, index) {
-                var examSubject = examSubjects[index];
+            // examTimes.forEach(function(examTime, index) {
+            //     var examSubject = examSubjects[index];
 
-                var row = $('<tr>');
-                row.append($('<td>').text(examTime));
-                row.append($('<td>').text(examSubject)); // Subject
-                row.append($('<td>').text()); // Rooms
-                row.append($('<td>').text()); // Section
-                row.append($('<td>').text()); // Section Number
-                row.append($('<td>').text()); // Instructor
-                row.append($('<td>').text()); // Student Count
-                row.append($('<td>').text()); // Proctors
+            //     var row = $('<tr>');
+            //     row.append($('<td>').text(examTime));
+            //     row.append($('<td>').text(examSubject)); // Subject
+            //     row.append($('<td>').text()); // Rooms
+            //     row.append($('<td>').text()); // Section
+            //     row.append($('<td>').text()); // Section Number
+            //     row.append($('<td>').text()); // Instructor
+            //     row.append($('<td>').text()); // Student Count
+            //     row.append($('<td>').text()); // Proctors
 
-                // Optionally, you can add actions like edit or delete buttons
-                var actionsColumn = $('<td>');
-                actionsColumn.append($('<button>').text('Edit'));
-                actionsColumn.append($('<button>').text('Delete'));
+            //     // Optionally, you can add actions like edit or delete buttons
+            //     var actionsColumn = $('<td>');
+            //     actionsColumn.append($('<button>').text('Edit'));
+            //     actionsColumn.append($('<button>').text('Delete'));
 
-                row.append(actionsColumn);
+            //     row.append(actionsColumn);
 
-                // Append the row to the table body
-                tableBody.append(row);
-            });
+            //     // Append the row to the table body
+            //     tableBody.append(row);
+            // });
         },
 
 

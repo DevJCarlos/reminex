@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 use App\Models\ExamTime;
 use App\Models\ExamDay;
+use App\Models\ExamRoom;
 use App\Models\ExamSubject;
+use App\Models\ExamSection;
 use Illuminate\Http\Request;
 
 class ExamTimeController extends Controller
@@ -52,7 +54,7 @@ class ExamTimeController extends Controller
         })
         ->get();
 
-        $filteredExamSubjects = ExamSubject::select('exam_subjects.*')
+        $filteredExamSubjects = ExamSubject::select('subject_name')
         ->when($period = 'Prelims', function ($query) use ($day) {
             $query
                 ->join('exam_times', 'exam_subjects.exam_time_ID', '=', 'exam_times.id')
@@ -61,13 +63,34 @@ class ExamTimeController extends Controller
                 ->where('exam_days.day_num', $day);
         })
         ->get();
+
+        $filteredExamRooms = ExamRoom::select('room_name')
+        ->when($period = 'Prelims', function ($query) use ($day) {
+            $query
+                ->join('exam_days', 'exam_rooms.exam_day_ID', '=', 'exam_days.id')
+                ->where('exam_rooms.exam_period_ID', 1)
+                ->where('exam_days.day_num', $day);
+        })
+        ->get();
+
+        $filteredExamSections = ExamSection::select('section_name', 'class_num', 'instructor', 'class_count')
+        ->when($period === 'Prelims', function ($query) use ($day) {
+            $query
+                ->join('exam_days', 'exam_sections.exam_day_ID', '=', 'exam_days.id')
+                ->where('exam_sections.exam_period_ID', 1)
+                ->where('exam_days.day_num', $day);
+        })
+        ->get();
+
+
+
         $combinedData = [
             'examTimes' => $filteredExamTimes,
             'examSubjects' => $filteredExamSubjects,
+            'examRooms' => $filteredExamRooms,
+            'examSections' => $filteredExamSections,
         ];
-        // dd($combinedData);
 
-    
         return response()->json($combinedData);
     }
     
