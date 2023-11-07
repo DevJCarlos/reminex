@@ -33,7 +33,6 @@ Auth::routes();
 Route::group(['middleware' => ['auth', 'role:student']], function(){
     Route::get('/student', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
     Route::get('/student/show', [App\Http\Controllers\StudentController::class, 'show'])->name('student.show');
-    Route::get('/student/createrequest', [App\Http\Controllers\StudentController::class, 'createRequest'])->name('student.createrequest');
     // Route::get('/student/viewrequest', [App\Http\Controllers\StudentController::class, 'viewRequest'])->name('student.viewrequest');
     // Route::get('/student/newsched', [App\Http\Controllers\StudentController::class, 'newSched'])->name('student.newsched');
     Route::get('/student/aboutus', [App\Http\Controllers\StudentController::class, 'aboutUs'])->name('student.aboutus');
@@ -42,9 +41,11 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
     
 
     //Request 
+    Route::get('/student/createrequest', [App\Http\Controllers\RequestController::class, 'createRequest'])->name('student.createrequest');
     Route::post('/student/createrequest', [App\Http\Controllers\RequestController::class, 'storeRequest'])->name('request.store');
     Route::get('/student/viewrequest', [App\Http\Controllers\RequestController::class, 'showstudentRequest'])->name('student.viewrequest');
     Route::get('/student/newsched', [App\Http\Controllers\RequestController::class, 'showstudentNewSched'])->name('student.newsched');
+
     // about us
     // Route::get('/bout-us', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
 });

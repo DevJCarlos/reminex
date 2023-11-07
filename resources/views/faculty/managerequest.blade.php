@@ -13,6 +13,7 @@
 									<div class="card-body">					
 										<label for="request"><strong class="text-success">Your Student Requests </strong></label><br><br>
 										@foreach($requestrecords2 as $requestrecord2)
+										@if($requestrecord2->instructor == auth()->user()->name)
 										@if($requestrecord2->status === "Approved")
 										<form action="{{ route('sched.store') }}" method="post">
 											@csrf
@@ -56,10 +57,11 @@
 															@endforeach
 														</select>
 
-														<input type="submit" class="btn btn-primary btn-lg" value="Create New Schedule">
+														<input type="submit" class="btn btn-primary btn-lg" value="Create New Schedule"><br><br>
 												</div>
                                     	</form>
 										<a href="{{ route('newsched_created', $requestrecord2->id) }}" class="btn btn-warning">Archive This Request</a><br>
+										@endif
 										@endif
 										@endforeach
 									</div>

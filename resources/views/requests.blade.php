@@ -43,7 +43,7 @@
                                 <tbody>
                                 @foreach($requestrecords as $requestrecord)
                                 @if($requestrecord->department === auth()->user()->department)
-                                @if($requestrecord->status == null)
+                                @if($requestrecord->status === null)
 
                                     <tr>
                                         <td>{{ $requestrecord->created_at }}</td>
@@ -68,9 +68,11 @@
 
                                         <td>{{ $requestrecord->remarks }}</td>
                                         <td>
+
                                             <a href="{{ route('approve_request', $requestrecord->id) }}">
                                                 <input type="submit" class="btn btn-outline-success" value="Approve">
                                             </a>
+
                                         </td>
                                         <td>
                                             <a href="{{ route('reject_request', $requestrecord->id) }}">

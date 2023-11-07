@@ -5,7 +5,7 @@
             <label for="request"><strong>Name: </strong></label>
                 <input type="text" name="stud_name" value="{{ auth()->user()->name }}" readonly><br>
             <label for="request"><strong>Department: </strong></label>
-                <input type="text" name="department" value="ICT Department" readonly><br><br>
+                <input type="text" name="department" value="{{ auth()->user()->department }}" readonly><br><br>
 
 			<label for="request"><strong>Request Type: </strong></label>
 				<select class="form-select mb-3" name="request_type" required>
@@ -13,22 +13,29 @@
 					<option value="Reschedule Request">Reschedule Request</option>
 					<option value="Special Exam Request">Special Exam Request</option>
 				</select>
-			<label for="request"><strong>Subject to Take: </strong></label>
-                <select class="form-select mb-3" name="subject" required>
+			<label for="request"><strong>Subject to Take: </strong></label><br>
+                <input type="text" name="subject" placeholder="Please input subject..."><br><br>
+
+                <!-- <select class="form-select mb-3" name="subject" required>
                     <option disabled selected>Select Subject...</option>
-                        <option value="subject 1">Subject 1</option>
-                        <option value="subject 2">Subject 2</option>
-                    </select>
+                        <option value="ITSM">ITSM</option>
+                    </select> -->
 
             <label for="request"><strong>Instructor: </strong></label>
                 <select class="form-select mb-3" name="instructor" required>
                     <option disabled selected>Select Instructor...</option>
-                         <option value="Instructor 1">Instructor 1</option>
-                         <option value="Instructor 2">Instructor 2</option>
-                    </select>
+                    @php
+                        $sortedUserRecords = $userrecords->sortBy('name');
+                    @endphp
+                    @foreach($sortedUserRecords as $userrecord)
+                        @if($userrecord->role === "teacher" || $userrecord->role === "admin")
+                            <option value="{{$userrecord->name}}">{{ $userrecord->name }}</option>
+                        @endif
+                    @endforeach
+                </select>
 
             <label for="request"><strong>Reason: </strong></label> <p class="text-danger"><em>(if subject conflict, please include the details)</em></p>
-				<textarea class="form-control" rows="2" name="reason" placeholder="Type your reason/message here..." required></textarea><br>
+				<textarea class="form-control" rows="2" name="reason" placeholder="Reason details here..." required></textarea><br>
 
 			<label for="request"><strong>Time Available (Ranged): </strong></label>
 				<textarea class="form-control" rows="2" name="time_available" placeholder="Ex. 10:00 AM - 11:00 AM"  required></textarea><br>

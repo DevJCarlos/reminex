@@ -46,6 +46,10 @@
                                                 <td class="badge badge-outline-danger">{{ $requestrecord3->status }}
                                                 <td class="text-danger"><em>{{ $requestrecord3->remarks }}</em></td>   
                                                 @endif
+                                                @if($requestrecord3->status === "New Schedule Created")
+                                                <td class="badge badge-warning">{{ $requestrecord3->status }}</td> 
+                                                <td class="text-success"><em>Completed!</em></td> 
+                                                @endif
                                             </tr> 
                                             @endif
                                             @endforeach

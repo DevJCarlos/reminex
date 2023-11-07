@@ -84,7 +84,7 @@
             <!-- Login Form -->
             <form action="{{ route('login') }}" method="POST">
               @csrf
-              <input type="number" id="login" class="fadeIn second" name="username" placeholder="Faculty IDN">
+              <input type="text" id="login" class="fadeIn second" name="username" placeholder="Faculty IDN">
               <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password">
               <input type="submit" class="fadeIn fourth" value="Log In">
 

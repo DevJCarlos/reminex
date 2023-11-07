@@ -30,14 +30,14 @@
                                 <div class="form-group row">
                                 <label for="aidn" class="col-sm-3 text-end control-label col-form-label">User IDN</label>
                                     <div class="col-sm-9">
-                                        <input type="number" class="form-control" id="aidn" name="username"  placeholder="IDN Here" required/>
+                                        <input type="text" class="form-control" id="aidn" name="username"  placeholder="IDN Here" required/>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                 <label for="aname" class="col-sm-3 text-end control-label col-form-label">Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="aname" name="name" placeholder="Lastname Here" required/>
+                                        <input type="text" class="form-control" id="aname" name="name" placeholder="Name Here" required/>
                                     </div>
                                 </div>
 
@@ -89,7 +89,7 @@
                             
                             <div class="border-top">
                                 <div class="card-body">
-                                <input type="submit" class="btn btn-primary" value="Add Users">
+                                <input type="submit" class="btn btn-primary" value="Add User">
                                 </div>
                             </div>
                             </div>

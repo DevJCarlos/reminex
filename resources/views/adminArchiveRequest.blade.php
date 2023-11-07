@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0"><strong>{{ __('REQUEST MANAGEMENT') }}</strong></h1>
+                    <h1 class="m-0"><strong>{{ __('REQUEST ARCHIVE') }}</strong></h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->

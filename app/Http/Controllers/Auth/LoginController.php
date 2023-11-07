@@ -119,7 +119,7 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect('/adminLogin');
+        return redirect('/');
         // return response()->json(['message' => 'Successful'])->header('Location', route('exam.create'));
     }
 

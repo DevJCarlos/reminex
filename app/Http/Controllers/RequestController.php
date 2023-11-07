@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\RequestModel;
 use Illuminate\Http\Request;
 use App\Models\Room;
+use App\Models\User;
 use App\Models\NewSched;
 use Illuminate\Support\Facades\Storage;
 
@@ -61,7 +62,14 @@ class RequestController extends Controller
     }
 
     
+    public function createRequest()
+    {
+        $userrecords = User::all();
+        return view('student.createrequest', ['userrecords' => $userrecords]);
+    }
+    
     //showing request to assigned admin for approval
+
     public function showRequest()
     {
         $requestrecords = RequestModel::all();
@@ -100,7 +108,8 @@ class RequestController extends Controller
         $data = RequestModel::find($id);
 
         $data->status = 'Approved';
-        $data->remarks = 'Please wait for your new schedule. Thank you.';
+        $data->remarks = 'Please wait for your new schedule. Thank you.
+                            For Special Exam: Please see your Program Head for the exam details.';
         $data->save();
 
         return redirect()->back();
