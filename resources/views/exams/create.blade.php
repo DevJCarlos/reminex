@@ -383,6 +383,7 @@
             generateExam();
             
         }
+        //examGenerator
         var sortSchedule;
         function generateExam() {
             var timeSlotRooms = [];
@@ -604,7 +605,7 @@
 
                      // Room
                     const roomCell = document.createElement('td');
-                    roomCell.textContent = timeSlot.room[index]; // Display each room for the time slot separately
+                    roomCell.textContent = timeSlot.room[index]; 
                     row.appendChild(roomCell);
 
                     // Section
@@ -631,11 +632,7 @@
                     tableBody.appendChild(row);
                 });
             });
-            //var timeSlotsAndRooms = examData(sortSchedule);
-            //console.log('check', timeSlotsAndRooms);
-
-
-                
+            
         }
         //selector period,day,date,time
         function saveDay(data) {

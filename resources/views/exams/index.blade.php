@@ -137,45 +137,41 @@ function handleFormSubmit() {
         data: { period: period, day: day },
         dataType: 'json',
         success: function(data) {
-            console.log(data);
-            // var examTimes = data.examTimes.map(function(item) {
-            //     return item.exam_time;
-            // });
-            // var examSubjects = data.examSubjects.map(function(item) {
-            //     return item.subject_name;
-            // });
+    console.log(data);
 
-            // var examSubjects = data.examSubjects;
-            // console.log(examSubjects);
+    data.examTimes.forEach(function(examTime) {
+        // console.log('Exam Time:', examTime.exam_time);
 
+        if (examTime.examSub) {
+            examTime.examSub.forEach(function(examSub) {
+                console.log('Exam Subject:', examSub.subject_name);
 
-            var tableBody = $('#schedule tbody');
-            tableBody.empty();
+                // Access the associated sections for the current subject
+                var sections = examSub.examSectionss;
+                console.log(sections);
 
-            // examTimes.forEach(function(examTime, index) {
-            //     var examSubject = examSubjects[index];
+                // Create an array to store the section data
+                var subjectSections = [];
 
-            //     var row = $('<tr>');
-            //     row.append($('<td>').text(examTime));
-            //     row.append($('<td>').text(examSubject)); // Subject
-            //     row.append($('<td>').text()); // Rooms
-            //     row.append($('<td>').text()); // Section
-            //     row.append($('<td>').text()); // Section Number
-            //     row.append($('<td>').text()); // Instructor
-            //     row.append($('<td>').text()); // Student Count
-            //     row.append($('<td>').text()); // Proctors
+                sections.forEach(function(section) {
+                    // Access and store the properties of each section
+                    var sectionData = {
+                        section_name: section.section_name,
+                        class_num: section.class_num,
+                        instructor: section.instructor,
+                        class_count: section.class_count,
+                    };
 
-            //     // Optionally, you can add actions like edit or delete buttons
-            //     var actionsColumn = $('<td>');
-            //     actionsColumn.append($('<button>').text('Edit'));
-            //     actionsColumn.append($('<button>').text('Delete'));
+                    subjectSections.push(sectionData);
+                });
 
-            //     row.append(actionsColumn);
+                // Add the 'subject_section' key to the examSub object
+                examSub.subject_section = subjectSections;
+            });
+        }
+    });
+},
 
-            //     // Append the row to the table body
-            //     tableBody.append(row);
-            // });
-        },
 
 
 
