@@ -71,7 +71,7 @@ class ExamSectionController extends Controller
                 $sectionNameArray = $explodedSections[$i];
                 $classnumArray = $explodedClassnum[$i];
                 $InstructorArray = $explodedInstructor[$i];
-                $classcountArray = $explodedClasscounts[$i]; // Note the corrected array name
+                $classcountArray = $explodedClasscounts[$i]; 
                 
                 $latestExamSubject = $latestExamSubjects[$i];
         

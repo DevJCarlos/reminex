@@ -71,7 +71,6 @@
                 </div>
             </div>
         </div>
-
     </div>
     <div class="modal fade" id="editRoomModal" tabindex="-1" role="dialog" aria-labelledby="editRoomModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

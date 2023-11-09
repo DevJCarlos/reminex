@@ -119,11 +119,11 @@ $(document).ready(function() {
 });
 
 function handleFormSubmit() {
-    var period = selectedValues; // Get the first selected value
+    var period = selectedValues; 
     var day = selectedValuesDay;
-    console.log('sabays', period, day);
+    
 
-    // Include the CSRF token in the request headers
+    
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
     $.ajaxSetup({
         headers: {
@@ -132,48 +132,79 @@ function handleFormSubmit() {
     });
 
     $.ajax({
-        url: '{{ route('exams.fetch') }}', // Adjust the route to handle filtering
-        type: 'POST', // You can use POST to send the selected options
+        url: '{{ route('exams.fetch') }}', 
+        type: 'POST', 
         data: { period: period, day: day },
         dataType: 'json',
         success: function(data) {
-    console.log(data);
+        console.log(data);
 
-    data.examTimes.forEach(function(examTime) {
-        // console.log('Exam Time:', examTime.exam_time);
+        var TimeSchedule = [];
+        data.examTimes.forEach(function(examTime) {
+            var TimeSlots = { TimeSlot: examTime.exam_time };
+            var Subjects = [];
 
-        if (examTime.examSub) {
-            examTime.examSub.forEach(function(examSub) {
-                console.log('Exam Subject:', examSub.subject_name);
+            examTime.exam_sub.forEach(function(subject) {
+                var SubjectName = { Subject: subject.subject_name };
+                var Sections = [];
 
-                // Access the associated sections for the current subject
-                var sections = examSub.examSectionss;
-                console.log(sections);
-
-                // Create an array to store the section data
-                var subjectSections = [];
-
-                sections.forEach(function(section) {
-                    // Access and store the properties of each section
-                    var sectionData = {
-                        section_name: section.section_name,
-                        class_num: section.class_num,
-                        instructor: section.instructor,
-                        class_count: section.class_count,
-                    };
-
-                    subjectSections.push(sectionData);
+                subject.exam_sectionss.forEach(function(subjectSec) {
+                    Sections.push({
+                        Section: subjectSec.section_name,
+                        Code: subjectSec.class_num,
+                        Instructor: subjectSec.Instructor,
+                        StudentCount: subjectSec.class_count
+                    });
                 });
 
-                // Add the 'subject_section' key to the examSub object
-                examSub.subject_section = subjectSections;
+                SubjectName.Sections = Sections;
+                Subjects.push(SubjectName);
             });
-        }
-    });
-},
 
+            TimeSlots.Subjects = Subjects;
+            TimeSchedule.push(TimeSlots);
+        });
 
+        console.log(TimeSchedule);
 
+        console.log('new',TimeSchedule);
+        
+        
+
+        
+
+            
+
+            // data.examTimes.forEach(function(examTime) {
+            //     console.log('Time:', examTime.exam_time);
+                
+            //     if (examTime.examSub) {
+            //         examTime.examSub.forEach(function(examSub) {
+                        
+
+            //             var sections = examSub.examSectionss;
+            //             var subjectSections = [];
+            //             // console.log('new',subjectSections);
+
+            //             sections.forEach(function(section) {
+                            
+            //                 var sectionData = {
+            //                     section_name: section.section_name,
+            //                     class_num: section.class_num,
+            //                     instructor: section.instructor,
+            //                     class_count: section.class_count,
+            //                 };
+
+            //                 subjectSections.push(sectionData);
+            //                 console.log('new',subjectSections);
+            //             });
+            //             examSub.subject_section = subjectSections;
+                        
+            //         });
+            //     }
+            // });
+            
+        },
 
         error: function() {
             console.log('Error fetching data');

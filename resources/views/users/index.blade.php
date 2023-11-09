@@ -173,18 +173,14 @@
                                                 <td>{{ $user->password }}</td>  
                                                 <td>{{ $user->role }}</td> 
                                                 <td>
-                                                    <a href="#"
->
-                                                        <input type="submit" class="btn btn-primary" value="Edit">
-                                                    </a>
 
+                                                <button class="btn btn-success btn-sm">Edit</button>
+                                                       
                                                     <form method="POST" action="{{ route('users.destroy', $user->id) }}" style="display: inline;">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
                                                     </form>
-
-
                                                 </td> 
                                             </tr>
                                         @endforeach    
@@ -204,5 +200,31 @@
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
+    <div class="modal fade" id="editRoomModal" tabindex="-1" role="dialog" aria-labelledby="editRoomModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editRoomModalLabel">Edit Room Name</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editRoomForm">
+                        @csrf
+                        <input type="hidden" id="editRoomId" name="room_id" value="">
+                        <div class="form-group">
+                            <label for="editRoomName">Room Name:</label>
+                            <input type="text" class="form-control" id="editRoomName" name="room_name">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveEditRoom">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>  
     <!-- /.content -->
 @endsection
