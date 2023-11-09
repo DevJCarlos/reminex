@@ -19,7 +19,7 @@
 
 										<div class="row">
 										<div class="col-12 col-lg-10">
-										<form action="{{ route('sched.store') }}" method="post">
+										<form id="scheduleForm" action="{{ route('sched.store') }}" method="post">
 											@csrf
                            					@method('post')
 												<button type="button" class="collapsible">
@@ -61,12 +61,12 @@
 															@endforeach
 														</select>
 
-														<input type="submit" class="btn btn-primary btn-lg" value="Create New Schedule"><br><br>
+														<input type="submit" class="btn btn-primary btn-lg form-control" onclick="return confirm('Are you sure to create this new schedule?')" value="Create New Schedule"><br><br>
 												</div>
                                     	</form>
 										</div>
 										<div class="col-12 col-lg-1">
-										<a href="{{ route('newsched_created', $requestrecord2->id) }}" class="btn btn-warning">Send to Student</a><br>
+										<a href="{{ route('newsched_created', $requestrecord2->id) }}" onclick="if(!window.confirm('Are you sure to send this new schedule?')) return false;" class="btn btn-warning">Send to Student</a><br>
 										</div>
 										</div>
 										@endif
@@ -103,7 +103,7 @@
 	<script src="{{asset('import/js/app.js')}}"></script>
 	<!-- collapsible -->
 	<script src="{{asset('import/js/collapse.js')}}"></script>
-	<script src="{{asset('import/js/remarks.js')}}"></script>
+	<script src="{{asset('import/js/manrequestFielddisable.js')}}"></script>
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 

@@ -63,15 +63,32 @@ class RequestController extends Controller
         return redirect(route('student.createrequest'))->with('success', 'Successfully Requested!');
     }
 
-    
+    // fetching data for dropdown selection
     public function createRequest()
     {
         $userrecords = User::all();
         return view('student.createrequest', ['userrecords' => $userrecords]);
     }
-    
-    //showing request to assigned admin for approval
 
+    public function destroyRequest($id)
+    {
+        // Find the request by ID
+        $request = RequestModel::find($id);
+
+        if (!$request) {
+            return redirect(route('adminArchiveRequest'))->with('error', 'Request not found!');
+        }
+
+        // Delete the file from storage
+        Storage::delete('uploads/' . $request->file_path);
+
+        // Delete the request from the database
+        $request->delete();
+
+        return redirect(route('adminArchiveRequest'))->with('success', 'Request deleted successfully!');
+    }
+    
+    //showing request to assigned admin for approval *FirstCome-FirstServed basis*
     public function showRequest()
     {
         $requestrecords = RequestModel::all();
@@ -79,7 +96,7 @@ class RequestController extends Controller
         return view('requests', compact('requestrecords'));
     }
 
-    //showing request to assigned faculty
+    //showing request to assigned faculty *FirstCome-LastPlace basis*
     public function showRequest2()
     {
         $requestrecords2 = RequestModel::all();
@@ -91,14 +108,14 @@ class RequestController extends Controller
     //showing request to student
     public function showstudentRequest()
     {
-        $requestrecords3 = RequestModel::all();
+        $requestrecords3 = RequestModel::orderBy('created_at', 'desc')->get();
 
         return view('student.viewrequest', compact('requestrecords3'));
     }
 
     public function adminRequestArchive()
     {
-        $requestrecords5 = RequestModel::all();
+        $requestrecords5 = RequestModel::orderBy('created_at', 'desc')->get();
 
         return view('adminArchiveRequest', compact('requestrecords5'));
     }
@@ -122,7 +139,8 @@ class RequestController extends Controller
         $data = RequestModel::find($id);
 
         $data->status = 'Approved';
-        $data->remarks = 'Please see your Program Head for the exam details.';
+        $data->remarks = "Please see your Program Head for the exam details.\n\nReminder: Only 85% of the exam score will be recorded in Special Exam.";
+
         $data->save();
 
         return redirect()->back();
@@ -145,18 +163,7 @@ class RequestController extends Controller
         return redirect()->back();
     }
 
-
-    // public function rejectRequest($id)
-    // {
-    //     $data = RequestModel::find($id);
-
-    //     $data->status = 'Rejected';
-    //     $data->remarks = 'Your data or requirements are invalid. Please check your request and try again.';
-    //     $data->save();
-
-    //     return redirect()->back();
-        
-    // }
+    //faculty created new schedule
 
     public function newschedCreated($id)
     {
@@ -168,7 +175,6 @@ class RequestController extends Controller
         return redirect()->back();
         
     }
-
 
     //download requirement for admin
     public function requestDownload($filePaths)
@@ -291,12 +297,20 @@ class RequestController extends Controller
     //     return redirect(route('faculty.managerequest'))->with('success', 'New Schedule Made Successfully!');
     // }
 
+    public function showfacultyNewSched()
+    {
+        $newscheds = NewSched::orderBy('created_at', 'desc')->get();
+
+        return view('faculty.createdNewsched', compact('newscheds'));
+    }
+
     public function showstudentNewSched()
     {
-        $requestrecords4 = NewSched::all();
+        $requestrecords4 = NewSched::orderBy('created_at', 'desc')->get();
 
         return view('student.newsched', compact('requestrecords4'));
     }
+
 
     public function studentschedNotif()
     {

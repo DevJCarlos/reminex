@@ -14,12 +14,16 @@
 					<option value="Special Exam Request">Special Exam Request</option>
 				</select>
 			<label for="request"><strong>Subject to Take: </strong></label><br>
-                <input type="text" name="subject" placeholder="Please input subject..."><br><br>
+                <!-- <input type="text" name="subject" placeholder="Please input subject..."><br><br> -->
 
-                <!-- <select class="form-select mb-3" name="subject" required>
+                <select class="form-select mb-3" name="subject" required>
                     <option disabled selected>Select Subject...</option>
                         <option value="ITSM">ITSM</option>
-                    </select> -->
+                        <option value="ITSM">Programming Languages</option>
+                        <option value="ITSM">Info Assurance and Security</option>
+                        <option value="ITSM">Mobile Systems and Technology</option>
+                        <option value="ITSM">Game Development</option>
+                    </select>
 
             <label for="request"><strong>Instructor: </strong></label>
                 <select class="form-select mb-3" name="instructor" required>
@@ -46,6 +50,6 @@
                     
 		<p class="text-danger"><em>*Requirements should be in one (1) file only, either in .docx or .pdf format. It must include your <strong>request letter</strong>, <strong>photocopy of your guardian's ID with guardian's signature below</strong>, <strong>proof of your excuse (e.g. Medical Certificate)</strong>, and your <strong>exam permit</strong>.</em></p>
         <p class="text-danger"><em>*For those <strong>subject conflict</strong> as reason, you can only submit your <strong>exam permit</strong>.</em></p>
-		<br><br>
-				<input type="submit" class="btn btn-warning btn-lg" id="sendRequest" value="Submit Request">
+		<br>
+				<input type="submit" class="btn btn-warning btn-lg form-control" onclick="return confirm('Do you confirm to send this request?')" id="sendRequest" value="Submit Request">
 </form>

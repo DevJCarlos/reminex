@@ -6,14 +6,14 @@
 			<div class="container-fluid p-0">
             <h1 class="h3 mb-3"><strong>Create Request</strong></h1>
                 <div class="row">
-                    <div class="col-12 col-lg-6">
+                    <div class="col-12 col-lg-8">
                         <div class="card">
                             <div class="card-body">
                                @include('student.partials.request-form')
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6">
+                    <div class="col-12 col-lg-4">
                     <div class="mt-3">
                         @if ($errors->any())
                             <div class="col-12">

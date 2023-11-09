@@ -34,6 +34,7 @@
                                         <th class="th-sm">Time Availability</th>
                                         <th class="th-sm">Requirements</th></th>
                                         <th class="th-sm">Status</th>
+                                        <th class="th-sm">Action</th>
                                     </tr>
                                 </thead>
 
@@ -64,6 +65,14 @@
                                         <h5 class="badge badge-warning">{{ $requestrecord5->status }}</h5>
                                         @endif
                                         </td>
+
+                                        <td> 
+                                            <form method="POST" action="{{ route('requests.destroy', $requestrecord5->id) }}" style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this request history?')">Delete</button>
+                                            </form>
+                                        </td> 
                                     </tr>
                                 @endif
                                 @endif

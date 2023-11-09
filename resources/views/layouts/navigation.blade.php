@@ -89,7 +89,7 @@
                     <li class="nav-item">
                         <a href="{{ route('adminArchiveRequest') }}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Archived</p>
+                            <p>Requests History</p>
                         </a>
                     </li>
                 </ul>

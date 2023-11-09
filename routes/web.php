@@ -67,6 +67,7 @@ Route::group(['middleware' => ['auth', 'role:teacher']], function(){
     Route::get('/faculty/managerequest', [App\Http\Controllers\RequestController::class, 'showRequest2'])->name('faculty.managerequest');
     Route::post('/faculty/managerequest', [App\Http\Controllers\RequestController::class, 'storeSched'])->name('sched.store');
     Route::get('/newsched_created/{id}', [\App\Http\Controllers\RequestController::class, 'newschedCreated'])->name('newsched_created');
+    Route::get('/faculty/createdNewsched', [App\Http\Controllers\RequestController::class, 'showfacultyNewSched'])->name('faculty.createdNewsched');
     
 });
 
@@ -153,5 +154,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::post('/reject_request/{id}', [\App\Http\Controllers\RequestController::class, 'rejectRequest'])->name('reject_request');
     Route::get('/requests/download/{filePaths}', [\App\Http\Controllers\RequestController::class, 'requestDownload'])->name('request.download');
     Route::get('adminArchiveRequest', [App\Http\Controllers\RequestController::class, 'adminRequestArchive'])->name('adminArchiveRequest');
+    // Route::delete('requests/{requestdata}', [\App\Http\Controllers\RequestController::class, 'destroyRequest'])->name('request.destroy');
+    Route::delete('/requests/{id}', [\App\Http\Controllers\RequestController::class, 'destroyRequest'])->name('requests.destroy');
+
 
 });

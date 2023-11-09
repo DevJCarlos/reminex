@@ -40,9 +40,9 @@
                                 </thead>
 
                                 <tbody>
-                                @foreach($requestrecords->sortByDesc('created_at') as $requestrecord)
+                                @foreach($requestrecords as $requestrecord)
                                 @if($requestrecord->department === auth()->user()->department)
-                                @if($requestrecord->status === "Rejected")
+                                @if($requestrecord->status === null)
 
                                     <tr>
                                         <td>{{ $requestrecord->created_at }}</td>
@@ -67,12 +67,12 @@
                                         <td>
                                         @if($requestrecord->request_type === "Reschedule Request")
                                             <a href="{{ route('approve_request', $requestrecord->id) }}">
-                                                <input type="submit" class="btn btn-outline-success" value="Approve">
+                                                <input type="submit" class="btn btn-outline-success" onclick="return confirm('Are you sure to approve this request?')" value="Approve">
                                             </a>
                                         @endif
                                         @if($requestrecord->request_type === "Special Exam Request")
                                             <a href="{{ route('approve_request2', $requestrecord->id) }}">
-                                                <input type="submit" class="btn btn-outline-success" value="Approve">
+                                                <input type="submit" class="btn btn-outline-success" onclick="return confirm('Are you sure to approve this request?')" value="Approve">
                                             </a>
                                         @endif
 
@@ -81,7 +81,7 @@
                                             <form action="{{ route('reject_request', $requestrecord->id) }}" method="post">
                                                 @csrf
                                                 <textarea class="form-control" rows="2" name="rejectreason" placeholder="Reason for rejecting requests..." required></textarea><br>
-                                                <button type="submit" class="btn btn-outline-danger">Reject</button>
+                                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure to reject this request?')">Reject</button>
                                             </form>
                                         </td>
                                     </tr>
