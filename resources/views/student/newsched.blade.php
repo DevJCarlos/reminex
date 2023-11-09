@@ -34,7 +34,7 @@
                                                 <td class="table-warning">{{ $requestrecord4->subject2 }}</td>
                                                 <td class="table-warning">{{ $requestrecord4->instructor2 }}</td>
                                                 <td class="table-danger">{{ $requestrecord4->exam_day }}</td>   
-                                                <td class="table-danger">{{ $requestrecord4->exam_time }}</td>
+                                                <td class="table-danger">{{ $requestrecord4->exam_time }} - {{ $requestrecord4->exam_time2 }}</td>
                                                 <td class="table-danger">{{ $requestrecord4->room }}</td>
                                             </tr>
                                         @endif
@@ -51,6 +51,5 @@
 	</div>
 
 <script src="{{asset('import/js/app.js')}}"></script>
-
 </body>
 @endsection

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('instructor2');
             $table->string('exam_day');
             $table->string('exam_time');
+            $table->string('exam_time2');
             $table->string('room');
             $table->timestamps();
         });
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('new_schedule');
+        Schema::dropIfExists('new_sched');
     }
 };

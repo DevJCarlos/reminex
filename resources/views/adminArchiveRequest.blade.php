@@ -40,7 +40,7 @@
                                 <tbody>
                                 @foreach($requestrecords5 as $requestrecord5)
                                 @if($requestrecord5->department === auth()->user()->department)
-                                @if($requestrecord5->status === "Approved" || $requestrecord5->status === "Approved" || $requestrecord5->status === "New Schedule Created")
+                                @if($requestrecord5->status === "Approved" || $requestrecord5->status === "Rejected" || $requestrecord5->status === "New Schedule Created")
                                     <tr>
                                         <td>{{ $requestrecord5->created_at }}</td>
                                         <td>{{ $requestrecord5->stud_name }}</td>

@@ -2,10 +2,10 @@
     @csrf
     @method('post')
 	    <p class="text-danger"><em>*Note: You can only make one request per subject.</em></p>
-            <label for="request"><strong>Name: </strong></label>
-                <input type="text" name="stud_name" value="{{ auth()->user()->name }}" readonly><br>
-            <label for="request"><strong>Department: </strong></label>
-                <input type="text" name="department" value="{{ auth()->user()->department }}" readonly><br><br>
+            <label for="request"><strong>Name: </strong></label><br>
+                <input type="text" class="form-control" name="stud_name" value="{{ auth()->user()->name }}" readonly><br>
+            <label for="request"><strong>Department: </strong></label><br>
+                <input type="text" class="form-control" name="department" value="{{ auth()->user()->department }}" readonly><br>
 
 			<label for="request"><strong>Request Type: </strong></label>
 				<select class="form-select mb-3" name="request_type" required>

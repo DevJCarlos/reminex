@@ -18,6 +18,7 @@ class NewSched extends Model
         'instructor2',
         'exam_day',
         'exam_time',
+        'exam_time2',
         'room',
     ];
 }
