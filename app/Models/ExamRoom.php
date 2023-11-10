@@ -14,5 +14,9 @@ class ExamRoom extends Model
     {
         return $this->belongsTo(ExamDay::class, 'exam_day_ID', 'id');
     }
+    public function examTime()
+    {
+        return $this->hasMany(ExamTime::class, 'exam_time_ID', 'id');
+    }
 
 }

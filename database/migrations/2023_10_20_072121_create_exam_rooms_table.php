@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('exam_period_ID')->nullable()->default(null);
             $table->unsignedBigInteger('exam_day_ID')->nullable()->default(null);
-            $table->unsignedBigInteger('exam_section_ID')->nullable()->default(null);
+            $table->unsignedBigInteger('exam_time_ID')->nullable()->default(null);
             $table->string('room_name')->nullable()->default(null);
             $table->timestamps();
 
@@ -24,9 +24,9 @@ return new class extends Migration
             ->on('exam_days')
             ->onDelete('cascade');
 
-            $table->foreign('exam_section_ID')
+            $table->foreign('exam_time_ID')
             ->references('id')
-            ->on('exam_sections')
+            ->on('exam_times')
             ->onDelete('cascade');
 
 

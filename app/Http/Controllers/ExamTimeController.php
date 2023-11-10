@@ -45,60 +45,27 @@ class ExamTimeController extends Controller
     {
         $period = $request->period;
         $day = $request->day;
-    
-        // $filteredExamTimes = ExamTime::select('exam_time')
-        // ->when($period = 'Prelims', function ($query) use ($day) {
-        //     $query->join('exam_days', 'exam_times.exam_day_ID', '=', 'exam_days.id')
-        //         ->where('exam_times.exam_period_ID', 1)
-        //         ->where('exam_days.day_num', $day); 
-        // })
-        // ->get();
-
-        // $filteredExamSubjects = ExamSubject::select('subject_name')
-        // ->when($period = 'Prelims', function ($query) use ($day) {
-        //     $query
-        //         ->join('exam_times', 'exam_subjects.exam_time_ID', '=', 'exam_times.id')
-        //         ->join('exam_days', 'exam_subjects.exam_day_ID', '=', 'exam_days.id')
-        //         ->where('exam_times.exam_period_ID', 1)
-        //         ->where('exam_days.day_num', $day);
-        // })
-        // ->get();
-
-        // $filteredExamRooms = ExamRoom::select('room_name')
-        // ->when($period = 'Prelims', function ($query) use ($day) {
-        //     $query
-        //         ->join('exam_days', 'exam_rooms.exam_day_ID', '=', 'exam_days.id')
-        //         ->where('exam_rooms.exam_period_ID', 1)
-        //         ->where('exam_days.day_num', $day);
-        // })
-        // ->get();
-
-        // $filteredExamSections = ExamSection::select('section_name', 'class_num', 'instructor', 'class_count')
-        // ->when($period === 'Prelims', function ($query) use ($day) {
-        //     $query
-        //         ->join('exam_days', 'exam_sections.exam_day_ID', '=', 'exam_days.id')
-        //         ->where('exam_sections.exam_period_ID', 1)
-        //         ->where('exam_days.day_num', $day);
-        // })
-        // ->get();
 
         
-        $filteredExamTimes = ExamTime::with('examSub.examSectionss')
-        ->when($period === 'Prelims', function ($query) use ($day) {
+        
+        $filteredExamTimes = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+        ->when($period == 'Prelims', function ($query) use ($day) {
+            $query
+                ->join('exam_days', 'exam_times.exam_day_ID', '=', 'exam_days.id')
+                ->where('exam_times.exam_period_ID', 1)
+                ->where('exam_days.day_num', $day);
+        })
+        ->when($period == 'Midterm', function ($query) use ($day) {
             $query
                 ->join('exam_days', 'exam_times.exam_day_ID', '=', 'exam_days.id')
                 ->where('exam_times.exam_period_ID', 1)
                 ->where('exam_days.day_num', $day);
         })
         ->get();
+        
+        
     
-
-        $response = [
-            'examTimes' => $filteredExamTimes,
-            // Include other data as needed
-        ];
-
-        return response()->json($response);
+        return response()->json(['examTimes' => $filteredExamTimes]);
 
     
     }

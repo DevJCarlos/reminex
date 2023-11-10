@@ -33,6 +33,8 @@ class ExamSubject extends Model
     {
     return $this->belongsTo(ExamTime::class, 'exam_time_ID', 'id');
     }
+   
+
 
 
 

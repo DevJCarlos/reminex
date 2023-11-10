@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('student_requests', function (Blueprint $table) {
             $table->id();
             $table->string('stud_name');
-            $table->string('department');
+            $table->string('department')->nullable()->default(null);
             $table->string('request_type');
             $table->string('subject');
             $table->string('instructor');

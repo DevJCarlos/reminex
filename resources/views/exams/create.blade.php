@@ -581,12 +581,10 @@
             });
 
                 console.log('Updated sortSchedule:', sortSchedule);
-
-
                 // Get the table body element
-                const tableBody = document.getElementById('tableBody'); // Assuming you have a tbody element with the id "tableBody"
+                const tableBody = document.getElementById('tableBody'); 
 
-                sortSchedule.forEach((timeSlot) => {
+            sortSchedule.forEach((timeSlot) => {
                 timeSlot.MergedData.forEach((subject, index) => {
                     const row = document.createElement('tr');
 
@@ -603,7 +601,7 @@
                     subjectCell.textContent = subject.Subject;
                     row.appendChild(subjectCell);
 
-                     // Room
+                    // Room
                     const roomCell = document.createElement('td');
                     roomCell.textContent = timeSlot.room[index]; 
                     row.appendChild(roomCell);
@@ -817,6 +815,8 @@
                 .catch(error => {
                      console.error('Error:', error);
                 });
+            }else{
+                console.error('Error:', error);
             }
         });
         

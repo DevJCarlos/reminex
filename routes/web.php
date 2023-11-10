@@ -135,8 +135,6 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
 
 
-    
-
 
     // class record
     

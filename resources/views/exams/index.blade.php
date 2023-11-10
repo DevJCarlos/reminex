@@ -20,7 +20,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <select class="form-control" id="dropdown1" name="option1">
-                                        <option value=" ">--Choose Period--</option>
+                                        <option value="none">--Choose Period--</option>
                                         <option value="Prelims">Prelims</option>
                                         <option value="Midterms">Midterms</option>
                                         <option value="Pre-Finals">Pre-Finals</option>
@@ -39,7 +39,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <select class="form-control" id="dropdown2" name="option2">
-                                    <option value =" ">--Choose Day--</option>
+                                    <option value="none">--Choose Day--</option>
                                         <option value="1">Day 1</option>
                                         <option value="2">Day 2</option>
                                         <option value="3">Day 3</option>
@@ -61,11 +61,11 @@
                                 <th>Section Number</th>
                                 <th>Instructor</th>
                                 <th>Student Count</th>
-                                <th>Proctors</th>
+                                <!-- <th>Proctors</th> -->
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tableBody">
 
                         </tbody>
                     
@@ -121,8 +121,12 @@ $(document).ready(function() {
 function handleFormSubmit() {
     var period = selectedValues; 
     var day = selectedValuesDay;
-    
 
+    
+    if (period == 'none') {
+    alert('Please choose a valid Period');
+    location.reload();
+    }
     
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
     $.ajaxSetup({
@@ -137,19 +141,26 @@ function handleFormSubmit() {
         data: { period: period, day: day },
         dataType: 'json',
         success: function(data) {
-        console.log(data);
+        // console.log(data);
 
         var TimeSchedule = [];
         data.examTimes.forEach(function(examTime) {
-            var TimeSlots = { TimeSlot: examTime.exam_time };
-            var Subjects = [];
+            var TimeRooms = [];
+            
 
+            examTime.exam_rooms.forEach(function(examRoom) {
+                TimeRooms.push([examRoom.room_name]);
+            });
+            // var Subjects;
+            var Sections = [];
             examTime.exam_sub.forEach(function(subject) {
-                var SubjectName = { Subject: subject.subject_name };
-                var Sections = [];
+               
+                // var SubjectName = { Subject: subject.subject_name };
+                
 
                 subject.exam_sectionss.forEach(function(subjectSec) {
                     Sections.push({
+                        Subject_name: subject.subject_name,
                         Section: subjectSec.section_name,
                         Code: subjectSec.class_num,
                         Instructor: subjectSec.Instructor,
@@ -157,52 +168,92 @@ function handleFormSubmit() {
                     });
                 });
 
-                SubjectName.Sections = Sections;
-                Subjects.push(SubjectName);
+                // SubjectName.Sections = Sections;
+                // Subjects.push(Sections);
             });
 
-            TimeSlots.Subjects = Subjects;
-            TimeSchedule.push(TimeSlots);
+            // TimeSlots.Subjects = Subjects;
+            
+            // TimeSchedule.push(TimeSlots);
+            TimeSchedule.push({
+            Time: examTime.exam_time,
+            Subjects: Sections,
+            Rooms: TimeRooms,
+                      
+            });
         });
 
-        console.log(TimeSchedule);
+        console.log('TimeSchedule Data',TimeSchedule);
 
-        console.log('new',TimeSchedule);
-        
-        
+        const tableBody = document.getElementById('tableBody');
 
-        
-
-            
-
-            // data.examTimes.forEach(function(examTime) {
-            //     console.log('Time:', examTime.exam_time);
+        TimeSchedule.forEach((timeSlots) => {
+            // console.log(timeSlots);
                 
-            //     if (examTime.examSub) {
-            //         examTime.examSub.forEach(function(examSub) {
+            timeSlots.Subjects.forEach((subject, index) => {
+                const row = document.createElement('tr');
+                      
+                if (index === 0) {
+                const timeCell = document.createElement('td');
+                timeCell.rowSpan = timeSlots.Rooms.length;
+                timeCell.textContent = timeSlots.Time;
+                row.appendChild(timeCell);
+                }
+                       
+
+                // Subject
+                const subjectCell = document.createElement('td');
+                subjectCell.textContent = subject.Subject_name;
+                row.appendChild(subjectCell);
                         
 
-            //             var sections = examSub.examSectionss;
-            //             var subjectSections = [];
-            //             // console.log('new',subjectSections);
+                // Room
+                // console.log('data',timeSlots.Rooms);
+                const roomCell = document.createElement('td');
+                roomCell.textContent = timeSlots.Rooms[index]; 
+                row.appendChild(roomCell);
 
-            //             sections.forEach(function(section) {
-                            
-            //                 var sectionData = {
-            //                     section_name: section.section_name,
-            //                     class_num: section.class_num,
-            //                     instructor: section.instructor,
-            //                     class_count: section.class_count,
-            //                 };
+                // Section
+                const sectionCell = document.createElement('td');
+                sectionCell.textContent = subject.Section;
+                row.appendChild(sectionCell);
 
-            //                 subjectSections.push(sectionData);
-            //                 console.log('new',subjectSections);
-            //             });
-            //             examSub.subject_section = subjectSections;
+                // Section Number
+                const sectionNumberCell = document.createElement('td');
+                sectionNumberCell.textContent = subject.Code;
+                row.appendChild(sectionNumberCell);
+
+                // Instructor
+                const instructorCell = document.createElement('td');
+                instructorCell.textContent = subject.Instructor;
+                row.appendChild(instructorCell);
+
+                // Class Count
+                const classCountCell = document.createElement('td');
+                classCountCell.textContent = subject.StudentCount;
+                row.appendChild(classCountCell);
+
+                // Edit Button
+                const editCell = document.createElement('td');
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Edit';
+                editButton.addEventListener('click', () => handleEditClick(subject)); // Replace with your edit logic
+                editCell.appendChild(editButton);
+                row.appendChild(editCell);
+
                         
-            //         });
-            //     }
-            // });
+                tableBody.appendChild(row);
+                });   
+                    
+            });
+
+            //function for button
+            function handleEditClick(subject) {
+                // Implement your logic for handling the edit button click here
+                console.log('Edit clicked for subject:', subject);
+            }
+                    
+     
             
         },
 
