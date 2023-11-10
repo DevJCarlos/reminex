@@ -17,6 +17,7 @@
 									class="table table-striped table-bordered">
                                         <thead>
                                         <tr>
+                                            <th>Date</th>
                                             <th>Student Name</th>
                                             <th>Subject</th>
                                             <th>Instructor</th>
@@ -30,6 +31,7 @@
                                         @foreach($newscheds as $newsched)
                                         @if ($newsched->instructor2 === auth()->user()->name)
                                             <tr>
+                                                <td class="table-secondary">{{ $newsched->created_at }}</td>
                                                 <td class="table-secondary">{{ $newsched->stud_name2 }}</td>
                                                 <td class="table-primary">{{ $newsched->subject2 }}</td>
                                                 <td class="table-primary">{{ $newsched->instructor2 }}</td>

@@ -34,6 +34,7 @@
                                         <th class="th-sm">Time Availability</th>
                                         <th class="th-sm">Requirements</th></th>
                                         <th class="th-sm">Status</th>
+                                        <th class="th-sm">Remarks</th>
                                         <!-- <th class="th-sm">Action</th> -->
                                     </tr>
                                 </thead>
@@ -48,7 +49,9 @@
                                         <td>{{ $requestrecord5->request_type }}</td>
                                         <td>{{ $requestrecord5->subject }}</td>
                                         <td>{{ $requestrecord5->instructor }}</td>
-                                        <td>{{ $requestrecord5->reason }}</td>
+                                        <td>
+                                            <span class="tool" data-tip="{{ $requestrecord5->reason }}" tabindex="1">Reason</span>
+                                        </td>
                                         <td>{{ $requestrecord5->time_avail1}} - {{ $requestrecord5->time_avail2}}</td>
                                         <td>{{ $requestrecord5->file_name }} 
 
@@ -56,13 +59,24 @@
 
                                         <td>
                                         @if($requestrecord5->status === "Approved")
-                                        <h5 class="badge badge-success">{{ $requestrecord5->status }}</h5>
+                                            <h5 class="badge badge-success">{{ $requestrecord5->status }}</h5>
                                         @endif
                                         @if($requestrecord5->status === "Rejected")
-                                        <h5 class="badge badge-danger">{{ $requestrecord5->status }}</h5>
+                                            <h5 class="badge badge-danger">{{ $requestrecord5->status }}</h5>
                                         @endif
                                         @if($requestrecord5->status === "New Schedule Created")
-                                        <h5 class="badge badge-warning">{{ $requestrecord5->status }}</h5>
+                                            <h5 class="badge badge-warning">{{ $requestrecord5->status }}</h5>
+                                        @endif
+                                        </td>
+                                        <td>
+                                        @if($requestrecord5->status === "Approved")
+                                            <span class="tool" data-tip="{{ $requestrecord5->remarks }}" tabindex="1">Remarks</span>
+                                        @endif
+                                        @if($requestrecord5->status === "Rejected")
+                                            <span class="tool" data-tip="{{ $requestrecord5->remarks }}" tabindex="1">Remarks</span>   
+                                        @endif
+                                        @if($requestrecord5->status === "New Schedule Created")
+                                            <span class="tool" data-tip="Completed!" tabindex="1">Remarks</span>
                                         @endif
                                         </td>
 
@@ -95,5 +109,6 @@
 </script>
 <!-- MDBootstrap Datatables  -->
 <link href="{{ asset('import/datatablecss/css/addons/datatables2.min.css') }}" rel="stylesheet">
+<link href="{{ asset('import/css/tooltip.css') }}" rel="stylesheet">
 <script>"{{ asset('import/datatablejs/js/addons/datatables2.min.js') }}"</script>
 @endsection

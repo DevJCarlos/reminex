@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('student_requests', function (Blueprint $table) {
             $table->id();
             $table->string('stud_name');
-            $table->string('department')->nullable()->default(null);
+            $table->string('department');
             $table->string('request_type');
             $table->string('subject');
             $table->string('instructor');
             $table->longtext('reason');
-            $table->string('time_available');
+            $table->string('time_avail1')->nullable();
+            $table->string('time_avail2')->nullable();
             $table->string('file_name');
             $table->string('file_path');
             $table->string('status')->nullable();

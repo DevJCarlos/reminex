@@ -12,9 +12,7 @@
 							<div class="card">
 							  <div class="card-body text-danger">
 								<div class="table-responsive">
-								  <table
-									id="zero_config"
-									class="table table-striped table-bordered">
+								  <table id="zero_config" class="table table-striped table-bordered">
                                         <thead>
                                         <tr>
                                             <th>Date</th>
@@ -38,17 +36,33 @@
                                                 <td>{{ $requestrecord3->file_name }}
                                                 <a href="{{ route('request.download2', ['filePaths' => urlencode($requestrecord3->file_path)]) }}" class="btn btn-outline-warning">Download</a>
                                                 </td>
+                                                @if($requestrecord3->status === null)
+                                                <td><h5 class="badge badge-warning">Pending</h5></td>
+                                                @endif
                                                 @if($requestrecord3->status === "Approved")
-                                                <td class="badge badge-outline-success">{{ $requestrecord3->status }}
-                                                <td class="text-success">{{ $requestrecord3->remarks }}<br>
-                                                </td>   
+                                                @if($requestrecord3->request_type === "Reschedule Request")
+                                                <td><h5 class="badge badge-success">{{ $requestrecord3->status }}</h5></td>
+                                                <td class="text-success">{{ $requestrecord3->remarks }}</td>
+                                                @endif
+                                                @if($requestrecord3->request_type === "Special Exam Request")
+                                                <td><h5 class="badge badge-success">{{ $requestrecord3->status }}</h5></td>
+                                                <td class="text-light">
+                                                  <div class="con-tooltip left">
+                                                    {{ $requestrecord3->remarks }}
+                                                    <div class="tooltip ">
+                                                      Reminder: Only 85% of the exam score will be recorded in Special Exam.
+                                                    </div>
+                                                  </div>
+                                                </td>
+
+                                                @endif
                                                 @endif
                                                 @if($requestrecord3->status === "Rejected")
-                                                <td class="badge badge-outline-danger">{{ $requestrecord3->status }}
+                                                <td><h5 class="badge badge-danger">{{ $requestrecord3->status }}</h5></td>
                                                 <td class="text-danger">{{ $requestrecord3->remarks }}</td>   
                                                 @endif
                                                 @if($requestrecord3->status === "New Schedule Created")
-                                                <td class="badge badge-warning">{{ $requestrecord3->status }}</td>
+                                                <td><h5 class="badge badge-warning">{{ $requestrecord3->status }}</h5></td>
                                                 <td class="text-success">Completed!<br><br>
                                                 <a href="{{ route('student.newsched') }}" class="btn btn-outline-secondary">View Schedule</a>
                                                 </td> 
@@ -68,6 +82,7 @@
 		</main>
 	</div>
 
+<link href="{{ asset('import/css/tooltip2.css') }}" rel="stylesheet">
 <script src="{{asset('import/js/app.js')}}"></script>
 
 </body>

@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\NewSched;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 
 
 class RequestController extends Controller
@@ -21,11 +22,18 @@ class RequestController extends Controller
             'stud_name' => 'required',
             'department' => 'required',
             'request_type' => 'required',
-            'subject' => 'required',
+            'subject' => [
+                'required',
+                Rule::unique('student_requests')->where(function ($query) use ($request) {
+                    return $query->where('subject', $request->subject)
+                        ->where('request_type', $request->request_type)
+                        ->where('stud_name', auth()->user()->name);
+                })
+            ],
             'instructor' => 'required',
             'reason' => 'required',
-            'time_avail1' => 'required',
-            'time_avail2' => 'required',
+            'time_avail1' => 'nullable',
+            'time_avail2' => 'nullable', 
             'requirement' => 'required|mimes:pdf,doc,docx|max:3000',
         ]);
         
@@ -35,8 +43,8 @@ class RequestController extends Controller
         $subject = $request->subject;
         $instructor = $request->instructor;
         $reason = $request->reason;
-        $time_avail1 = Carbon::createFromFormat('H:i', $request->time_avail1)->format('h:i A');
-        $time_avail2 = Carbon::createFromFormat('H:i', $request->time_avail2)->format('h:i A');
+        $time_avail1 = $request->filled('time_avail1') ? Carbon::createFromFormat('H:i', $request->time_avail1)->format('h:i A') : null;
+        $time_avail2 = $request->filled('time_avail2') ? Carbon::createFromFormat('H:i', $request->time_avail2)->format('h:i A') : null;
         
         // Handle file uploads
         $requirement = $request->file('requirement');
@@ -64,6 +72,7 @@ class RequestController extends Controller
         }
     
         return redirect(route('student.createrequest'))->with('success', 'Successfully Requested!');
+        return redirect()->back()->with('error', 'You have already requested this subject.');
     }
 
     // fetching data for dropdown selection
@@ -142,7 +151,7 @@ class RequestController extends Controller
         $data = RequestModel::find($id);
 
         $data->status = 'Approved';
-        $data->remarks = "Please see your Program Head for the exam details.\n\nReminder: Only 85% of the exam score will be recorded in Special Exam.";
+        $data->remarks = "Please see your Instructor for the exam details.";
 
         $data->save();
 

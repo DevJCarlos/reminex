@@ -50,13 +50,18 @@
                                         <td>{{ $requestrecord->request_type }}</td>
                                         <td>{{ $requestrecord->subject }}</td>
                                         <td>{{ $requestrecord->instructor }}</td>
-                                        <td>{{ $requestrecord->reason }}</td>
+                                        <td>
+                                        <span class="tool" data-tip="{{ $requestrecord->reason }}" tabindex="1">Reason</span>
+                                        </td>
                                         <td>{{ $requestrecord->time_avail1}} - {{ $requestrecord->time_avail2}}</td>
                                         <td>{{ $requestrecord->file_name }} 
 
                                         <a href="{{ route('request.download', ['filePaths' => urlencode($requestrecord->file_path)]) }}" class="btn btn-outline-secondary">Download</a>
 
                                         <td>
+                                        @if($requestrecord->status === null)
+                                        <h5 class="badge badge-warning">Pending</h5>
+                                        @endif
                                         @if($requestrecord->status === "Approved")
                                         <h5 class="badge badge-outline-success">{{ $requestrecord->status }}</h5>
                                         @endif
@@ -106,5 +111,6 @@
 </script>
 <!-- MDBootstrap Datatables  -->
 <link href="{{ asset('import/datatablecss/css/addons/datatables2.min.css') }}" rel="stylesheet">
+<link href="{{ asset('import/css/tooltip.css') }}" rel="stylesheet">
 <script>"{{ asset('import/datatablejs/js/addons/datatables2.min.js') }}"</script>
 @endsection
