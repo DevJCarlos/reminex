@@ -34,7 +34,6 @@
                                         <th class="th-sm">Time Availability</th>
                                         <th class="th-sm">Requirements</th></th>
                                         <th class="th-sm">Status</th>
-                                        <th class="th-sm">Remarks</th>
                                         <th class="th-sm">Action</th>
                                         <th class="th-sm">Action</th>
                                     </tr>
@@ -65,19 +64,25 @@
                                         <h5 class="badge badge-outline-danger">{{ $requestrecord->status }}</h5>
                                         @endif
                                         </td>
-
-                                        <td>{{ $requestrecord->remarks }}</td>
                                         <td>
-
+                                        @if($requestrecord->request_type === "Reschedule Request")
                                             <a href="{{ route('approve_request', $requestrecord->id) }}">
-                                                <input type="submit" class="btn btn-outline-success" value="Approve">
+                                                <input type="submit" class="btn btn-outline-success" onclick="return confirm('Are you sure to approve this request?')" value="Approve">
                                             </a>
+                                        @endif
+                                        @if($requestrecord->request_type === "Special Exam Request")
+                                            <a href="{{ route('approve_request2', $requestrecord->id) }}">
+                                                <input type="submit" class="btn btn-outline-success" onclick="return confirm('Are you sure to approve this request?')" value="Approve">
+                                            </a>
+                                        @endif
 
                                         </td>
                                         <td>
-                                            <a href="{{ route('reject_request', $requestrecord->id) }}">
-                                                <input type="submit" class="btn btn-outline-danger" value="Reject">
-                                            </a>
+                                            <form action="{{ route('reject_request', $requestrecord->id) }}" method="post">
+                                                @csrf
+                                                <textarea class="form-control" rows="2" name="rejectreason" placeholder="Reason for rejecting requests..." required></textarea><br>
+                                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure to reject this request?')">Reject</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endif

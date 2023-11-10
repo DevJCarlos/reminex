@@ -29,14 +29,14 @@
                 </a>
             </li>
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a href="{{ route('exams.room') }}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>
                        Rooms
                     </p>
                 </a>
-            </li>
+            </li> -->
 
             <li class="nav-item">
                 <a href="{{ route('about') }}" class="nav-link">
@@ -89,11 +89,36 @@
                     <li class="nav-item">
                         <a href="{{ route('adminArchiveRequest') }}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Archived</p>
+                            <p>Requests History</p>
                         </a>
                     </li>
                 </ul>
             </li>
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-circle nav-icon"></i>
+                    <p>
+                        Settings
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview" style="display: none;">
+                    <li class="nav-item">
+                        <a href="{{ route('exams.room') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Rooms</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Subjects</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
 
             <!-- <li class="nav-item">
                 <a href="{{ route('requests') }}" class="nav-link">

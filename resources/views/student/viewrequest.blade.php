@@ -36,19 +36,22 @@
                                                 <td>{{ $requestrecord3->subject }}</td>
                                                 <td>{{ $requestrecord3->instructor }}</td>   
                                                 <td>{{ $requestrecord3->file_name }}
-                                                <a href="{{ route('request.download', ['filePaths' => urlencode($requestrecord3->file_path)]) }}" class="btn btn-outline-warning">Download</a>
+                                                <a href="{{ route('request.download2', ['filePaths' => urlencode($requestrecord3->file_path)]) }}" class="btn btn-outline-warning">Download</a>
                                                 </td>
                                                 @if($requestrecord3->status === "Approved")
                                                 <td class="badge badge-outline-success">{{ $requestrecord3->status }}
-                                                <td class="text-success"><em>{{ $requestrecord3->remarks }}</em></td>   
+                                                <td class="text-success">{{ $requestrecord3->remarks }}<br>
+                                                </td>   
                                                 @endif
                                                 @if($requestrecord3->status === "Rejected")
                                                 <td class="badge badge-outline-danger">{{ $requestrecord3->status }}
-                                                <td class="text-danger"><em>{{ $requestrecord3->remarks }}</em></td>   
+                                                <td class="text-danger">{{ $requestrecord3->remarks }}</td>   
                                                 @endif
                                                 @if($requestrecord3->status === "New Schedule Created")
-                                                <td class="badge badge-warning">{{ $requestrecord3->status }}</td> 
-                                                <td class="text-success"><em>Completed!</em></td> 
+                                                <td class="badge badge-warning">{{ $requestrecord3->status }}</td>
+                                                <td class="text-success">Completed!<br><br>
+                                                <a href="{{ route('student.newsched') }}" class="btn btn-outline-secondary">View Schedule</a>
+                                                </td> 
                                                 @endif
                                             </tr> 
                                             @endif

@@ -45,6 +45,8 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
     Route::post('/student/createrequest', [App\Http\Controllers\RequestController::class, 'storeRequest'])->name('request.store');
     Route::get('/student/viewrequest', [App\Http\Controllers\RequestController::class, 'showstudentRequest'])->name('student.viewrequest');
     Route::get('/student/newsched', [App\Http\Controllers\RequestController::class, 'showstudentNewSched'])->name('student.newsched');
+    Route::get('/student/viewrequest/{filePaths}', [\App\Http\Controllers\RequestController::class, 'requestDownload2'])->name('request.download2');
+    Route::get('/layouts/partial/guest-nav', [App\Http\Controllers\RequestController::class, 'studentschedNotif'])->name('layouts.partial.guest-nav');
 
     // about us
     // Route::get('/bout-us', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
@@ -65,6 +67,7 @@ Route::group(['middleware' => ['auth', 'role:teacher']], function(){
     Route::get('/faculty/managerequest', [App\Http\Controllers\RequestController::class, 'showRequest2'])->name('faculty.managerequest');
     Route::post('/faculty/managerequest', [App\Http\Controllers\RequestController::class, 'storeSched'])->name('sched.store');
     Route::get('/newsched_created/{id}', [\App\Http\Controllers\RequestController::class, 'newschedCreated'])->name('newsched_created');
+    Route::get('/faculty/createdNewsched', [App\Http\Controllers\RequestController::class, 'showfacultyNewSched'])->name('faculty.createdNewsched');
     
 });
 
@@ -145,8 +148,12 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     // Route::get('/requests', [\App\Http\Controllers\RequestController::class, 'requests'])->name('requests');
     Route::get('/requests', [App\Http\Controllers\RequestController::class, 'showRequest'])->name('requests');
     Route::get('/approve_request/{id}', [\App\Http\Controllers\RequestController::class, 'approveRequest'])->name('approve_request');
-    Route::get('/reject_request/{id}', [\App\Http\Controllers\RequestController::class, 'rejectRequest'])->name('reject_request');
+    Route::get('/approve_request2/{id}', [\App\Http\Controllers\RequestController::class, 'approveRequest2'])->name('approve_request2');
+    Route::post('/reject_request/{id}', [\App\Http\Controllers\RequestController::class, 'rejectRequest'])->name('reject_request');
     Route::get('/requests/download/{filePaths}', [\App\Http\Controllers\RequestController::class, 'requestDownload'])->name('request.download');
     Route::get('adminArchiveRequest', [App\Http\Controllers\RequestController::class, 'adminRequestArchive'])->name('adminArchiveRequest');
+    // Route::delete('requests/{requestdata}', [\App\Http\Controllers\RequestController::class, 'destroyRequest'])->name('request.destroy');
+    Route::delete('/requests/{id}', [\App\Http\Controllers\RequestController::class, 'destroyRequest'])->name('requests.destroy');
+
 
 });

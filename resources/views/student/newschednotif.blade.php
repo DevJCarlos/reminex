@@ -1,0 +1,26 @@
+@extends('layouts.guest')
+
+@section('content')
+	<div class="main">
+		<main class="content">
+			<div class="container-fluid p-0">
+            <h1 class="h3 mb-3"><strong>Your Notifications</strong></h1>
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">No notifications yet.</h5>
+                            </div>
+                        </div>
+                    </div>					
+                </div>
+			</div>
+		</main>
+	</div>
+
+<script src="{{asset('import/js/app.js')}}"></script>
+
+</body>
+@endsection
+			

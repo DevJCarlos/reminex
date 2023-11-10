@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('instructor2');
             $table->string('exam_day');
             $table->string('exam_time');
+            $table->string('exam_time2');
             $table->string('room');
             $table->timestamps();
         });

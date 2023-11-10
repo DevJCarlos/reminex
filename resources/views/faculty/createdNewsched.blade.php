@@ -1,11 +1,11 @@
-@extends('layouts.guest')
+@extends('layouts.guest2')
 
 @section('content')
 	<div class="main">
 		<main class="content">
 			<div class="container-fluid p-0">
 
-			    <h1 class="h3 mb-3"><strong class="text-success">Your New Schedule</strong></h1>
+			    <h1 class="h3 mb-3"><strong class="text-success">New Schedules Created</strong></h1>
 
 					<div class="row">
 						<div class="col-12">
@@ -17,7 +17,7 @@
 									class="table table-striped table-bordered">
                                         <thead>
                                         <tr>
-                                            <th>Request Type</th>
+                                            <th>Student Name</th>
                                             <th>Subject</th>
                                             <th>Instructor</th>
                                             <th>Exam Day</th>
@@ -27,15 +27,15 @@
                                         </thead>
 
                                             <tbody>
-                                        @foreach($requestrecords4 as $requestrecord4)
-                                        @if ($requestrecord4->stud_name2 === auth()->user()->name)
+                                        @foreach($newscheds as $newsched)
+                                        @if ($newsched->instructor2 === auth()->user()->name)
                                             <tr>
-                                                <td class="table-secondary">{{ $requestrecord4->request_type2 }}</td>
-                                                <td class="table-warning">{{ $requestrecord4->subject2 }}</td>
-                                                <td class="table-warning">{{ $requestrecord4->instructor2 }}</td>
-                                                <td class="table-danger">{{ $requestrecord4->exam_day }}</td>   
-                                                <td class="table-danger">{{ $requestrecord4->exam_time }} - {{ $requestrecord4->exam_time2 }}</td>
-                                                <td class="table-danger">{{ $requestrecord4->room }}</td>
+                                                <td class="table-secondary">{{ $newsched->stud_name2 }}</td>
+                                                <td class="table-primary">{{ $newsched->subject2 }}</td>
+                                                <td class="table-primary">{{ $newsched->instructor2 }}</td>
+                                                <td class="table-warning">{{ $newsched->exam_day }}</td>   
+                                                <td class="table-warning">{{ $newsched->exam_time }} - {{ $newsched->exam_time2 }}</td>
+                                                <td class="table-warning">{{ $newsched->room }}</td>
                                             </tr>
                                         @endif
                                         @endforeach 

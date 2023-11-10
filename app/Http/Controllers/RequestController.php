@@ -8,6 +8,8 @@ use App\Models\Room;
 use App\Models\User;
 use App\Models\NewSched;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
+
 
 class RequestController extends Controller
 {
@@ -61,15 +63,32 @@ class RequestController extends Controller
         return redirect(route('student.createrequest'))->with('success', 'Successfully Requested!');
     }
 
-    
+    // fetching data for dropdown selection
     public function createRequest()
     {
         $userrecords = User::all();
         return view('student.createrequest', ['userrecords' => $userrecords]);
     }
-    
-    //showing request to assigned admin for approval
 
+    public function destroyRequest($id)
+    {
+        // Find the request by ID
+        $request = RequestModel::find($id);
+
+        if (!$request) {
+            return redirect(route('adminArchiveRequest'))->with('error', 'Request not found!');
+        }
+
+        // Delete the file from storage
+        Storage::delete('uploads/' . $request->file_path);
+
+        // Delete the request from the database
+        $request->delete();
+
+        return redirect(route('adminArchiveRequest'))->with('success', 'Request deleted successfully!');
+    }
+    
+    //showing request to assigned admin for approval *FirstCome-FirstServed basis*
     public function showRequest()
     {
         $requestrecords = RequestModel::all();
@@ -77,7 +96,7 @@ class RequestController extends Controller
         return view('requests', compact('requestrecords'));
     }
 
-    //showing request to assigned faculty
+    //showing request to assigned faculty *FirstCome-LastPlace basis*
     public function showRequest2()
     {
         $requestrecords2 = RequestModel::all();
@@ -89,14 +108,14 @@ class RequestController extends Controller
     //showing request to student
     public function showstudentRequest()
     {
-        $requestrecords3 = RequestModel::all();
+        $requestrecords3 = RequestModel::orderBy('created_at', 'desc')->get();
 
         return view('student.viewrequest', compact('requestrecords3'));
     }
 
     public function adminRequestArchive()
     {
-        $requestrecords5 = RequestModel::all();
+        $requestrecords5 = RequestModel::orderBy('created_at', 'desc')->get();
 
         return view('adminArchiveRequest', compact('requestrecords5'));
     }
@@ -108,8 +127,20 @@ class RequestController extends Controller
         $data = RequestModel::find($id);
 
         $data->status = 'Approved';
-        $data->remarks = 'Please wait for your new schedule. Thank you.
-                            For Special Exam: Please see your Program Head for the exam details.';
+        $data->remarks = 'Please wait for your new schedule. Thank you.';
+        $data->save();
+
+        return redirect()->back();
+        
+    }
+
+    public function approveRequest2($id)
+    {
+        $data = RequestModel::find($id);
+
+        $data->status = 'Approved';
+        $data->remarks = "Please see your Program Head for the exam details.\n\nReminder: Only 85% of the exam score will be recorded in Special Exam.";
+
         $data->save();
 
         return redirect()->back();
@@ -117,17 +148,22 @@ class RequestController extends Controller
     }
 
     //admin rejecting request
-    public function rejectRequest($id)
+    public function rejectRequest(Request $request, $id)
     {
+        $request->validate([
+            'rejectreason' => 'required', // Add validation for the rejection reason textarea
+        ]);
+
         $data = RequestModel::find($id);
 
         $data->status = 'Rejected';
-        $data->remarks = 'Your data or requirements are invalid. Please check your request and try again.';
+        $data->remarks = $request->rejectreason; // Update the remarks with the rejection reason
         $data->save();
 
         return redirect()->back();
-        
     }
+
+    //faculty created new schedule
 
     public function newschedCreated($id)
     {
@@ -140,8 +176,7 @@ class RequestController extends Controller
         
     }
 
-
-    //download requirement
+    //download requirement for admin
     public function requestDownload($filePaths)
     {
         try {
@@ -153,22 +188,31 @@ class RequestController extends Controller
                 throw new \Exception("Files do not exist. Requirement Path: $requirement_path");
             }
 
-            $zipFileName = 'downloaded_files.zip';
-            $zipPath = storage_path("app/$zipFileName");
-
-            $zip = new \ZipArchive();
-            if ($zip->open($zipPath, \ZipArchive::CREATE)) {
-                $zip->addFile(storage_path("app/$requirement_path"), $requirement);
-                $zip->close();
-
-                return response()->download($zipPath)->deleteFileAfterSend(true);
-            } else {
-                throw new \Exception("Failed to create a ZIP archive.");
-            }
+            return response()->download(storage_path("app/$requirement_path"), $requirement);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    //download requirement for student
+    public function requestDownload2($filePaths)
+    {
+        try {
+            list($requirement) = explode(',', urldecode($filePaths));
+
+            $requirement_path = "uploads/{$requirement}";
+
+            if (!Storage::exists($requirement_path)) {
+                throw new \Exception("Files do not exist. Requirement Path: $requirement_path");
+            }
+
+            return response()->download(storage_path("app/$requirement_path"), $requirement);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    //creating new schedule for student
 
     public function storeSched(Request $request)
     {
@@ -179,6 +223,7 @@ class RequestController extends Controller
             'instructor2' => 'required',
             'exam_day' => 'required',
             'exam_time' => 'required',
+            'exam_time2' => 'required',
             'room' => 'required',
         ]);
         
@@ -187,32 +232,90 @@ class RequestController extends Controller
         $subject2 = $request->subject2;
         $instructor2 = $request->instructor2;
         $exam_day = $request->exam_day;
-        $exam_time = $request->exam_time;
+        $exam_time = Carbon::createFromFormat('H:i', $request->exam_time)->format('h:i A');
+        $exam_time2 = Carbon::createFromFormat('H:i', $request->exam_time2)->format('h:i A');
         $room = $request->room;
-    
+
         // Save file information to the database
         $newRequest = NewSched::create([
-
             'stud_name2' => $stud_name2,
             'request_type2' => $request_type2,
             'subject2' => $subject2,
             'instructor2' => $instructor2,
             'exam_day' => $exam_day,
             'exam_time' => $exam_time,
+            'exam_time2' => $exam_time2,
             'room' => $room,
         ]);
 
         if (!$newRequest) {
             return redirect(route('faculty.managerequest'))->with('error', 'Application Failed! Try Again!');
         }
-    
+
         return redirect(route('faculty.managerequest'))->with('success', 'New Schedule Made Successfully!');
+    }
+
+    // public function storeSched(Request $request)
+    // {
+    //     $request->validate([
+    //         'stud_name2' => 'required',
+    //         'request_type2' => 'required',
+    //         'subject2' => 'required',
+    //         'instructor2' => 'required',
+    //         'exam_day' => 'required',
+    //         'exam_time' => 'required',
+    //         'exam_time2' => 'required',
+    //         'room' => 'required',
+    //     ]);
+        
+    //     $stud_name2 = $request->stud_name2;
+    //     $request_type2 = $request->request_type2;
+    //     $subject2 = $request->subject2;
+    //     $instructor2 = $request->instructor2;
+    //     $exam_day = $request->exam_day;
+    //     $exam_time = $request->exam_time;
+    //     $exam_time2 = $request->exam_time2;
+    //     $room = $request->room;
+    
+    //     // Save file information to the database
+    //     $newRequest = NewSched::create([
+
+    //         'stud_name2' => $stud_name2,
+    //         'request_type2' => $request_type2,
+    //         'subject2' => $subject2,
+    //         'instructor2' => $instructor2,
+    //         'exam_day' => $exam_day,
+    //         'exam_time' => $exam_time,
+    //         'exam_time2' => $exam_time2,
+    //         'room' => $room,
+    //     ]);
+
+    //     if (!$newRequest) {
+    //         return redirect(route('faculty.managerequest'))->with('error', 'Application Failed! Try Again!');
+    //     }
+    
+    //     return redirect(route('faculty.managerequest'))->with('success', 'New Schedule Made Successfully!');
+    // }
+
+    public function showfacultyNewSched()
+    {
+        $newscheds = NewSched::orderBy('created_at', 'desc')->get();
+
+        return view('faculty.createdNewsched', compact('newscheds'));
     }
 
     public function showstudentNewSched()
     {
-        $requestrecords4 = NewSched::all();
+        $requestrecords4 = NewSched::orderBy('created_at', 'desc')->get();
 
         return view('student.newsched', compact('requestrecords4'));
+    }
+
+
+    public function studentschedNotif()
+    {
+        $newschedrecords = NewSched::all();
+
+        return view('layouts.partial.guest-nav', compact('newschedrecords'));
     }
 }

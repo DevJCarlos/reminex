@@ -20,17 +20,26 @@
 				</li>
 
 			<li class="sidebar-header">Request</li>
+
 				<li class="sidebar-item {{ request()->routeIs('faculty.managerequest') ? 'active' : '' }}">
 					<a class="sidebar-link" href="{{ route('faculty.managerequest') }}">
 						<i class="align-middle" data-feather="edit-3"></i> <span class="align-middle">Manage New Schedule</span>
 					</a>
 				</li>
 
-				<li class="sidebar-item {{ request()->routeIs('faculty.requestarchive') ? 'active' : '' }}">
+			<li class="sidebar-header">History</li>
+
+			<li class="sidebar-item {{ request()->routeIs('faculty.requestarchive') ? 'active' : '' }}">
 					<a class="sidebar-link" href="{{ route('faculty.requestarchive') }}">
-						<i class="align-middle" data-feather="hard-drive"></i> <span class="align-middle">Request Archive</span>
+						<i class="align-middle" data-feather="hard-drive"></i> <span class="align-middle">Requests</span>
 					</a>
-				</li>
+			</li>
+
+            <li class="sidebar-item {{ request()->routeIs('faculty.createdNewsched') ? 'active' : '' }}">
+                <a class="sidebar-link" href="{{ route('faculty.createdNewsched') }}">
+                    <i class="align-middle" data-feather="calendar"></i> <span class="align-middle">Created New Schedule</span>
+                </a> 
+            </li>
 
 		</ul>
     </div>
