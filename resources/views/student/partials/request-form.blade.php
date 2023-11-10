@@ -41,11 +41,11 @@
             <label for="request"><strong>Reason: </strong></label> <p class="text-danger"><em>(if subject conflict, please include the details)</em></p>
 				<textarea class="form-control" rows="2" name="reason" placeholder="Reason details here..." required></textarea><br>
 
-			<label for="request"><strong>Time Available (Ranged): </strong></label>
-				<textarea class="form-control" rows="2" name="time_available" placeholder="Ex. 10:00 AM - 11:00 AM"  required></textarea><br>
+			<label for="request"><strong>Time Available (Ranged): </strong></label><br>
+                <input type="time" name="time_avail1"> - <input type="time" name="time_avail2"><br><br>
 
 			<label class="col-md-3"><strong>Requirements: </strong></label><br>
-                <input type="file" id="fileInput" name="requirement" accept=".pdf, .docx" onchange="displayFileName()">
+                <input type="file" class="form-control" id="fileInput" name="requirement" accept=".pdf, .docx" onchange="displayFileName()">
                     <label for="fileInput" class="custom-file-input">Choose File</label>
                     
 		<p class="text-danger"><em>*Requirements should be in one (1) file only, either in .docx or .pdf format. It must include your <strong>request letter</strong>, <strong>photocopy of your guardian's ID with guardian's signature below</strong>, <strong>proof of your excuse (e.g. Medical Certificate)</strong>, and your <strong>exam permit</strong>.</em></p>

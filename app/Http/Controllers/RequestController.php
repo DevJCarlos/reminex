@@ -24,7 +24,8 @@ class RequestController extends Controller
             'subject' => 'required',
             'instructor' => 'required',
             'reason' => 'required',
-            'time_available' => 'required',
+            'time_avail1' => 'required',
+            'time_avail2' => 'required',
             'requirement' => 'required|mimes:pdf,doc,docx|max:3000',
         ]);
         
@@ -34,7 +35,8 @@ class RequestController extends Controller
         $subject = $request->subject;
         $instructor = $request->instructor;
         $reason = $request->reason;
-        $time_available = $request->time_available;
+        $time_avail1 = Carbon::createFromFormat('H:i', $request->time_avail1)->format('h:i A');
+        $time_avail2 = Carbon::createFromFormat('H:i', $request->time_avail2)->format('h:i A');
         
         // Handle file uploads
         $requirement = $request->file('requirement');
@@ -51,7 +53,8 @@ class RequestController extends Controller
             'subject' => $subject,
             'instructor' => $instructor,
             'reason' => $reason,
-            'time_available' => $time_available,
+            'time_avail1' => $time_avail1,
+            'time_avail2' => $time_avail2,
             'file_name' => $requirement->getClientOriginalName(),
             'file_path' => $requirementName,
         ]);

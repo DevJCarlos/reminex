@@ -39,7 +39,7 @@
 													@endif
 													
 
-													<label for="request"><strong>Time Availability:  &nbsp;</strong></label><label for="request"> {{ $requestrecord2->time_available }}</label><br>
+													<label for="request"><strong>Time Availability:  &nbsp;</strong></label><label for="request"> {{ $requestrecord2->time_avail1}} - {{ $requestrecord2->time_avail2}}</label><br>
 													<label for="request"><strong>Name:  &nbsp;</strong></label><br>
 														<input type="text" class="form-control" name="stud_name2" value="{{ $requestrecord2->stud_name }}" readonly><br>
 													<label for="request"><strong>Request Type:  &nbsp;</strong></label><br>

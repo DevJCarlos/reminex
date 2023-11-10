@@ -51,7 +51,7 @@
                                         <td>{{ $requestrecord->subject }}</td>
                                         <td>{{ $requestrecord->instructor }}</td>
                                         <td>{{ $requestrecord->reason }}</td>
-                                        <td>{{ $requestrecord->time_available}}</td>
+                                        <td>{{ $requestrecord->time_avail1}} - {{ $requestrecord->time_avail2}}</td>
                                         <td>{{ $requestrecord->file_name }} 
 
                                         <a href="{{ route('request.download', ['filePaths' => urlencode($requestrecord->file_path)]) }}" class="btn btn-outline-secondary">Download</a>

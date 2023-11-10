@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0"><strong>{{ __('REQUEST ARCHIVE') }}</strong></h1>
+                    <h1 class="m-0"><strong>{{ __('REQUEST HISTORY') }}</strong></h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -34,7 +34,7 @@
                                         <th class="th-sm">Time Availability</th>
                                         <th class="th-sm">Requirements</th></th>
                                         <th class="th-sm">Status</th>
-                                        <th class="th-sm">Action</th>
+                                        <!-- <th class="th-sm">Action</th> -->
                                     </tr>
                                 </thead>
 
@@ -49,7 +49,7 @@
                                         <td>{{ $requestrecord5->subject }}</td>
                                         <td>{{ $requestrecord5->instructor }}</td>
                                         <td>{{ $requestrecord5->reason }}</td>
-                                        <td>{{ $requestrecord5->time_available}}</td>
+                                        <td>{{ $requestrecord5->time_avail1}} - {{ $requestrecord5->time_avail2}}</td>
                                         <td>{{ $requestrecord5->file_name }} 
 
                                         <a href="{{ route('request.download', ['filePaths' => urlencode($requestrecord5->file_path)]) }}" class="btn btn-outline-secondary">Download</a>
@@ -66,13 +66,13 @@
                                         @endif
                                         </td>
 
-                                        <td> 
+                                        <!-- <td> 
                                             <form method="POST" action="{{ route('requests.destroy', $requestrecord5->id) }}" style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this request history?')">Delete</button>
                                             </form>
-                                        </td> 
+                                        </td>  -->
                                     </tr>
                                 @endif
                                 @endif
