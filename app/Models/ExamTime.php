@@ -18,7 +18,7 @@ class ExamTime extends Model
     }
     public function examDay()
     {
-        return $this->belongsTo(ExamPeriod::class, 'exam_day_ID', 'id');
+        return $this->belongsTo(ExamDay::class, 'exam_day_ID', 'id');
     }
     //method for room
     public function examRooms()
