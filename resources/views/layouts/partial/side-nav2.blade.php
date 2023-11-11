@@ -2,7 +2,7 @@
     <div class="sidebar-content js-simplebar">
         <a class="sidebar-brand" href="{{ route('faculty.index') }}">
 			 <span class="align-middle">
-                <img src="{{asset('import/img/photos/loginlogo3.png')}}" alt="Company Name" width="200"></span>
+                <img src="{{asset('import/img/photos/loginlogo32.png')}}" alt="Company Name" width="200"></span>
         </a>
 
         <ul class="sidebar-nav">
@@ -23,21 +23,21 @@
 
 				<li class="sidebar-item {{ request()->routeIs('faculty.managerequest') ? 'active' : '' }}">
 					<a class="sidebar-link" href="{{ route('faculty.managerequest') }}">
-						<i class="align-middle" data-feather="edit-3"></i> <span class="align-middle">Manage New Schedule</span>
+						<i class="align-middle" data-feather="edit-3"></i> <span class="align-middle">Manage Reschedules</span>
+					</a>
+				</li>
+				
+				<li class="sidebar-item {{ request()->routeIs('faculty.studspecial') ? 'active' : '' }}">
+					<a class="sidebar-link" href="{{ route('faculty.studspecial') }}">
+						<i class="align-middle" data-feather="hard-drive"></i> <span class="align-middle">Student Special Exams</span>
 					</a>
 				</li>
 
 			<li class="sidebar-header">History</li>
 
-			<li class="sidebar-item {{ request()->routeIs('faculty.requestarchive') ? 'active' : '' }}">
-					<a class="sidebar-link" href="{{ route('faculty.requestarchive') }}">
-						<i class="align-middle" data-feather="hard-drive"></i> <span class="align-middle">Requests</span>
-					</a>
-			</li>
-
             <li class="sidebar-item {{ request()->routeIs('faculty.createdNewsched') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('faculty.createdNewsched') }}">
-                    <i class="align-middle" data-feather="calendar"></i> <span class="align-middle">Created New Schedule</span>
+                    <i class="align-middle" data-feather="calendar"></i> <span class="align-middle">Created New Schedules</span>
                 </a> 
             </li>
 

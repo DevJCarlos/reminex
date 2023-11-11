@@ -16,8 +16,37 @@ class RequestController extends Controller
 {
 
     //creating student request
+
     public function storeRequest(Request $request)
     {
+        // Extracting request data
+        $studName = $request->stud_name;
+        $department = $request->department;
+        $requestType = $request->request_type;
+        $subject = $request->subject;
+        $instructor = $request->instructor;
+        $reason = $request->reason;
+        $time_avail1 = $request->filled('time_avail1') ? Carbon::createFromFormat('H:i', $request->time_avail1)->format('h:i A') : null;
+        $time_avail2 = $request->filled('time_avail2') ? Carbon::createFromFormat('H:i', $request->time_avail2)->format('h:i A') : null;
+        
+        // Handle file uploads
+        $requirement = $request->file('requirement');
+        $requirementName = time() . '_' . $requirement->getClientOriginalName();
+
+        $requirement->storeAs('uploads', $requirementName);
+
+        // Check if a request with the same subject and request type already exists
+        $existingRequest = RequestModel::where('subject', $subject)
+            ->where('request_type', $requestType)
+            ->where('stud_name', auth()->user()->name)
+            ->first();
+
+        // If an existing request is found, return custom error message
+        if ($existingRequest) {
+            return redirect()->back()->with('error', 'You already have requested this subject.');
+        }
+
+        // Validation rules
         $request->validate([
             'stud_name' => 'required',
             'department' => 'required',
@@ -36,28 +65,11 @@ class RequestController extends Controller
             'time_avail2' => 'nullable', 
             'requirement' => 'required|mimes:pdf,doc,docx|max:3000',
         ]);
-        
-        $stud_name = $request->stud_name;
-        $department = $request->department;
-        $request_type = $request->request_type;
-        $subject = $request->subject;
-        $instructor = $request->instructor;
-        $reason = $request->reason;
-        $time_avail1 = $request->filled('time_avail1') ? Carbon::createFromFormat('H:i', $request->time_avail1)->format('h:i A') : null;
-        $time_avail2 = $request->filled('time_avail2') ? Carbon::createFromFormat('H:i', $request->time_avail2)->format('h:i A') : null;
-        
-        // Handle file uploads
-        $requirement = $request->file('requirement');
-        $requirementName = time() . '_' . $requirement->getClientOriginalName();
-    
-        $requirement->storeAs('uploads', $requirementName);
-    
-        // Save file information to the database
-        $newRequest = RequestModel::create([
 
-            'stud_name' => $stud_name,
+        $newRequest = RequestModel::create([
+            'stud_name' => $studName,
             'department' => $department,
-            'request_type' => $request_type,
+            'request_type' => $requestType,
             'subject' => $subject,
             'instructor' => $instructor,
             'reason' => $reason,
@@ -65,14 +77,14 @@ class RequestController extends Controller
             'time_avail2' => $time_avail2,
             'file_name' => $requirement->getClientOriginalName(),
             'file_path' => $requirementName,
+            'time_created' => Carbon::now()->toDateTimeString(), // Store in 24-hour format
         ]);
 
         if (!$newRequest) {
             return redirect(route('student.createrequest'))->with('error', 'Application Failed! Try Again!');
         }
-    
+
         return redirect(route('student.createrequest'))->with('success', 'Successfully Requested!');
-        return redirect()->back()->with('error', 'You have already requested this subject.');
     }
 
     // fetching data for dropdown selection
@@ -115,6 +127,13 @@ class RequestController extends Controller
         $rooms = Room::all();
 
         return view('faculty.managerequest', compact('requestrecords2', 'rooms'));
+    }
+
+    public function showRequest3()
+    {
+        $requestrecords21 = RequestModel::all();
+
+        return view('faculty.studspecial', compact('requestrecords21'));
     }
 
     //showing request to student
@@ -228,86 +247,69 @@ class RequestController extends Controller
 
     public function storeSched(Request $request)
     {
+        // Extracting request data
+        $studName = $request->stud_name2;
+        $requestType = $request->request_type2;
+        $subject = $request->subject2;
+        $instructor = $request->instructor2;
+        $examDay = $request->exam_day;
+        $examTime = Carbon::createFromFormat('H:i', $request->exam_time)->format('h:i A');
+        $examTime2 = Carbon::createFromFormat('H:i', $request->exam_time2)->format('h:i A');
+        $room = $request->room;
+
+        // Check if a schedule with the same subject, request type, and instructor already exists
+        $existingSchedule = NewSched::where('subject2', $subject)
+            ->where('request_type2', $requestType)
+            ->where('instructor2', $instructor)
+            ->first();
+
+        // If an existing schedule is found, return custom error message
+        if ($existingSchedule) {
+            return redirect(route('faculty.managerequest'))->with('error', 'You already have created a new schedule in this request!');
+        }
+
+        // Validation rules
         $request->validate([
             'stud_name2' => 'required',
             'request_type2' => 'required',
-            'subject2' => 'required',
+            'subject2' => [
+                'required',
+                Rule::unique('new_schedule')->where(function ($query) use ($request) {
+                    return $query->where('subject2', $request->subject2)
+                        ->where('request_type2', $request->request_type2)
+                        ->where('instructor2', auth()->user()->name);
+                }),
+            ],
             'instructor2' => 'required',
             'exam_day' => 'required',
             'exam_time' => 'required',
             'exam_time2' => 'required',
             'room' => 'required',
         ]);
-        
-        $stud_name2 = $request->stud_name2;
-        $request_type2 = $request->request_type2;
-        $subject2 = $request->subject2;
-        $instructor2 = $request->instructor2;
-        $exam_day = $request->exam_day;
-        $exam_time = Carbon::createFromFormat('H:i', $request->exam_time)->format('h:i A');
-        $exam_time2 = Carbon::createFromFormat('H:i', $request->exam_time2)->format('h:i A');
-        $room = $request->room;
 
-        // Save file information to the database
-        $newRequest = NewSched::create([
-            'stud_name2' => $stud_name2,
-            'request_type2' => $request_type2,
-            'subject2' => $subject2,
-            'instructor2' => $instructor2,
-            'exam_day' => $exam_day,
-            'exam_time' => $exam_time,
-            'exam_time2' => $exam_time2,
+        // Save schedule information to the database
+        $newSchedule = NewSched::create([
+            'stud_name2' => $studName,
+            'request_type2' => $requestType,
+            'subject2' => $subject,
+            'instructor2' => $instructor,
+            'exam_day' => $examDay,
+            'exam_time' => $examTime,
+            'exam_time2' => $examTime2,
             'room' => $room,
         ]);
 
-        if (!$newRequest) {
-            return redirect(route('faculty.managerequest'))->with('error', 'Application Failed! Try Again!');
+        // Check if the schedule was saved successfully
+        if (!$newSchedule) {
+            return redirect(route('faculty.managerequest'))->with('error', 'Failed to create a new schedule. Please check for conflicts and try again.');
         }
 
+        // Redirect with success message
         return redirect(route('faculty.managerequest'))->with('success', 'New Schedule Made Successfully!');
+        
     }
 
-    // public function storeSched(Request $request)
-    // {
-    //     $request->validate([
-    //         'stud_name2' => 'required',
-    //         'request_type2' => 'required',
-    //         'subject2' => 'required',
-    //         'instructor2' => 'required',
-    //         'exam_day' => 'required',
-    //         'exam_time' => 'required',
-    //         'exam_time2' => 'required',
-    //         'room' => 'required',
-    //     ]);
-        
-    //     $stud_name2 = $request->stud_name2;
-    //     $request_type2 = $request->request_type2;
-    //     $subject2 = $request->subject2;
-    //     $instructor2 = $request->instructor2;
-    //     $exam_day = $request->exam_day;
-    //     $exam_time = $request->exam_time;
-    //     $exam_time2 = $request->exam_time2;
-    //     $room = $request->room;
-    
-    //     // Save file information to the database
-    //     $newRequest = NewSched::create([
-
-    //         'stud_name2' => $stud_name2,
-    //         'request_type2' => $request_type2,
-    //         'subject2' => $subject2,
-    //         'instructor2' => $instructor2,
-    //         'exam_day' => $exam_day,
-    //         'exam_time' => $exam_time,
-    //         'exam_time2' => $exam_time2,
-    //         'room' => $room,
-    //     ]);
-
-    //     if (!$newRequest) {
-    //         return redirect(route('faculty.managerequest'))->with('error', 'Application Failed! Try Again!');
-    //     }
-    
-    //     return redirect(route('faculty.managerequest'))->with('success', 'New Schedule Made Successfully!');
-    // }
+    //showing faculty the new sched created
 
     public function showfacultyNewSched()
     {

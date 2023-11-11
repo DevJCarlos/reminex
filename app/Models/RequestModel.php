@@ -24,5 +24,6 @@ class RequestModel extends Model
         'file_path',
         'status',
         'remarks',
+        'time_created',
     ];
 }

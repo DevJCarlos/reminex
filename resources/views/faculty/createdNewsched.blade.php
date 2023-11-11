@@ -5,7 +5,7 @@
 		<main class="content">
 			<div class="container-fluid p-0">
 
-			    <h1 class="h3 mb-3"><strong class="text-success">New Schedules Created</strong></h1>
+			    <h1 class="h3 mb-3"><strong class="text-success">New Schedules Created </strong>(Reschedules)</h1>
 
 					<div class="row">
 						<div class="col-12">

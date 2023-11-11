@@ -37,15 +37,6 @@
                     </p>
                 </a>
             </li> -->
-
-            <li class="nav-item">
-                <a href="{{ route('about') }}" class="nav-link">
-                    <i class="nav-icon far fa-address-card"></i>
-                    <p>
-                        {{ __('About us') }}
-                    </p>
-                </a>
-            </li>
             
             <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -117,6 +108,15 @@
                         </a>
                     </li>
                 </ul>
+            </li>
+            
+            <li class="nav-item">
+                <a href="{{ route('about') }}" class="nav-link">
+                    <i class="nav-icon far fa-address-card"></i>
+                    <p>
+                        {{ __('About us') }}
+                    </p>
+                </a>
             </li>
 
 

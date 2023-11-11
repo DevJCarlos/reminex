@@ -58,7 +58,6 @@ Route::group(['middleware' => ['auth', 'role:teacher']], function(){
     Route::get('/faculty', [App\Http\Controllers\TeacherController::class, 'index'])->name('faculty.index');
     Route::get('/faculty/examsched', [App\Http\Controllers\TeacherController::class, 'show'])->name('faculty.show');
     // Route::get('/faculty/managerequest', [App\Http\Controllers\TeacherController::class, 'manageRequest'])->name('faculty.managerequest');
-    Route::get('/faculty/requestarchive', [App\Http\Controllers\TeacherController::class, 'requestArchive'])->name('faculty.requestarchive');
     Route::get('/faculty/aboutus', [App\Http\Controllers\TeacherController::class, 'aboutUs'])->name('faculty.aboutus');
     Route::get('/faculty/changepass', [App\Http\Controllers\TeacherController::class, 'changePass'])->name('faculty.changepass');
     // Route::get('changeprofilePic', [App\Http\Controllers\TeacherController::class, 'changeprofilePic'])->name('profilepic.update');
@@ -68,6 +67,7 @@ Route::group(['middleware' => ['auth', 'role:teacher']], function(){
     Route::post('/faculty/managerequest', [App\Http\Controllers\RequestController::class, 'storeSched'])->name('sched.store');
     Route::get('/newsched_created/{id}', [\App\Http\Controllers\RequestController::class, 'newschedCreated'])->name('newsched_created');
     Route::get('/faculty/createdNewsched', [App\Http\Controllers\RequestController::class, 'showfacultyNewSched'])->name('faculty.createdNewsched');
+    Route::get('/faculty/studspecial', [App\Http\Controllers\RequestController::class, 'showRequest3'])->name('faculty.studspecial');
     
 });
 

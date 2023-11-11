@@ -5,7 +5,7 @@
     <main class="content">
         <div class="container-fluid p-0">
 
-            <h1 class="h3 mb-3">Manage<strong> New Schedule</strong></h1>
+            <h1 class="h3 mb-3">Manage<strong> Reschedules</strong></h1>
 
             <div class="row">
                 <div class="col-12 col-lg-8">
@@ -65,10 +65,10 @@
                                             <input type="submit" class="btn btn-primary btn-lg form-control" onclick="toggleSendButton(); return confirm('Are you sure to create this new schedule?')" value="Create New Schedule"><br><br>
 
                                         </div>
-                                    </form>
+                                    </form><br>
                                 </div>
                                 <div class="col-12 col-lg-1">
-								<a href="{{ route('newsched_created', $requestrecord2->id) }}" onclick="if(!window.confirm('Send this new schedule?')) return false;" class="btn btn-warning">Send to Student</a><br>
+								<a href="{{ route('newsched_created', $requestrecord2->id) }}" onclick="if(!window.confirm('Do you confirm to notify student?')) return false;" class="btn btn-warning">Notify Student</a><br>
                                 </div>
                             </div>
                             @endif
