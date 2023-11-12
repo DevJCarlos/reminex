@@ -48,8 +48,8 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
     Route::get('/student/viewrequest/{filePaths}', [\App\Http\Controllers\RequestController::class, 'requestDownload2'])->name('request.download2');
     Route::get('/layouts/partial/guest-nav', [App\Http\Controllers\RequestController::class, 'studentschedNotif'])->name('layouts.partial.guest-nav');
 
-    // about us
-    // Route::get('/bout-us', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
+    //Request Notification
+    Route::post('/studentmarkAsRead/{notificationId}', [\App\Http\Controllers\RequestController::class, 'studentmarkAsRead'])->name('studentmarkAsRead');
 });
 
 
@@ -154,6 +154,10 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::get('adminArchiveRequest', [App\Http\Controllers\RequestController::class, 'adminRequestArchive'])->name('adminArchiveRequest');
     // Route::delete('requests/{requestdata}', [\App\Http\Controllers\RequestController::class, 'destroyRequest'])->name('request.destroy');
     Route::delete('/requests/{id}', [\App\Http\Controllers\RequestController::class, 'destroyRequest'])->name('requests.destroy');
+
+    //Request Notification
+    Route::post('/markAsRead/{notificationId}', [\App\Http\Controllers\RequestController::class, 'markAsRead'])->name('markAsRead');
+
 
 
 });

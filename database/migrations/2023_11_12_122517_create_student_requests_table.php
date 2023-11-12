@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('file_path');
             $table->string('status')->nullable();
             $table->string('remarks')->nullable();
-            $table->timestamp('time_created')->useCurrent();
             $table->timestamps();
         });
     }

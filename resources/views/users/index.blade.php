@@ -54,8 +54,7 @@
                                     <select class="select2 form-select shadow-none" style="width: 100%; height: 36px" name="department" required>          
                                         <option disabled selected>Select Department...</option>
                                         <option>Academic Head</option> 
-                                        <option>ICT Department</option>    
-                                        <option>CS/BMMA</option>      
+                                        <option>ICT Department</option>  
                                         <option>Hospitality Management</option>
                                         <option>Tourism Management</option>
                                         <option>BSA Department</option>

@@ -164,8 +164,7 @@
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
-                            class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
             </ul>
 
@@ -174,17 +173,46 @@
                 <!-- Notifications Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-bell"></i>
-                    <span class="badge badge-danger navbar-badge"></span>
+                        <i class="far fa-bell"></i>
+                        @if(auth()->user()->unreadNotifications->isNotEmpty())
+                            <span class="badge badge-danger navbar-badge">{{ auth()->user()->unreadNotifications->count() }}</span>
+                        @endif
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item dropdown-header">1 Notifications</span>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fas fa-envelope mr-2"></i> New Request! <br>
-                        <span class="float-right text-muted text-sm">Reschedule Request: Capstone 1</span><br>
-                    </a>
+                        @auth
+                            @if(auth()->user()->notifications->isNotEmpty())
+                                <span class="dropdown-item dropdown-header">{{ auth()->user()->notifications->count() }} Notifications</span>
+                                @foreach (auth()->user()->notifications as $notification)
+                                    @if (isset($notification->data['request_id'], $notification->data['request_type']))
+                                        @php
+                                            $request = App\Models\RequestModel::find($notification->data['request_id']);
+                                        @endphp
+                                        @if ($request)
+                                            <div class="dropdown-divider"></div>
+                                                <a href="{{ route('requests') }}" class="dropdown-item @if(!$notification->read_at) bg-warning @endif" onclick="event.preventDefault(); document.getElementById('mark-as-read-{{ $notification->id }}').submit();">
+                                                    <i class="fas fa-envelope mr-2"></i> New {{ $notification->data['request_type'] }}!<br>
+                                                    <span class="float-right text-muted text-sm">{{ $notification->data['stud_name'] }}: {{ $notification->data['subject'] }}</span><br>
+                                                    <span class="float-right text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</span><br>
+                                                </a>
+                                                <form id="mark-as-read-{{ $notification->id }}" action="{{ route('markAsRead', ['notificationId' => $notification->id]) }}" method="POST" style="display: none;">
+                                                    @csrf
+                                                </form>
+                                                
+                                            @if(!$notification->read_at)
+                                                <!-- Add your unread styling or indicator here -->
+                                            @endif
+                                        @endif
+                                    @endif
+                                @endforeach
+                            @else
+                                <span class="dropdown-item dropdown-header">No notifications yet.</span>
+                            @endif
+                        @else
+                            <span class="dropdown-item dropdown-header">Please log in to view notifications.</span>
+                        @endauth
+                    </div>
                 </li>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
                         {{ Auth::user()->name }}

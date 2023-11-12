@@ -10,6 +10,8 @@ use App\Models\Course;
 use App\Models\Subject;
 use App\Models\Section;
 use App\Models\Teacher;
+use App\Models\User;
+use App\Models\RequestModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use League\Csv\Reader;
@@ -34,7 +36,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $user = User::find(1);
+        return view('home', compact('user'));
     }
 
     

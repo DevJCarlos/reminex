@@ -10,12 +10,17 @@ use App\Models\NewSched;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Validation\Rule;
+use App\Notifications\requestNotification;
+use App\Notifications\newschedNotification;
+use Illuminate\Support\Facades\Notification;
 
 
 class RequestController extends Controller
 {
 
     //creating student request
+
+    // ...
 
     public function storeRequest(Request $request)
     {
@@ -28,7 +33,7 @@ class RequestController extends Controller
         $reason = $request->reason;
         $time_avail1 = $request->filled('time_avail1') ? Carbon::createFromFormat('H:i', $request->time_avail1)->format('h:i A') : null;
         $time_avail2 = $request->filled('time_avail2') ? Carbon::createFromFormat('H:i', $request->time_avail2)->format('h:i A') : null;
-        
+
         // Handle file uploads
         $requirement = $request->file('requirement');
         $requirementName = time() . '_' . $requirement->getClientOriginalName();
@@ -62,7 +67,7 @@ class RequestController extends Controller
             'instructor' => 'required',
             'reason' => 'required',
             'time_avail1' => 'nullable',
-            'time_avail2' => 'nullable', 
+            'time_avail2' => 'nullable',
             'requirement' => 'required|mimes:pdf,doc,docx|max:3000',
         ]);
 
@@ -77,8 +82,19 @@ class RequestController extends Controller
             'time_avail2' => $time_avail2,
             'file_name' => $requirement->getClientOriginalName(),
             'file_path' => $requirementName,
-            'time_created' => Carbon::now()->toDateTimeString(), // Store in 24-hour format
         ]);
+
+        // Notify only the admin with the same department
+        $admins = User::where('role', 'admin')->where('department', $department)->get();
+        foreach ($admins as $admin) {
+            $admin->notify(new requestNotification($request->stud_name, $request->request_type, $request->subject, $newRequest->id));
+        }
+
+        // $students = User::where('role', 'student')->where('name', $studName)->get();
+        // foreach ($students as $student) {
+        //     $student->notify(new requestNotification($request->status, $newRequest->id));
+        // }
+
 
         if (!$newRequest) {
             return redirect(route('student.createrequest'))->with('error', 'Application Failed! Try Again!');
@@ -86,6 +102,7 @@ class RequestController extends Controller
 
         return redirect(route('student.createrequest'))->with('success', 'Successfully Requested!');
     }
+
 
     // fetching data for dropdown selection
     public function createRequest()
@@ -299,6 +316,12 @@ class RequestController extends Controller
             'room' => $room,
         ]);
 
+        // Notify only the student with the same name
+        $students = User::where('role', 'student')->where('name', $studName)->get();
+        foreach ($students as $student) {
+            $student->notify(new newschedNotification($request->subject2, $newSchedule->id));
+        }
+
         // Check if the schedule was saved successfully
         if (!$newSchedule) {
             return redirect(route('faculty.managerequest'))->with('error', 'Failed to create a new schedule. Please check for conflicts and try again.');
@@ -326,10 +349,27 @@ class RequestController extends Controller
     }
 
 
-    public function studentschedNotif()
+    public function markAsRead($notificationId)
     {
-        $newschedrecords = NewSched::all();
+        $notification = auth()->user()->notifications()->where('id', $notificationId)->first();
 
-        return view('layouts.partial.guest-nav', compact('newschedrecords'));
+        if ($notification) {
+            $notification->markAsRead();
+        }
+
+        return redirect()->route('requests'); // Change the route accordingly
     }
+
+    public function studentmarkAsRead($notificationId)
+    {
+        $notification = auth()->user()->notifications()->where('id', $notificationId)->first();
+
+        if ($notification) {
+            $notification->markAsRead();
+        }
+
+        return redirect()->route('student.newsched'); // Change the route accordingly
+    }
+
+
 }
