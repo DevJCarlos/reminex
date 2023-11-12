@@ -15,7 +15,7 @@
                             @foreach($requestrecords2 as $requestrecord2)
                             @if($requestrecord2->instructor == auth()->user()->name)
                             @if($requestrecord2->request_type === "Reschedule Request")
-                            @if ($requestrecord2->status === "Approved")
+                            @if ($requestrecord2->status === "Approved" || $requestrecord2->status === null)
 
                             <div class="row">
                                 <div class="col-12 col-lg-10">
@@ -24,19 +24,19 @@
                                         @method('post')
                                         <button type="button" class="collapsible">
                                             <div class="row">
-                                                <div class="col-9">{{ $requestrecord2->stud_name }}</div>
-                                                <div class="col-3"><span class="badge bg-secondary"></span>{{ $requestrecord2->created_at }}</div>
+                                                <div class="col-6">{{ $requestrecord2->stud_name }}</div>
+                                                <div class="col-3">
+                                                    @if($requestrecord2->status === null)
+                                                    <p class="badge badge-warning" style="font-size:15px">Pending</p>
+                                                    @endif
+                                                    @if($requestrecord2->status === "Approved")
+                                                    <p class="badge badge-success" style="font-size:15px"> {{ $requestrecord2->status }}</p>
+                                                    @endif
+                                                </div>
+                                                <div class="col-3">{{ $requestrecord2->created_at }}</div>
                                             </div>
                                         </button>
                                         <div class="content2"><br>
-                                            <label for="request"><strong>Status: &nbsp;</strong></label>
-
-                                            @if($requestrecord2->status === "Approved")
-                                            <label for="request" class="badge badge-success"> {{ $requestrecord2->status }}</label><br>
-                                            @endif
-                                            @if($requestrecord2->status === "Rejected")
-                                            <label for="request" class="badge badge-danger"> {{ $requestrecord2->status }}</label><br>
-                                            @endif
 
                                             <label for="request"><strong>Time Availability: &nbsp;</strong></label><label for="request"> {{ $requestrecord2->time_avail1}} - {{ $requestrecord2->time_avail2}}</label><br>
                                             <label for="request"><strong>Name: &nbsp;</strong></label><br>

@@ -90,6 +90,11 @@ class RequestController extends Controller
             $admin->notify(new requestNotification($request->stud_name, $request->request_type, $request->subject, $newRequest->id));
         }
 
+        $teachers = User::where('role', 'teacher')->where('name', $instructor)->get();
+        foreach ($teachers as $teacher) {
+            $teacher->notify(new requestNotification($request->stud_name, $request->request_type, $request->subject, $newRequest->id));
+        }
+
         // $students = User::where('role', 'student')->where('name', $studName)->get();
         // foreach ($students as $student) {
         //     $student->notify(new requestNotification($request->status, $newRequest->id));
@@ -371,5 +376,15 @@ class RequestController extends Controller
         return redirect()->route('student.newsched'); // Change the route accordingly
     }
 
+    public function teachermarkAsRead($notificationId)
+    {
+        $notification = auth()->user()->notifications()->where('id', $notificationId)->first();
 
+        if ($notification) {
+            $notification->markAsRead();
+        }
+
+        return redirect()->route('faculty.managerequest'); // Change the route accordingly
+    }
+    
 }

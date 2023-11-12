@@ -130,7 +130,13 @@
             border: 1px solid #ddd;
         }
 
-   
+        .scrollable-menu {
+            height: auto;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+
     </style>
 
     <meta charset="utf-8">
@@ -151,9 +157,6 @@
 
     
  
-    
-
-
 
 </head>
 
@@ -178,32 +181,34 @@
                             <span class="badge badge-danger navbar-badge">{{ auth()->user()->unreadNotifications->count() }}</span>
                         @endif
                     </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right scrollable-menu">
                         @auth
                             @if(auth()->user()->notifications->isNotEmpty())
                                 <span class="dropdown-item dropdown-header">{{ auth()->user()->notifications->count() }} Notifications</span>
-                                @foreach (auth()->user()->notifications as $notification)
-                                    @if (isset($notification->data['request_id'], $notification->data['request_type']))
-                                        @php
-                                            $request = App\Models\RequestModel::find($notification->data['request_id']);
-                                        @endphp
-                                        @if ($request)
-                                            <div class="dropdown-divider"></div>
-                                                <a href="{{ route('requests') }}" class="dropdown-item @if(!$notification->read_at) bg-warning @endif" onclick="event.preventDefault(); document.getElementById('mark-as-read-{{ $notification->id }}').submit();">
+                                <div>
+                                    @foreach (auth()->user()->notifications as $notification)
+                                        @if (isset($notification->data['request_id'], $notification->data['request_type']))
+                                            @php
+                                                $request = App\Models\RequestModel::find($notification->data['request_id']);
+                                            @endphp
+                                            @if ($request)
+                                                <div class="dropdown-divider"></div>
+                                                <a href="{{ route('requests') }}" class="dropdown-item @if(!$notification->read_at) bg-secondary @endif" onclick="event.preventDefault(); document.getElementById('mark-as-read-{{ $notification->id }}').submit();">
                                                     <i class="fas fa-envelope mr-2"></i> New {{ $notification->data['request_type'] }}!<br>
-                                                    <span class="float-right text-muted text-sm">{{ $notification->data['stud_name'] }}: {{ $notification->data['subject'] }}</span><br>
-                                                    <span class="float-right text-muted text-sm">{{ $notification->created_at->diffForHumans() }}</span><br>
+                                                    <p class="float-left text-sm">{{ $notification->data['stud_name'] }}: {{ $notification->data['subject'] }}</p>
+                                                    <p class="float-right text-sm">{{ $notification->created_at->diffForHumans() }}</p><br>
                                                 </a>
                                                 <form id="mark-as-read-{{ $notification->id }}" action="{{ route('markAsRead', ['notificationId' => $notification->id]) }}" method="POST" style="display: none;">
                                                     @csrf
                                                 </form>
-                                                
-                                            @if(!$notification->read_at)
-                                                <!-- Add your unread styling or indicator here -->
+
+                                                @if(!$notification->read_at)
+                                                    <!-- Add your unread styling or indicator here -->
+                                                @endif
                                             @endif
                                         @endif
-                                    @endif
-                                @endforeach
+                                    @endforeach
+                                </div>
                             @else
                                 <span class="dropdown-item dropdown-header">No notifications yet.</span>
                             @endif

@@ -23,7 +23,8 @@
         <option value="Mobile Systems and Technology">Mobile Systems and Technology</option>
         <option value="Game Development">Game Development</option>
         <option value="Professional Issues">Professional Issues</option>
-        <option value="PE112">PE112</option>
+        <option value="PE">PE</option>
+        <option value="Euthenics">Euthenics</option>
     </select>
 
     <label for="request"><strong>Instructor: </strong></label>

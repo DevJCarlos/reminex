@@ -68,6 +68,9 @@ Route::group(['middleware' => ['auth', 'role:teacher']], function(){
     Route::get('/newsched_created/{id}', [\App\Http\Controllers\RequestController::class, 'newschedCreated'])->name('newsched_created');
     Route::get('/faculty/createdNewsched', [App\Http\Controllers\RequestController::class, 'showfacultyNewSched'])->name('faculty.createdNewsched');
     Route::get('/faculty/studspecial', [App\Http\Controllers\RequestController::class, 'showRequest3'])->name('faculty.studspecial');
+
+    //Request Notification
+    Route::post('/teachermarkAsRead/{notificationId}', [\App\Http\Controllers\RequestController::class, 'teachermarkAsRead'])->name('teachermarkAsRead');
     
 });
 
