@@ -44,32 +44,19 @@ class ExamRoomController extends Controller
     
         return response()->json(['message' => 'Successful'])->header('Location', route('exam.create'));
     }
+    public function updateRoom(Request $request)
+    {
+        // Get the roomName and roomID from the request
+        $roomName = $request->input('roomName');
+        $roomID = $request->input('roomID');
+        // dd($roomName);
+
+        // Update the ExamRoom using the ExamRoom model
+        ExamRoom::where('id', $roomID)->update(['room_name' => $roomName]);
+
+        // You can add any additional logic or validation here
+
+        // Return a response, e.g., a success message
+        return response()->json(['message' => 'ExamRoom updated successfully']);
+    }
 }
-// $room = $request->room;
-// foreach ($room as $nestedRooms) {
-//     foreach ($nestedRooms as $individualRoomNames) {
-//         $roomString = implode(', ', $individualRoomNames);
-//         $trimmedRoomString = trim($roomString);
-//         $RoomsData[] = [$trimmedRoomString];
-//     }
-// }
-// dd($RoomsData);
-
-// $latestExamDayID = ExamDay::latest('id')->value('id');
-// $latestExamPeriodID = ExamDay::latest('id')->value('exam_period_ID');
-// $examTimes = ExamTime::latest()->get();
-
-// for ($i = 0; $i < count($RoomsData); $i++) {
-//     if (isset($examTimes[$i])) {
-//         $RoomArray = $RoomsData[$i];
-//         $examTime = $examTimes[$i];
-
-//         foreach ($RoomArray as $roomName) {
-//             $examroom = new ExamRoom(['room_name' => $roomName]);
-//             $examroom->exam_day_id = $latestExamDayID;
-//             $examroom->exam_period_id = $latestExamPeriodID;
-//             $examroom->examTime()->associate($examTime); // Use associate method
-//             $examroom->save();
-//         }
-//     }
-// }
