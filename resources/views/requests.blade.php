@@ -22,21 +22,20 @@
                     <div class="card-body">
                     <h5 class="card-title"><strong class="text-success">{{auth()->user()->department}} Student Requests</strong></h5><br><br>
                         <div class="table-responsive">
-                            <table id="dtBasicExample" class="table table-striped table-bordered" width="100%">
+                            
+                            <table id="example1" class="table table-bordered table-striped">
                                 <thead>
-                                    <tr>
-                                        <th class="th-sm">Date</th>
-                                        <th class="th-sm">Name</th>
-                                        <th class="th-sm">Request Type</th>
-                                        <th class="th-sm">Subject</th>
-                                        <th class="th-sm">Instructor</th>
-                                        <th class="th-sm">Reason</th>
-                                        <th class="th-sm">Time Availability</th>
-                                        <th class="th-sm">Requirements</th></th>
-                                        <th class="th-sm">Status</th>
-                                        <th class="th-sm">Action</th>
-                                        <th class="th-sm">Action</th>
-                                    </tr>
+                                    <th class="th-sm">Date</th>
+                                    <th class="th-sm">Name</th>
+                                    <th class="th-sm">Request Type</th>
+                                    <th class="th-sm">Subject</th>
+                                    <th class="th-sm">Instructor</th>
+                                    <th class="th-sm">Reason</th>
+                                    <th class="th-sm">Time Availability</th>
+                                    <th class="th-sm">Requirements</th></th>
+                                    <th class="th-sm">Status</th>
+                                    <th class="th-sm">Action</th>
+                                    <th class="th-sm">Action</th>
                                 </thead>
 
                                 <tbody>

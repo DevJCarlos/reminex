@@ -22,27 +22,26 @@
                     <div class="card-body">
                     <h5 class="card-title"><strong class="text-success">{{auth()->user()->department}} Student Requests</strong></h5><br><br>
                         <div class="table-responsive">
-                            <table id="dtBasicExample" class="table table-striped table-bordered" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th class="th-sm">Date</th>
-                                        <th class="th-sm">Name</th>
-                                        <th class="th-sm">Request Type</th>
-                                        <th class="th-sm">Subject</th>
-                                        <th class="th-sm">Instructor</th>
-                                        <th class="th-sm">Reason</th>
-                                        <th class="th-sm">Time Availability</th>
-                                        <th class="th-sm">Requirements</th></th>
-                                        <th class="th-sm">Status</th>
-                                        <th class="th-sm">Remarks</th>
-                                        <!-- <th class="th-sm">Action</th> -->
-                                    </tr>
-                                </thead>
+                        <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                            <th class="th-sm">Date</th>
+                            <th class="th-sm">Name</th>
+                            <th class="th-sm">Request Type</th>
+                            <th class="th-sm">Subject</th>
+                            <th class="th-sm">Instructor</th>
+                            <th class="th-sm">Reason</th>
+                            <th class="th-sm">Time Availability</th>
+                            <th class="th-sm">Requirements</th></th>
+                            <th class="th-sm">Status</th>
+                            <th class="th-sm">Remarks</th>
+                            </tr>
+                        </thead>
 
-                                <tbody>
-                                @foreach($requestrecords5 as $requestrecord5)
-                                @if($requestrecord5->department === auth()->user()->department)
-                                @if($requestrecord5->status === "Approved" || $requestrecord5->status === "Rejected" || $requestrecord5->status === "New Schedule Created")
+                        <tbody>
+                            @foreach($requestrecords5 as $requestrecord5)
+                            @if($requestrecord5->department === auth()->user()->department)
+                            @if($requestrecord5->status === "Approved" || $requestrecord5->status === "Rejected" || $requestrecord5->status === "New Schedule Created")
                                     <tr>
                                         <td>{{ $requestrecord5->created_at }}</td>
                                         <td>{{ $requestrecord5->stud_name }}</td>
@@ -88,11 +87,12 @@
                                             </form>
                                         </td>  -->
                                     </tr>
-                                @endif
-                                @endif
-                                @endforeach
-                                </tbody>
-                            </table>
+                            @endif
+                            @endif
+                            @endforeach
+                        </tbody>
+                        </table>
+                            
                         </div>
                     </div>
                 </div>

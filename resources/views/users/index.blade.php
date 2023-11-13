@@ -153,62 +153,66 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <div class="card-body text-danger">
-
-                        <div class="alert alert-info">
-                            Users Datatable
-                        </div>
-
-                            <div class="card">
-                                <div class="table-responsive">
-
-                                    <table id="example" class="table table-striped" style="width:100%">
-                                        <thead>
-                                        <tr>
-                                                <th>ID Number</th>
-                                                <th>Name</th>
-                                                <th>Department</th>
-                                                <th>Email</th>
-                                                <th>Password</th>
-                                                <th>Role</th>
-                                                <th>Course</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($users as $user)
-                                            <tr>
-                                                <td>{{ $user->username }}</td>
-                                                <td>{{ $user->name }}</td>  
-                                                <td>{{ $user->department }}</td>  
-                                                <td>{{ $user->email }}</td>   
-                                                <td>{{ $user->password }}</td>  
-                                                <td>{{ $user->role }}</td> 
-                                                <td>{{ $user->course }}</td> 
-                                                <td>
-
-                                                <button class="btn btn-success btn-sm">Edit</button>
-                                                       
-                                                    <form method="POST" action="{{ route('users.destroy', $user->id) }}" style="display: inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
-                                                    </form>
-                                                </td> 
-                                            </tr>
-                                        @endforeach    
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- /.card-body -->
-
-                                    <div class="card-footer clearfix">
-                                        {{ $users->links() }}
-                                    </div>
-                            </div>
-                        </div>
-                        </div>
+                    <div class="card-header">
+                        <h3 class="card-title">Users Datatable</h3>
                     </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID Number</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Email</th>
+                                <th>Password</th>
+                                <th>Role</th>
+                                <th>Course</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($users as $user)
+                            <tr>
+                                <td>{{ $user->username }}</td>
+                                <td>{{ $user->name }}</td>  
+                                <td>{{ $user->department }}</td>  
+                                <td>{{ $user->email }}</td>   
+                                <td>{{ $user->password }}</td>  
+                                <td>{{ $user->role }}</td> 
+                                <td>{{ $user->course }}</td> 
+                                <td>
+
+                                    <button class="btn btn-success btn-sm">Edit</button>
+                                                            
+                                    <form method="POST" action="{{ route('users.destroy', $user->id) }}" style="display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+                                    </form>
+                                </td> 
+                            </tr>
+                        @endforeach 
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>ID Number</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Email</th>
+                                <th>Password</th>
+                                <th>Role</th>
+                                <th>Course</th>
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>
+                        </table>
+                    </div>
+                    </div>
+                    <!-- /.card-body -->
+                    </div>
+                </div>
             </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -240,4 +244,5 @@
         </div>
     </div>  
     <!-- /.content -->
+
 @endsection
