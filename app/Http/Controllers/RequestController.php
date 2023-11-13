@@ -36,7 +36,7 @@ class RequestController extends Controller
         return redirect()->back()->with('success', 'CSV data imported successfully.');
     }
 
-    //creating student reques
+    //creating student request
 
     public function storeRequest(Request $request)
     {
@@ -60,6 +60,10 @@ class RequestController extends Controller
         $existingRequest = RequestModel::where('subject', $subject)
             ->where('request_type', $requestType)
             ->where('stud_name', auth()->user()->name)
+            ->where(function ($query) {
+                $query->where('status', 'Approved')
+                    ->orWhereNull('status');
+            })
             ->first();
 
         // If an existing request is found, return custom error message
@@ -75,17 +79,21 @@ class RequestController extends Controller
             'subject' => [
                 'required',
                 Rule::unique('student_requests')->where(function ($query) use ($request) {
-                    return $query->where('subject', $request->subject)
+                    $query->where('subject', $request->subject)
                         ->where('request_type', $request->request_type)
-                        ->where('stud_name', auth()->user()->name);
-                })
+                        ->where('stud_name', auth()->user()->name)
+                        ->where(function ($subQuery) {
+                            $subQuery->where('status', 'Approved')
+                                ->orWhereNull('status');
+                        });
+                }),
             ],
             'instructor' => 'required',
             'reason' => 'required',
             'time_avail1' => 'nullable',
             'time_avail2' => 'nullable',
             'requirement' => 'required|mimes:pdf,doc,docx|max:3000',
-        ]);
+        ]);                
 
         $newRequest = RequestModel::create([
             'stud_name' => $studName,
@@ -110,11 +118,6 @@ class RequestController extends Controller
         foreach ($teachers as $teacher) {
             $teacher->notify(new requestNotification($request->stud_name, $request->request_type, $request->subject, $newRequest->id));
         }
-
-        // $students = User::where('role', 'student')->where('name', $studName)->get();
-        // foreach ($students as $student) {
-        //     $student->notify(new requestNotification($request->status, $newRequest->id));
-        // }
 
 
         if (!$newRequest) {

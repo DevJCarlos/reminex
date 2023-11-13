@@ -18,8 +18,8 @@
     <select class="form-select mb-3" name="subject" id="subject" required>
         <option disabled selected>Select Subject...</option>
         @foreach ($subjectrecs as $subjectrec)
-            @if($subjectrec->re_courses === "BSIT" || $subjectrec->re_courses === "GE")
-                <option value="{{ $subjectrec->re_subjects }}" style="color: black;">{{ $subjectrec->subjects }}</option>
+            @if($subjectrec->re_courses === auth()->user()->course || $subjectrec->re_courses === "GE")
+                <option value="{{ $subjectrec->re_subjects }}">{{ $subjectrec->re_subjects }}</option>
             @endif
         @endforeach
     </select>
