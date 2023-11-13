@@ -69,6 +69,8 @@ Route::group(['middleware' => ['auth', 'role:teacher']], function(){
     Route::get('/faculty/createdNewsched', [App\Http\Controllers\RequestController::class, 'showfacultyNewSched'])->name('faculty.createdNewsched');
     Route::get('/faculty/studspecial', [App\Http\Controllers\RequestController::class, 'showRequest3'])->name('faculty.studspecial');
 
+    Route::get('/finish_request/{id}', [\App\Http\Controllers\RequestController::class, 'finishRequest'])->name('finish_request');
+
 
     // Add this route to your web.php file
     Route::get('/check-schedule-exists', [\App\Http\Controllers\RequestController::class, 'checkScheduleExists']);

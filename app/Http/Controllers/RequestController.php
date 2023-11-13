@@ -240,6 +240,18 @@ class RequestController extends Controller
         
     }
 
+    public function finishRequest($id)
+    {
+        $data = RequestModel::find($id);
+
+        $data->status = 'Completed';
+
+        $data->save();
+
+        return redirect()->back();
+        
+    }
+
     //admin rejecting request
     public function rejectRequest(Request $request, $id)
     {
