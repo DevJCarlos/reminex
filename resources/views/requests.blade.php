@@ -49,7 +49,7 @@
                                         <td>{{ $requestrecord->request_type }}</td>
                                         <td>{{ $requestrecord->subject }}</td>
                                         <td>{{ $requestrecord->instructor }}</td>
-                                        <td>
+                                        <td class="text-warning">
                                         <span class="tool" data-tip="{{ $requestrecord->reason }}" tabindex="1">Reason</span>
                                         </td>
                                         <td>{{ $requestrecord->time_avail1}} - {{ $requestrecord->time_avail2}}</td>

@@ -13,6 +13,7 @@ use Illuminate\Validation\Rule;
 use App\Notifications\requestNotification;
 use App\Notifications\newschedNotification;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\DB;
 use App\Models\RequestSubject;
 
 
@@ -127,6 +128,25 @@ class RequestController extends Controller
         return redirect(route('student.createrequest'))->with('success', 'Successfully Requested!');
     }
 
+    //deleting all requests
+    // public function destroyAllRequests()
+    // {
+    //     try {
+    //         // Delete all records from the RequestModel table
+    //         DB::table('student_requests')->delete();
+
+    //         // Optionally, you may also want to delete associated files from storage
+    //         // You can get the file paths from the database before deleting the records
+    //         $filePaths = RequestModel::pluck('file_path')->toArray();
+    //         foreach ($filePaths as $filePath) {
+    //             Storage::delete('uploads/' . $filePath);
+    //         }
+
+    //         return redirect()->back()->with('success', 'All requests deleted successfully.');
+    //     } catch (\Exception $e) {
+    //         return redirect()->back()->with('error', 'Failed to delete requests.');
+    //     }
+    // }
 
     // fetching data for dropdown selection
     public function createRequest()

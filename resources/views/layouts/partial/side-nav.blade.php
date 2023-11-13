@@ -31,7 +31,17 @@
 
             <li class="sidebar-item {{ request()->routeIs('student.viewrequest') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('student.viewrequest') }}">
-                    <i class="align-middle" data-feather="eye"></i> <span class="align-middle">View Requests</span>
+                    <i class="align-middle" data-feather="eye"></i> 
+                    <span class="align-middle">View Requests</span>
+                    @php
+						$currentUser = auth()->user();
+						$approvedRequestsCount = \App\Models\RequestModel::where('stud_name', $currentUser->name)
+							->where('status', 'Approved')
+							->count();
+					@endphp
+					@if($approvedRequestsCount > 0)
+						<span class="indicator bg-danger rounded-circle">{{ $approvedRequestsCount }}</span>
+					@endif
                 </a>
             </li>
             

@@ -55,5 +55,5 @@
     <p class="text-danger"><em>*Requirements should be in one (1) file only, either in .docx or .pdf format. It must include your <strong>request letter</strong>, <strong>photocopy of your guardian's ID with guardian's signature below</strong>, <strong>proof of your excuse (e.g. Medical Certificate)</strong>, and your <strong>exam permit</strong>.</em></p>
     <p class="text-danger" id="additionalNote"><em>*For those <strong>subject conflict</strong> as reason, you can only submit your <strong>exam permit</strong>.</em></p>
     <br>
-    <input type="submit" class="btn btn-warning btn-lg form-control" onclick="return confirm('Do you confirm to send this request?')" id="sendRequest" value="Submit Request">
+    <input type="submit" class="btn btn-warning btn-lg form-control" id="sendRequest" value="Submit Request">
 </form>

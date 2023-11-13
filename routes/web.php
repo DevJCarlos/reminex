@@ -69,7 +69,7 @@ Route::group(['middleware' => ['auth', 'role:teacher']], function(){
     Route::get('/faculty/createdNewsched', [App\Http\Controllers\RequestController::class, 'showfacultyNewSched'])->name('faculty.createdNewsched');
     Route::get('/faculty/studspecial', [App\Http\Controllers\RequestController::class, 'showRequest3'])->name('faculty.studspecial');
 
-    // Route::get('/check-schedule-exists', [\App\Http\Controllers\RequestController::class, 'checkScheduleExists'])->name('check_schedule_exists');
+
     // Add this route to your web.php file
     Route::get('/check-schedule-exists', [\App\Http\Controllers\RequestController::class, 'checkScheduleExists']);
 
@@ -161,8 +161,9 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::post('/reject_request/{id}', [\App\Http\Controllers\RequestController::class, 'rejectRequest'])->name('reject_request');
     Route::get('/requests/download/{filePaths}', [\App\Http\Controllers\RequestController::class, 'requestDownload'])->name('request.download');
     Route::get('adminArchiveRequest', [App\Http\Controllers\RequestController::class, 'adminRequestArchive'])->name('adminArchiveRequest');
-    // Route::delete('requests/{requestdata}', [\App\Http\Controllers\RequestController::class, 'destroyRequest'])->name('request.destroy');
-    Route::delete('/requests/{id}', [\App\Http\Controllers\RequestController::class, 'destroyRequest'])->name('requests.destroy');
+
+    // Route::delete('/requests/{id}', [\App\Http\Controllers\RequestController::class, 'destroyRequest'])->name('requests.destroy');
+    // Route::delete('/requests/destroy-all', [App\Http\Controllers\RequestController::class, 'destroyAllRequests'])->name('requests.destroyAll');
 
     //Request Notification
     Route::post('/markAsRead/{notificationId}', [\App\Http\Controllers\RequestController::class, 'markAsRead'])->name('markAsRead');

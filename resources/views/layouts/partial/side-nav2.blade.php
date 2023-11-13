@@ -21,11 +21,22 @@
 
 			<li class="sidebar-header">Request</li>
 
-				<li class="sidebar-item {{ request()->routeIs('faculty.managerequest') ? 'active' : '' }}">
-					<a class="sidebar-link" href="{{ route('faculty.managerequest') }}">
-						<i class="align-middle" data-feather="edit-3"></i> <span class="align-middle">Manage Reschedules</span>
-					</a>
-				</li>
+			<li class="sidebar-item {{ request()->routeIs('faculty.managerequest') ? 'active' : '' }}">
+				<a class="sidebar-link" href="{{ route('faculty.managerequest') }}">
+					<i class="align-middle" data-feather="edit-3"></i>
+					<span class="align-middle">Manage Reschedules</span>
+					@php
+						$currentUser = auth()->user();
+						$approvedRequestsCount = \App\Models\RequestModel::where('instructor', $currentUser->name)
+							->where('request_type', 'Reschedule Request')
+							->whereIn('status', ['Approved'])
+							->count();
+					@endphp
+					@if($approvedRequestsCount > 0)
+						<span class="indicator bg-danger rounded-circle">{{ $approvedRequestsCount }}</span>
+					@endif
+				</a>
+			</li>
 				
 				<li class="sidebar-item {{ request()->routeIs('faculty.studspecial') ? 'active' : '' }}">
 					<a class="sidebar-link" href="{{ route('faculty.studspecial') }}">

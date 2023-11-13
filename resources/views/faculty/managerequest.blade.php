@@ -70,7 +70,7 @@
                                 <div class="col-12 col-lg-1">
 								<!-- <a href="{{ route('newsched_created', $requestrecord2->id) }}" class="btn btn-warning" style="font-size:10px">Notify Student</a><br><br> -->
                                 <!-- <a href="{{ route('newsched_created', $requestrecord2->id) }}" class="btn btn-warning" style="font-size:10px" onclick="notifyStudent({{ $requestrecord2->id }}, '{{ $requestrecord2->subject }}', '{{ $requestrecord2->stud_name }}')">Notify Student</a><br><br> -->
-                                <button id="notifyStudentButton" class="btn btn-warning" style="font-size:10px" onclick="notifyStudent({{ $requestrecord2->id }}, '{{ $requestrecord2->subject }}', '{{ $requestrecord2->stud_name }}')">Notify Student</button><br><br>
+                                <button id="notifyStudentButton" class="btn btn-warning" style="font-size:10px" onclick="notifyStudent({{ $requestrecord2->id }}, '{{ $requestrecord2->subject }}', '{{ $requestrecord2->stud_name }}')">Finish</button><br><br>
 
                                 </div>
                             </div>

@@ -48,7 +48,7 @@
                                         <td>{{ $requestrecord5->request_type }}</td>
                                         <td>{{ $requestrecord5->subject }}</td>
                                         <td>{{ $requestrecord5->instructor }}</td>
-                                        <td>
+                                        <td class="text-warning">
                                             <span class="tool" data-tip="{{ $requestrecord5->reason }}" tabindex="1">Reason</span>
                                         </td>
                                         <td>{{ $requestrecord5->time_avail1}} - {{ $requestrecord5->time_avail2}}</td>
@@ -69,23 +69,15 @@
                                         </td>
                                         <td>
                                         @if($requestrecord5->status === "Approved")
-                                            <span class="tool" data-tip="{{ $requestrecord5->remarks }}" tabindex="1">Remarks</span>
+                                            <span class="tool text-warning" data-tip="{{ $requestrecord5->remarks }}" tabindex="1">Remarks</span>
                                         @endif
                                         @if($requestrecord5->status === "Rejected")
-                                            <span class="tool" data-tip="{{ $requestrecord5->remarks }}" tabindex="1">Remarks</span>   
+                                            <span class="tool text-warning" data-tip="{{ $requestrecord5->remarks }}" tabindex="1">Remarks</span>   
                                         @endif
                                         @if($requestrecord5->status === "New Schedule Created")
-                                            <span class="tool" data-tip="Completed!" tabindex="1">Remarks</span>
+                                            <span class="tool text-warning" data-tip="Completed!" tabindex="1">Remarks</span>
                                         @endif
                                         </td>
-
-                                        <!-- <td> 
-                                            <form method="POST" action="{{ route('requests.destroy', $requestrecord5->id) }}" style="display: inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this request history?')">Delete</button>
-                                            </form>
-                                        </td>  -->
                                     </tr>
                             @endif
                             @endif
