@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use League\Csv\Reader;
 use Illuminate\Support\Str;
+use App\Models\RequestSubject;
+use App\Models\RequestCourse;
 
 class HomeController extends Controller
 {
@@ -40,7 +42,12 @@ class HomeController extends Controller
         return view('home', compact('user'));
     }
 
-    
+    public function requestSubjects()
+    {
+        $request_subs = RequestSubject::all();
+        return view('requestSubjects.reSubjects', compact('request_subs'));
+    }
+
     public function saveData(Request $request)
 {
     $request->validate([

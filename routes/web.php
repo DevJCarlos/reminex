@@ -69,6 +69,11 @@ Route::group(['middleware' => ['auth', 'role:teacher']], function(){
     Route::get('/faculty/createdNewsched', [App\Http\Controllers\RequestController::class, 'showfacultyNewSched'])->name('faculty.createdNewsched');
     Route::get('/faculty/studspecial', [App\Http\Controllers\RequestController::class, 'showRequest3'])->name('faculty.studspecial');
 
+    // Route::get('/check-schedule-exists', [\App\Http\Controllers\RequestController::class, 'checkScheduleExists'])->name('check_schedule_exists');
+    // Add this route to your web.php file
+    Route::get('/check-schedule-exists', [\App\Http\Controllers\RequestController::class, 'checkScheduleExists']);
+
+
     //Request Notification
     Route::post('/teachermarkAsRead/{notificationId}', [\App\Http\Controllers\RequestController::class, 'teachermarkAsRead'])->name('teachermarkAsRead');
     
@@ -85,6 +90,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     //registration
     Route::post('createadmin',  [\App\Http\Controllers\Auth\RegisterController::class, 'createAdmin'])->name('createadmin');
     Route::delete('users/{user}', [\App\Http\Controllers\Auth\RegisterController::class, 'destroy'])->name('users.destroy');
+    
 
     //Users module
     Route::get('admin-users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
@@ -161,6 +167,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     //Request Notification
     Route::post('/markAsRead/{notificationId}', [\App\Http\Controllers\RequestController::class, 'markAsRead'])->name('markAsRead');
 
-
+    //import csv for subjects to request
+    Route::get('/requestSubjects/reSubjects', [\App\Http\Controllers\HomeController::class, 'requestSubjects'])->name('requestSubjects.reSbjects');
+    Route::post('/import-csv', [\App\Http\Controllers\RequestController::class, 'importCSV']);
 
 });

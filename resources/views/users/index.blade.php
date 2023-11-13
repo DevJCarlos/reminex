@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
@@ -60,8 +61,19 @@
                                         <option>BSA Department</option>
                                         <option>BSBA Department</option>
                                         <option>GE</option>
-                                        <option>SHS</option>
                                     </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="acourse" class="col-sm-3 text-end control-label col-form-label">Course</label>
+                                    <div class="col-sm-9">
+                                        <select class="select2 form-select shadow-none" style="width: 100%; height: 36px" name="course" required>          
+                                            <option disabled selected>Select Course...</option>
+                                                @foreach ($requestcourses as $requestcourse)
+                                                    <option value="{{ $requestcourse->course_name }}">{{ $requestcourse->course_name }}</option>
+                                                @endforeach
+                                        </select>
                                     </div>
                                 </div>
 
@@ -159,6 +171,7 @@
                                                 <th>Email</th>
                                                 <th>Password</th>
                                                 <th>Role</th>
+                                                <th>Course</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -171,6 +184,7 @@
                                                 <td>{{ $user->email }}</td>   
                                                 <td>{{ $user->password }}</td>  
                                                 <td>{{ $user->role }}</td> 
+                                                <td>{{ $user->course }}</td> 
                                                 <td>
 
                                                 <button class="btn btn-success btn-sm">Edit</button>

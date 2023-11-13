@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\RequestCourse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -38,12 +39,13 @@ class RegisterController extends Controller
     public function createAdmin(Request $data)
     {
         // Check if any of the fields are null
-        if ($data->name && $data->department && $data->username && $data->email && $data->role && $data->password) {
+        if ($data->name && $data->department && $data->username && $data->course && $data->email && $data->role && $data->password) {
             // All fields are not null, create the user
             $user = User::create([
                 'name' => $data->name,
                 'department' => $data->department,
                 'username' => $data->username,
+                'course' => $data->course,
                 'email' => $data->email,
                 'role' => $data->role,
                 'password' => Hash::make($data->password),

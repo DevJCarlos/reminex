@@ -1,11 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Audiowide);
 
-span {
-   color: rgb(226, 176, 58);
-   font-family: monospace;
-   white-space: nowrap;
-}
-
 span:after {
    font-family: Arial, sans-serif;
    text-align: left;

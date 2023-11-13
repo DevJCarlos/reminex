@@ -15,16 +15,13 @@
     </select>
 
     <label for="request"><strong>Subject to Take: </strong></label><br>
-    <select class="form-select mb-3" name="subject" required>
+    <select class="form-select mb-3" name="subject" id="subject" required>
         <option disabled selected>Select Subject...</option>
-        <option value="ITSM">ITSM</option>
-        <option value="Programming Languages">Programming Languages</option>
-        <option value="Info Assurance and Security">Info Assurance and Security</option>
-        <option value="Mobile Systems and Technology">Mobile Systems and Technology</option>
-        <option value="Game Development">Game Development</option>
-        <option value="Professional Issues">Professional Issues</option>
-        <option value="PE">PE</option>
-        <option value="Euthenics">Euthenics</option>
+        @foreach ($subjectrecs as $subjectrec)
+            @if($subjectrec->re_courses === "BSIT" || $subjectrec->re_courses === "GE")
+                <option value="{{ $subjectrec->re_subjects }}" style="color: black;">{{ $subjectrec->subjects }}</option>
+            @endif
+        @endforeach
     </select>
 
     <label for="request"><strong>Instructor: </strong></label>
@@ -35,7 +32,9 @@
         @endphp
         @foreach($sortedUserRecords as $userrecord)
         @if($userrecord->role === "teacher" || $userrecord->role === "admin")
+        @if($userrecord->department === auth()->user()->department )
         <option value="{{$userrecord->name}}">{{ $userrecord->name }}</option>
+        @endif
         @endif
         @endforeach
     </select>

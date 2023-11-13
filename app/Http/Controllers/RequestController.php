@@ -13,14 +13,30 @@ use Illuminate\Validation\Rule;
 use App\Notifications\requestNotification;
 use App\Notifications\newschedNotification;
 use Illuminate\Support\Facades\Notification;
+use App\Models\RequestSubject;
 
 
 class RequestController extends Controller
 {
 
-    //creating student request
+    //import csv for subjects data
+    public function importCSV(Request $request)
+    {
+        $file = $request->file('csv_file');
+        $csvData = array_map('str_getcsv', file($file));
 
-    // ...
+        foreach ($csvData as $row) {
+            RequestSubject::create([
+                're_courses' => $row[0],
+                're_subjects' => $row[1],
+                // Add more columns as needed
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'CSV data imported successfully.');
+    }
+
+    //creating student reques
 
     public function storeRequest(Request $request)
     {
@@ -113,7 +129,8 @@ class RequestController extends Controller
     public function createRequest()
     {
         $userrecords = User::all();
-        return view('student.createrequest', ['userrecords' => $userrecords]);
+        $subjectrecs = RequestSubject::all();
+        return view('student.createrequest', compact('userrecords', 'subjectrecs'));
     }
 
     public function destroyRequest($id)
@@ -287,7 +304,7 @@ class RequestController extends Controller
 
         // If an existing schedule is found, return custom error message
         if ($existingSchedule) {
-            return redirect(route('faculty.managerequest'))->with('error', 'You already have created a new schedule in this request!');
+            return redirect(route('faculty.managerequest'))->with('error', 'You already have created a new schedule for this request!');
         }
 
         // Validation rules
@@ -299,7 +316,7 @@ class RequestController extends Controller
                 Rule::unique('new_schedule')->where(function ($query) use ($request) {
                     return $query->where('subject2', $request->subject2)
                         ->where('request_type2', $request->request_type2)
-                        ->where('instructor2', auth()->user()->name);
+                        ->where('instructor2', $request->instructor2);
                 }),
             ],
             'instructor2' => 'required',
@@ -334,7 +351,6 @@ class RequestController extends Controller
 
         // Redirect with success message
         return redirect(route('faculty.managerequest'))->with('success', 'New Schedule Made Successfully!');
-        
     }
 
     //showing faculty the new sched created
@@ -386,5 +402,19 @@ class RequestController extends Controller
 
         return redirect()->route('faculty.managerequest'); // Change the route accordingly
     }
+
+    public function checkScheduleExists(Request $request)
+    {
+        $subject = $request->input('subject2'); // Updated to match the input name in your form
+        $studentName = $request->input('stud_name2');
+
+        $exists = NewSched::where('subject2', $subject)
+                        ->where('stud_name2', $studentName)
+                        ->exists();
+
+        return response()->json(['exists' => $exists]);
+    }
+
+
     
 }

@@ -44,7 +44,7 @@
                 @auth
                     @if(auth()->user()->notifications->isNotEmpty())
                         <div class="dropdown-menu-header">
-                            {{ auth()->user()->notifications->count() }} Notifications
+                            {{ auth()->user()->unreadNotifications->count() }} Unread Notifications
                         </div>
                             <div class="notification-container" style="max-height: 500px; overflow-y: auto;">
                             <div class="list-group">

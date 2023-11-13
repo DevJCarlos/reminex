@@ -65,10 +65,13 @@
                                             <input type="submit" class="btn btn-primary btn-lg form-control" onclick="toggleSendButton(); return confirm('Are you sure to create this new schedule?')" value="Create New Schedule"><br><br>
 
                                         </div>
-                                    </form><br>
+                                    </form>
                                 </div>
                                 <div class="col-12 col-lg-1">
-								<a href="{{ route('newsched_created', $requestrecord2->id) }}" onclick="if(!window.confirm('Do you confirm to notify student?')) return false;" class="btn btn-warning">Notify Student</a><br>
+								<!-- <a href="{{ route('newsched_created', $requestrecord2->id) }}" class="btn btn-warning" style="font-size:10px">Notify Student</a><br><br> -->
+                                <!-- <a href="{{ route('newsched_created', $requestrecord2->id) }}" class="btn btn-warning" style="font-size:10px" onclick="notifyStudent({{ $requestrecord2->id }}, '{{ $requestrecord2->subject }}', '{{ $requestrecord2->stud_name }}')">Notify Student</a><br><br> -->
+                                <button id="notifyStudentButton" class="btn btn-warning" style="font-size:10px" onclick="notifyStudent({{ $requestrecord2->id }}, '{{ $requestrecord2->subject }}', '{{ $requestrecord2->stud_name }}')">Notify Student</button><br><br>
+
                                 </div>
                             </div>
                             @endif
@@ -106,7 +109,32 @@
 <!-- collapsible -->
 <script src="{{asset('import/js/collapse.js')}}"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
+<script>
+    function notifyStudent(requestId, subject, studName) {
+        // Perform an AJAX request to check if a schedule exists for the given subject and student
+        $.ajax({
+            type: 'GET',
+            url: '/check-schedule-exists',
+            data: {
+                subject2: subject, // Updated to match the input name in your form
+                stud_name2: studName,
+            },
+            success: function (response) {
+                if (response.exists) {
+                    // If a schedule exists, dynamically set the button click behavior
+                    $('#notifyStudentButton').attr('onclick', 'window.location.href=\'{{ route("newsched_created", ":id") }}\'.replace(":id", ' + requestId + ')');
+                    $('#notifyStudentButton').click();
+                } else {
+                    // If no schedule exists, show a message to the user
+                    alert('You need to create a new schedule first.');
+                }
+            },
+            error: function (error) {
+                console.error('Error checking schedule:', error);
+            }
+        });
+    }
+</script>
 
 
 @endsection

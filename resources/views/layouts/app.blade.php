@@ -184,7 +184,7 @@
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right scrollable-menu">
                         @auth
                             @if(auth()->user()->notifications->isNotEmpty())
-                                <span class="dropdown-item dropdown-header">{{ auth()->user()->notifications->count() }} Notifications</span>
+                                <span class="dropdown-item dropdown-header">{{ auth()->user()->unreadNotifications->count() }} Unread Notifications</span>
                                 <div>
                                     @foreach (auth()->user()->notifications as $notification)
                                         @if (isset($notification->data['request_id'], $notification->data['request_type']))
