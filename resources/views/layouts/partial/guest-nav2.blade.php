@@ -35,53 +35,55 @@
                 <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
                     <div class="position-relative">
                         <i class="align-middle" data-feather="bell"></i>
-                        <span class="indicator">4</span>
+                        @if(auth()->user()->unreadNotifications->isNotEmpty())
+                            <span class="indicator">{{ auth()->user()->unreadNotifications->count() }}</span>
+                        @endif
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
-                    <div class="dropdown-menu-header">
-                        4 New Notifications
-                    </div>
-                    <div class="list-group">
-                        <a href="#" class="list-group-item">
-                            <div class="row g-0 align-items-center">
-                                <div class="col-2">
-                                    <i class="text-warning" data-feather="bell"></i>
-                                </div>
-                                <div class="col-10">
-                                    <div class="text-dark">Lorem ipsum</div>
-                                    <div class="text-muted small mt-1">Aliquam ex eros, imperdiet vulputate hendrerit et.</div>
-                                    <div class="text-muted small mt-1">2h ago</div>
-                                </div>
+                @auth
+                    @if(auth()->user()->notifications->isNotEmpty())
+                        <div class="dropdown-menu-header">
+                            {{ auth()->user()->unreadNotifications->count() }} Unread Notifications
+                        </div>
+                            <div class="notification-container" style="max-height: 500px; overflow-y: auto;">
+                            <div class="list-group">
+                                @foreach (auth()->user()->notifications as $notification)
+                                    @if (isset($notification->data['request_id'], $notification->data['request_type']))
+                                        @php
+                                            $newsched = App\Models\NewSched::find($notification->data['request_id']);
+                                        @endphp
+                                        <a href="{{ route('faculty.managerequest') }}" class="list-group-item dropdown-item @if(!$notification->read_at) bg-primary @endif" onclick="event.preventDefault(); document.getElementById('mark-as-read3-{{ $notification->id }}').submit();">
+                                            <div class="row g-0 align-items-center">
+                                                <div class="col-2">
+                                                    <i class="text-warning" data-feather="bell"></i>
+                                                </div>
+                                                <div class="col-10">
+                                                    <div> New {{ $notification->data['request_type'] }}!</div>
+                                                    <div class="float-left small mt-1">{{ $notification->data['stud_name'] }}: {{ $notification->data['subject'] }}</div>
+                                                    <div class="float-right small mt-1">{{ $notification->created_at->diffForHumans() }}</div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <form id="mark-as-read3-{{ $notification->id }}" action="{{ route('teachermarkAsRead', ['notificationId' => $notification->id]) }}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
+
+                                        @if(!$notification->read_at)
+                                            <!-- Add your unread styling or indicator here -->
+                                        @endif
+                                    @endif
+                                @endforeach
                             </div>
-                        </a>
-                        <a href="#" class="list-group-item">
-                            <div class="row g-0 align-items-center">
-                                <div class="col-2">
-                                    <i class="text-primary" data-feather="home"></i>
-                                </div>
-                                <div class="col-10">
-                                    <div class="text-dark">Login from 192.186.1.8</div>
-                                    <div class="text-muted small mt-1">5h ago</div>
-                                </div>
                             </div>
-                        </a>
-                        <a href="#" class="list-group-item">
-                            <div class="row g-0 align-items-center">
-                                <div class="col-2">
-                                    <i class="text-success" data-feather="user-plus"></i>
-                                </div>
-                                <div class="col-10">
-                                    <div class="text-dark">New connection</div>
-                                    <div class="text-muted small mt-1">Christina accepted your request.</div>
-                                    <div class="text-muted small mt-1">14h ago</div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="dropdown-menu-footer">
-                        <a href="#" class="text-muted">Show all notifications</a>
-                    </div>
+                @else
+                    <span class="dropdown-item dropdown-header">No notifications yet.</span>
+                @endif
+                @else
+                    <span class="dropdown-item dropdown-header">Please log in to view notifications.</span>
+                @endauth
+                </div>
+
                 </div>
             </li>
             
@@ -94,10 +96,10 @@
                     <span class="text-dark">{{ Auth::user()->name }}</span>
                 </a>
                     <div class="dropdown-menu dropdown-menu-end">
-                        <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i>Change Profile Image</a>
+                        <!-- <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i>Change Profile Image</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('faculty.changepass') }}"><i class="align-middle me-1" data-feather="user"></i> Change Password</a>
-								<div class="dropdown-divider"></div>
+								<div class="dropdown-divider"></div> -->
                         <a class="dropdown-item" href="{{ route('faculty.aboutus') }}"><i class="align-middle me-1" data-feather="info"></i> About Us</a>
 								<div class="dropdown-divider"></div>
                     {{-- <a class="dropdown-item" href="{{ route('logout') }}">Log out</a> --}}

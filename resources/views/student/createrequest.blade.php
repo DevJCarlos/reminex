@@ -1,6 +1,7 @@
 @extends('layouts.guest')
 
 @section('content')
+
 	<div class="main">
 		<main class="content">
 			<div class="container-fluid p-0">
@@ -41,6 +42,8 @@
 <script src="{{asset('import/js/app.js')}}"></script>
 <script src="{{asset('import/js/fileInput.js')}}"></script>
 <script src="{{asset('import/js/requesttype.js')}}"></script>
+<script src="{{asset('import/js/requesttypevalidation.js')}}"></script>
+
 
 </body>
 @endsection

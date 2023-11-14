@@ -17,6 +17,7 @@
 									class="table table-striped table-bordered">
                                         <thead>
                                         <tr>
+                                            <th>Date</th>
                                             <th>Request Type</th>
                                             <th>Subject</th>
                                             <th>Instructor</th>
@@ -30,6 +31,7 @@
                                         @foreach($requestrecords4 as $requestrecord4)
                                         @if ($requestrecord4->stud_name2 === auth()->user()->name)
                                             <tr>
+                                                <td class="table-secondary">{{ $requestrecord4->created_at }}</td>
                                                 <td class="table-secondary">{{ $requestrecord4->request_type2 }}</td>
                                                 <td class="table-warning">{{ $requestrecord4->subject2 }}</td>
                                                 <td class="table-warning">{{ $requestrecord4->instructor2 }}</td>

@@ -2,7 +2,7 @@
     <div class="sidebar-content js-simplebar">
         <a class="sidebar-brand" href="{{ route('student.index') }}">
             <span class="align-middle">
-                <img src="{{asset('import/img/photos/loginlogo2.png')}}" alt="Company Name" width="200"></span>
+                <img src="{{asset('import/img/photos/loginlogo21.png')}}" alt="Company Name" width="200"></span>
         </a>
 
         <ul class="sidebar-nav">
@@ -31,7 +31,17 @@
 
             <li class="sidebar-item {{ request()->routeIs('student.viewrequest') ? 'active' : '' }}">
                 <a class="sidebar-link" href="{{ route('student.viewrequest') }}">
-                    <i class="align-middle" data-feather="eye"></i> <span class="align-middle">View Requests</span>
+                    <i class="align-middle" data-feather="eye"></i> 
+                    <span class="align-middle">View Requests</span>
+                    @php
+						$currentUser = auth()->user();
+						$approvedRequestsCount = \App\Models\RequestModel::where('stud_name', $currentUser->name)
+							->where('status', 'Approved')
+							->count();
+					@endphp
+					@if($approvedRequestsCount > 0)
+						<span class="indicator bg-danger rounded-circle">{{ $approvedRequestsCount }}</span>
+					@endif
                 </a>
             </li>
             

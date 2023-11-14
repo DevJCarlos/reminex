@@ -48,8 +48,8 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
     Route::get('/student/viewrequest/{filePaths}', [\App\Http\Controllers\RequestController::class, 'requestDownload2'])->name('request.download2');
     Route::get('/layouts/partial/guest-nav', [App\Http\Controllers\RequestController::class, 'studentschedNotif'])->name('layouts.partial.guest-nav');
 
-    // about us
-    // Route::get('/bout-us', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
+    //Request Notification
+    Route::post('/studentmarkAsRead/{notificationId}', [\App\Http\Controllers\RequestController::class, 'studentmarkAsRead'])->name('studentmarkAsRead');
 });
 
 
@@ -58,7 +58,6 @@ Route::group(['middleware' => ['auth', 'role:teacher']], function(){
     Route::get('/faculty', [App\Http\Controllers\TeacherController::class, 'index'])->name('faculty.index');
     Route::get('/faculty/examsched', [App\Http\Controllers\TeacherController::class, 'show'])->name('faculty.show');
     // Route::get('/faculty/managerequest', [App\Http\Controllers\TeacherController::class, 'manageRequest'])->name('faculty.managerequest');
-    Route::get('/faculty/requestarchive', [App\Http\Controllers\TeacherController::class, 'requestArchive'])->name('faculty.requestarchive');
     Route::get('/faculty/aboutus', [App\Http\Controllers\TeacherController::class, 'aboutUs'])->name('faculty.aboutus');
     Route::get('/faculty/changepass', [App\Http\Controllers\TeacherController::class, 'changePass'])->name('faculty.changepass');
     // Route::get('changeprofilePic', [App\Http\Controllers\TeacherController::class, 'changeprofilePic'])->name('profilepic.update');
@@ -68,6 +67,15 @@ Route::group(['middleware' => ['auth', 'role:teacher']], function(){
     Route::post('/faculty/managerequest', [App\Http\Controllers\RequestController::class, 'storeSched'])->name('sched.store');
     Route::get('/newsched_created/{id}', [\App\Http\Controllers\RequestController::class, 'newschedCreated'])->name('newsched_created');
     Route::get('/faculty/createdNewsched', [App\Http\Controllers\RequestController::class, 'showfacultyNewSched'])->name('faculty.createdNewsched');
+    Route::get('/faculty/studspecial', [App\Http\Controllers\RequestController::class, 'showRequest3'])->name('faculty.studspecial');
+
+
+    // Add this route to your web.php file
+    Route::get('/check-schedule-exists', [\App\Http\Controllers\RequestController::class, 'checkScheduleExists']);
+
+
+    //Request Notification
+    Route::post('/teachermarkAsRead/{notificationId}', [\App\Http\Controllers\RequestController::class, 'teachermarkAsRead'])->name('teachermarkAsRead');
     
 });
 
@@ -82,6 +90,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     //registration
     Route::post('createadmin',  [\App\Http\Controllers\Auth\RegisterController::class, 'createAdmin'])->name('createadmin');
     Route::delete('users/{user}', [\App\Http\Controllers\Auth\RegisterController::class, 'destroy'])->name('users.destroy');
+    
 
     //Users module
     Route::get('admin-users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
@@ -154,8 +163,15 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::post('/reject_request/{id}', [\App\Http\Controllers\RequestController::class, 'rejectRequest'])->name('reject_request');
     Route::get('/requests/download/{filePaths}', [\App\Http\Controllers\RequestController::class, 'requestDownload'])->name('request.download');
     Route::get('adminArchiveRequest', [App\Http\Controllers\RequestController::class, 'adminRequestArchive'])->name('adminArchiveRequest');
-    // Route::delete('requests/{requestdata}', [\App\Http\Controllers\RequestController::class, 'destroyRequest'])->name('request.destroy');
-    Route::delete('/requests/{id}', [\App\Http\Controllers\RequestController::class, 'destroyRequest'])->name('requests.destroy');
 
+    // Route::delete('/requests/{id}', [\App\Http\Controllers\RequestController::class, 'destroyRequest'])->name('requests.destroy');
+    // Route::delete('/requests/destroy-all', [App\Http\Controllers\RequestController::class, 'destroyAllRequests'])->name('requests.destroyAll');
+
+    //Request Notification
+    Route::post('/markAsRead/{notificationId}', [\App\Http\Controllers\RequestController::class, 'markAsRead'])->name('markAsRead');
+
+    //import csv for subjects to request
+    Route::get('/requestSubjects/reSubjects', [\App\Http\Controllers\HomeController::class, 'requestSubjects'])->name('requestSubjects.reSbjects');
+    Route::post('/import-csv', [\App\Http\Controllers\RequestController::class, 'importCSV']);
 
 });

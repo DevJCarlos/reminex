@@ -16,44 +16,6 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
-            <h1 class="h3 mb-3">Contact</h1>
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="card">
-                        <div class="card-body">
-								<div class="card-header">
-									<h5 class="card-title mb-0"><strong>Update Contact</strong></h5>
-								</div><br>
-                                <form action="#">
-                                    @csrf
-                                    <label for="updateContact"><strong>Email:</strong></label><br>
-                                        <input type="email" placeholder="Input Here"><br><br>
-                                    <label for="updateContact"><strong>Telephone Number:</strong></label><br>
-                                        <input type="text" placeholder="Input Here"><br><br>
-                                    <label for="updateContact"><strong>Location:</strong></label><br>
-                                        <input type="text" placeholder="Input Here"><br><br>
-
-                                    <input type="submit" value="Update">
-                                </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card">
-                        <div class="card-body">
-								<div class="card-header">
-									<h5 class="card-title mb-0"><strong>Current Contact</strong></h5>
-								</div><br>
-                                    <h5 class="card-title mb-0"><strong>Email:</strong></h5>
-							            <p>sti.gensan@gmail.com</p><br>
-							        <h5 class="card-title mb-0"><strong>Call:</strong></h5>
-							            <p>(083) 554 3038</p><br>
-							        <h5 class="card-title mb-0"><strong>Location:</strong></h5>
-							            <p>J. Catolico Avenue, General Santos City, 9500</p><br><br><br><br>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
@@ -65,6 +27,23 @@
 										resource utilization. </h5>
 						</div>
 					</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+								<div class="card-header">
+									<h5 class="card-title mb-0"><strong>Contact Us</strong></h5>
+								</div><br>
+                                    <h5 class="card-title mb-0"><strong>Email:</strong></h5>
+							            <p>sti.gensan@gmail.com</p><br>
+							        <h5 class="card-title mb-0"><strong>Call:</strong></h5>
+							            <p>(083) 554 3038</p><br>
+							        <h5 class="card-title mb-0"><strong>Location:</strong></h5>
+							            <p>J. Catolico Avenue, General Santos City, 9500</p><br><br><br><br>
+                        </div>
+                    </div>
                 </div>
             </div>
             <h1 class="h3 mb-3">Capstone Project Members</h1>

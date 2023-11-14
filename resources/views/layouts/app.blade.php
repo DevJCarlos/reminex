@@ -6,6 +6,11 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" class="rel">
 
+      <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('import/datatablesandplugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('import/datatablesandplugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('import/datatablesandplugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+
     <link href="{{asset('import/css/collapse.css')}}" rel="stylesheet">
     
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
@@ -130,7 +135,13 @@
             border: 1px solid #ddd;
         }
 
-   
+        .scrollable-menu {
+            height: auto;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+
     </style>
 
     <meta charset="utf-8">
@@ -151,9 +162,6 @@
 
     
  
-    
-
-
 
 </head>
 
@@ -164,8 +172,7 @@
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
-                            class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
             </ul>
 
@@ -174,17 +181,48 @@
                 <!-- Notifications Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-bell"></i>
-                    <span class="badge badge-danger navbar-badge"></span>
+                        <i class="far fa-bell"></i>
+                        @if(auth()->user()->unreadNotifications->isNotEmpty())
+                            <span class="badge badge-danger navbar-badge">{{ auth()->user()->unreadNotifications->count() }}</span>
+                        @endif
                     </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item dropdown-header">1 Notifications</span>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fas fa-envelope mr-2"></i> New Request! <br>
-                        <span class="float-right text-muted text-sm">Reschedule Request: Capstone 1</span><br>
-                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right scrollable-menu">
+                        @auth
+                            @if(auth()->user()->notifications->isNotEmpty())
+                                <span class="dropdown-item dropdown-header">{{ auth()->user()->unreadNotifications->count() }} Unread Notifications</span>
+                                <div>
+                                    @foreach (auth()->user()->notifications as $notification)
+                                        @if (isset($notification->data['request_id'], $notification->data['request_type']))
+                                            @php
+                                                $request = App\Models\RequestModel::find($notification->data['request_id']);
+                                            @endphp
+                                            @if ($request)
+                                                <div class="dropdown-divider"></div>
+                                                <a href="{{ route('requests') }}" class="dropdown-item @if(!$notification->read_at) bg-secondary @endif" onclick="event.preventDefault(); document.getElementById('mark-as-read-{{ $notification->id }}').submit();">
+                                                    <i class="fas fa-envelope mr-2"></i> New {{ $notification->data['request_type'] }}!<br>
+                                                    <p class="float-left text-sm">{{ $notification->data['stud_name'] }}: {{ $notification->data['subject'] }}</p>
+                                                    <p class="float-right text-sm">{{ $notification->created_at->diffForHumans() }}</p><br>
+                                                </a>
+                                                <form id="mark-as-read-{{ $notification->id }}" action="{{ route('markAsRead', ['notificationId' => $notification->id]) }}" method="POST" style="display: none;">
+                                                    @csrf
+                                                </form>
+
+                                                @if(!$notification->read_at)
+                                                    <!-- Add your unread styling or indicator here -->
+                                                @endif
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                </div>
+                            @else
+                                <span class="dropdown-item dropdown-header">No notifications yet.</span>
+                            @endif
+                        @else
+                            <span class="dropdown-item dropdown-header">Please log in to view notifications.</span>
+                        @endauth
+                    </div>
                 </li>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
                         {{ Auth::user()->name }}
@@ -211,6 +249,37 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <!-- DataTables  & Plugins -->
+        <script src="{{ asset('import/datatablesandplugins/datatables/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('import/datatablesandplugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('import/datatablesandplugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('import/datatablesandplugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('import/datatablesandplugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+        <script src="{{ asset('import/datatablesandplugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('import/datatablesandplugins/jszip/jszip.min.js') }}"></script>
+        <script src="{{ asset('import/datatablesandplugins/pdfmake/pdfmake.min.js') }}"></script>
+        <script src="{{ asset('import/datatablesandplugins/pdfmake/vfs_fonts.js') }}"></script>
+        <script src="{{ asset('import/datatablesandplugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+        <script src="{{ asset('import/datatablesandplugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+        <script src="{{ asset('import/datatablesandplugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+        <script>
+        $(function () {
+            $("#example1").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            });
+        });
+        </script>
 
 
         <!-- Modal

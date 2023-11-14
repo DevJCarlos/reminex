@@ -5,7 +5,7 @@
     <main class="content">
         <div class="container-fluid p-0">
 
-            <h1 class="h3 mb-3">Manage<strong> New Schedule</strong></h1>
+            <h1 class="h3 mb-3">Manage<strong> Reschedules</strong></h1>
 
             <div class="row">
                 <div class="col-12 col-lg-8">
@@ -15,7 +15,7 @@
                             @foreach($requestrecords2 as $requestrecord2)
                             @if($requestrecord2->instructor == auth()->user()->name)
                             @if($requestrecord2->request_type === "Reschedule Request")
-                            @if ($requestrecord2->status === "Approved")
+                            @if ($requestrecord2->status === "Approved" || $requestrecord2->status === null)
 
                             <div class="row">
                                 <div class="col-12 col-lg-10">
@@ -24,19 +24,19 @@
                                         @method('post')
                                         <button type="button" class="collapsible">
                                             <div class="row">
-                                                <div class="col-9">{{ $requestrecord2->stud_name }}</div>
-                                                <div class="col-3"><span class="badge bg-secondary"></span>{{ $requestrecord2->created_at }}</div>
+                                                <div class="col-6">{{ $requestrecord2->stud_name }}</div>
+                                                <div class="col-3">
+                                                    @if($requestrecord2->status === null)
+                                                    <p class="badge badge-warning" style="font-size:15px">Pending</p>
+                                                    @endif
+                                                    @if($requestrecord2->status === "Approved")
+                                                    <p class="badge badge-success" style="font-size:15px"> {{ $requestrecord2->status }}</p>
+                                                    @endif
+                                                </div>
+                                                <div class="col-3">{{ $requestrecord2->created_at }}</div>
                                             </div>
                                         </button>
                                         <div class="content2"><br>
-                                            <label for="request"><strong>Status: &nbsp;</strong></label>
-
-                                            @if($requestrecord2->status === "Approved")
-                                            <label for="request" class="badge badge-success"> {{ $requestrecord2->status }}</label><br>
-                                            @endif
-                                            @if($requestrecord2->status === "Rejected")
-                                            <label for="request" class="badge badge-danger"> {{ $requestrecord2->status }}</label><br>
-                                            @endif
 
                                             <label for="request"><strong>Time Availability: &nbsp;</strong></label><label for="request"> {{ $requestrecord2->time_avail1}} - {{ $requestrecord2->time_avail2}}</label><br>
                                             <label for="request"><strong>Name: &nbsp;</strong></label><br>
@@ -68,7 +68,10 @@
                                     </form>
                                 </div>
                                 <div class="col-12 col-lg-1">
-								<a href="{{ route('newsched_created', $requestrecord2->id) }}" onclick="if(!window.confirm('Send this new schedule?')) return false;" class="btn btn-warning">Send to Student</a><br>
+								<!-- <a href="{{ route('newsched_created', $requestrecord2->id) }}" class="btn btn-warning" style="font-size:10px">Notify Student</a><br><br> -->
+                                <!-- <a href="{{ route('newsched_created', $requestrecord2->id) }}" class="btn btn-warning" style="font-size:10px" onclick="notifyStudent({{ $requestrecord2->id }}, '{{ $requestrecord2->subject }}', '{{ $requestrecord2->stud_name }}')">Notify Student</a><br><br> -->
+                                <button id="notifyStudentButton" class="btn btn-warning" style="font-size:10px" onclick="notifyStudent({{ $requestrecord2->id }}, '{{ $requestrecord2->subject }}', '{{ $requestrecord2->stud_name }}')">Finish</button><br><br>
+
                                 </div>
                             </div>
                             @endif
@@ -106,7 +109,32 @@
 <!-- collapsible -->
 <script src="{{asset('import/js/collapse.js')}}"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
+<script>
+    function notifyStudent(requestId, subject, studName) {
+        // Perform an AJAX request to check if a schedule exists for the given subject and student
+        $.ajax({
+            type: 'GET',
+            url: '/check-schedule-exists',
+            data: {
+                subject2: subject, // Updated to match the input name in your form
+                stud_name2: studName,
+            },
+            success: function (response) {
+                if (response.exists) {
+                    // If a schedule exists, dynamically set the button click behavior
+                    $('#notifyStudentButton').attr('onclick', 'window.location.href=\'{{ route("newsched_created", ":id") }}\'.replace(":id", ' + requestId + ')');
+                    $('#notifyStudentButton').click();
+                } else {
+                    // If no schedule exists, show a message to the user
+                    alert('You need to create a new schedule first.');
+                }
+            },
+            error: function (error) {
+                console.error('Error checking schedule:', error);
+            }
+        });
+    }
+</script>
 
 
 @endsection

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,5 +26,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
+
+        // Carbon customization
+        Carbon::serializeUsing(function ($carbon) {
+            return $carbon->format('Y-m-d h:i:s A');
+        });
     }
 }

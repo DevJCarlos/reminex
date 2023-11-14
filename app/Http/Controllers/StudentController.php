@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\NewSched;
 
 class StudentController extends Controller
 {
     public function index(){
-        return view('student.index');
+        $user = User::find(1);
+        return view('student.index', compact('user'));
     }
 
     public function show(){

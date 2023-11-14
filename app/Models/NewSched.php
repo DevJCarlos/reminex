@@ -20,5 +20,6 @@ class NewSched extends Model
         'exam_time',
         'exam_time2',
         'room',
+        'request_id',
     ];
 }

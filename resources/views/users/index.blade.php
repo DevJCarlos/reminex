@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
@@ -54,15 +55,25 @@
                                     <select class="select2 form-select shadow-none" style="width: 100%; height: 36px" name="department" required>          
                                         <option disabled selected>Select Department...</option>
                                         <option>Academic Head</option> 
-                                        <option>ICT Department</option>    
-                                        <option>CS/BMMA</option>      
+                                        <option>ICT Department</option>  
                                         <option>Hospitality Management</option>
                                         <option>Tourism Management</option>
                                         <option>BSA Department</option>
                                         <option>BSBA Department</option>
                                         <option>GE</option>
-                                        <option>SHS</option>
                                     </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="acourse" class="col-sm-3 text-end control-label col-form-label">Course</label>
+                                    <div class="col-sm-9">
+                                        <select class="select2 form-select shadow-none" style="width: 100%; height: 36px" name="course" required>          
+                                            <option disabled selected>Select Course...</option>
+                                                @foreach ($requestcourses as $requestcourse)
+                                                    <option value="{{ $requestcourse->course_name }}">{{ $requestcourse->course_name }}</option>
+                                                @endforeach
+                                        </select>
                                     </div>
                                 </div>
 
@@ -142,60 +153,66 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <div class="card-body text-danger">
-
-                        <div class="alert alert-info">
-                            Users Datatable
-                        </div>
-
-                            <div class="card">
-                                <div class="table-responsive">
-
-                                    <table id="example" class="table table-striped" style="width:100%">
-                                        <thead>
-                                        <tr>
-                                                <th>ID Number</th>
-                                                <th>Name</th>
-                                                <th>Department</th>
-                                                <th>Email</th>
-                                                <th>Password</th>
-                                                <th>Role</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($users as $user)
-                                            <tr>
-                                                <td>{{ $user->username }}</td>
-                                                <td>{{ $user->name }}</td>  
-                                                <td>{{ $user->department }}</td>  
-                                                <td>{{ $user->email }}</td>   
-                                                <td>{{ $user->password }}</td>  
-                                                <td>{{ $user->role }}</td> 
-                                                <td>
-
-                                                <button class="btn btn-success btn-sm">Edit</button>
-                                                       
-                                                    <form method="POST" action="{{ route('users.destroy', $user->id) }}" style="display: inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
-                                                    </form>
-                                                </td> 
-                                            </tr>
-                                        @endforeach    
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- /.card-body -->
-
-                                    <div class="card-footer clearfix">
-                                        {{ $users->links() }}
-                                    </div>
-                            </div>
-                        </div>
-                        </div>
+                    <div class="card-header">
+                        <h3 class="card-title">Users Datatable</h3>
                     </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID Number</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Email</th>
+                                <th>Password</th>
+                                <th>Role</th>
+                                <th>Course</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($users as $user)
+                            <tr>
+                                <td>{{ $user->username }}</td>
+                                <td>{{ $user->name }}</td>  
+                                <td>{{ $user->department }}</td>  
+                                <td>{{ $user->email }}</td>   
+                                <td>{{ $user->password }}</td>  
+                                <td>{{ $user->role }}</td> 
+                                <td>{{ $user->course }}</td> 
+                                <td>
+
+                                    <button class="btn btn-success btn-sm">Edit</button>
+                                                            
+                                    <form method="POST" action="{{ route('users.destroy', $user->id) }}" style="display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+                                    </form>
+                                </td> 
+                            </tr>
+                        @endforeach 
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>ID Number</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Email</th>
+                                <th>Password</th>
+                                <th>Role</th>
+                                <th>Course</th>
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>
+                        </table>
+                    </div>
+                    </div>
+                    <!-- /.card-body -->
+                    </div>
+                </div>
             </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -227,4 +244,5 @@
         </div>
     </div>  
     <!-- /.content -->
+
 @endsection
