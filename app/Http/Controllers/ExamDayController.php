@@ -47,6 +47,43 @@ class ExamDayController extends Controller
         $examDays = ExamDay::all();
         return view('exams.index', compact('examDays'));
     }
+
+    public function deleteExamDay(Request $request)
+    {
+        $period = $request->input('period');
+        $day = $request->input('day');
+        // dd($period );
+
+        if ($period === 'Prelims') {
+            $period = 1;
+        }
+        elseif ($period === 'Midterms') {
+            $period = 2;
+        }
+        elseif ($period === 'Pre-Finals') {
+            $period = 3;
+        }
+        elseif ($period === 'Finals') {
+            $period = 4;
+        }
+        
+        
+        $examDay = ExamDay::where('exam_period_ID', $period)
+                        ->where('day_num', $day)
+                        ->get();
+
+        
+        if ($examDay->isNotEmpty()) {
+            
+            ExamDay::where('exam_period_ID', $period)
+                ->where('day_num', $day)
+                ->delete();
+
+            return response()->json(['message' => 'Exam day deleted successfully']);
+        } else {
+            return response()->json(['message' => 'No matching exam day found']);
+        }
+    }
     
 
     
