@@ -54,7 +54,12 @@
                                                     </div>
                                                   </div>
                                                 </td>
-
+                                                @endif
+                                                @endif
+                                                @if($requestrecord3->status === "Completed")
+                                                @if($requestrecord3->request_type === "Special Exam Request")
+                                                <td><h5 class="badge badge-success">{{ $requestrecord3->status }}</h5></td>
+                                                <td class="text-success">Completed!</td>
                                                 @endif
                                                 @endif
                                                 @if($requestrecord3->status === "Rejected")

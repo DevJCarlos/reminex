@@ -185,12 +185,7 @@
                                 <td>
 
                                     <button class="btn btn-success btn-sm">Edit</button>
-                                                            
-                                    <form method="POST" action="{{ route('users.destroy', $user->id) }}" style="display: inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
-                                    </form>
+                                    
                                 </td> 
                             </tr>
                         @endforeach 

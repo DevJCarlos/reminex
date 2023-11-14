@@ -41,7 +41,7 @@
                         <tbody>
                             @foreach($requestrecords5 as $requestrecord5)
                             @if($requestrecord5->department === auth()->user()->department)
-                            @if($requestrecord5->status === "Approved" || $requestrecord5->status === "Rejected" || $requestrecord5->status === "New Schedule Created")
+                            @if($requestrecord5->status === "Approved" || $requestrecord5->status === "Rejected" || $requestrecord5->status === "New Schedule Created" || $requestrecord5->status === "Completed")
                                     <tr>
                                         <td>{{ $requestrecord5->created_at }}</td>
                                         <td>{{ $requestrecord5->stud_name }}</td>
@@ -66,6 +66,9 @@
                                         @if($requestrecord5->status === "New Schedule Created")
                                             <h5 class="badge badge-warning">{{ $requestrecord5->status }}</h5>
                                         @endif
+                                        @if($requestrecord5->status === "Completed")
+                                            <h5 class="badge badge-warning">{{ $requestrecord5->status }}</h5>
+                                        @endif
                                         </td>
                                         <td>
                                         @if($requestrecord5->status === "Approved")
@@ -75,6 +78,9 @@
                                             <span class="tool text-warning" data-tip="{{ $requestrecord5->remarks }}" tabindex="1">Remarks</span>   
                                         @endif
                                         @if($requestrecord5->status === "New Schedule Created")
+                                            <span class="tool text-warning" data-tip="Completed!" tabindex="1">Remarks</span>
+                                        @endif
+                                        @if($requestrecord5->status === "Completed")
                                             <span class="tool text-warning" data-tip="Completed!" tabindex="1">Remarks</span>
                                         @endif
                                         </td>

@@ -21,6 +21,7 @@
                                             <th>Subject</th>
                                             <th>Instructor</th>
                                             <th>Status</th>
+                                            <th>Action</th>
                                         </tr>
                                         </thead>
 
@@ -40,6 +41,14 @@
                                                 @if($requestrecord21->status === "Approved")
                                                 <td><h5 class="badge badge-success">{{ $requestrecord21->status }}</h5></td>
                                                 @endif
+                                                @if($requestrecord21->status === "Completed")
+                                                <td><h5 class="badge badge-success">{{ $requestrecord21->status }}</h5></td>
+                                                @endif
+                                                <td>
+                                                  <a href="{{ route('finish_request', $requestrecord21->id) }}">
+                                                    <input type="submit" class="btn btn-outline-success" onclick="return confirm('Special exam request will be completed. Proceed?')" value="Finish">
+                                                  </a>
+                                                </td>
                                             </tr> 
                                             @endif
                                             @endif
