@@ -62,18 +62,18 @@ class RegisterController extends Controller
     }
     
     
-    public function destroy(Request $request, $id)
-    {
-        $user = User::find($id);
+    // public function destroy(Request $request, $id)
+    // {
+    //     $user = User::find($id);
 
-        if (!$user) {
-            return redirect()->route('users.index')->with('error', 'User not found!');
-        }
+    //     if (!$user) {
+    //         return redirect()->route('users.index')->with('error', 'User not found!');
+    //     }
 
-        $user->delete();
+    //     $user->delete();
 
-        return redirect()->route('users.index')->with('success', 'User successfully deleted!');
-    }
+    //     return redirect()->route('users.index')->with('success', 'User successfully deleted!');
+    // }
 
 
 }

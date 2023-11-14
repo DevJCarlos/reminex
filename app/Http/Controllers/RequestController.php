@@ -156,23 +156,23 @@ class RequestController extends Controller
         return view('student.createrequest', compact('userrecords', 'subjectrecs'));
     }
 
-    public function destroyRequest($id)
-    {
-        // Find the request by ID
-        $request = RequestModel::find($id);
+    // public function destroyRequest($id)
+    // {
+    //     // Find the request by ID
+    //     $request = RequestModel::find($id);
 
-        if (!$request) {
-            return redirect(route('adminArchiveRequest'))->with('error', 'Request not found!');
-        }
+    //     if (!$request) {
+    //         return redirect(route('adminArchiveRequest'))->with('error', 'Request not found!');
+    //     }
 
-        // Delete the file from storage
-        Storage::delete('uploads/' . $request->file_path);
+    //     // Delete the file from storage
+    //     Storage::delete('uploads/' . $request->file_path);
 
-        // Delete the request from the database
-        $request->delete();
+    //     // Delete the request from the database
+    //     $request->delete();
 
-        return redirect(route('adminArchiveRequest'))->with('success', 'Request deleted successfully!');
-    }
+    //     return redirect(route('adminArchiveRequest'))->with('success', 'Request deleted successfully!');
+    // }
     
     //showing request to assigned admin for approval *FirstCome-FirstServed basis*
     public function showRequest()
@@ -193,7 +193,7 @@ class RequestController extends Controller
 
     public function showRequest3()
     {
-        $requestrecords21 = RequestModel::all();
+        $requestrecords21 = RequestModel::orderBy('created_at', 'desc')->get();
 
         return view('faculty.studspecial', compact('requestrecords21'));
     }
