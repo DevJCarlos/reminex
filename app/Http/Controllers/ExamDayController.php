@@ -79,7 +79,7 @@ class ExamDayController extends Controller
                 ->where('day_num', $day)
                 ->delete();
 
-            return response()->json(['message' => 'Exam day deleted successfully']);
+            return response()->json(['message' => 'deleted successfully']);
         } else {
             return response()->json(['message' => 'No matching exam day found']);
         }

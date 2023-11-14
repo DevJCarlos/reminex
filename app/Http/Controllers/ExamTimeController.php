@@ -47,14 +47,6 @@ class ExamTimeController extends Controller
         $day = $request->day;
 
 
-        
-
-        // $examTimes1 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
-        // ->join('exam_days', 'exam_times.exam_day_ID', '=', 'exam_days.id')
-        // ->where('exam_times.exam_period_ID', 1)
-        // ->where('exam_days.day_num', 1)
-        // ->get();
-        //prelim days
         $Prelim1 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
         ->whereHas('examDay', function ($query) {
             $query->where('day_num', 1);

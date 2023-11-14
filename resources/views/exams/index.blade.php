@@ -74,7 +74,7 @@
                     
                     </table>
                     <br>
-                    <button type="submit" class="btn btn-success" style="width: 150px;">Release To Students</button>
+                    <button type="button" class="btn btn-success" style="width: 150px;" onclick="saveFormData()">Release Schedule</button>
                     <button type="button" class="btn btn-danger" onclick="deleteExamDay();">Delete Exam Day</button>
                     
                 </div>
@@ -426,9 +426,9 @@
 
     function deleteExamDay() {
             
-            var period = document.getElementById('dropdown1').value;
-            var day = document.getElementById('dropdown2').value;
-            var confirmDelete = confirm('Are you sure you want to delete this Exam Schedule?');
+        var period = document.getElementById('dropdown1').value;
+        var day = document.getElementById('dropdown2').value;
+        var confirmDelete = confirm('Are you sure you want to delete this Exam Schedule?');
 
 
         if (confirmDelete) {
@@ -459,6 +459,40 @@
             });
         }
     }
+    function saveFormData() {
+        
+        var period = document.getElementById('dropdown1').value;
+        var day = document.getElementById('dropdown2').value;
+
+        
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            });
+
+        $.ajax({
+            method: 'POST',
+            url: '/saveExamData', 
+            data: { period: period, day: day },
+            dataType: 'json',
+            success: function(response) {
+                if (response.message === 'Data saved successfully') {
+                    window.alert('Schedule Release Successfully');
+                    location.reload();
+                } else if (response.message === 'Error: No data ID') { 
+                    window.alert('Error, There is no Schedule Created'); 
+                    location.reload();
+                }
+            },
+            error: function(error) {
+                console.error('Error Saving The Exam:', error);
+                    
+            }
+        });
+    }
+    
    
 
 </script>

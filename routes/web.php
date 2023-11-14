@@ -50,6 +50,10 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
 
     //Request Notification
     Route::post('/studentmarkAsRead/{notificationId}', [\App\Http\Controllers\RequestController::class, 'studentmarkAsRead'])->name('studentmarkAsRead');
+
+    //ExamRequest
+    Route::post('/pull-exam-sched', [\App\Http\Controllers\ExamUserController::class, 'pullExam'])->name('pullExam');
+
 });
 
 
@@ -125,12 +129,9 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::post('/exam-times', [\App\Http\Controllers\ExamTimeController::class, 'saveExamTimes'])->name('examtimes.save');
     Route::get('/exam', [\App\Http\Controllers\ExamTimeController::class, 'index'])->name('exams.index');
 
-
     //fetch
     Route::post('/exam/fetch', [\App\Http\Controllers\ExamTimeController::class, 'fetch'])->name('exams.fetch');
     
-
-
     //ExamRooms
     Route::post('/exam-rooms', [\App\Http\Controllers\ExamRoomController::class, 'saveExamRooms'])->name('examrooms.save');
     Route::post('/update-examroom', [\App\Http\Controllers\ExamRoomController::class, 'updateRoom'])->name('update.room');
@@ -146,6 +147,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::post('/add-room', [\App\Http\Controllers\RoomController::class, 'addRoom']);
     Route::post('/delete-room', [\App\Http\Controllers\RoomController::class, 'deleteRoom']);
     Route::post('/update-room', [\App\Http\Controllers\RoomController::class, 'updateRoom']);
+    //ExamUser
+    Route::post('/saveExamData', [\App\Http\Controllers\ExamUserController::class, 'saveExamData'])->name('saveExamData');
 
 
 
