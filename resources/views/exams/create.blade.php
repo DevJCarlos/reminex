@@ -466,7 +466,7 @@
 
             if (!allRoomsUsed) {
                 alert('Some subjects could not be inserted due to insufficient rooms in all time slots or there is no time Selected.');
-                window.location.reload();
+                // window.location.reload();
             }
             //console.log('Generated Exam Schedule:', examSchedule);
             

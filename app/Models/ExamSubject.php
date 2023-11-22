@@ -40,11 +40,13 @@ class ExamSubject extends Model
         return $this->belongsTo(ExamDay::class, 'exam_day_ID', 'id');
     }
 
-    // Assuming there's a foreign key relationship with ExamUser
+    
     public function examUsers()
     {
         return $this->hasMany(ExamUser::class, 'exam_subject_ID', 'id');
     }
+    
+    
    
 
 

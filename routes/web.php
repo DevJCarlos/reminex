@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 
 
 /*
@@ -51,8 +53,7 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
     //Request Notification
     Route::post('/studentmarkAsRead/{notificationId}', [\App\Http\Controllers\RequestController::class, 'studentmarkAsRead'])->name('studentmarkAsRead');
 
-    //ExamRequest
-    Route::post('/pull-exam-sched', [\App\Http\Controllers\ExamUserController::class, 'pullExam'])->name('pullExam');
+   
 
 });
 
@@ -82,6 +83,12 @@ Route::group(['middleware' => ['auth', 'role:teacher']], function(){
 
     //Request Notification
     Route::post('/teachermarkAsRead/{notificationId}', [\App\Http\Controllers\RequestController::class, 'teachermarkAsRead'])->name('teachermarkAsRead');
+
+    //ExamRequest
+    Route::post('/pull-exam-sched', [\App\Http\Controllers\ExamUserController::class, 'pullExam'])->name('pullExam');
+    //proctor selection
+    Route::post('/select-proctor', [\App\Http\Controllers\ExamUserController::class, 'select'])->name('select.exam');
+    Route::post('/exam-sections/update', [\App\Http\Controllers\ExamUserController::class, 'update'])->name('exam-sections.update');
     
 });
 

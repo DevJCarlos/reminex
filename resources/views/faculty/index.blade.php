@@ -87,15 +87,11 @@
 											</tbody>
 										
 										</table>
-										<br>
-								
-										
-									</div>
-									
+										<br>					
+									</div>	
 								</div> 
 							</div>
 						</div>
-
 					</div>
 				</main>
 			</div>
@@ -120,12 +116,12 @@
         headers: {
             'X-CSRF-TOKEN': csrfToken
         },
-        success: function(response) {
-            
-        },
-        error: function(error) {
-            console.error(error);
-        }
+    success: function(response) {
+        console.log(response); // Log the response to the console
+    },
+    error: function(error) {
+        console.error(error);
+    }
     });
 }
 

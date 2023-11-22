@@ -80,9 +80,9 @@ class ExamSectionController extends Controller
                         'exam_day_ID' => $latestExamDayID,
                         'exam_period_ID' => $latestExamPeriodID,
                         'section_name' => $sectionName,
-                        'class_num' => $classnumArray[$index], // Include class number
-                        'instructor' => $InstructorArray[$index], // Include instructor
-                        'class_count' => $classcountArray[$index] // Include class count
+                        'class_num' => $classnumArray[$index], 
+                        'instructor' => $InstructorArray[$index], 
+                        'class_count' => $classcountArray[$index] 
                     ]);
                     $latestExamSubject->examSections()->save($examSubject);
                 }
@@ -93,5 +93,6 @@ class ExamSectionController extends Controller
     
         
     }
+   
     
 }

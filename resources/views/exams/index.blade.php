@@ -329,7 +329,8 @@
                     
             if (Section_name.includes(',')) {
                 window.alert("Can't select an already merged Section");
-                location.reload();
+                // location.reload();
+                return;
             } else {
             SelectedRoom = [timeId,parseInt(editedRoomIDString,10),editedRoomNameString,parseInt(Subject_name,10),Section_name,Student_count];
             }
@@ -424,75 +425,8 @@
         editModal.hide();
     }
 
-    function deleteExamDay() {
-            
-        var period = document.getElementById('dropdown1').value;
-        var day = document.getElementById('dropdown2').value;
-        var confirmDelete = confirm('Are you sure you want to delete this Exam Schedule?');
-
-
-        if (confirmDelete) {
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                }
-            });
-
-            
-            $.ajax({
-                method: 'POST',
-                url: '/delete-exam-day', 
-                data: { period: period, day: day },
-                success: function(response) {
-                if (response.message === 'Exam day deleted successfully') {
-                        window.alert('Deleted Successfully'); 
-                    } else if (response.message === 'No matching exam day found') { 
-                    window.alert('No Data of ' + period + ' Day ' + day + ' in Database '); 
-                    location.reload();
-                }
-                },
-                error: function(error) {
-                    console.error('Error deleting exam day:', error);
-                    
-                }
-            });
-        }
-    }
-    function saveFormData() {
-        
-        var period = document.getElementById('dropdown1').value;
-        var day = document.getElementById('dropdown2').value;
-
-        
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                }
-            });
-
-        $.ajax({
-            method: 'POST',
-            url: '/saveExamData', 
-            data: { period: period, day: day },
-            dataType: 'json',
-            success: function(response) {
-                if (response.message === 'Data saved successfully') {
-                    window.alert('Schedule Release Successfully');
-                    location.reload();
-                } else if (response.message === 'Error: No data ID') { 
-                    window.alert('Error, There is no Schedule Created'); 
-                    location.reload();
-                }
-            },
-            error: function(error) {
-                console.error('Error Saving The Exam:', error);
-                    
-            }
-        });
-    }
     
+   
    
 
 </script>

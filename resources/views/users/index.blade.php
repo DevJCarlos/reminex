@@ -70,6 +70,9 @@
                                     <div class="col-sm-9">
                                         <select class="select2 form-select shadow-none" style="width: 100%; height: 36px" name="course" required>          
                                             <option disabled selected>Select Course...</option>
+                                            <option>BSIT</option> 
+                                            <option>BSCS</option> 
+                                            <option>BSBA</option> 
                                                 @foreach ($requestcourses as $requestcourse)
                                                     <option value="{{ $requestcourse->course_name }}">{{ $requestcourse->course_name }}</option>
                                                 @endforeach

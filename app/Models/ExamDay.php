@@ -41,12 +41,18 @@ class ExamDay extends Model
     //for users
     public function examSubject()
     {
-        return $this->belongsTo(ExamSubject::class, 'exam_subject_ID', 'id');
+        return $this->hasMany(ExamSubject::class, 'exam_day_ID', 'id');
     }
-
-    
     public function examUsers()
     {
         return $this->hasMany(ExamUser::class, 'exam_day_ID', 'id');
+    }
+    public function userexamTime()
+    {
+        return $this->hasMany(ExamTime::class, 'exam_day_ID', 'id');
+    }
+    public function examSections()
+    {
+        return $this->hasMany(ExamSection::class, 'exam_day_ID', 'id');
     }
 }

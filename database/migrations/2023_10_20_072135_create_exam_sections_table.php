@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('class_num')->nullable()->default(null);
             $table->string('Instructor')->nullable()->default(null);
             $table->string('class_count')->nullable()->default(null);
+            $table->string('proctor_name')->nullable()->default(null);
             $table->timestamps();
 
             $table->foreign('exam_subject_ID')

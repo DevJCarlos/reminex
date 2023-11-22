@@ -27,6 +27,13 @@
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <style>
+        button.selected {
+    opacity: 0.5; /* Adjust the opacity value as needed */
+    pointer-events: none; /* Disable further clicks on the faded button */
+}
+
+    </style>
 
 </head>
 <body class="hold-transition">
