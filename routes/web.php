@@ -95,16 +95,19 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
     //registration
     Route::post('createadmin',  [\App\Http\Controllers\Auth\RegisterController::class, 'createAdmin'])->name('createadmin');
-    Route::delete('users/{user}', [\App\Http\Controllers\Auth\RegisterController::class, 'destroy'])->name('users.destroy');
+    Route::post('createfaculty',  [\App\Http\Controllers\Auth\RegisterController::class, 'createFaculty'])->name('createfaculty');
+    Route::post('createstudent',  [\App\Http\Controllers\Auth\RegisterController::class, 'createStudent'])->name('createstudent');
+    // Route::delete('users/{user}', [\App\Http\Controllers\Auth\RegisterController::class, 'destroy'])->name('users.destroy');
     
 
     //Users module
     Route::get('admin-users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
+    // Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
+    Route::get('faculty-users', [\App\Http\Controllers\UserController::class, 'indexFaculty'])->name('users.indexfaculty');
+    Route::get('student-users', [\App\Http\Controllers\UserController::class, 'indexStudent'])->name('users.indexstudent');
     Route::get('/register', function () {
         return view('auth.register');
     })->name('register');
-
-    Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
     
     //
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');

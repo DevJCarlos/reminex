@@ -32,7 +32,7 @@
         @endphp
         @foreach($sortedUserRecords as $userrecord)
         @if($userrecord->role === "teacher" || $userrecord->role === "admin")
-        @if($userrecord->department === auth()->user()->department )
+        @if($userrecord->department === auth()->user()->department || $userrecord->department === "GE")
         <option value="{{$userrecord->name}}">{{ $userrecord->name }}</option>
         @endif
         @endif

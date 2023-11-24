@@ -57,12 +57,12 @@ class RequestController extends Controller
 
         $requirement->storeAs('uploads', $requirementName);
 
-        // Check if a request with the same subject and request type already exists
-        $existingRequest = RequestModel::where('subject', $subject)
+       $existingRequest = RequestModel::where('subject', $subject)
             ->where('request_type', $requestType)
             ->where('stud_name', auth()->user()->name)
             ->where(function ($query) {
                 $query->where('status', 'Approved')
+                    ->orWhere('status', 'New Schedule Created')
                     ->orWhereNull('status');
             })
             ->first();

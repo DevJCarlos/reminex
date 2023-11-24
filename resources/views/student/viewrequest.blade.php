@@ -12,7 +12,7 @@
 							<div class="card">
 							  <div class="card-body text-danger">
 								<div class="table-responsive">
-								  <table id="zero_config" class="table table-striped table-bordered">
+								  <table id="zero_config" class="table table-striped table-bordered" style="overflow-y: scroll; max-height: 2000px;">
                                         <thead>
                                         <tr>
                                             <th>Date</th>

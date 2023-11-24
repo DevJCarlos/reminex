@@ -39,6 +39,54 @@ class RegisterController extends Controller
     public function createAdmin(Request $data)
     {
         // Check if any of the fields are null
+        if ($data->name && $data->department && $data->username && $data->email && $data->role && $data->password) {
+            // All fields are not null, create the user
+            $user = User::create([
+                'name' => $data->name,
+                'department' => $data->department,
+                'username' => $data->username,
+                'email' => $data->email,
+                'role' => $data->role,
+                'password' => Hash::make($data->password),
+            ]);
+    
+            $user->assignRole($data->role);
+            $user->save();
+    
+            return redirect()->route('users.index')->with('success', 'Successfully Registered!');
+        } else {
+            // Some fields are null, return an error message
+            return redirect()->back()->with('error', 'Please fill all the information.');
+        }
+    }
+
+    public function createFaculty(Request $data)
+    {
+        // Check if any of the fields are null
+        if ($data->name && $data->department && $data->username && $data->email && $data->role && $data->password) {
+            // All fields are not null, create the user
+            $user = User::create([
+                'name' => $data->name,
+                'department' => $data->department,
+                'username' => $data->username,
+                'email' => $data->email,
+                'role' => $data->role,
+                'password' => Hash::make($data->password),
+            ]);
+    
+            $user->assignRole($data->role);
+            $user->save();
+    
+            return redirect()->route('users.indexfaculty')->with('success', 'Successfully Registered!');
+        } else {
+            // Some fields are null, return an error message
+            return redirect()->back()->with('error', 'Please fill all the information.');
+        }
+    }
+
+    public function createStudent(Request $data)
+    {
+        // Check if any of the fields are null
         if ($data->name && $data->department && $data->username && $data->course && $data->email && $data->role && $data->password) {
             // All fields are not null, create the user
             $user = User::create([
@@ -54,7 +102,7 @@ class RegisterController extends Controller
             $user->assignRole($data->role);
             $user->save();
     
-            return redirect()->route('users.index')->with('success', 'Successfully Registered!');
+            return redirect()->route('users.indexstudent')->with('success', 'Successfully Registered!');
         } else {
             // Some fields are null, return an error message
             return redirect()->back()->with('error', 'Please fill all the information.');

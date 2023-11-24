@@ -24,7 +24,7 @@
 
 	<link href="{{asset('import/css/app.css')}}" rel="stylesheet">
     <link href="{{asset('import/css/collapse.css')}}" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet"> 
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -55,5 +55,16 @@
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('js/adminlte.min.js') }}" defer></script>
+<!-- Datatable -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css"> 
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#userTable').DataTable();
+    });
+</script>
+
 </body>
 </html>

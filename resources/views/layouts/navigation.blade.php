@@ -19,15 +19,51 @@
                     </p>
                 </a>
             </li>
-
+            <!--<li class="sidebar-item {{ request()->routeIs('student.index') ? 'active' : '' }}">-->
+            <!--    <a class="sidebar-link" href="{{ route('student.index') }}">-->
+            <!--        <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>-->
+            <!--    </a>-->
+            <!--</li>-->
+            
             <li class="nav-item">
-                <a href="{{ route('users.index') }}" class="nav-link">
-                    <i class="nav-icon fas fa-users"></i>
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fa-solid fa-users"></i>
                     <p>
-                        {{ __('Users') }}
+                        Users
+                        <i class="fas fa-angle-left right"></i>
                     </p>
                 </a>
+                <ul class="nav nav-treeview" style="display: none;">
+                    <li class="nav-item">
+                        <a href="{{ route('users.index') }}" class="nav-link">
+                            <i class="nav-icon far fa-address-card"></i>
+                            <p>Admins</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('users.indexfaculty') }}" class="nav-link">
+                            <i class="nav-icon far fa-address-card"></i>
+                            <p>Faculties</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('users.indexstudent') }}" class="nav-link">
+                            <i class="nav-icon far fa-address-card"></i>
+                            <p>Students</p>
+                        </a>
+                    </li>
+                   
+                </ul>
             </li>
+
+            <!--<li class="nav-item">-->
+            <!--    <a href="{{ route('users.index') }}" class="nav-link">-->
+            <!--        <i class="nav-icon fas fa-users"></i>-->
+            <!--        <p>-->
+            <!--            {{ __('Users') }}-->
+            <!--        </p>-->
+            <!--    </a>-->
+            <!--</li>-->
 
             <!-- <li class="nav-item">
                 <a href="{{ route('exams.room') }}" class="nav-link">
@@ -40,7 +76,7 @@
             
             <li class="nav-item">
                 <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-circle nav-icon"></i>
+                    <i class="nav-icon fa-regular fa-calendar"></i>
                     <p>
                         Exams
                         <i class="fas fa-angle-left right"></i>
@@ -49,13 +85,13 @@
                 <ul class="nav nav-treeview" style="display: none;">
                     <li class="nav-item">
                         <a href="{{ route('exams.index') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                            <i class="nav-icon fa-solid fa-calendar-days"></i>
                             <p>All Exams</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('exam.create') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                            <i class="nav-icon fa-regular fa-calendar-plus"></i>
                             <p>Create Exam</p>
                         </a>
                     </li>
@@ -64,7 +100,7 @@
 
             <li class="nav-item">
                 <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-circle nav-icon"></i>
+                    <i class="nav-icon fa-solid fa-exclamation"></i>
                     <p>
                         Requests
                         <i class="fas fa-angle-left right"></i>
@@ -73,13 +109,13 @@
                 <ul class="nav nav-treeview" style="display: none;">
                     <li class="nav-item">
                         <a href="{{ route('requests') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                            <i class="nav-icon fa-solid fa-file-import"></i>
                             <p>Pending Requests</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('adminArchiveRequest') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                            <i class="nav-icon fa-solid fa-clock-rotate-left"></i>
                             <p>Requests History</p>
                         </a>
                     </li>
@@ -88,7 +124,7 @@
 
             <li class="nav-item">
                 <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-circle nav-icon"></i>
+                    <i class="nav-icon fa-solid fa-sliders"></i>
                     <p>
                         Settings
                         <i class="fas fa-angle-left right"></i>
@@ -97,22 +133,22 @@
                 <ul class="nav nav-treeview" style="display: none;">
                     <li class="nav-item">
                         <a href="{{ route('exams.room') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                            <i class="nav-icon fa-solid fa-door-open"></i>
                             <p>Rooms</p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ route('requestSubjects.reSbjects') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Subjects</p>
-                        </a>
-                    </li>
+                    <!--<li class="nav-item">-->
+                    <!--    <a href="{{ route('requestSubjects.reSbjects') }}" class="nav-link">-->
+                    <!--        <i class="far fa-circle nav-icon"></i>-->
+                    <!--        <p>Subjects</p>-->
+                    <!--    </a>-->
+                    <!--</li>--> 
                 </ul>
             </li>
             
             <li class="nav-item">
                 <a href="{{ route('about') }}" class="nav-link">
-                    <i class="nav-icon far fa-address-card"></i>
+                    <i class="nav-icon fa-solid fa-circle-info"></i>
                     <p>
                         {{ __('About us') }}
                     </p>
