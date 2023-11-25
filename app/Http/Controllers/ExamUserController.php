@@ -9,6 +9,9 @@ use App\Models\ExamTime;
 use App\Models\ExamSection;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Storage;
+use League\Csv\Reader;
+use App\Models\User;
 
 class ExamUserController extends Controller
 {
@@ -41,39 +44,13 @@ class ExamUserController extends Controller
         $user = Auth::user();
     
         if ($user && $user->hasRole('teacher')) {
-            $period = $request->period;
-            $day = $request->day;
-    
            
-            if ($period === "Prelims" && $day === "1") {
-                // dd($day);
-                
-                $examUserData = ExamUser::where([
-                    'period_name' => $period,
-                    'day' => $day,
-                ])->with('examDay.examSubject:*', 'examDay.userexamTime:*', 'examDay.examSections:*')->get();
-                
-                
-                // dd($examUserData);
-            } 
-            
-    
-            return response()->json(['examUserData' => $examUserData]);
-        } else {
-            abort(403, 'Unauthorized');
-        }
-    }
-
-    public function select(Request $request){
-       
-        $user = Auth::user();
-    
-        if ($user && $user->hasRole('teacher')) {
             $period = $request->period;
             $day = $request->day;
             $userName = $user->name;
-    
-            $Prelim1 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+
+            
+            $Prelim1 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
             ->whereHas('examDay', function ($query){
                 $query->where('day_num', 1);
                 
@@ -81,35 +58,35 @@ class ExamUserController extends Controller
             ->where('exam_period_ID', 1)
             ->get();
 
-            $Prelim2 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+            $Prelim2 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
             ->whereHas('examDay', function ($query) {
                 $query->where('day_num', 2);
             })
             ->where('exam_period_ID', 1)
             ->get();
     
-            $Prelim3 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+            $Prelim3 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
             ->whereHas('examDay', function ($query) {
                 $query->where('day_num', 3);
             })
             ->where('exam_period_ID', 1)
             ->get();
             //midterm days
-            $Midterm1 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+            $Midterm1 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
             ->whereHas('examDay', function ($query) {
                 $query->where('day_num', 1);
             })
             ->where('exam_period_ID', 2)
             ->get();
     
-            $Midterm2 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+            $Midterm2 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
             ->whereHas('examDay', function ($query) {
                 $query->where('day_num', 2);
             })
             ->where('exam_period_ID', 2)
             ->get();
     
-            $Midterm3 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+            $Midterm3 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
             ->whereHas('examDay', function ($query) {
                 $query->where('day_num', 3);
             })
@@ -117,21 +94,21 @@ class ExamUserController extends Controller
             ->get();
     
             //prefi days
-            $Prefi1 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+            $Prefi1 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
             ->whereHas('examDay', function ($query) {
                 $query->where('day_num', 1);
             })
             ->where('exam_period_ID', 3)
             ->get();
     
-            $Prefi2 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+            $Prefi2 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
             ->whereHas('examDay', function ($query) {
                 $query->where('day_num', 2);
             })
             ->where('exam_period_ID', 3)
             ->get();
     
-            $Prefi3 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+            $Prefi3 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
             ->whereHas('examDay', function ($query) {
                 $query->where('day_num', 3);
             })
@@ -139,96 +116,410 @@ class ExamUserController extends Controller
             ->get();
     
             //finals daya
-            $Final1 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+            $Final1 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
             ->whereHas('examDay', function ($query) {
                 $query->where('day_num', 1);
             })
             ->where('exam_period_ID', 4)
             ->get();
     
-            $Final2 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+            $Final2 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
             ->whereHas('examDay', function ($query) {
                 $query->where('day_num', 2);
             })
             ->where('exam_period_ID', 4)
             ->get();
     
-            $Final3 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+            $Final3 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
             ->whereHas('examDay', function ($query) {
                 $query->where('day_num', 3);
             })
             ->where('exam_period_ID', 4)
             ->get();
         
-    
-            if ($period == ['Prelims']) {
-                if ($day == ['1']) {
+            
+            if ($period == 'Prelims') {
+                // dd($period);
+                if ($day == '1') {
                     // dd('tama and day 1');
-                    return response()->json(['examTimes' => $Prelim1]);
+                    return response()->json(['examTimes' => $Prelim1, 'userName' => $userName]);
                 }
-                elseif ($day == ['2']) {
+                elseif ($day == '2') {
                     // dd('tama and day 2');
-                    return response()->json(['examTimes' => $Prelim2]);
+                    return response()->json(['examTimes' => $Prelim2, 'userName' => $userName]);
                 }
-                elseif ($day == ['3']) {
+                elseif ($day == '3') {
                     // dd('tama and day 3');
-                    return response()->json(['examTimes' => $Prelim3 ]);
+                    return response()->json(['examTimes' => $Prelim3, 'userName' => $userName ]);
                 }
                 else{
                     dd('error');
                 }
             
-            }if ($period == ['Midterms']) {
-                if ($day == ['1']) {
+            }if ($period == 'Midterms') {
+                if ($day == '1') {
                     // dd('tama and day 1');
-                    return response()->json(['examTimes' => $Midterm1]);
+                    return response()->json(['examTimes' => $Midterm1, 'userName' => $userName]);
                 }
-                elseif ($day == ['2']) {
+                elseif ($day == '2') {
                     // dd('tama and day 2');
-                    return response()->json(['examTimes' => $Midterm2]);
+                    return response()->json(['examTimes' => $Midterm2, 'userName' => $userName]);
                 }
-                elseif ($day == ['3']) {
+                elseif ($day == '3') {
                     // dd('tama and day 3');
-                    return response()->json(['examTimes' => $Midterm3 ]);
+                    return response()->json(['examTimes' => $Midterm3, 'userName' => $userName ]);
                 }
                 else{
                     dd('error');
                 }
-            }if ($period == ['Pre-Finals']) {
-                if ($day == ['1']) {
+            }if ($period == 'Pre-Finals') {
+                if ($day == '1') {
                     // dd('tama and day 1');
-                    return response()->json(['examTimes' => $Prefi1]);
+                    return response()->json(['examTimes' => $Prefi1, 'userName' => $userName]);
                 }
-                elseif ($day == ['2']) {
+                elseif ($day == '2') {
                     // dd('tama and day 2');
-                    return response()->json(['examTimes' => $Prefi2]);
+                    return response()->json(['examTimes' => $Prefi2, 'userName' => $userName]);
                 }
-                elseif ($day == ['3']) {
+                elseif ($day == '3') {
                     // dd('tama and day 3');
-                    return response()->json(['examTimes' => $Prefi3 ]);
+                    return response()->json(['examTimes' => $Prefi3, 'userName' => $userName ]);
                 }
                 else{
                     dd('error');
                 }
     
-            }if ($period == ['Finals']) {
-                if ($day == ['1']) {
+            }if ($period == 'Finals') {
+                if ($day == '1') {
                     // dd('tama and day 1');
-                    return response()->json(['examTimes' => $Final1]);
+                    return response()->json(['examTimes' => $Final1, 'userName' => $userName]);
                 }
-                elseif ($day == ['2']) {
+                elseif ($day == '2') {
                     // dd('tama and day 2');
-                    return response()->json(['examTimes' => $Final2]);
+                    return response()->json(['examTimes' => $Final2, 'userName' => $userName]);
                 }
-                elseif ($day == ['3']) {
+                elseif ($day == '3') {
                     // dd('tama and day 3');
-                    return response()->json(['examTimes' => $Final3 ]);
+                    return response()->json(['examTimes' => $Final3 , 'userName' => $userName]);
                 }
                 else{
                     dd('error');
                 }
     
             }
+            // return response()->json(['examTimes' => $Prelim1, 'userName' => $userName]);
+        } 
+         else {
+            abort(403, 'Unauthorized');
+        }
+    }
+
+    public function select(Request $request){
+       
+        $user = Auth::user();
+
+    
+        $filesInListSection = Storage::files('public/listsection');
+        $procSubject = [];
+
+        
+        foreach ($filesInListSection as $filePath) {
+            
+            $csv = Reader::createFromPath(storage_path("app/{$filePath}"), 'r');
+            $records = $csv->getRecords();
+
+            foreach ($records as $record) {
+                
+                if ($record[25] == $user->name) {
+                    
+                    $subject = $record[4];
+
+                    
+                    if (!in_array($subject, array_column($procSubject, 'subject'))) {
+                        $procSubject[] = $subject;
+                    }
+                }
+            }
+        }
+        
+        $filesInUploads = Storage::files('public/uploads');
+        $MatrixPrelim = [];
+        foreach ($filesInUploads as $filePath) {
+            $csv = Reader::createFromPath(storage_path("app/{$filePath}"), 'r');
+            $records = $csv->getRecords();
+
+            foreach ($records as $record) {
+                
+                if ($record[4] === 'Written') {
+                    
+                    $MatrixPrelim[] = $record[3];
+                }
+                if ($record[5] === 'Written') {
+                    
+                    $MatrixMidterm[] = $record[3];
+                }
+                if ($record[6] === 'Written') {
+                    
+                    $MatrixPrefinal[] = $record[3];
+                }
+                if ($record[7] === 'Written') {
+                    
+                    $MatrixFinal[] = $record[3];
+                }
+            }
+        }
+        // dd($MatrixFinal);
+        
+        $commonValues1 = array_intersect($procSubject, $MatrixPrelim);
+        $subjectCounts1 = [];
+
+        foreach ($commonValues1 as $value) {
+        
+            if (!isset($subjectCounts1[$value])) {
+                $subjectCounts1[$value] = 1;
+            } else {
+            
+                $subjectCounts1[$value]++;
+            }
+        }
+        $commonValues2 = array_intersect($procSubject, $MatrixMidterm);
+        $subjectCounts2 = [];
+
+        foreach ($commonValues2 as $value) {
+        
+            if (!isset($subjectCounts2[$value])) {
+                $subjectCounts2[$value] = 1;
+            } else {
+            
+                $subjectCounts2[$value]++;
+            }
+        }
+        $commonValues3 = array_intersect($procSubject, $MatrixPrefinal);
+        $subjectCounts3 = [];
+
+        foreach ($commonValues3 as $value) {
+        
+            if (!isset($subjectCounts3[$value])) {
+                $subjectCounts3[$value] = 1;
+            } else {
+            
+                $subjectCounts3[$value]++;
+            }
+        }
+        $commonValues4 = array_intersect($procSubject, $MatrixFinal);
+        $subjectCounts4 = [];
+
+        foreach ($commonValues4 as $value) {
+        
+            if (!isset($subjectCounts4[$value])) {
+                $subjectCounts4[$value] = 1;
+            } else {
+            
+                $subjectCounts4[$value]++;
+            }
+        }
+
+
+        $PrelimCount = count($subjectCounts1);
+        $MidtermCount = count($subjectCounts1);
+        $PrefinalCount = count($subjectCounts1);
+        $FinalCount = count($subjectCounts1);
+        $userNameID = $user->id;
+        $userNamesubcounter = $user->subject_count;
+
+        if ($user && $user->hasRole('teacher')) {
+            $period = $request->period;
+            $day = $request->day;
+            $userName = $user->name;
+
+            
+            $Prelim1 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
+            ->whereHas('examDay', function ($query){
+                $query->where('day_num', 1);
+                
+            })
+            ->where('exam_period_ID', 1)
+            ->get();
+
+            $Prelim2 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
+            ->whereHas('examDay', function ($query) {
+                $query->where('day_num', 2);
+            })
+            ->where('exam_period_ID', 1)
+            ->get();
+    
+            $Prelim3 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
+            ->whereHas('examDay', function ($query) {
+                $query->where('day_num', 3);
+            })
+            ->where('exam_period_ID', 1)
+            ->get();
+            //midterm days
+            $Midterm1 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
+            ->whereHas('examDay', function ($query) {
+                $query->where('day_num', 1);
+            })
+            ->where('exam_period_ID', 2)
+            ->get();
+    
+            $Midterm2 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
+            ->whereHas('examDay', function ($query) {
+                $query->where('day_num', 2);
+            })
+            ->where('exam_period_ID', 2)
+            ->get();
+    
+            $Midterm3 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
+            ->whereHas('examDay', function ($query) {
+                $query->where('day_num', 3);
+            })
+            ->where('exam_period_ID', 2)
+            ->get();
+    
+            //prefi days
+            $Prefi1 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
+            ->whereHas('examDay', function ($query) {
+                $query->where('day_num', 1);
+            })
+            ->where('exam_period_ID', 3)
+            ->get();
+    
+            $Prefi2 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
+            ->whereHas('examDay', function ($query) {
+                $query->where('day_num', 2);
+            })
+            ->where('exam_period_ID', 3)
+            ->get();
+    
+            $Prefi3 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
+            ->whereHas('examDay', function ($query) {
+                $query->where('day_num', 3);
+            })
+            ->where('exam_period_ID', 3)
+            ->get();
+    
+            //finals daya
+            $Final1 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
+            ->whereHas('examDay', function ($query) {
+                $query->where('day_num', 1);
+            })
+            ->where('exam_period_ID', 4)
+            ->get();
+    
+            $Final2 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
+            ->whereHas('examDay', function ($query) {
+                $query->where('day_num', 2);
+            })
+            ->where('exam_period_ID', 4)
+            ->get();
+    
+            $Final3 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
+            ->whereHas('examDay', function ($query) {
+                $query->where('day_num', 3);
+            })
+            ->where('exam_period_ID', 4)
+            ->get();
+        
+            
+            if ($period == 'Prelims') {
+
+                $user = User::where('id', $userNameID)->first();
+                if ($user && $user->subject_count === null) {
+                    
+                    $user->subject_count = $PrelimCount;
+                    $user->save();
+                }
+                // dd($userNameID);
+                // dd($period);
+                if ($day == '1') {
+                    // dd('tama and day 1');
+                    return response()->json(['examTimes' => $Prelim1, 'userName' => $userName, 'subcount' => $userNamesubcounter]);
+                }
+                elseif ($day == '2') {
+                    // dd('tama and day 2');
+                    return response()->json(['examTimes' => $Prelim2, 'userName' => $userName, 'subcount' => $userNamesubcounter]);
+                }
+                elseif ($day == '3') {
+                    // dd('tama and day 3');
+                    return response()->json(['examTimes' => $Prelim3, 'userName' => $userName, 'subcount' => $userNamesubcounter ]);
+                }
+                else{
+                    dd('error');
+                }
+            
+            }if ($period == 'Midterms') {
+
+                $user = User::where('id', $userNameID)->first();
+                if ($user && $user->subject_count === null) {
+                    
+                    $user->subject_count = $MidtermCount;
+                    $user->save();
+                }
+                if ($day == '1') {
+                    // dd('tama and day 1');
+                    return response()->json(['examTimes' => $Midterm1, 'userName' => $userName, 'subcount' => $userNamesubcounter]);
+                }
+                elseif ($day == '2') {
+                    // dd('tama and day 2');
+                    return response()->json(['examTimes' => $Midterm2, 'userName' => $userName, 'subcount' => $userNamesubcounter]);
+                }
+                elseif ($day == '3') {
+                    // dd('tama and day 3');
+                    return response()->json(['examTimes' => $Midterm3, 'userName' => $userName , 'subcount' => $userNamesubcounter]);
+                }
+                else{
+                    dd('error');
+                }
+            }if ($period == 'Pre-Finals') {
+
+                $user = User::where('id', $userNameID)->first();
+                if ($user && $user->subject_count === null) {
+                    
+                    $user->subject_count = $PrefinalCount;
+                    $user->save();
+                }
+                if ($day == '1') {
+                    // dd('tama and day 1');
+                    return response()->json(['examTimes' => $Prefi1, 'userName' => $userName, 'subcount' => $userNamesubcounter]);
+                }
+                elseif ($day == '2') {
+                    // dd('tama and day 2');
+                    return response()->json(['examTimes' => $Prefi2, 'userName' => $userName, 'subcount' => $userNamesubcounter]);
+                }
+                elseif ($day == '3') {
+                    // dd('tama and day 3');
+                    return response()->json(['examTimes' => $Prefi3, 'userName' => $userName, 'subcount' => $userNamesubcounter ]);
+                }
+                else{
+                    dd('error');
+                }
+    
+            }if ($period == 'Finals') {
+
+                $user = User::where('id', $userNameID)->first();
+                if ($user && $user->subject_count === null) {
+                    
+                    $user->subject_count = $FinalCount;
+                    $user->save();
+                }
+                if ($day == '1') {
+                    // dd('tama and day 1');
+                    return response()->json(['examTimes' => $Final1, 'userName' => $userName, 'subcount' => $userNamesubcounter]);
+                }
+                elseif ($day == '2') {
+                    // dd('tama and day 2');
+                    return response()->json(['examTimes' => $Final2, 'userName' => $userName, 'subcount' => $userNamesubcounter]);
+                }
+                elseif ($day == '3') {
+                    // dd('tama and day 3');
+                    return response()->json(['examTimes' => $Final3 , 'userName' => $userName, 'subcount' => $userNamesubcounter]);
+                }
+                else{
+                    dd('error');
+                }
+    
+            }
+            // return response()->json(['examTimes' => $Prelim1, 'userName' => $userName]);
         } 
     }
     public function update(Request $request)
@@ -241,17 +532,73 @@ class ExamUserController extends Controller
         
         $secID = $request->secID;
         $userName = $user->name;
+        $userNameID = $user->id;
+        $selectionLeft = $request->selectSub;
         // dd($userName);
+        // dd($selectionLeft);
 
         
         ExamSection::where('id', $secID)->update([
             'proctor_name' => $userName,
             
         ]);
+        }
+        User::where('id', $userNameID)->update([
+            'subject_count' => $selectionLeft,
+
+        ]);
+
+        return response()->json(['success', 'Updated Successfully']);
+    }
+    public function deselect(Request $request)
+    {
+        $user = Auth::user();
+        // dd($user);
+        if ($user && $user->hasRole('teacher')) {
+
+
+        
+        $secID = $request->secID;
+        $userName = $user->name;
+        $userNameID = $user->id;
+        $selectnum = $request->subcount;
+        // dd($userName);
+        // dd($selectnum);
+
+        
+        ExamSection::where('id', $secID)->update([
+            'proctor_name' => null,
+            
+        ]);
+
+        User::where('id', $userNameID)->update([
+            'subject_count' => $selectnum,
+
+        ]);
         } 
 
         return response()->json(['success', 'Updated Successfully']);
     }
+
+    // public function getRealTimeData(Request $request)
+    // {
+    //     // Simulate a change in data
+    //     $newData = $this->generateNewData();
+
+    //     while (!$newData) {
+    //         usleep(1000000); // sleep for 1 second (adjust as needed)
+    //         clearstatcache(); // clear file status cache
+    //         $newData = $this->generateNewData();
+    //     }
+
+    //     return response()->json($newData);
+    // }
+
+    // private function generateNewData()
+    // {
+    //     // Your logic to check for new data
+    //     // Return new data if available, otherwise return false
+    // }
     
     
 }

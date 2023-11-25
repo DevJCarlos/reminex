@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('department')->nullable()->default(null);
+            $table->integer('subject_count')->nullable()->default(null);
         });
     }
 

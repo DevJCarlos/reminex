@@ -92,9 +92,38 @@
 											</tbody>
 										
 										</table>
-										<br>					
-									</div>	
-								</div> 
+														
+									</div>
+                                   	
+								</div>
+                                <div class="card">
+                                    <div class="card-header">
+										<h4>Selections</h4>
+									</div>
+                                    <div class="card-body">
+                                    <table class = "table table-bordered" id = "schedule">
+											<thead>
+												<tr>
+													<th>Time</th>
+													<th>Subject</th>
+													<th>Rooms</th>
+													<th>Section</th>
+													<th>Section Number</th>
+													<th>Proctors</th>
+													<th>Student Count</th>		
+													<th>Actions</th>
+												</tr>
+											</thead>
+											<tbody id="tableBody1">
+
+											</tbody>
+										</table>
+                                        <br>
+                                        <!-- <button type="submit" onclick="reloadTable()" class="btn btn-success" style="width: 150px;">Refresh</button> -->
+                                    </div>
+                                    
+
+                                </div> 
 							</div>
 						</div>
 					</div>
@@ -112,6 +141,11 @@
         var period = document.getElementById('dropdown1').value;
         var day = document.getElementById('dropdown2').value;
         
+        if (period == 'none' || day == 'none') {
+        alert('Please Select Period and Day');
+        
+        }
+        
         
         var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -123,11 +157,22 @@
                 'X-CSRF-TOKEN': csrfToken
             },
         success: function(response) {
-        // console.log('respnose 2: ',response.examTimes);
+            if (response && response.examTimes && response.examTimes.length > 0) {
+            console.log('Success');
+            } else {
+            alert("The Selected Schedule Has Not Been Created yet");
+             return;
+            }
+
+        console.log('respnose 2: ',response);
         usersNames = [response.userName];
+        subCount = [response.subcount];
+
         var alterdata =[];
         var alterTime = [];
+        // console.log( 'count',subCount);
             response.examTimes.forEach(function(examTime) {
+                
                 var TimeRooms = [];
                 var TimeIDs = [];
                 var SeCount = [];
@@ -180,9 +225,9 @@
                     
                     
                 });
-               console.log('check sec', alterTime);
+            //    console.log('check sec', alterTime);
                 
-                console.log('TimeSchedule Data', TimeSchedule);
+            //     console.log('TimeSchedule Data', TimeSchedule);
                 
                 var alterdatas = [];
                 var DataFiltered = [];
@@ -227,8 +272,9 @@
                     Time: Timeslot.Time,
                     Data: combinedData.filter(entry => entry !== null),
                 });
+                
             });
-
+            
 
             //subject filteration
             alterdatas.forEach((timeSlot) => {
@@ -237,21 +283,23 @@
                 );
                 
             });
+            //clone alter data
+            var newSched = JSON.parse(JSON.stringify(alterdatas));
+            console.log('first new sched:', newSched)
+
+
+
             const proctorData = alterdatas.flatMap(timeSlot => timeSlot.Data)
                 .filter(entry => entry.proctor !== null); 
                 
-
-
-            // console.log('Filtered Data (Excluding Proctors):', alterdatas);
-            // console.log('check ',proctorData);
-
-            //Selection availability filter
             const proctorSecIds = proctorData.map(entry => entry.SecId);
             alterdatas.forEach((timeSlot) => {
                 timeSlot.Data = timeSlot.Data.filter((entry) =>
                     !proctorSecIds.includes(entry.SecId)
                 );
             });
+             
+            
 
             // console.log('Filtered Data (Excluding Proctors and Specific SecIds):', alterdatas);
             // console.log('Combined Data:', alterdatas);
@@ -259,13 +307,13 @@
                 
                 //selection turn
                 const subjectNames = DataFiltered.map(entry => entry.Subject_name);
-                const uniqueSubjectNames = [...new Set(subjectNames)];
+                // const uniqueSubjectNames = [...new Set(subjectNames)];
 
-                const SelectionLeft = uniqueSubjectNames.length;
+                var SelectionLeft = subCount;
                 // console.log('SelectionLeft:', SelectionLeft);
-
-
-
+                // console.log('check cnost:',SelectionLeft);
+                
+                // console.log('alterdata: ', alterdatas);
                 const tableBody = document.getElementById('tableBody');
                 let uniqueTimeSlots = [];
                 
@@ -326,6 +374,83 @@
                         tableBody.appendChild(row);
                     });
                 });
+
+                const proctorData1 = newSched.flatMap(timeSlot => timeSlot.Data)
+                    .filter(entry => entry.proctor !== null); 
+                    
+                const proctorSecIds1 = proctorData.map(entry => entry.SecId);
+                newSched.forEach((timeSlot) => {
+                    timeSlot.Data = timeSlot.Data.filter((entry) =>
+                    proctorSecIds.includes(entry.SecId)
+                    );
+                
+
+                });
+
+
+                
+             
+            console.log('new sched:', newSched)
+            const tableBody1 = document.getElementById('tableBody1');
+                let uniqueTimeSlots1 = [];
+                
+
+                newSched.forEach((timeSlots) => {
+                    timeSlots.Data.forEach((subject, index) => {
+                        const row = document.createElement('tr');
+
+                        if (index === 0) {
+                            const timeCell = document.createElement('td');
+                            if (!uniqueTimeSlots1.includes(timeSlots.Time)) {
+                                timeCell.rowSpan = timeSlots.Data.length;
+                                timeCell.textContent = timeSlots.Time;
+                                uniqueTimeSlots.push(timeSlots.Time);
+                            }
+                            row.appendChild(timeCell);
+                        }
+
+                        // Subject
+                        const subjectCell = document.createElement('td');
+                        subjectCell.textContent = subject.Subject_name;
+                        row.appendChild(subjectCell);
+
+                        // Room
+                        const roomCell = document.createElement('td');
+                        roomCell.textContent = subject.Room;
+                        row.appendChild(roomCell);
+
+                        // Section
+                        const sectionCell = document.createElement('td');
+                        sectionCell.textContent = subject.Sections||subject.SecId;
+                        row.appendChild(sectionCell);
+
+                        // Section Number
+                        const sectionNumberCell = document.createElement('td');
+                        sectionNumberCell.textContent = subject.Code;
+                        row.appendChild(sectionNumberCell);
+
+                        // Instructor
+                        const instructorCell = document.createElement('td');
+                        instructorCell.textContent = subject.proctor;
+                        row.appendChild(instructorCell);
+
+                        // Class Count
+                        const classCountCell = document.createElement('td');
+                        classCountCell.textContent = subject.StudentCount;
+                        row.appendChild(classCountCell);
+
+                        // Edit Button
+                        const editCell = document.createElement('td');
+                        const editButton = document.createElement('button');
+                        editButton.textContent = 'Deselect';
+                        editButton.addEventListener('click', () => handleDeselectClick(subject.SecId,SelectionLeft,usersNames));
+                        editCell.appendChild(editButton);
+                        row.appendChild(editCell);
+                        
+
+                        tableBody1.appendChild(row);
+                    });
+                });
             },
         error: function(error) {
             console.error(error);
@@ -341,44 +466,105 @@
     updateSelectionCounter();
     
     function handleEditClick(secID, selectionLeft, button, usersNames) {
-        if (editClickCounter < selectionLeft) {
-            document.getElementById('selectionCounter').innerText = selectionLeft;
-        // console.log(secID);
+        if (confirm("Are you sure you want to select this?")) {
+            if (editClickCounter < selectionLeft) {
+                document.getElementById('selectionCounter').innerText = selectionLeft;
+            // console.log(secID);
 
-     
-        button.classList.add('selected');
-        var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-       
-  
-        $.ajax({
-        method: 'POST',
-        url: '/exam-sections/update', 
-        data: { secID: secID, userName: usersNames },
-        headers: {
-            'X-CSRF-TOKEN': csrfToken
-        },
-		success: function(response) {
-			window.alert('Updated Successfully');
-            // location.reload();
-		},
-		error: function(error) {
-			console.error(error);
-		}
-    });
-
-        editClickCounter++;
-        selectionLeft --;
-        // console.log('check 1',editClickCounter);
-        // console.log('check 2',selectionLeft);
-    } else {
-        window.alert("You Have Reached The Maximum Selection");
-        // location.reload();
-    }
-
+        
+            button.classList.add('selected');
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                editClickCounter++;
+                selectionLeft --;
+        
     
+                $.ajax({
+                method: 'POST',
+                url: '/exam-sections/update', 
+                data: { secID: secID, userName: usersNames, selectSub: selectionLeft},
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function(response) {
+                    window.alert('Updated Successfully');
+                    // location.reload();
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+
+                
+                // console.log('check 1',editClickCounter);
+                console.log('check 2',selectionLeft);
+            } else {
+                window.alert("You Have Reached The Maximum Selection");
+                // location.reload();
+            }
+        } else {
+           
+        }
 
     }
+    function handleDeselectClick(secID,selectionLeft, usersNames) {
+        
+        if (confirm("Are you sure you want to deselect?")) {
+            selectionLeft++;
+
+            
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            // console.log('sec', secID, usersNames);
+
+            $.ajax({
+                method: 'POST',
+                url: '/exam-sections/deselect',
+                data: { secID: secID, userName: usersNames,subcount: selectionLeft},
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                success: function (response) {
+                    window.alert('Updated Successfully');
+                    // location.reload();
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+
+            // editClickCounter++;
+            // selectionLeft--;
+            // console.log('check 1',editClickCounter);
+            console.log('check 2',selectionLeft);
+        } else {
+           
+        }
+    }
+    // function reloadTable() {
+    //     var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    //     $.ajax({
+    //         method: 'POST', // or 'POST' depending on your server-side logic
+    //         url: '/select-proctor', // specify the correct endpoint
+    //         headers: {
+    //             'X-CSRF-TOKEN': csrfToken
+    //         },
+    //         success: function (response) {
+    //             console.log(response);
+                
+    //             $('#tableBody1').html(response);
+                
+    //             console.log('Table reloaded successfully');
+                
+    //         },
+    //         error: function (error) {
+    //             console.error('Error reloading table:', error);
+    //         }
+    //     });
+    // }
+
+
+
+
 
 </script>
 

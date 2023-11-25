@@ -89,6 +89,7 @@ Route::group(['middleware' => ['auth', 'role:teacher']], function(){
     //proctor selection
     Route::post('/select-proctor', [\App\Http\Controllers\ExamUserController::class, 'select'])->name('select.exam');
     Route::post('/exam-sections/update', [\App\Http\Controllers\ExamUserController::class, 'update'])->name('exam-sections.update');
+    Route::post('/exam-sections/deselect', [\App\Http\Controllers\ExamUserController::class, 'deselect'])->name('exam-sections.deselect');
     
 });
 
