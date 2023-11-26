@@ -7,7 +7,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0"><strong>{{ __('Admin Users') }}</strong></h1>
+                    <h1 class="m-0"><strong>{{ __('Faculty Users') }}</strong></h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -21,12 +21,12 @@
             <div class="row">
                 <div class="col-12 col-lg-4">
                     <div>
-                        <form action="{{route ('createadmin')}}" method="POST">
+                        <form action="{{route ('createfaculty')}}" method="POST">
                             @csrf
                             @method('post')
                             <div class="card">
                             <div class="card-body">
-                                <h4>Add Admin</h4><br>
+                                <h4>Add Faculty</h4><br>
 
                                 <div class="form-group row">
                                 <label for="aidn" class="col-sm-3 text-end control-label col-form-label">User IDN</label>
@@ -75,7 +75,7 @@
                                 <div class="form-group row">
                                 <label for="arole" class="col-sm-3 text-end control-label col-form-label">Role</label>
                                     <div class="col-sm-9">        
-                                        <input type="text" class="form-control" id="arole" name="role" value="admin" readonly/>
+                                        <input type="text" class="form-control" id="arole" name="role" value="teacher" readonly/>
                                     </div>
                                 </div>
                                 
@@ -83,9 +83,31 @@
                             
                             <div class="border-top">
                                 <div class="card-body">
-                                <input type="submit" class="btn btn-primary" value="Add Admin">
+                                <input type="submit" class="btn btn-warning" value="Add Faculty">
                                 </div>
                             </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="card">
+                        <form action="/upload" method="post" enctype="multipart/form-data">
+                            @csrf
+                            @method('post')
+
+                            <div class="card-body">
+                                <h4>User Batch Upload</h4><br>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-9">
+                                        <input type="file" id="fileInput" name="file" accept=".csv" onchange="displayFileName()">
+                                            <label for="fileInput" class="custom-file-input">Choose CSV File</label>
+                                    </div>
+                                </div>
+                                <div class="border-top">
+                                    <input type="submit" class="btn btn-secondary" value="Submit">
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -134,14 +156,14 @@
                         </thead>
                         <tbody>
                         @foreach($users as $user)
-                        @if ($user->role === "admin")
+                        @if ($user->role === "teacher")
                             <tr>
                                 <td>{{ $user->username }}</td>
                                 <td>{{ $user->name }}</td>  
                                 <td>{{ $user->department }}</td>  
                                 <td>{{ $user->email }}</td>   
                                 <td>{{ $user->password }}</td>  
-                                <td>{{ $user->role }}</td> 
+                                <td>{{ $user->role }}</td>
                                 <td>
 
                                     <button class="btn btn-success btn-sm">Edit</button>

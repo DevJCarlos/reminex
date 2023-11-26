@@ -14,4 +14,21 @@ class UserController extends Controller
 
         return view('users.index', compact('users','requestcourses'));
     }
+
+    public function indexFaculty()
+    {
+        $users = User::paginate();
+        $requestcourses = RequestCourse::all();
+
+        return view('users.indexfaculty', compact('users','requestcourses'));
+    }
+
+    public function indexStudent()
+    {
+        $users = User::paginate();
+        $requestcourses = RequestCourse::all();
+
+        return view('users.indexstudent', compact('users','requestcourses'));
+    }
 }
+

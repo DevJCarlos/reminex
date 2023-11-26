@@ -99,11 +99,6 @@
 	</div>
 </div>
  
-<!-- <script>
-    $(document).ready(function () {
-  $('#dtBasicExample').DataTable();
-  $('.dataTables_length').addClass('bs-select');
-}); -->
 </script>
 <!-- MDBootstrap Datatables  -->
 <link href="{{ asset('import/datatablecss/css/addons/datatables2.min.css') }}" rel="stylesheet">

@@ -1,6 +1,7 @@
 @extends('layouts.guest2')
 
 @section('content')
+
 	<div class="main">
 		<main class="content">
 			<div class="container-fluid p-0">
@@ -12,9 +13,8 @@
 							<div class="card">
 							  <div class="card-body text-danger">
 								<div class="table-responsive">
-								  <table
-									id="zero_config"
-									class="table table-striped table-bordered">
+								  <table id="userTable" 
+									class="table table-striped table-bordered" style="width: 100%;">
                                         <thead>
                                         <tr>
                                             <th>Date</th>
@@ -27,7 +27,7 @@
                                         </tr>
                                         </thead>
 
-                                            <tbody>
+                                        <tbody>
                                         @foreach($newscheds as $newsched)
                                         @if ($newsched->instructor2 === auth()->user()->name)
                                             <tr>
@@ -41,7 +41,7 @@
                                             </tr>
                                         @endif
                                         @endforeach 
-                                            </tbody>                 
+                                        </tbody>                 
 								  </table>
 								</div>
 							  </div>
@@ -53,5 +53,6 @@
 	</div>
 
 <script src="{{asset('import/js/app.js')}}"></script>
+
 </body>
 @endsection
