@@ -32,8 +32,6 @@
                 checkboxes[i].checked = mainCheckbox.checked;
             }
         }
-        
-
         function displaySelectedOption() {
             var periodSelect = document.getElementById('period-select');
             var selectedPeriod = periodSelect.options[periodSelect.selectedIndex].value;
@@ -70,6 +68,7 @@
                     if (xhr.status === 200) {
                         var subjects = JSON.parse(xhr.responseText);
                         displaySubjects(subjects);
+                        // console.log(subjects);
                     } else {
                         console.error('Error: ' + xhr.status);
                     }

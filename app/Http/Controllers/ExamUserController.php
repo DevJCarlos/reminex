@@ -213,7 +213,6 @@ class ExamUserController extends Controller
             abort(403, 'Unauthorized');
         }
     }
-
     public function select(Request $request){
        
         $user = Auth::user();

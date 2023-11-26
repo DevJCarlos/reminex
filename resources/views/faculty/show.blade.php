@@ -65,7 +65,7 @@
 										</form>
                                         
 										<div class="d-flex justify-content-between">
-											<!-- <button type="submit" class="btn btn-success">Excel</button> -->
+											
                                             <h5>Selection Left: <span id="selectionCounter"> </span></h5>
 											<button type="submit" onclick="handleFormSubmit()" class="btn btn-success" style="width: 150px;">Find Schedule</button>
 										</div>
@@ -119,7 +119,7 @@
 											</tbody>
 										</table>
                                         <br>
-                                        <!-- <button type="submit" onclick="reloadTable()" class="btn btn-success" style="width: 150px;">Refresh</button> -->
+                                        <button type="submit" onclick="reloadTable()" class="btn btn-success" style="width: 150px;">Refresh</button>
                                     </div>
                                     
 
@@ -135,18 +135,23 @@
 
 </body>
 <script>
-	var TimeSchedule = [];
+	
+    var period;
+    var day;
+    // var newSched;
     
-        function handleFormSubmit() {			
-        var period = document.getElementById('dropdown1').value;
-        var day = document.getElementById('dropdown2').value;
+    function handleFormSubmit() {	
+               
+        period = document.getElementById('dropdown1').value;
+        day = document.getElementById('dropdown2').value;
         
         if (period == 'none' || day == 'none') {
         alert('Please Select Period and Day');
         
         }
-        
-        
+        $('#tableBody').empty();
+        $('#tableBody1').empty();
+       
         var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
         $.ajax({
@@ -163,6 +168,7 @@
             alert("The Selected Schedule Has Not Been Created yet");
              return;
             }
+            // getData(response);
 
         console.log('respnose 2: ',response);
         usersNames = [response.userName];
@@ -170,7 +176,10 @@
 
         var alterdata =[];
         var alterTime = [];
+        let TimeSchedule = [];
+        // var newSched = [];
         // console.log( 'count',subCount);
+        
             response.examTimes.forEach(function(examTime) {
                 
                 var TimeRooms = [];
@@ -284,7 +293,7 @@
                 
             });
             //clone alter data
-            var newSched = JSON.parse(JSON.stringify(alterdatas));
+            newSched = JSON.parse(JSON.stringify(alterdatas));
             console.log('first new sched:', newSched)
 
 
@@ -314,6 +323,8 @@
                 // console.log('check cnost:',SelectionLeft);
                 
                 // console.log('alterdata: ', alterdatas);
+               
+
                 const tableBody = document.getElementById('tableBody');
                 let uniqueTimeSlots = [];
                 
@@ -373,7 +384,9 @@
 
                         tableBody.appendChild(row);
                     });
+                    
                 });
+                
 
                 const proctorData1 = newSched.flatMap(timeSlot => timeSlot.Data)
                     .filter(entry => entry.proctor !== null); 
@@ -387,9 +400,6 @@
 
                 });
 
-
-                
-             
             console.log('new sched:', newSched)
             const tableBody1 = document.getElementById('tableBody1');
                 let uniqueTimeSlots1 = [];
@@ -447,8 +457,10 @@
                         editCell.appendChild(editButton);
                         row.appendChild(editCell);
                         
+                        
 
                         tableBody1.appendChild(row);
+                        
                     });
                 });
             },
@@ -457,8 +469,9 @@
         }
         });           
     }
+    
    
-    let editClickCounter = 0;
+    var editClickCounter = 0;
     function updateSelectionCounter() {
         
     }
@@ -468,16 +481,16 @@
     function handleEditClick(secID, selectionLeft, button, usersNames) {
         if (confirm("Are you sure you want to select this?")) {
             if (editClickCounter < selectionLeft) {
-                document.getElementById('selectionCounter').innerText = selectionLeft;
-            // console.log(secID);
+                
+            
 
         
             button.classList.add('selected');
             var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+               
                 editClickCounter++;
                 selectionLeft --;
-        
-    
+                document.getElementById('selectionCounter').innerText = selectionLeft;
                 $.ajax({
                 method: 'POST',
                 url: '/exam-sections/update', 
@@ -495,6 +508,7 @@
             });
 
                 
+               
                 // console.log('check 1',editClickCounter);
                 console.log('check 2',selectionLeft);
             } else {
@@ -504,12 +518,16 @@
         } else {
            
         }
+        reloadTable();
 
     }
     function handleDeselectClick(secID,selectionLeft, usersNames) {
+        console.log('newsched', newSched)
         
         if (confirm("Are you sure you want to deselect?")) {
             selectionLeft++;
+            editClickCounter--;
+            document.getElementById('selectionCounter').innerText = selectionLeft;
 
             
             var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -535,32 +553,24 @@
             // selectionLeft--;
             // console.log('check 1',editClickCounter);
             console.log('check 2',selectionLeft);
+           
         } else {
            
         }
+        reloadTable();
     }
-    // function reloadTable() {
-    //     var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    // var period;
+    // var day;
+    
+//    Function to reload table data
+    function reloadTable() {
+        handleFormSubmit();
+    }
 
-    //     $.ajax({
-    //         method: 'POST', // or 'POST' depending on your server-side logic
-    //         url: '/select-proctor', // specify the correct endpoint
-    //         headers: {
-    //             'X-CSRF-TOKEN': csrfToken
-    //         },
-    //         success: function (response) {
-    //             console.log(response);
-                
-    //             $('#tableBody1').html(response);
-                
-    //             console.log('Table reloaded successfully');
-                
-    //         },
-    //         error: function (error) {
-    //             console.error('Error reloading table:', error);
-    //         }
-    //     });
-    // }
+    //for realtime fetching
+    // var pollingInterval = 5000000; 
+    // setInterval(handleFormSubmit, pollingInterval);
+
 
 
 
