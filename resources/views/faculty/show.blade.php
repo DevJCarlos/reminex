@@ -73,6 +73,7 @@
                                         
 									</div>
 									<div class="card-body">
+                                        <div class="table-responsive">
 										<table class = "table table-bordered" id = "schedule">
 											<thead>
 												<tr>
@@ -92,6 +93,7 @@
 											</tbody>
 										
 										</table>
+                                        </div>
 														
 									</div>
                                    	
@@ -101,6 +103,7 @@
 										<h4>Selections</h4>
 									</div>
                                     <div class="card-body">
+                                    <div class="table-responsive">
                                     <table class = "table table-bordered" id = "schedule">
 											<thead>
 												<tr>
@@ -117,7 +120,8 @@
 											<tbody id="tableBody1">
 
 											</tbody>
-										</table>
+									</table>
+                                    </div>
                                         <br>
                                         <button type="submit" onclick="reloadTable()" class="btn btn-success" style="width: 150px;">Refresh</button>
                                     </div>

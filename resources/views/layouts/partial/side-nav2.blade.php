@@ -2,7 +2,7 @@
     <div class="sidebar-content js-simplebar">
         <a class="sidebar-brand" href="{{ route('faculty.index') }}">
 			 <span class="align-middle">
-                <img src="{{asset('import/img/photos/loginlogo32.png')}}" alt="Company Name" width="200"></span>
+                <img src="{{asset('import/img/photos/logofaculty.png')}}" alt="Company Name" width="200"></span>
         </a>
 
         <ul class="sidebar-nav">
