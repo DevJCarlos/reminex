@@ -45,7 +45,7 @@
                                 <div class="form-group row">
                                 <label for="aidn" class="col-sm-3 text-end control-label col-form-label">Email</label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="aidn" name="email"  placeholder="Email Here" required/>
+                                        <input type="email" class="form-control" id="aemail" name="email"  placeholder="Email Here" required/>
                                     </div>
                                 </div>
 
@@ -144,7 +144,7 @@
                                 <td>{{ $user->role }}</td> 
                                 <td>
 
-                                    <button class="btn btn-success btn-sm">Edit</button>
+                                <button class="btn btn-success btn-sm edit-button" data-toggle="modal" data-target="#editAdmin" data-id="{{ $user->id }}">Edit</button>
                                     
                                 </td> 
                             </tr>
@@ -172,32 +172,132 @@
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
-    <div class="modal fade" id="editRoomModal" tabindex="-1" role="dialog" aria-labelledby="editRoomModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editAdmin" tabindex="-1" role="dialog" aria-labelledby="editAdminModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editRoomModalLabel">Edit Room Name</h5>
+                    <h5 class="modal-title" id="editAdminModalLabel">Edit Admin</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="editRoomForm">
+                    <form action="{{ route('users.updateAdmin') }}" method="post" id="editAdminForm">
                         @csrf
-                        <input type="hidden" id="editRoomId" name="room_id" value="">
+                        <input type="hidden" id="editUserId" name="user_id">
                         <div class="form-group">
-                            <label for="editRoomName">Room Name:</label>
-                            <input type="text" class="form-control" id="editRoomName" name="room_name">
+                            <label for="editname">Name:</label>
+                            <input type="text" class="form-control" id="editname" name="name" required><br>
+                            <label for="editdept">Department:</label>
+                            <select class="form-control" name="department" required>          
+                                        <option disabled selected>Select Department...</option>
+                                        <option>Academic Head</option> 
+                                        <option>ICT Department</option>  
+                                        <option>Hospitality Management</option>
+                                        <option>Tourism Management</option>
+                                        <option>BSA Department</option>
+                                        <option>BSBA Department</option>
+                                        <option>GE</option>
+                            </select><br>
+                            <label for="editemail">Email:</label>
+                            <input type="email" class="form-control" id="editemail" name="email" required><br>
+                            <label for="editpassword">Password:</label>
+                            <input type="password" class="form-control" id="editpass" name="password" required>
                         </div>
+                            <input type="submit" class="btn btn-primary" value="Save Changes">
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="saveEditRoom">Save Changes</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>  
     <!-- /.content -->
+
+
+<script>
+    $('.edit-button').on('click', function () {
+        var userId = $(this).data('id');
+        $('#editUserId').val(userId);
+
+        // Fetch user data using AJAX
+        $.ajax({
+            url: '/users/getUserData/' + userId,
+            method: 'GET',
+            success: function (data) {
+                // Populate the modal fields with user data
+                $('#editname').val(data.name);
+                $('#editdept').val(data.department);
+                $('#editemail').val(data.email);
+                // You may want to exclude displaying the password for security reasons
+            }
+        });
+    });
+</script>
+
+
+<!-- <script>
+    $(document).ready(function(){
+        $('#example1').on('click', '.btn-success', function(){
+            var id = $(this).data('id');
+            var name = $(this).data('name');
+            var department = $(this).data('department');
+            var email = $(this).data('email');
+            var password = $(this).data('password');
+
+            $('#editAdminId').val(id);
+            $('#editname').val(name);
+            $('#editdept').val(department);
+            $('#editemail').val(email);
+            $('#editpass').val(password);
+
+            // Open the modal
+            $('#editAdmin').modal('show');
+        });
+
+        // Handle Save Changes button click
+        // $('#saveEditAdmin').on('click', function(){
+        //     // Assuming you're using jQuery.ajax for the request
+        //     $.ajax({
+        //         url: '{{ route('users.updateAdmin') }}',
+        //         type: 'POST',
+        //         data: $('#editAdminForm').serialize(),
+        //         success: function(response){
+        //             // Handle success, e.g., close the modal or show a success message
+        //             $('#editAdmin').modal('hide');
+        //             // You may want to refresh the page or update the table here
+        //         },
+        //         error: function(error){
+        //             // Handle error, e.g., show an error message
+        //             console.error(error);
+        //         }
+        //     });
+        // });
+        $('#saveEditAdmin').on('click', function(e){
+            e.preventDefault(); // Prevent the default form submission
+
+            // Assuming you're using jQuery.ajax for the request
+            $.ajax({
+                url: '{{ route('users.updateAdmin') }}',
+                type: 'POST',
+                data: $('#editAdminForm').serialize(),
+                success: function(response){
+                    // Set a session variable or cookie to indicate success
+                    document.cookie = "updateSuccess=true";
+                    $('#editAdmin').modal('hide');
+                    location.reload(); // Reload the page
+                },
+                error: function(error){
+                    // Set a session variable or cookie to indicate error
+                    document.cookie = "updateError=true";
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script> -->
+
+
 
 @endsection

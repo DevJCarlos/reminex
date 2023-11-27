@@ -105,6 +105,15 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::post('createadmin',  [\App\Http\Controllers\Auth\RegisterController::class, 'createAdmin'])->name('createadmin');
     Route::post('createfaculty',  [\App\Http\Controllers\Auth\RegisterController::class, 'createFaculty'])->name('createfaculty');
     Route::post('createstudent',  [\App\Http\Controllers\Auth\RegisterController::class, 'createStudent'])->name('createstudent');
+
+    //update users
+    // Route::post('users/updateAdmin', [\App\Http\Controllers\Auth\RegisterController::class, 'updateAdmin'])->name('users.updateAdmin');
+    // Route::post('/users/updateAdmin', [\App\Http\Controllers\Auth\RegisterController::class, 'updateAdmin'])->name('users.updateAdmin');
+    Route::post('/users/updateAdmin', [\App\Http\Controllers\Auth\RegisterController::class, 'updateAdmin'])->name('users.updateAdmin');
+    Route::get('/users/getUserData/{id}', [\App\Http\Controllers\Auth\RegisterController::class, 'getUserData']);
+
+
+
     // Route::delete('users/{user}', [\App\Http\Controllers\Auth\RegisterController::class, 'destroy'])->name('users.destroy');
     
 
