@@ -111,7 +111,38 @@ class RegisterController extends Controller
             return redirect()->back()->with('error', 'Please fill all the information.');
         }
     }
-    
+
+    //update admin
+    public function updateAdmin(Request $request)
+    {
+        $user = User::find($request->user_id);
+
+        if ($user) {
+            // Update user data
+            $user->name = $request->name;
+            $user->department = $request->department;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+
+            // Save changes
+            $user->save();
+
+            return redirect()->route('users.index')->with('success', 'Admin updated successfully!');
+        } else {
+            return redirect()->route('users.index')->with('error', 'User not found!');
+        }
+    }
+
+    public function getUserData($id)
+    {
+        $user = User::find($id);
+
+        if ($user) {
+            return response()->json($user);
+        } else {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+    }
     
     // public function destroy(Request $request, $id)
     // {
