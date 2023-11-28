@@ -31,10 +31,12 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
+
+    // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
 
     public function createAdmin(Request $data)
     {
@@ -119,6 +121,7 @@ class RegisterController extends Controller
 
         if ($user) {
             // Update user data
+            $user->username = $request->username;
             $user->name = $request->name;
             $user->department = $request->department;
             $user->email = $request->email;
@@ -130,6 +133,51 @@ class RegisterController extends Controller
             return redirect()->route('users.index')->with('success', 'Admin updated successfully!');
         } else {
             return redirect()->route('users.index')->with('error', 'User not found!');
+        }
+    }
+
+    //update student
+    public function updateStudent(Request $request)
+    {
+        $user = User::find($request->user_id);
+
+        if ($user) {
+            // Update user data
+            $user->username = $request->username;
+            $user->name = $request->name;
+            $user->department = $request->department;
+            $user->course = $request->course;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+
+            // Save changes
+            $user->save();
+
+            return redirect()->route('users.indexstudent')->with('success', 'Student updated successfully!');
+        } else {
+            return redirect()->route('users.indexstudent')->with('error', 'User not found!');
+        }
+    }
+
+    //update faculty
+    public function updateFaculty(Request $request)
+    {
+        $user = User::find($request->user_id);
+
+        if ($user) {
+            // Update user data
+            $user->username = $request->username;
+            $user->name = $request->name;
+            $user->department = $request->department;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+
+            // Save changes
+            $user->save();
+
+            return redirect()->route('users.indexfaculty')->with('success', 'Faculty updated successfully!');
+        } else {
+            return redirect()->route('users.indexfaculty')->with('error', 'User not found!');
         }
     }
 

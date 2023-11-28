@@ -186,10 +186,12 @@
                         @csrf
                         <input type="hidden" id="editUserId" name="user_id">
                         <div class="form-group">
+                            <label for="editname">ID Number:</label>
+                            <input type="text" class="form-control" id="editusername" name="username" required><br>
                             <label for="editname">Name:</label>
                             <input type="text" class="form-control" id="editname" name="name" required><br>
                             <label for="editdept">Department:</label>
-                            <select class="form-control" name="department" required>          
+                            <select class="form-control" id="editdept" name="department" required>          
                                         <option disabled selected>Select Department...</option>
                                         <option>Academic Head</option> 
                                         <option>ICT Department</option>  
@@ -215,89 +217,6 @@
     </div>  
     <!-- /.content -->
 
-
-<script>
-    $('.edit-button').on('click', function () {
-        var userId = $(this).data('id');
-        $('#editUserId').val(userId);
-
-        // Fetch user data using AJAX
-        $.ajax({
-            url: '/users/getUserData/' + userId,
-            method: 'GET',
-            success: function (data) {
-                // Populate the modal fields with user data
-                $('#editname').val(data.name);
-                $('#editdept').val(data.department);
-                $('#editemail').val(data.email);
-                // You may want to exclude displaying the password for security reasons
-            }
-        });
-    });
-</script>
-
-
-<!-- <script>
-    $(document).ready(function(){
-        $('#example1').on('click', '.btn-success', function(){
-            var id = $(this).data('id');
-            var name = $(this).data('name');
-            var department = $(this).data('department');
-            var email = $(this).data('email');
-            var password = $(this).data('password');
-
-            $('#editAdminId').val(id);
-            $('#editname').val(name);
-            $('#editdept').val(department);
-            $('#editemail').val(email);
-            $('#editpass').val(password);
-
-            // Open the modal
-            $('#editAdmin').modal('show');
-        });
-
-        // Handle Save Changes button click
-        // $('#saveEditAdmin').on('click', function(){
-        //     // Assuming you're using jQuery.ajax for the request
-        //     $.ajax({
-        //         url: '{{ route('users.updateAdmin') }}',
-        //         type: 'POST',
-        //         data: $('#editAdminForm').serialize(),
-        //         success: function(response){
-        //             // Handle success, e.g., close the modal or show a success message
-        //             $('#editAdmin').modal('hide');
-        //             // You may want to refresh the page or update the table here
-        //         },
-        //         error: function(error){
-        //             // Handle error, e.g., show an error message
-        //             console.error(error);
-        //         }
-        //     });
-        // });
-        $('#saveEditAdmin').on('click', function(e){
-            e.preventDefault(); // Prevent the default form submission
-
-            // Assuming you're using jQuery.ajax for the request
-            $.ajax({
-                url: '{{ route('users.updateAdmin') }}',
-                type: 'POST',
-                data: $('#editAdminForm').serialize(),
-                success: function(response){
-                    // Set a session variable or cookie to indicate success
-                    document.cookie = "updateSuccess=true";
-                    $('#editAdmin').modal('hide');
-                    location.reload(); // Reload the page
-                },
-                error: function(error){
-                    // Set a session variable or cookie to indicate error
-                    document.cookie = "updateError=true";
-                    console.error(error);
-                }
-            });
-        });
-    });
-</script> -->
-
-
+    <script src="{{asset('import/js/edituser.js')}}"></script>
 
 @endsection
