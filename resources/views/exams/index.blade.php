@@ -145,8 +145,8 @@
         });
         
     });
-    var TimeSchedule = [];
-    var alterSchedule = [];
+    // const TimeSchedule = [];
+    // const alterSchedule = [];
     function handleFormSubmit() {
         var period = selectedValues; 
         var day = selectedValuesDay;
@@ -156,6 +156,7 @@
         alert('Please Select Period and day');
         location.reload();
         }
+        $('#tableBody').empty();
         
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
         $.ajaxSetup({
@@ -177,8 +178,8 @@
             
             }
 
-            // var TimeSchedule = [];
-            // var alterSchedule = [];
+            const TimeSchedule = [];
+            const alterSchedule = [];
             data.examTimes.forEach(function(examTime) {
                 var TimeRooms = [];
                 var TimeIDs = [];
@@ -424,6 +425,69 @@
         var editModal = new bootstrap.Modal(document.getElementById('editModal'));
         editModal.hide();
     }
+    function deleteExamDay() {
+            
+            var period = document.getElementById('dropdown1').value;
+            var day = document.getElementById('dropdown2').value;
+            var confirmDelete = confirm('Are you sure you want to delete this Exam Schedule?');
+            if (confirmDelete) {
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                });
+                
+                $.ajax({
+                    method: 'POST',
+                    url: '/delete-exam-day', 
+                    data: { period: period, day: day },
+                    success: function(response) {
+                    if (response.message === 'Exam day deleted successfully') {
+                            window.alert('Deleted Successfully'); 
+                        } else if (response.message === 'No matching exam day found') { 
+                        window.alert('No Data of ' + period + ' Day ' + day + ' in Database '); 
+                        location.reload();
+                    }
+                    },
+                    error: function(error) {
+                        console.error('Error deleting exam day:', error);
+                        
+                    }
+                });
+            }
+        }
+        function saveFormData() {
+            
+            var period = document.getElementById('dropdown1').value;
+            var day = document.getElementById('dropdown2').value;
+            
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                });
+            $.ajax({
+                method: 'POST',
+                url: '/saveExamData', 
+                data: { period: period, day: day },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.message === 'Data saved successfully') {
+                        window.alert('Schedule Release Successfully');
+                        location.reload();
+                    } else if (response.message === 'Error: No data ID') { 
+                        window.alert('Error, There is no Schedule Created'); 
+                        location.reload();
+                    }
+                },
+                error: function(error) {
+                    console.error('Error Saving The Exam:', error);
+                        
+                }
+            });
+        }
 
     
    

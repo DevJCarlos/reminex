@@ -110,7 +110,7 @@
         alert('Please Select Period and day');
         // location.reload();
         }
-    
+        $('#tableBody').empty();
     
     var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -319,12 +319,7 @@
 	
 
 }
-function updateSelectionCounter() {
-	document.getElementById('selectionCounter').innerText = selectionLeft;
-        
-    }
 
-    updateSelectionCounter();
 
 </script>
 

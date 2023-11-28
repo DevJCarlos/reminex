@@ -7,17 +7,20 @@
 				<div class="container-fluid p-0">
 
 					<h1 class="h3 mb-3"><strong class="text-warning">Reminex</strong> Dashboard</h1>
+					<br>
 
 					<div class="row">
-						<div class="col-12 col-lg-7">
+						<!-- <div class="col-12 col-lg-7">
 							<div class="card">
 								<div class="card-header">
 									<h5 class="card-title mb-0">Exam Schedule is <span class="badge bg-warning">Not Yet Available</span>.</h5>
 								</div>
 							</div>
-						</div>			
+						</div>
+								 -->
+								 
 						
-						<div class="col-12 col-lg-5">
+						<div class="col-md-6 mx-auto text-center">
 							<div class="card-responsive">
 								<div class="card-header">
 									<h2 class="col-12 col-lg-12 badge bg-danger" id="spetitle"><strong>SPE REMINDERS for the STUDENTS</strong></h2><br><br>
@@ -40,7 +43,12 @@
 								</div>
 							</div>
 						</div>	
+
 					</div>
+					
+
+
+					
 				</div>
 			</main>
 	</div>

@@ -41,7 +41,8 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
     Route::get('/student/changepass', [App\Http\Controllers\StudentController::class, 'changePass'])->name('student.changepass');
     // Route::get('changeprofilePic', [App\Http\Controllers\StudentController::class, 'changeprofilePic'])->name('profilepic.update');
     
-
+    
+    
     //Request 
     Route::get('/student/createrequest', [App\Http\Controllers\RequestController::class, 'createRequest'])->name('student.createrequest');
     Route::post('/student/createrequest', [App\Http\Controllers\RequestController::class, 'storeRequest'])->name('request.store');
@@ -52,8 +53,8 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
 
     //Request Notification
     Route::post('/studentmarkAsRead/{notificationId}', [\App\Http\Controllers\RequestController::class, 'studentmarkAsRead'])->name('studentmarkAsRead');
-
-   
+    //PULL EXAM SCHED
+    Route::post('/pull-exam-sched-student', [\App\Http\Controllers\ExamUserController::class, 'pullExamstudent'])->name('pullExamstudent');
 
 });
 

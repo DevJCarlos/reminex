@@ -11,10 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sections', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name')->nullable()->default(null);
+        Schema::create('irreg_student_subs', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('irreg_students_id')->nullable()->default(null);
             $table->timestamps();
+
+
+            $table->foreign('irreg_students_id')
+            ->references('id')
+            ->on('users')
+            ->onDelete('cascade');
         });
     }
 
@@ -23,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sections');
+        Schema::dropIfExists('irreg_student_subs');
     }
 };

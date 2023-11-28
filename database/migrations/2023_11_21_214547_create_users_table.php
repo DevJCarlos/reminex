@@ -18,7 +18,10 @@ return new class extends Migration
             $table->string('email');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('department');
-            $table->string('course')->nullable();
+            $table->integer('subject_count')->nullable()->default(null);
+            $table->string('student_sec')->nullable()->default(null);
+            $table->string('student_status')->nullable()->default(null);
+            $table->string('course')->nullable(); 
             $table->string('role');
             $table->string('password');
             $table->rememberToken();

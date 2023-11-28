@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\RequestCourse;
+use App\Models\Section;
 
 class UserController extends Controller
 {
@@ -11,6 +12,7 @@ class UserController extends Controller
     {
         $users = User::paginate();
         $requestcourses = RequestCourse::all();
+        
 
         return view('users.index', compact('users','requestcourses'));
     }
@@ -19,6 +21,7 @@ class UserController extends Controller
     {
         $users = User::paginate();
         $requestcourses = RequestCourse::all();
+        
 
         return view('users.indexfaculty', compact('users','requestcourses'));
     }
@@ -27,8 +30,10 @@ class UserController extends Controller
     {
         $users = User::paginate();
         $requestcourses = RequestCourse::all();
+        $requestsections = Section::all();
+        // dd($requestsections);
 
-        return view('users.indexstudent', compact('users','requestcourses'));
+        return view('users.indexstudent', compact('users','requestcourses', 'requestsections'));
     }
 }
 

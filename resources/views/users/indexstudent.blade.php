@@ -73,9 +73,35 @@
                                                 @foreach ($requestcourses as $requestcourse)
                                                     <option value="{{ $requestcourse->course_name }}">{{ $requestcourse->course_name }}</option>
                                                 @endforeach
+                                                
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="form-group row">
+                                    <label for="asec" class="col-sm-3 text-end control-label col-form-label">Section</label>
+                                    <div class="col-sm-9">
+                                        <select class="select2 form-select shadow-none" style="width: 100%; height: 36px" name="student_section" required>          
+                                        <option disabled selected>Select Section...</option>
+                                            @foreach ($requestsections as $requestsec)
+                                                <option value="{{ $requestsec->name }}">{{ $requestsec->name }}</option>
+                                            @endforeach
+                                        </select>    
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="astat" class="col-sm-3 text-end control-label col-form-label">Section</label>
+                                    <div class="col-sm-9">
+                                        <select class="select2 form-select shadow-none" style="width: 100%; height: 36px" name="student_status" required>          
+                                        <option value="Regular">Regular</option>
+                                        <option value="Irregular">Irregular</option>
+    
+                                            
+                                        </select>    
+                                    </div>
+                                </div>
+                                
+                               
 
                                 <div class="form-group row">
                                 <label for="apass" class="col-sm-3 text-end control-label col-form-label">Password</label>
@@ -162,7 +188,9 @@
                                 <th>Department</th>
                                 <th>Email</th>
                                 <th>Password</th>
-                                <th>Role</th>
+                                <!-- <th>Role</th> -->
+                                <th>Section</th>
+                                <th>Status</th>
                                 <th>Course</th>
                                 <th>Action</th>
                             </tr>
@@ -176,7 +204,9 @@
                                 <td>{{ $user->department }}</td>  
                                 <td>{{ $user->email }}</td>   
                                 <td>{{ $user->password }}</td>  
-                                <td>{{ $user->role }}</td> 
+                                <!-- <td>{{ $user->role }}</td> -->
+                                <td>{{ $user->student_sec }}</td>
+                                <td>{{ $user->student_status }}</td> 
                                 <td>{{ $user->course }}</td> 
                                 <td>
 
@@ -194,7 +224,9 @@
                                 <th>Department</th>
                                 <th>Email</th>
                                 <th>Password</th>
-                                <th>Role</th>
+                                <!-- <th>Role</th> -->
+                                <th>Section</th>
+                                <th>Status</th>
                                 <th>Course</th>
                                 <th>Action</th>
                             </tr>

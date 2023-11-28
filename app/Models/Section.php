@@ -10,6 +10,8 @@ class Section extends Model
     use HasFactory;
     protected $fillable = ['name'];
 
+    protected $table = 'sections';
+
     public function subject(){
         return $this->belongsTo(Subject::class,'model_classes');
     }

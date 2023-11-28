@@ -87,17 +87,20 @@ class RegisterController extends Controller
     public function createStudent(Request $data)
     {
         // Check if any of the fields are null
-        if ($data->name && $data->department && $data->username && $data->course && $data->email && $data->role && $data->password) {
+        if ($data->name && $data->department && $data->username && $data->course && $data->email && $data->role && $data->password && $data->student_section && $data->student_status) {
             // All fields are not null, create the user
             $user = User::create([
                 'name' => $data->name,
                 'department' => $data->department,
                 'username' => $data->username,
                 'course' => $data->course,
+                'student_sec' => $data->student_section,
+                'student_status' => $data->student_status,
                 'email' => $data->email,
                 'role' => $data->role,
                 'password' => Hash::make($data->password),
             ]);
+            // dd($data->student_section);
     
             $user->assignRole($data->role);
             $user->save();
