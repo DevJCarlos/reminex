@@ -18,7 +18,7 @@
 
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="shortcut icon" href="{{asset('import/img/photos/ReminExlogolink31.png')}}" />
+	<link rel="shortcut icon" href="{{asset('import/img/photos/reminexlogolink.png')}}" />
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
 

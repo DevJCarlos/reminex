@@ -148,6 +148,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ReminEx Admin</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('import/img/photos/reminexlogolink.png') }}" />
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -292,7 +293,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="{{url('/home')}}" class="brand-link">
-                <img src="{{ asset('import/img/photos/brandicon.png') }}" width="50" alt="Reminex Logo">
+                <img src="{{ asset('import/img/photos/brandicon2.png') }}" width="50" alt="Reminex Logo">
             <span class="logo-text ms-2" style="padding-left: 10px;">
                 <!-- dark Logo text -->
                 <img

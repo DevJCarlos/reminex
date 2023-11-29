@@ -10,8 +10,7 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="{{ asset('import2/img/ReminExlogolink3.png') }}" rel="icon">
-  <link href="{{ asset('import2/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+  <link href="{{ asset('import/img/photos/reminexlogolink.png') }}" rel="icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">

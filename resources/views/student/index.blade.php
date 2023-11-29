@@ -20,7 +20,7 @@
 								 -->
 								 
 						
-						<div class="col-md-6 mx-auto text-center">
+						<div class="col-md-6 mx-auto text-left">
 							<div class="card-responsive">
 								<div class="card-header">
 									<h2 class="col-12 col-lg-12 badge bg-danger" id="spetitle"><strong>SPE REMINDERS for the STUDENTS</strong></h2><br><br>
