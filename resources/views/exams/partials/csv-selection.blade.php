@@ -136,14 +136,17 @@
 
                                 <!-- Room checkboxes -->
                                 @foreach ($rooms as $room)
-                                    <li class="room-item">
-                                        <label class="customcheckbox">
-                                            <input type="checkbox" class="listCheckbox1">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                        <span class="room-name">{{ $room->room_name }}</span>
-                                    </li>
+                                    @if ($room->room_status === 'Active')
+                                        <li class="room-item">
+                                            <label class="customcheckbox">
+                                                <input type="checkbox" class="listCheckbox1">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <span class="room-name">{{ $room->room_name }}</span>
+                                        </li>
+                                    @endif
                                 @endforeach
+
                             </ul>
                         </div>
                     </div>

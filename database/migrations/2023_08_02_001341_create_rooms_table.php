@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('rooms', function (Blueprint $table) {
             $table->increments('id');
             $table->string('room_name')->nullable()->default(null);;
+            $table->string('room_status')->nullable()->default(null);;
             $table->timestamps();
         });
 

@@ -24,9 +24,10 @@
             <thead>
             <tr>
                 <th>Room Name</th>
+                <th>Status</th>
                 <th>Date Created</th>
                 <th>Actions</th>
-            </tr>data
+            </tr>
 
             </thead>
             <tbody>
@@ -34,7 +35,10 @@
                 <tr>
                     <th>
                     <span>{{ $room->room_name }}</span>
-                    </th>   
+                    </th> 
+                    <th>
+                    <span>{{ $room->room_status }}</span>
+                    </th>  
                     <th>
                     <span>{{ $room->updated_at }}</span>
                     </th>
@@ -64,6 +68,13 @@
                         <label for="roomNameInput">Room Name</label>
                         <input type="text" class="form-control" id="roomNameInput">
                     </div>
+                    <div class="form-group">
+                        <label for="roomStatusInput">Room Status</label>
+                        <select class="form-control" id="roomStatusInput">
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -89,6 +100,13 @@
                             <label for="editRoomName">Room Name:</label>
                             <input type="text" class="form-control" id="editRoomName" name="room_name">
                         </div>
+                        <div class="form-group">
+                        <label for="editroomStatusInput">Room Status</label>
+                        <select class="form-control" id="editroomStatusInput">
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -127,7 +145,9 @@
     
     $('#addRoom').on('click', function() {
         const roomName = $('#roomNameInput').val();
-        console.log(roomName);
+        const roomStatus = $('#roomStatusInput').val();
+        // console.log(roomName);
+
         $('#addRoomModal').modal('hide');
         $.ajax({
             type: 'POST',
@@ -135,6 +155,7 @@
             data: {
                 _token: '{{ csrf_token() }}', 
                 room_name: roomName,
+                room_status: roomStatus,
             },
             success: function(response) {
             
@@ -206,14 +227,16 @@ $(document).ready(function() {
         // Get the edited room ID and name
         const roomId1 = $('#editRoomId').val();
         const newRoomName1 = $('#editRoomName').val();
-        console.log('roomid', roomId1);
-        console.log('roomid', newRoomName1);
+        const newRoomStatus = $('#editroomStatusInput').val();
+        // console.log('roomid', roomId1);
+        // console.log('roomid', newRoomName1);
 
         // Prepare the data for the AJAX request
         const requestData = {
             _token: '{{ csrf_token() }}',
             room_id: roomId1,
-            room_name: newRoomName1
+            room_name: newRoomName1,
+            room_status: newRoomStatus,
         };
 
         

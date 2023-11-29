@@ -10,7 +10,7 @@ class RoomController extends Controller
     public function index()
     {
         $rooms = Room::all();
-        // return $rooms;
+        
         return view('exams.room', compact('rooms'));
     }
     
@@ -19,13 +19,18 @@ class RoomController extends Controller
     
     $data = $request->validate([
         'room_name' => 'required|string|max:255',
+        'room_status' => 'required|string|max:255',
     ]);
-    
+    // dd($data);
 
-    // Create a new room record in your database
-    $room = new Room($data);
     
-    $room->save(); 
+    $room = new Room();
+
+    
+    $room->room_name = $data['room_name'];
+    $room->room_status = $data['room_status']; 
+    
+    $room->save();
     
 
     return response()->json(['message' => 'success']);
@@ -47,10 +52,12 @@ class RoomController extends Controller
     {
     $roomId = $request->input('room_id');
     $roomName = $request->input('room_name');
+    $roomStatus = $request->input('room_status');
 
     $room = Room::find($roomId);
 
     $room->room_name = $roomName;
+    $room->room_status = $roomStatus;
     $room->save();
 
     return response()->json(['message' => 'Room name updated']);
