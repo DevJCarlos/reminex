@@ -210,7 +210,7 @@
                                 <td>{{ $user->course }}</td> 
                                 <td>
 
-                                    <button class="btn btn-success btn-sm">Edit</button>
+                                    <button class="btn btn-success btn-sm edit-button" data-toggle="modal" data-target="#editStudent" data-id="{{ $user->id }}">Edit</button>
                                     
                                 </td> 
                             </tr>
@@ -241,7 +241,60 @@
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
-    <div class="modal fade" id="editRoomModal" tabindex="-1" role="dialog" aria-labelledby="editRoomModalLabel" aria-hidden="true">
+
+    <div class="modal fade" id="editStudent" tabindex="-1" role="dialog" aria-labelledby="editStudentModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editStudentModalLabel">Edit Student</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('users.updateStudent') }}" method="post" id="editStudentForm">
+                        @csrf
+                        <input type="hidden" id="editUserId" name="user_id">
+                        <div class="form-group">
+                            <label for="editname">ID Number:</label>
+                            <input type="text" class="form-control" id="editusername" name="username" required><br>
+                            <label for="editname">Name:</label>
+                            <input type="text" class="form-control" id="editname" name="name" required><br>
+                            <label for="editdept">Department:</label>
+                            <select class="form-control" id="editdept" name="department" required>          
+                                        <option disabled selected>Select Department...</option>
+                                        <option>Academic Head</option> 
+                                        <option>ICT Department</option>  
+                                        <option>Hospitality Management</option>
+                                        <option>Tourism Management</option>
+                                        <option>BSA Department</option>
+                                        <option>BSBA Department</option>
+                                        <option>GE</option>
+                            </select><br>
+                            <label for="editcourse">Course</label>
+                            <select class="form-control" id="editcourse" name="course" required>          
+                                        <option disabled selected>Select Course...</option>
+                                            @foreach ($requestcourses as $requestcourse)
+                                                <option value="{{ $requestcourse->course_name }}">{{ $requestcourse->course_name }}</option>
+                                            @endforeach
+                            </select><br>
+                            <label for="editemail">Email:</label>
+                            <input type="email" class="form-control" id="editemail" name="email" required><br>
+                            <label for="editpassword">Password:</label>
+                            <input type="password" class="form-control" id="editpass" name="password" required>
+                        </div>
+                            <input type="submit" class="btn btn-primary" value="Save Changes">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>  
+    <!-- /.content -->
+
+    <!-- <div class="modal fade" id="editRoomModal" tabindex="-1" role="dialog" aria-labelledby="editRoomModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -266,7 +319,9 @@
                 </div>
             </div>
         </div>
-    </div>  
+    </div>   -->
     <!-- /.content -->
 
+<script src="{{asset('import/js/edituser.js')}}"></script>
+    
 @endsection
