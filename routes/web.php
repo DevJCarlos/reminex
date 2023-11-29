@@ -40,6 +40,7 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
     Route::get('/student/aboutus', [App\Http\Controllers\StudentController::class, 'aboutUs'])->name('student.aboutus');
     Route::get('/student/changepass', [App\Http\Controllers\StudentController::class, 'changePass'])->name('student.changepass');
     // Route::get('changeprofilePic', [App\Http\Controllers\StudentController::class, 'changeprofilePic'])->name('profilepic.update');
+    Route::get('/irregstudent', [App\Http\Controllers\StudentController::class, 'showsubject'])->name('show.subject');
     
     
     
@@ -67,6 +68,7 @@ Route::group(['middleware' => ['auth', 'role:teacher']], function(){
     Route::get('/faculty/aboutus', [App\Http\Controllers\TeacherController::class, 'aboutUs'])->name('faculty.aboutus');
     Route::get('/faculty/changepass', [App\Http\Controllers\TeacherController::class, 'changePass'])->name('faculty.changepass');
     // Route::get('changeprofilePic', [App\Http\Controllers\TeacherController::class, 'changeprofilePic'])->name('profilepic.update');
+    
 
     //Request 
     Route::get('/faculty/managerequest', [App\Http\Controllers\RequestController::class, 'showRequest2'])->name('faculty.managerequest');

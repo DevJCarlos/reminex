@@ -247,8 +247,10 @@
 
             TimeSchedule.forEach((Timeslot) => {
                 const combinedData = Timeslot.rooms.map((room, index) => {
+                    
                     const instructors = Timeslot.Subjects[index].Instructor.split(', ');
-                    // console.log('check proctor:',Timeslot);
+                    console.log('check instructor:',Timeslot);
+                    
                     const hasMatchingInstructor = instructors.some(instructor => usersNames.includes(instructor));
                     // console.log(hasMatchingInstructor);
                     if (hasMatchingInstructor) {

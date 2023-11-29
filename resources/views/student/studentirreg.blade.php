@@ -84,9 +84,7 @@
 											</tbody>
 										
 										</table>
-                                        
-										<br>
-                                        <button id="customScheduleButton" type="submit" class="btn btn-success" style="width: 150px;">Custom Schedule</button>				
+										<br>					
 									</div>
 									
 								</div> 
@@ -98,8 +96,6 @@
 
 <script src="{{asset('import/js/app.js')}}"></script>
 <script>
-    var customScheduleButton = document.getElementById('customScheduleButton');
-    customScheduleButton.style.display = 'none';
     function handleFormSubmit() {			
         var period = document.getElementById('dropdown1').value;
         var day = document.getElementById('dropdown2').value;
@@ -124,13 +120,10 @@
             console.log(response);
             usersSection = [response.userSection];
             // usersSection = ['BSCS 1-2AA'];
-            
+            console.log(usersSection);
             var alterdata =[];
             var TimeSchedule = [];
             var ExamDates = [];
-            // usersStatus = [response.userStatus];
-            usersStatus = ['Irregular'];
-            console.log(usersStatus);
             
             response.examTimes.forEach(function(examTime) {
                     
@@ -251,19 +244,16 @@
                 });
                 // console.log('data',DataFiltered);
                 
-                //exam date
+                // Assuming ExamDates is defined
                 let examDate = ExamDates[0][0];
+                // console.log('check1',examDate)
+                // Get the HTML element by its ID
                 let examDateHeader = document.getElementById('examDateHeader');
+                
+                // Update the content of the HTML element
                 examDateHeader.textContent += examDate;
                 
                 
-                customScheduleButton = document.getElementById('customScheduleButton');
-
-                if (usersStatus[0] === 'Irregular') {
-                customScheduleButton.style.display = 'block'; 
-                } else {
-                customScheduleButton.style.display = 'none'; 
-                }
                 // console.log('alterdata: ',alterdatas);
 
                 const tableBody = document.getElementById('tableBody');

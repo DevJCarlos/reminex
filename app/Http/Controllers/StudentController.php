@@ -28,6 +28,11 @@ class StudentController extends Controller
     public function newSched(){
         return view('student.newsched');
     }
+    //econif ni
+    public function showsubject(){
+        return view('show.subject');
+    }
+
 
     // public function changeprofilePic(){
     //     return view('student.changeprofilepic');
