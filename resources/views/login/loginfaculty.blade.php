@@ -144,7 +144,7 @@
 
             <div class="swiper-slide">
               <div class="testimonial-item">
-                <img src="{{ asset('import2/img/testimonials/basan.png') }}" class="testimonial-img" alt="">
+                <img src="{{ asset('import2/img/testimonials/basan.jpg') }}" class="testimonial-img" alt="">
                 <h3>Gian Rogel Y. Basan</h3>
                 <h4>STI College Gensan - BSIT Student</h4><br>
                 <h4>Calumpang, General Santos City</h4>

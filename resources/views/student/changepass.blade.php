@@ -13,13 +13,19 @@
 						<div class="col-12 col-lg-5">
 							<div class="card">
 								<div class="card-body">
-									<form action="#" method="#">
-										<label for="request"><strong>Current Password: </strong></label>
-										<input type="text" class="form-control" placeholder="Input Here"><br>
-										<label class="col-md-3"><strong>New Password: </strong></label>
-										<input type="text" class="form-control" placeholder="Input Here"><br>	
-										<label class="col-md-3"><strong>Confirm Password: </strong></label>
-										<input type="text" class="form-control" placeholder="Input Here"><br><br>
+									<form action="{{ route('password.change') }}" method="POST">
+										@csrf
+										<!-- Old Password input -->
+										<label for="old_password"><strong>Old Password: </strong></label>
+										<input type="password" name="old_password" class="form-control" placeholder="Input Here" required><br>
+
+										<!-- New Password input -->
+										<label for="new_password"><strong>New Password: </strong></label>
+										<input type="password" name="new_password" class="form-control" placeholder="Input Here" required><br>    
+
+										<!-- Confirm Password input -->
+										<label for="confirm_password"><strong>Confirm Password: </strong></label>
+										<input type="password" name="confirm_password" class="form-control" placeholder="Input Here" required><br><br>
 										
 										<input type="submit" class="btn btn-warning btn-lg" id="sendRequest" value="Submit">
 									</form>

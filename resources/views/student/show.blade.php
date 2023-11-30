@@ -65,6 +65,7 @@
                                         <h4 id="examDateHeader"> </h4>
 									</div>
 									<div class="card-body">
+                                        <div class="table-responsive">
 										<table class = "table table-bordered" id = "schedule">
 											<thead>
 												<tr>
@@ -84,6 +85,7 @@
 											</tbody>
 										
 										</table>
+                                        </div>
                                         
 										<br>
                                         <button id="customScheduleButton" type="submit" class="btn btn-success" style="width: 150px;">Custom Schedule</button>				
