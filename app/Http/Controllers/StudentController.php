@@ -67,6 +67,7 @@ class StudentController extends Controller
               $subject = [];
               $section = [];
               $instructor = [];
+              $code = [];
     
               foreach ($csv as $record) {
                   $subjectValue = $record[4];
@@ -74,6 +75,7 @@ class StudentController extends Controller
                   $sectionValue = $record[0];
                   
                   $instructorValue = $record[25];
+                  $codeValue = $record[9];
     
                    
                   if ($subjectValue !== 'Course Description' && trim($subjectValue) !== '') {
@@ -87,11 +89,15 @@ class StudentController extends Controller
                   if ($instructorValue !== 'Instructor' && trim($instructorValue) !== '') {
                       $instructor[] = $instructorValue;
                   }
+
+                  if ($codeValue !== 'Career' && trim($codeValue) !== '' && $codeValue !== 'Class No') {
+                    $code[] = $codeValue;
+                }
               }
     
-              // dd($user);
+            //   dd($code);
     
-              return view('student.studentirreg', compact('subject', 'section', 'instructor'));
+              return view('student.studentirreg', compact('subject', 'section', 'instructor','code'));
           } else {
                
               return abort(404, 'No CSV file found');
@@ -104,34 +110,38 @@ class StudentController extends Controller
       if ($user && $user->hasRole('student')) {
           $sendSelected = $request->input('selectedData');
           $userNameID = $user->id;
-          // Initialize arrays
+          
           $subjects = [];
           $instructors = [];
           $sections = [];
+          $codes = [];
           foreach ($sendSelected as $data) {
-              // Use null coalescing operators to handle missing keys
+              
               $subject = $data['subject'] ?? null;
               $instructor = $data['instructor'] ?? null;
               $section = $data['section'] ?? null;
-              // Check if any of the required keys is missing for any item
-              if ($subject === null || $instructor === null || $section === null) {
+              $code = $data['code'] ?? null;
+              
+              if ($subject === null || $instructor === null || $section === null || $code === null ) {
                   return response()->json(['error' => 'Missing data keys'], 400);
               }
-              // Add data to respective arrays
+              
               $subjects[] = $subject;
               $instructors[] = $instructor;
               $sections[] = $section;
+              $codes[] = $code;
           }
-          // Save to the database
+          
           foreach ($subjects as $index => $subject) {
               IrregStudentSub::create([
                   'irreg_students_id' => $userNameID,
                   'student_subject' => $subject,
                   'subject_instructor' => $instructors[$index],
                   'subject_section' => $sections[$index],
+                  'code' => $codes[$index],
               ]);
           }
-          // Return a response, e.g., success message
+          
           return response()->json(['message' => 'Data stored successfully']);
       } else {
           return abort(404, 'Not authorized');

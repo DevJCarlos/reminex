@@ -41,6 +41,7 @@
                                                 <th>Subject</th>
                                                 <th>Instructor</th>
                                                 <th>Section</th>
+                                                <th>code</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -55,6 +56,7 @@
                                                 <td>{{ $subjectItem }}</td>
                                                 <td>{{ isset($instructor[$index]) ? $instructor[$index] : '' }}</td>
                                                 <td>{{ isset($section[$index]) ? $section[$index] : '' }}</td>
+                                                <td>{{ isset($code[$index]) ? $code[$index] : '' }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -133,7 +135,8 @@
                 selectedData.push({
                     subject: row.cells[1].textContent,
                     instructor: row.cells[2].textContent,
-                    section: row.cells[3].textContent
+                    section: row.cells[3].textContent,
+                    code: row.cells[4].textContent
                 });
             }
         });
@@ -157,11 +160,13 @@
             var cell1 = newRow.insertCell(0);
             var cell2 = newRow.insertCell(1);
             var cell3 = newRow.insertCell(2);
+            var cell4 = newRow.insertCell(3);
 
             
             cell1.textContent = data.subject;
             cell2.textContent = data.instructor;
             cell3.textContent = data.section;
+            cell4.textContent = data.code;
         });
         // displaySelected(selectedData);
         SendSelected = selectedData;

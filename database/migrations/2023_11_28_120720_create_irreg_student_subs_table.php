@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('student_subject')->nullable()->default(null);
             $table->string('subject_instructor')->nullable()->default(null);
             $table->string('subject_section')->nullable()->default(null);
+            $table->string('code')->nullable()->default(null);
             $table->timestamps();
 
 

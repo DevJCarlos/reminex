@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class IrregStudentSub extends Model
 {
     use HasFactory;
-    protected $fillable = ['irreg_students_id', 'student_subject', 'subject_instructor', 'subject_section'];
+    protected $fillable = ['irreg_students_id', 'student_subject', 'subject_instructor', 'subject_section', 'code'];
 }

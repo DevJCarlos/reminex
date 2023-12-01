@@ -592,6 +592,7 @@ class ExamUserController extends Controller
         $studentSubjects = $irregStudent->pluck('student_subject');
         $subjectInstructors = $irregStudent->pluck('subject_instructor');
         $subjectSections = $irregStudent->pluck('subject_section');
+        
 
         
 
@@ -708,11 +709,11 @@ class ExamUserController extends Controller
                 }
                 elseif ($day == '2') {
                     // dd('tama and day 2');
-                    return response()->json(['examTimes' => $Prelim2, 'userSection' => $userSection, 'userStatus' => $userStatus]);
+                    return response()->json(['examTimes' => $Prelim2, 'userSection' => $userSection, 'userStatus' => $userStatus, 'irreg_info' => $irregStudent]);
                 }
                 elseif ($day == '3') {
                     // dd('tama and day 3');
-                    return response()->json(['examTimes' => $Prelim3, 'userSection' => $userSection, 'userStatus' => $userStatus]);
+                    return response()->json(['examTimes' => $Prelim3, 'userSection' => $userSection, 'userStatus' => $userStatus, 'irreg_info' => $irregStudent]);
                 }
                 else{
                     dd('error');
@@ -721,15 +722,15 @@ class ExamUserController extends Controller
             }if ($period == 'Midterms') {
                 if ($day == '1') {
                     // dd('tama and day 1');
-                    return response()->json(['examTimes' => $Midterm1, 'userSection' => $userSection, 'userStatus' => $userStatus]);
+                    return response()->json(['examTimes' => $Midterm1, 'userSection' => $userSection, 'userStatus' => $userStatus, 'irreg_info' => $irregStudent]);
                 }
                 elseif ($day == '2') {
                     // dd('tama and day 2');
-                    return response()->json(['examTimes' => $Midterm2, 'userSection' => $userSection, 'userStatus' => $userStatus]);
+                    return response()->json(['examTimes' => $Midterm2, 'userSection' => $userSection, 'userStatus' => $userStatus, 'irreg_info' => $irregStudent]);
                 }
                 elseif ($day == '3') {
                     // dd('tama and day 3');
-                    return response()->json(['examTimes' => $Midterm3, 'userSection' => $userSection, 'userStatus' => $userStatus]);
+                    return response()->json(['examTimes' => $Midterm3, 'userSection' => $userSection, 'userStatus' => $userStatus, 'irreg_info' => $irregStudent]);
                 }
                 else{
                     dd('error');
@@ -737,15 +738,15 @@ class ExamUserController extends Controller
             }if ($period == 'Pre-Finals') {
                 if ($day == '1') {
                     // dd('tama and day 1');
-                    return response()->json(['examTimes' => $Prefi1, 'userSection' => $userSection, 'userStatus' => $userStatus]);
+                    return response()->json(['examTimes' => $Prefi1, 'userSection' => $userSection, 'userStatus' => $userStatus, 'irreg_info' => $irregStudent]);
                 }
                 elseif ($day == '2') {
                     // dd('tama and day 2');
-                    return response()->json(['examTimes' => $Prefi2, 'userSection' => $userSection, 'userStatus' => $userStatus]);
+                    return response()->json(['examTimes' => $Prefi2, 'userSection' => $userSection, 'userStatus' => $userStatus, 'irreg_info' => $irregStudent]);
                 }
                 elseif ($day == '3') {
                     // dd('tama and day 3');
-                    return response()->json(['examTimes' => $Prefi3, 'userSection' => $userSection, 'userStatus' => $userStatus]);
+                    return response()->json(['examTimes' => $Prefi3, 'userSection' => $userSection, 'userStatus' => $userStatus, 'irreg_info' => $irregStudent]);
                 }
                 else{
                     dd('error');
@@ -754,15 +755,15 @@ class ExamUserController extends Controller
             }if ($period == 'Finals') {
                 if ($day == '1') {
                     // dd('tama and day 1');
-                    return response()->json(['examTimes' => $Final1, 'userSection' => $userSection, 'userStatus' => $userStatus]);
+                    return response()->json(['examTimes' => $Final1, 'userSection' => $userSection, 'userStatus' => $userStatus, 'irreg_info' => $irregStudent]);
                 }
                 elseif ($day == '2') {
                     // dd('tama and day 2');
-                    return response()->json(['examTimes' => $Final2, 'userSection' => $userSection, 'userStatus' => $userStatus]);
+                    return response()->json(['examTimes' => $Final2, 'userSection' => $userSection, 'userStatus' => $userStatus, 'irreg_info' => $irregStudent]);
                 }
                 elseif ($day == '3') {
                     // dd('tama and day 3');
-                    return response()->json(['examTimes' => $Final3 , 'userSection' => $userSection, 'userStatus' => $userStatus]);
+                    return response()->json(['examTimes' => $Final3 , 'userSection' => $userSection, 'userStatus' => $userStatus, 'irreg_info' => $irregStudent]);
                 }
                 else{
                     dd('error');

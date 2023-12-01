@@ -137,17 +137,18 @@
             var subjectirreg = [];
             var instructorirreg = [];
             var sectionirreg = [];
-
+            var codeirreg = [];
 
             IrregInfo.forEach((irreg) => {
-            // subjectirreg = [irreg.student_subject];
+            
             subjectirreg.push([irreg.student_subject]);
             instructorirreg.push([irreg.subject_instructor]);
             sectionirreg.push([irreg.subject_section]);
+            codeirreg.push([irreg.code]);
            
 
             });
-            console.log('irreg',sectionirreg);
+            console.log('irreg',codeirreg);
 
             
             var alterdata =[];
@@ -405,33 +406,32 @@
                         })   
                                 
                     }); 
-                    console.log('Time:', );
+                    console.log('Time:', TimeSchedule);
                     var alterdatas = [];
                   
                     TimeSchedule.forEach((Timeslot) => {
-                        var DataFiltered = [];
-                        const combinedData = Timeslot.rooms.map((room, index) => {
-                        const subjectName = Timeslot.Subjects[index].Subject_name;
-                        const sections = Timeslot.Subjects[index].Section.split(', ');
-                        const instructors = Timeslot.Subjects[index].Instructor.split(', ');
+                    var DataFiltered = [];
+                    const combinedData = Timeslot.rooms.map((room, index) => {
+                        
+                        const codes = Timeslot.Subjects[index].Code.split(', ');
 
-                        // Check if either section or instructor match any set of criteria
-                        const sectionMatched = sections.some(section => sectionirreg.some(criteriaSet => criteriaSet.includes(section)));
-                        const instructorMatched = instructors.some(instructor => instructorirreg.some(criteriaSet => criteriaSet.includes(instructor)));
+                        // Check if either section, instructor, or subject match any set of criteria
+                        const codeMatched = codes.some(code => codeirreg.some(criteriaSet => criteriaSet.includes(code)));
+                        
 
-                        // Include the row if either section or instructor match
-                        if (sectionMatched && instructorMatched) {
-                            DataFiltered.push({
-                                Room: room.rooms,
-                                SecId: Timeslot.Subjects[index].secID,
-                                Subject_name: subjectName,
-                                Sections: sections.join(', '), // Join sections back after splitting
-                                Code: Timeslot.Subjects[index].Code,
-                                Instructor: instructors.join(', '), // Join instructors back after splitting
-                                StudentCount: Timeslot.Subjects[index].StudentCount,
-                                proctor: Timeslot.Subjects[index].proctor,
-                            });
-                        }
+                        
+                            if (codeMatched ) {
+                                DataFiltered.push({
+                                    Room: room.rooms,
+                                    SecId: Timeslot.Subjects[index].secID,
+                                    Subject_name: Timeslot.Subjects[index].Subject_name,
+                                    Sections: Timeslot.Subjects[index].Section,
+                                    Code: codes.join(', '), 
+                                    Instructor: Timeslot.Subjects[index].Instructor,
+                                    StudentCount: Timeslot.Subjects[index].StudentCount,
+                                    proctor: Timeslot.Subjects[index].proctor,
+                                });
+                            }
                     });
                         // console.log('data',combinedData);
                 
