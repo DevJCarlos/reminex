@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>ReminEx Faculty</title>
+  <title>STI Gensan Reminex Faculty</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -77,6 +77,7 @@
         
             <!-- Icon -->
             <div class="fadeIn first">
+              <img src="{{ asset('import2/img/stilogo2.png') }}" alt="STI Logo" width="50px">
               <h2>Faculty Sign In</h2>
             </div>
         
@@ -105,11 +106,11 @@
                       @endif
                     </div>
             </form>
-            <a href="{{ route('student') }}">Sign In as Student</a> &nbsp;&nbsp; <a href="{{ route('admin') }}">Sign In as Admin</a>
         
             <!-- Remind Passowrd -->
             <div id="formFooter">
-              <a class="underlineHover" href="#">Forgot Password?</a>
+              <a href="{{ route('student') }}" class="underlineHover">Sign In as Student</a> &nbsp;&nbsp; <a href="{{ route('admin') }}" class="underlineHover">Sign In as Admin</a>
+              <!-- <a class="underlineHover" href="#">Forgot Password?</a> -->
             </div>
         
           </div>

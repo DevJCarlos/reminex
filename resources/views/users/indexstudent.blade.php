@@ -90,7 +90,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="astat" class="col-sm-3 text-end control-label col-form-label">Section</label>
+                                    <label for="astat" class="col-sm-3 text-end control-label col-form-label">Status</label>
                                     <div class="col-sm-9">
                                         <select class="form-control" name="student_status" required>     
                                         <option disabled selected>Select Status...</option>     
