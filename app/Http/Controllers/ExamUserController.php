@@ -7,6 +7,7 @@ use App\Models\ExamUser;
 use App\Models\ExamDay;
 use App\Models\ExamTime;
 use App\Models\ExamSection;
+use App\Models\IrregStudentSub;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Storage;
@@ -582,6 +583,18 @@ class ExamUserController extends Controller
     public function pullExamstudent(Request $request){
        
         $user = Auth::user();
+        $userID = $user->id;
+
+        // Retrieve only the records for the current user
+        $irregStudent = IrregStudentSub::where('irreg_students_id', $userID)->get();
+        // dd($irregStudent);
+        $studentIrregID = $irregStudent->pluck('irreg_students_id');
+        $studentSubjects = $irregStudent->pluck('student_subject');
+        $subjectInstructors = $irregStudent->pluck('subject_instructor');
+        $subjectSections = $irregStudent->pluck('subject_section');
+
+        
+
     
         if ($user && $user->hasRole('student')) {
            
@@ -591,6 +604,13 @@ class ExamUserController extends Controller
             $userSection = $user->student_sec;
             $userStatus = $user->student_status;
             // dd($userStatus);
+            // $irregID = $irregStudent->irreg_students_id;
+            
+            // $irregSub = $irregStudent->student_subject;
+            // dd($irregSub);
+            // $irregInstructor = $irregStudent->subject_instructor;
+            // $irregSec = $irregStudent->subject_section;
+
             
             $Prelim1 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
             ->whereHas('examDay', function ($query){
@@ -684,7 +704,7 @@ class ExamUserController extends Controller
                 // dd($period);
                 if ($day == '1') {
                     // dd('tama and day 1');
-                    return response()->json(['examTimes' => $Prelim1, 'userSection' => $userSection, 'userStatus' => $userStatus ]);
+                    return response()->json(['examTimes' => $Prelim1, 'userSection' => $userSection, 'userStatus' => $userStatus, 'irreg_info' => $irregStudent ]);
                 }
                 elseif ($day == '2') {
                     // dd('tama and day 2');

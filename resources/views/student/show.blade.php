@@ -100,6 +100,11 @@
 <script>
     var customScheduleButton = document.getElementById('customScheduleButton');
     customScheduleButton.style.display = 'none';
+    customScheduleButton.addEventListener('click', function() {
+
+        const routeUrl = '/irregstudent';
+        window.location.href = routeUrl;
+    });
     function handleFormSubmit() {			
         var period = document.getElementById('dropdown1').value;
         var day = document.getElementById('dropdown2').value;
@@ -124,87 +129,104 @@
             console.log(response);
             usersSection = [response.userSection];
             // usersSection = ['BSCS 1-2AA'];
+            var IrregInfo = response.irreg_info;
+            // console.log('irreg',IrregInfo);
+
+            var subjectirreg = [];
+            var instructorirreg = [];
+            var sectionirreg = [];
+
+
+            IrregInfo.forEach((irreg) => {
+            // subjectirreg = [irreg.student_subject];
+            subjectirreg.push([irreg.student_subject]);
+            instructorirreg.push([irreg.subject_instructor]);
+            sectionirreg.push([irreg.subject_section]);
+           
+
+            });
+            console.log('irreg',sectionirreg);
+
             
             var alterdata =[];
             var TimeSchedule = [];
             var ExamDates = [];
             // usersStatus = [response.userStatus];
             usersStatus = ['Irregular'];
-            console.log(usersStatus);
-            
-            response.examTimes.forEach(function(examTime) {
-                    
-                var TimeRooms = [];
-                var TimeIDs = [];
-                var SeCount = [];
-                var alterRooms = [];
-                var Sections = [];
-                var ExamDate = [examTime.exam_day];
-                    
+            // console.log(usersStatus);
+            if (usersStatus[0] === 'Regular') {
+                response.examTimes.forEach(function(examTime) {
+                        
+                    var TimeRooms = [];
+                    var TimeIDs = [];
+                    var SeCount = [];
+                    var alterRooms = [];
+                    var Sections = [];
+                    var ExamDate = [examTime.exam_day];
+                        
 
-                examTime.exam_rooms.forEach(function(examRoom) {
-                    // console.log('new',examRoom);
-                    TimeRooms.push({rooms: examRoom.room_name});
-                    TimeIDs.push([examRoom.id]);
+                    examTime.exam_rooms.forEach(function(examRoom) {
+                        // console.log('new',examRoom);
+                        TimeRooms.push({rooms: examRoom.room_name});
+                        TimeIDs.push([examRoom.id]);
 
-                    alterRooms.push([examRoom.id, examRoom.room_name]);
-                });
+                        alterRooms.push([examRoom.id, examRoom.room_name]);
+                    });
 
-                ExamDate.forEach(function(dates) {
-                    
-                    
-                    ExamDates.push([dates.date]);
+                    ExamDate.forEach(function(dates) {
+                        
+                        
+                        ExamDates.push([dates.date]);
 
+                        
+                    });
                     
-                });
-                
-                
-                // console.log(ExamDates);
-                    // console.log('timerooms',TimeRooms);
                     
-                var alterSec = [];
-                var alterCount = [];
-                var alterSub = [];
-                examTime.exam_sub.forEach(function (subject) {
-                            
-                    subject.exam_sectionss.forEach(function (subjectSec) {
+                    // console.log(ExamDates);
+                        // console.log('timerooms',TimeRooms);
+                        
+                    var alterSec = [];
+                    var alterCount = [];
+                    var alterSub = [];
+                    examTime.exam_sub.forEach(function (subject) {
                                 
-                        Sections.push({
-                            secID: subjectSec.id,
-                            Subject_name: subject.subject_name,
-                            Section: subjectSec.section_name,
-                            Code: subjectSec.class_num,
-                            Instructor: subjectSec.Instructor,
-                            StudentCount: subjectSec.class_count,
-                            proctor: subjectSec.proctor_name,
-            
+                        subject.exam_sectionss.forEach(function (subjectSec) {
+                                    
+                            Sections.push({
+                                secID: subjectSec.id,
+                                Subject_name: subject.subject_name,
+                                Section: subjectSec.section_name,
+                                Code: subjectSec.class_num,
+                                Instructor: subjectSec.Instructor,
+                                StudentCount: subjectSec.class_count,
+                                proctor: subjectSec.proctor_name,
+                
+                            });
+                                    
+                                    
                         });
                                 
-                                
                     });
+
+                    TimeSchedule.push({
+                        Time: examTime.exam_time,
+                        Subjects: Sections,
+                        rooms: TimeRooms
+                                    
+                    });
+                    alterdata.push({
+                    Subject : Sections
+                    })
+                    // console.log(TimeSchedule)    
                             
-                });
-
-                TimeSchedule.push({
-                    Time: examTime.exam_time,
-                    Subjects: Sections,
-                    rooms: TimeRooms
-                                
-                });
-                alterdata.push({
-                Subject : Sections
-                })
-                // console.log(TimeSchedule)    
-                        
-            }); 
-            // console.log('TimeSchedule Data', TimeSchedule);
-            var alterdatas = [];
-            // var DataFiltered = [];
-            // console.log('check 2',ExamDates[0][0]);
-            
-
-            TimeSchedule.forEach((Timeslot) => {
-                var DataFiltered = [];
+                }); 
+                // console.log('TimeSchedule Data', TimeSchedule);
+                var alterdatas = [];
+                // var DataFiltered = [];
+                // console.log('check 2',ExamDates[0][0]);
+                
+                TimeSchedule.forEach((Timeslot) => {
+                    var DataFiltered = [];
                     const combinedData = Timeslot.rooms.map((room, index) => {
                         // console.log(Timeslot.Subjects[index].Instructor);
                         const section = Timeslot.Subjects[index].Section.split(', ');
@@ -249,74 +271,243 @@
                         Data: DataFiltered,
                     });
                 });
-                // console.log('data',DataFiltered);
                 
-                //exam date
-                let examDate = ExamDates[0][0];
-                let examDateHeader = document.getElementById('examDateHeader');
-                examDateHeader.textContent += examDate;
-                
-                
-                customScheduleButton = document.getElementById('customScheduleButton');
+                    //exam date
+                    let examDate = ExamDates[0][0];
+                    let examDateHeader = document.getElementById('examDateHeader');
+                    examDateHeader.textContent += examDate;
+                    
+                    
+                    customScheduleButton = document.getElementById('customScheduleButton');
 
-                if (usersStatus[0] === 'Irregular') {
-                customScheduleButton.style.display = 'block'; 
-                } else {
-                customScheduleButton.style.display = 'none'; 
-                }
-                // console.log('alterdata: ',alterdatas);
+                    if (usersStatus[0] === 'Irregular') {
+                    customScheduleButton.style.display = 'block'; 
+                    } else {
+                    customScheduleButton.style.display = 'none'; 
+                    }
+                    // console.log('alterdata: ',alterdatas);
 
                 const tableBody = document.getElementById('tableBody');
                     let uniqueTimeSlots = [];
                 alterdatas.forEach((timeSlots) => {
-                        timeSlots.Data.forEach((subject, index) => {
-                            const row = document.createElement('tr');
+                            timeSlots.Data.forEach((subject, index) => {
+                                const row = document.createElement('tr');
 
-                            if (index === 0) {
-                                const timeCell = document.createElement('td');
-                                if (!uniqueTimeSlots.includes(timeSlots.Time)) {
-                                    timeCell.rowSpan = timeSlots.Data.length;
-                                    timeCell.textContent = timeSlots.Time;
-                                    uniqueTimeSlots.push(timeSlots.Time);
+                                if (index === 0) {
+                                    const timeCell = document.createElement('td');
+                                    if (!uniqueTimeSlots.includes(timeSlots.Time)) {
+                                        timeCell.rowSpan = timeSlots.Data.length;
+                                        timeCell.textContent = timeSlots.Time;
+                                        uniqueTimeSlots.push(timeSlots.Time);
+                                    }
+                                    row.appendChild(timeCell);
                                 }
-                                row.appendChild(timeCell);
-                            }
 
-                            // Subject
-                            const subjectCell = document.createElement('td');
-                            subjectCell.textContent = subject.Subject_name;
-                            row.appendChild(subjectCell);
+                                // Subject
+                                const subjectCell = document.createElement('td');
+                                subjectCell.textContent = subject.Subject_name;
+                                row.appendChild(subjectCell);
 
-                            // Room
-                            const roomCell = document.createElement('td');
-                            roomCell.textContent = subject.Room;
-                            row.appendChild(roomCell);
+                                // Room
+                                const roomCell = document.createElement('td');
+                                roomCell.textContent = subject.Room;
+                                row.appendChild(roomCell);
 
-                            // Section
-                            const sectionCell = document.createElement('td');
-                            sectionCell.textContent = subject.Sections;
-                            row.appendChild(sectionCell);
+                                // Section
+                                const sectionCell = document.createElement('td');
+                                sectionCell.textContent = subject.Sections;
+                                row.appendChild(sectionCell);
 
-                            // Section Number
-                            const sectionNumberCell = document.createElement('td');
-                            sectionNumberCell.textContent = subject.Code;
-                            row.appendChild(sectionNumberCell);
+                                // Section Number
+                                const sectionNumberCell = document.createElement('td');
+                                sectionNumberCell.textContent = subject.Code;
+                                row.appendChild(sectionNumberCell);
 
-                            // Instructor
-                            const instructorCell = document.createElement('td');
-                            instructorCell.textContent = subject.Instructor;
-                            row.appendChild(instructorCell);
+                                // Instructor
+                                const instructorCell = document.createElement('td');
+                                instructorCell.textContent = subject.Instructor;
+                                row.appendChild(instructorCell);
 
-                            // Class Count
-                            const classCountCell = document.createElement('td');
-                            classCountCell.textContent = subject.StudentCount;
-                            row.appendChild(classCountCell);
-                        
-                            tableBody.appendChild(row);
+                                // Class Count
+                                const classCountCell = document.createElement('td');
+                                classCountCell.textContent = subject.StudentCount;
+                                row.appendChild(classCountCell);
+                            
+                                tableBody.appendChild(row);
+                            });
                         });
-                    });
                    
                 
+            }
+            if((usersStatus[0] === 'Irregular')){
+                window.alert("youre Ireg");
+                
+
+                response.examTimes.forEach(function(examTime) {
+                        
+                        var TimeRooms = [];
+                        var TimeIDs = [];
+                        var SeCount = [];
+                        var alterRooms = [];
+                        var Sections = [];
+                        var ExamDate = [examTime.exam_day];
+                            
+    
+                        examTime.exam_rooms.forEach(function(examRoom) {
+                            // console.log('new',examRoom);
+                            TimeRooms.push({rooms: examRoom.room_name});
+                            TimeIDs.push([examRoom.id]);
+    
+                            alterRooms.push([examRoom.id, examRoom.room_name]);
+                        });
+    
+                        ExamDate.forEach(function(dates) {
+                            
+                            
+                            ExamDates.push([dates.date]);
+    
+                            
+                        });
+                        // console.log(ExamDates);
+                        // console.log('timerooms',TimeRooms);
+                            
+                        var alterSec = [];
+                        var alterCount = [];
+                        var alterSub = [];
+                        examTime.exam_sub.forEach(function (subject) {
+                                    
+                            subject.exam_sectionss.forEach(function (subjectSec) {
+                                        
+                                Sections.push({
+                                    secID: subjectSec.id,
+                                    Subject_name: subject.subject_name,
+                                    Section: subjectSec.section_name,
+                                    Code: subjectSec.class_num,
+                                    Instructor: subjectSec.Instructor,
+                                    StudentCount: subjectSec.class_count,
+                                    proctor: subjectSec.proctor_name,
+                    
+                                });        
+                            });
+                                    
+                        });
+    
+                        TimeSchedule.push({
+                            Time: examTime.exam_time,
+                            Subjects: Sections,
+                            rooms: TimeRooms
+                                        
+                        });
+                        alterdata.push({
+                        Subject : Sections
+                        })   
+                                
+                    }); 
+                    console.log('Time:', );
+                    var alterdatas = [];
+                  
+                    TimeSchedule.forEach((Timeslot) => {
+                        var DataFiltered = [];
+                        const combinedData = Timeslot.rooms.map((room, index) => {
+                        const subjectName = Timeslot.Subjects[index].Subject_name;
+                        const sections = Timeslot.Subjects[index].Section.split(', ');
+                        const instructors = Timeslot.Subjects[index].Instructor.split(', ');
+
+                        // Check if either section or instructor match any set of criteria
+                        const sectionMatched = sections.some(section => sectionirreg.some(criteriaSet => criteriaSet.includes(section)));
+                        const instructorMatched = instructors.some(instructor => instructorirreg.some(criteriaSet => criteriaSet.includes(instructor)));
+
+                        // Include the row if either section or instructor match
+                        if (sectionMatched && instructorMatched) {
+                            DataFiltered.push({
+                                Room: room.rooms,
+                                SecId: Timeslot.Subjects[index].secID,
+                                Subject_name: subjectName,
+                                Sections: sections.join(', '), // Join sections back after splitting
+                                Code: Timeslot.Subjects[index].Code,
+                                Instructor: instructors.join(', '), // Join instructors back after splitting
+                                StudentCount: Timeslot.Subjects[index].StudentCount,
+                                proctor: Timeslot.Subjects[index].proctor,
+                            });
+                        }
+                    });
+                        // console.log('data',combinedData);
+                
+                        alterdatas.push({
+                            Time: Timeslot.Time,
+                            Data: DataFiltered,
+                        });
+                    });
+                    console.log(alterdatas);
+                    
+                        //exam date
+                        let examDate = ExamDates[0][0];
+                        let examDateHeader = document.getElementById('examDateHeader');
+                        examDateHeader.textContent += examDate;
+                        
+                        
+                        customScheduleButton = document.getElementById('customScheduleButton');
+    
+                        if (usersStatus[0] === 'Irregular') {
+                        customScheduleButton.style.display = 'block'; 
+                        } else {
+                        customScheduleButton.style.display = 'none'; 
+                        }
+                        // console.log('alterdata: ',alterdatas);
+    
+                    const tableBody = document.getElementById('tableBody');
+                        let uniqueTimeSlots = [];
+                    alterdatas.forEach((timeSlots) => {
+                                timeSlots.Data.forEach((subject, index) => {
+                                    const row = document.createElement('tr');
+    
+                                    if (index === 0) {
+                                        const timeCell = document.createElement('td');
+                                        if (!uniqueTimeSlots.includes(timeSlots.Time)) {
+                                            timeCell.rowSpan = timeSlots.Data.length;
+                                            timeCell.textContent = timeSlots.Time;
+                                            uniqueTimeSlots.push(timeSlots.Time);
+                                        }
+                                        row.appendChild(timeCell);
+                                    }
+    
+                                    // Subject
+                                    const subjectCell = document.createElement('td');
+                                    subjectCell.textContent = subject.Subject_name;
+                                    row.appendChild(subjectCell);
+    
+                                    // Room
+                                    const roomCell = document.createElement('td');
+                                    roomCell.textContent = subject.Room;
+                                    row.appendChild(roomCell);
+    
+                                    // Section
+                                    const sectionCell = document.createElement('td');
+                                    sectionCell.textContent = subject.Sections;
+                                    row.appendChild(sectionCell);
+    
+                                    // Section Number
+                                    const sectionNumberCell = document.createElement('td');
+                                    sectionNumberCell.textContent = subject.Code;
+                                    row.appendChild(sectionNumberCell);
+    
+                                    // Instructor
+                                    const instructorCell = document.createElement('td');
+                                    instructorCell.textContent = subject.Instructor;
+                                    row.appendChild(instructorCell);
+    
+                                    // Class Count
+                                    const classCountCell = document.createElement('td');
+                                    classCountCell.textContent = subject.StudentCount;
+                                    row.appendChild(classCountCell);
+                                
+                                    tableBody.appendChild(row);
+                                });
+                            });
+            }
+            else{
+                
+            }            
         },
         
         error: function(error) {

@@ -40,7 +40,9 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
     Route::get('/student/aboutus', [App\Http\Controllers\StudentController::class, 'aboutUs'])->name('student.aboutus');
     Route::get('/student/changepass', [App\Http\Controllers\StudentController::class, 'changePass'])->name('student.changepass');
     // Route::get('changeprofilePic', [App\Http\Controllers\StudentController::class, 'changeprofilePic'])->name('profilepic.update');
-    Route::get('/irregstudent', [App\Http\Controllers\StudentController::class, 'showsubject'])->name('show.subject');
+    //irreg student
+    Route::get('/irregstudent', [App\Http\Controllers\StudentController::class, 'showsubject'])->name('student.studentirreg');
+    Route::post('/store-selected-data', [App\Http\Controllers\StudentController::class, 'storeSelectedData'])->name('store.selected.data');
     
     
     
@@ -56,6 +58,8 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
     Route::post('/studentmarkAsRead/{notificationId}', [\App\Http\Controllers\RequestController::class, 'studentmarkAsRead'])->name('studentmarkAsRead');
     //PULL EXAM SCHED
     Route::post('/pull-exam-sched-student', [\App\Http\Controllers\ExamUserController::class, 'pullExamstudent'])->name('pullExamstudent');
+
+    
 
 });
 

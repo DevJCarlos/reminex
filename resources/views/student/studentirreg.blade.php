@@ -1,322 +1,202 @@
 @extends('layouts.guest')
 
 @section('content')
-	<div class="main">
-		<main class="content">
-			<div class="container-fluid p-0">
-            <!-- <h1 class="h3 mb-3"><strong>Exam Schedule</strong></h1> -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<!-- Include Bootstrap CSS and JS files -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script> -->
 
-                <div class="row">
-                    <!-- <div class="col-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="card-title mb-0">Your Exam Schedule is <span class="badge bg-warning">Not Yet Available</span>.</h5>
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+
+<!-- Include Bootstrap CSS -->
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.2.0/css/bootstrap.min.css"> -->
+
+<!-- Include Bootstrap JavaScript -->
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.2.0/js/bootstrap.min.js"></script> -->
+
+        <div class="main">
+            <main class="content">
+                <div class="container-fluid p-0">
+                    <!-- <h1 class="h3 mb-3"><strong>Customized Schedule</strong></h1> -->
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Custom Schedule</h4>
+                                </div>
+                                <div class="card-body">
+                                
+                                <table id="newexample" class="table table-striped table-bordered table-light" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <label class="customcheckbox">
+                                                        <input type="checkbox" id="selectAll">
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                </th> 
+                                                <th>Subject</th>
+                                                <th>Instructor</th>
+                                                <th>Section</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach ($subject as $index => $subjectItem)
+                                            <tr>
+                                                <td>
+                                                    <label class="customcheckbox">
+                                                        <input type="checkbox" class="selectCheckbox">
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                </td>
+                                                <td>{{ $subjectItem }}</td>
+                                                <td>{{ isset($instructor[$index]) ? $instructor[$index] : '' }}</td>
+                                                <td>{{ isset($section[$index]) ? $section[$index] : '' }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                    </table>
+                                    <button id="getSelectedDataButton" class="btn btn-primary">Get Selected Data</button>
+                                </div>
                             </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Your Schedule</h4>
+                                </div>
+                                <div class="card-body">
+                                
+                                <table id="newexample1" class="table table-striped table-bordered table-light" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Subject</th>
+                                                <th>Instructor</th>
+                                                <th>Section</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id = "dataset">
+                                        
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                    </table>
+                                    <br>
+                                    <!-- <button id="getSelectedDataButton1" class="btn btn-primary">update schedule</button> -->
+                                    <button type="button" onclick="sendSelectedDataToServer()" class="btn btn-primary">Update Schedule</button>
+                                </div>
+                            </div>                          
                         </div>
-                    </div> -->
-                    <div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-										<h4>Exam Schedule Table</h4>
-									</div>
-									<div class="card-body">
-										<form>
-											<div class="row">
-												<div class="col-md-6">
-													<div class="form-group">
-														<label for="dropdown1" class="text-right">Select Period:</label>
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="form-group">
-														<select class="form-control" id="dropdown1" name="option1">
-															<option value="none">--Select Period--</option>
-															<option value="Prelims">Prelims</option>
-															<option value="Midterms">Midterms</option>
-															<option value="Pre-Finals">Pre-Finals</option>
-															<option value="Finals">Finals</option>
-														</select>
-													</div>
-												</div>
-											</div>
-
-											<div class="row">
-												<div class="col-md-6">
-													<div class="form-group">
-														<label for="dropdown2" class="text-right">Select Day:</label>
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="form-group">
-														<select class="form-control" id="dropdown2" name="option2">
-															<option value="none">--Select Day--</option>
-															<option value="1">Day 1</option>
-															<option value="2">Day 2</option>
-															<option value="3">Day 3</option>
-														</select>
-													</div>
-												</div>
-											</div>
-										</form>
-										<div class="d-flex justify-content-between">                      
-                                            <h4 >Exam Date:  </h4>
-											<button type="submit" onclick="handleFormSubmit()" class="btn btn-success" style="width: 150px;">Find Schedule</button>
-										</div>
-                                        <h4 id="examDateHeader"> </h4>
-									</div>
-									<div class="card-body">
-										<table class = "table table-bordered" id = "schedule">
-											<thead>
-												<tr>
-													<th>Time</th>
-													<th>Subject</th>
-													<th>Rooms</th>
-													<th>Section</th>
-													<th>Section Number</th>
-													<th>Instructor</th>
-													<th>Student Count</th>
-													
-													<!-- <th>Actions</th> -->
-												</tr>
-											</thead>
-											<tbody id="tableBody">
-
-											</tbody>
-										
-										</table>
-										<br>					
-									</div>
-									
-								</div> 
-							</div>					
+                    </div>
                 </div>
-			</div>
-		</main>
-	</div>
+            </main>
+        </div>
 
 <script src="{{asset('import/js/app.js')}}"></script>
+
 <script>
-    function handleFormSubmit() {			
-        var period = document.getElementById('dropdown1').value;
-        var day = document.getElementById('dropdown2').value;
-        if (period == 'none' || day == 'none') {
-            alert('Please Select Period and day');
-            // location.reload();
+    $(document).ready(function() {
+        const newexample = $('#newexample').DataTable();
+
+            // Add event listener to select/deselect all checkboxes
+        $('#selectAll').on('change', function() {
+            $('.selectCheckbox').prop('checked', $(this).prop('checked'));
+        });
+            
+    });
+
+    document.getElementById('selectAll').addEventListener('change', function () {
+        // Select/deselect all checkboxes based on the state of the "Select All" checkbox
+        var checkboxes = document.querySelectorAll('.selectCheckbox');
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = document.getElementById('selectAll').checked;
+        });
+    });
+
+    // let selectedData = [];
+    // 
+    document.getElementById('getSelectedDataButton').addEventListener('click', function () {
+
+        var selectedData = [];
+        var checkboxes = document.querySelectorAll('.selectCheckbox');
+
+        
+        checkboxes.forEach(function (checkbox) {
+            
+            if (checkbox.checked) {
+                
+                var row = checkbox.closest('tr');
+                selectedData.push({
+                    subject: row.cells[1].textContent,
+                    instructor: row.cells[2].textContent,
+                    section: row.cells[3].textContent
+                });
             }
+        });
         
-        $('#tableBody').empty();
-        $('#examDateHeader').empty();
+        // selectedData = selectedData1;
+        displaySelected(selectedData)
+    });
+
+    var SendSelected;
+    function displaySelected(selectedData){
+       
+        const tableBody = document.getElementById('dataset');
+        $('#dataset').empty();
         
+        
+        tableBody.innerHTML = '';
+
+        
+        selectedData.forEach(function (data) {
+            var newRow = tableBody.insertRow();
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+
+            
+            cell1.textContent = data.subject;
+            cell2.textContent = data.instructor;
+            cell3.textContent = data.section;
+        });
+        // displaySelected(selectedData);
+        SendSelected = selectedData;
+        
+
+    }
+    
+
+    function sendSelectedDataToServer() {
+        console.log('display ni', SendSelected);
         var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
         $.ajax({
             method: 'POST',
-            url: '/pull-exam-sched-student', 
-            data: { period: period, day: day },
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
+            url: '/store-selected-data',
+            data: {
+                selectedData: SendSelected,
+                _token: csrfToken,
             },
-        success: function(response) {
-            console.log(response);
-            usersSection = [response.userSection];
-            // usersSection = ['BSCS 1-2AA'];
-            console.log(usersSection);
-            var alterdata =[];
-            var TimeSchedule = [];
-            var ExamDates = [];
-            
-            response.examTimes.forEach(function(examTime) {
-                    
-                var TimeRooms = [];
-                var TimeIDs = [];
-                var SeCount = [];
-                var alterRooms = [];
-                var Sections = [];
-                var ExamDate = [examTime.exam_day];
-                    
-
-                examTime.exam_rooms.forEach(function(examRoom) {
-                    // console.log('new',examRoom);
-                    TimeRooms.push({rooms: examRoom.room_name});
-                    TimeIDs.push([examRoom.id]);
-
-                    alterRooms.push([examRoom.id, examRoom.room_name]);
-                });
-
-                ExamDate.forEach(function(dates) {
-                    
-                    
-                    ExamDates.push([dates.date]);
-
-                    
-                });
-                
-                
-                // console.log(ExamDates);
-                    // console.log('timerooms',TimeRooms);
-                    
-                var alterSec = [];
-                var alterCount = [];
-                var alterSub = [];
-                examTime.exam_sub.forEach(function (subject) {
-                            
-                    subject.exam_sectionss.forEach(function (subjectSec) {
-                                
-                        Sections.push({
-                            secID: subjectSec.id,
-                            Subject_name: subject.subject_name,
-                            Section: subjectSec.section_name,
-                            Code: subjectSec.class_num,
-                            Instructor: subjectSec.Instructor,
-                            StudentCount: subjectSec.class_count,
-                            proctor: subjectSec.proctor_name,
-            
-                        });
-                                
-                                
-                    });
-                            
-                });
-
-                TimeSchedule.push({
-                    Time: examTime.exam_time,
-                    Subjects: Sections,
-                    rooms: TimeRooms
-                                
-                });
-                alterdata.push({
-                Subject : Sections
-                })
-                // console.log(TimeSchedule)    
-                        
-            }); 
-            // console.log('TimeSchedule Data', TimeSchedule);
-            var alterdatas = [];
-            // var DataFiltered = [];
-            // console.log('check 2',ExamDates[0][0]);
-            
-
-            TimeSchedule.forEach((Timeslot) => {
-                var DataFiltered = [];
-                    const combinedData = Timeslot.rooms.map((room, index) => {
-                        // console.log(Timeslot.Subjects[index].Instructor);
-                        const section = Timeslot.Subjects[index].Section.split(', ');
-                        // console.log('check proctor:',section);
-                        
-                        const hasMatchingSection = section.some(section => usersSection.includes(section));
-                        // console.log('check 101',hasMatchingSection);
-                        if (hasMatchingSection) {
-                            // console.log('check 101',hasMatchingSection);
-                            DataFiltered.push({
-                                Room: room.rooms,
-                                SecId: Timeslot.Subjects[index].secID,
-                                Subject_name: Timeslot.Subjects[index].Subject_name,
-                                Sections: Timeslot.Subjects[index].Section,
-                                Code: Timeslot.Subjects[index].Code,
-                                Instructor: Timeslot.Subjects[index].Instructor,
-                                StudentCount: Timeslot.Subjects[index].StudentCount,
-                                proctor: Timeslot.Subjects[index].proctor,
-                            });
-                        
-
-                            // return null; 
-                        }
-                        // console.log('data',DataFiltered);
-
-                        return {
-                            Room: room.rooms,
-                            SecId: Timeslot.Subjects[index].secID,
-                            Subject_name: Timeslot.Subjects[index].Subject_name,
-                            Sections: Timeslot.Subjects[index].Section,
-                            Code: Timeslot.Subjects[index].Code,
-                            Instructor: Timeslot.Subjects[index].Instructor,
-                            StudentCount: Timeslot.Subjects[index].StudentCount,
-                            proctor: Timeslot.Subjects[index].proctor,
-                        };
-                    });
-                    // console.log('data',combinedData);
-            
-
-                    alterdatas.push({
-                        Time: Timeslot.Time,
-                        Data: DataFiltered,
-                    });
-                });
-                // console.log('data',DataFiltered);
-                
-                // Assuming ExamDates is defined
-                let examDate = ExamDates[0][0];
-                // console.log('check1',examDate)
-                // Get the HTML element by its ID
-                let examDateHeader = document.getElementById('examDateHeader');
-                
-                // Update the content of the HTML element
-                examDateHeader.textContent += examDate;
-                
-                
-                // console.log('alterdata: ',alterdatas);
-
-                const tableBody = document.getElementById('tableBody');
-                    let uniqueTimeSlots = [];
-                alterdatas.forEach((timeSlots) => {
-                        timeSlots.Data.forEach((subject, index) => {
-                            const row = document.createElement('tr');
-
-                            if (index === 0) {
-                                const timeCell = document.createElement('td');
-                                if (!uniqueTimeSlots.includes(timeSlots.Time)) {
-                                    timeCell.rowSpan = timeSlots.Data.length;
-                                    timeCell.textContent = timeSlots.Time;
-                                    uniqueTimeSlots.push(timeSlots.Time);
-                                }
-                                row.appendChild(timeCell);
-                            }
-
-                            // Subject
-                            const subjectCell = document.createElement('td');
-                            subjectCell.textContent = subject.Subject_name;
-                            row.appendChild(subjectCell);
-
-                            // Room
-                            const roomCell = document.createElement('td');
-                            roomCell.textContent = subject.Room;
-                            row.appendChild(roomCell);
-
-                            // Section
-                            const sectionCell = document.createElement('td');
-                            sectionCell.textContent = subject.Sections;
-                            row.appendChild(sectionCell);
-
-                            // Section Number
-                            const sectionNumberCell = document.createElement('td');
-                            sectionNumberCell.textContent = subject.Code;
-                            row.appendChild(sectionNumberCell);
-
-                            // Instructor
-                            const instructorCell = document.createElement('td');
-                            instructorCell.textContent = subject.Instructor;
-                            row.appendChild(instructorCell);
-
-                            // Class Count
-                            const classCountCell = document.createElement('td');
-                            classCountCell.textContent = subject.StudentCount;
-                            row.appendChild(classCountCell);
-                        
-                            tableBody.appendChild(row);
-                        });
-                    });
-                   
-                
-        },
-        
-        error: function(error) {
-            console.error(error);
-        }
+            success: function (response) {
+                window.alert("Updated Successfully");
+                window.location.href = "{{ route('student.show') }}";
+            },
+            error: function (error) {
+                console.error(error);
+            },
         });
-      
     }
+
+
+
+
 </script>
 
 </body>
 @endsection
 			
+ 

@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('irreg_student_subs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('irreg_students_id')->nullable()->default(null);
+            $table->string('student_subject')->nullable()->default(null);
+            $table->string('subject_instructor')->nullable()->default(null);
+            $table->string('subject_section')->nullable()->default(null);
             $table->timestamps();
 
 
