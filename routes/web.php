@@ -58,6 +58,10 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
     Route::post('/studentmarkAsRead/{notificationId}', [\App\Http\Controllers\RequestController::class, 'studentmarkAsRead'])->name('studentmarkAsRead');
     //PULL EXAM SCHED
     Route::post('/pull-exam-sched-student', [\App\Http\Controllers\ExamUserController::class, 'pullExamstudent'])->name('pullExamstudent');
+    
+    //changepass
+    Route::post('/change-password', [\App\Http\Controllers\StudentController::class, 'changePassword'])->name('password.change');
+
 
     
 

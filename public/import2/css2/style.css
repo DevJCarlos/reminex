@@ -133,7 +133,7 @@ sup {
   top: -.5em; }
 
 a {
-  color: #007bff;
+  color: #FFC606;
   text-decoration: none;
   background-color: transparent; }
   a:hover {
@@ -8137,14 +8137,14 @@ body {
   font-size: 16px;
   line-height: 1.8;
   font-weight: normal;
-  background: #f8f9fd;
+  background: #fff;
   color: gray; }
 
 a {
   -webkit-transition: .3s all ease;
   -o-transition: .3s all ease;
   transition: .3s all ease;
-  color: #afc40a; }
+  color: #fff; }
   a:hover, a:focus {
     text-decoration: none !important;
     outline: none !important;
@@ -8182,7 +8182,7 @@ h1, h2, h3, h4, h5,
 
 .login-wrap {
   position: relative;
-  background: #fff;
+  background: #C2C9CF;
   border-radius: 10px;
   -webkit-box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
   -moz-box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
@@ -8194,17 +8194,18 @@ h1, h2, h3, h4, h5,
   .login-wrap .icon {
     width: 80px;
     height: 80px;
-    background: #3d3b3d;
+    background: url("../img/stilogo.jpg");
+    background-size: cover;
     border-radius: 50%;
     font-size: 30px;
     margin: 0 auto;
     margin-bottom: 10px; }
     .login-wrap .icon span {
-      color: #fff; }
+      color: #010101; }
 
 .form-control {
   height: 48px;
-  background: rgba(0, 0, 0, 0.05);
+  background: #fff;
   color: #000;
   font-size: 16px;
   -webkit-box-shadow: none;
@@ -8305,8 +8306,8 @@ h1, h2, h3, h4, h5,
   .btn:hover, .btn:active, .btn:focus {
     outline: none; }
   .btn.btn-primary {
-    background: #afc40a !important;
-    border: 1px solid #afc40a !important;
+    background: #FFC606 !important;
+    border: 1px solid #FFC606 !important;
     color: #fff !important; }
     .btn.btn-primary:hover {
       border: 1px solid #faf17d;
