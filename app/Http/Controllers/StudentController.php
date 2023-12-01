@@ -45,6 +45,28 @@ class StudentController extends Controller
         return view('student.changepass');
     }
 
+    public function changePassword(Request $request)
+    {
+        // Validate the form data
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|min:8',
+            'confirm_password' => 'required|same:new_password',
+        ]);
+        // Find the authenticated user
+        $user = auth()->user();
+        // Check if the old password matches
+        if (Hash::check($request->old_password, $user->password)) {
+            // Update the user's password with the new one
+            $user->update([
+                'password' => Hash::make($request->new_password),
+            ]);
+            return redirect()->route('student.changepass')->with('success', 'Password changed successfully!');
+        } else {
+            return redirect()->route('student.changepass')->with('error', 'Incorrect old password. Please try again.');
+        }
+    }
+
     public function aboutUs(){
         return view('student.aboutus');
     }

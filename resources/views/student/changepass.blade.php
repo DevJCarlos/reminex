@@ -10,7 +10,26 @@
 					<h1 class="h3 mb-3"><strong>Change Password</strong></h1>
 
 					<div class="row">
-						<div class="col-12 col-lg-5">
+						<div class="col-12 col-lg-8">
+							<div>
+								@if ($errors->any())
+								<div>
+									@foreach ($errors->all() as $error)
+									<div class="alert alert-danger">{{$error}}</div>                               
+									@endforeach
+								</div>
+								@endif
+					
+								@if (session()->has('error'))
+								<div class="alert alert-danger">{{session('error')}}</div>                       
+								@endif
+					
+								@if (session()->has('success'))
+								<div class="alert alert-success">{{session('success')}}</div>                       
+								@endif
+							</div>
+						</div>
+						<div class="col-12 col-lg-8">
 							<div class="card">
 								<div class="card-body">
 									<form action="{{ route('password.change') }}" method="POST">
@@ -30,25 +49,6 @@
 										<input type="submit" class="btn btn-warning btn-lg" id="sendRequest" value="Submit">
 									</form>
 								</div>
-							</div>
-						</div>
-						<div class="col-5">
-							<div>
-								@if ($errors->any())
-								<div>
-									@foreach ($errors->all() as $error)
-									<div class="alert alert-danger">{{$error}}</div>                               
-									@endforeach
-								</div>
-								@endif
-					
-								@if (session()->has('error'))
-								<div class="alert alert-danger">{{session('error')}}</div>                       
-								@endif
-					
-								@if (session()->has('success'))
-								<div class="alert alert-success">{{session('success')}}</div>                       
-								@endif
 							</div>
 						</div>
 					</div>

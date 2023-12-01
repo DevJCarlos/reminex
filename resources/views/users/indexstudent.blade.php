@@ -52,7 +52,7 @@
                                 <div class="form-group row">
                                 <label for="adep" class="col-sm-3 text-end control-label col-form-label">Department</label>
                                 <div class="col-sm-9">
-                                    <select class="select2 form-select shadow-none" style="width: 100%; height: 36px" name="department" required>          
+                                    <select class="form-control" name="department" required>          
                                         <option disabled selected>Select Department...</option>
                                         <option>Academic Head</option> 
                                         <option>ICT Department</option>  
@@ -68,7 +68,7 @@
                                 <div class="form-group row">
                                     <label for="acourse" class="col-sm-3 text-end control-label col-form-label">Course</label>
                                     <div class="col-sm-9">
-                                        <select class="select2 form-select shadow-none" style="width: 100%; height: 36px" name="course" required>          
+                                        <select class="form-control" name="course" required>          
                                             <option disabled selected>Select Course...</option>
                                                 @foreach ($requestcourses as $requestcourse)
                                                     <option value="{{ $requestcourse->course_name }}">{{ $requestcourse->course_name }}</option>
@@ -81,7 +81,7 @@
                                 <div class="form-group row">
                                     <label for="asec" class="col-sm-3 text-end control-label col-form-label">Section</label>
                                     <div class="col-sm-9">
-                                        <select class="select2 form-select shadow-none" style="width: 100%; height: 36px" name="student_section" required>          
+                                        <select class="form-control" name="student_section" required>          
                                         <option disabled selected>Select Section...</option>
                                             @foreach ($requestsections as $requestsec)
                                                 <option value="{{ $requestsec->name }}">{{ $requestsec->name }}</option>
@@ -92,7 +92,8 @@
                                 <div class="form-group row">
                                     <label for="astat" class="col-sm-3 text-end control-label col-form-label">Section</label>
                                     <div class="col-sm-9">
-                                        <select class="select2 form-select shadow-none" style="width: 100%; height: 36px" name="student_status" required>          
+                                        <select class="form-control" name="student_status" required>     
+                                        <option disabled selected>Select Status...</option>     
                                         <option value="Regular">Regular</option>
                                         <option value="Irregular">Irregular</option>
     

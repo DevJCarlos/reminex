@@ -52,7 +52,7 @@
                                 <div class="form-group row">
                                 <label for="adep" class="col-sm-3 text-end control-label col-form-label">Department</label>
                                 <div class="col-sm-9">
-                                    <select class="select2 form-select shadow-none" style="width: 100%; height: 36px" name="department" required>          
+                                    <select class="form-control" name="department" required>          
                                         <option disabled selected>Select Department...</option>
                                         <option>Academic Head</option> 
                                         <option>ICT Department</option>  
