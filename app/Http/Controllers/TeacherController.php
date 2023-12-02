@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\RequestModel;
+use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
 {
@@ -32,7 +33,29 @@ class TeacherController extends Controller
     // }
 
     public function changePass(){
-        return view('faculty.changepass');
+        return view('faculty.changepass2');
+    }
+
+    public function changePassword2(Request $request)
+    {
+        // Validate the form data
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|min:8',
+            'confirm_password' => 'required|same:new_password',
+        ]);
+        // Find the authenticated user
+        $user = auth()->user();
+        // Check if the old password matches
+        if (Hash::check($request->old_password, $user->password)) {
+            // Update the user's password with the new one
+            $user->update([
+                'password' => Hash::make($request->new_password),
+            ]);
+            return redirect()->route('faculty.changepass2')->with('success', 'Password changed successfully!');
+        } else {
+            return redirect()->route('faculty.changepass2')->with('error', 'Incorrect old password. Please try again.');
+        }
     }
 
     public function aboutUs(){

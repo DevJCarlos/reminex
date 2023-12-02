@@ -48,7 +48,7 @@
 
     <nav id="navbar" class="navbar nav-menu">
       <ul>
-        <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
+        <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Start</span></a></li>
         <li><a href="#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>About</span></a></li>
       </ul>
     </nav><!-- .nav-menu -->
@@ -109,7 +109,7 @@
         
             <!-- Remind Passowrd -->
             <div id="formFooter">
-              <a href="{{ route('student') }}" class="underlineHover">Sign In as Student</a> &nbsp;&nbsp; <a href="{{ route('admin') }}" class="underlineHover">Sign In as Admin</a>
+              <a href="{{ route('faculty') }}" class="underlineHover">Sign In as Faculty</a> &nbsp;&nbsp; <a href="{{ route('admin') }}" class="underlineHover">Sign In as Admin</a>
               <!-- <a class="underlineHover" href="#">Forgot Password?</a> -->
             </div>
         

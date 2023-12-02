@@ -40,10 +40,13 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
     Route::get('/student/aboutus', [App\Http\Controllers\StudentController::class, 'aboutUs'])->name('student.aboutus');
     Route::get('/student/changepass', [App\Http\Controllers\StudentController::class, 'changePass'])->name('student.changepass');
     // Route::get('changeprofilePic', [App\Http\Controllers\StudentController::class, 'changeprofilePic'])->name('profilepic.update');
+
+    //changepass
+    Route::post('/change-password', [\App\Http\Controllers\StudentController::class, 'changePassword'])->name('password.change');
     //irreg student
+
     Route::get('/irregstudent', [App\Http\Controllers\StudentController::class, 'showsubject'])->name('student.studentirreg');
     Route::post('/store-selected-data', [App\Http\Controllers\StudentController::class, 'storeSelectedData'])->name('store.selected.data');
-    
     
     
     //Request 
@@ -56,13 +59,10 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
 
     //Request Notification
     Route::post('/studentmarkAsRead/{notificationId}', [\App\Http\Controllers\RequestController::class, 'studentmarkAsRead'])->name('studentmarkAsRead');
+
     //PULL EXAM SCHED
     Route::post('/pull-exam-sched-student', [\App\Http\Controllers\ExamUserController::class, 'pullExamstudent'])->name('pullExamstudent');
     
-    //changepass
-    Route::post('/change-password', [\App\Http\Controllers\StudentController::class, 'changePassword'])->name('password.change');
-
-
     
 
 });
@@ -74,8 +74,11 @@ Route::group(['middleware' => ['auth', 'role:teacher']], function(){
     Route::get('/faculty/examsched', [App\Http\Controllers\TeacherController::class, 'show'])->name('faculty.show');
     // Route::get('/faculty/managerequest', [App\Http\Controllers\TeacherController::class, 'manageRequest'])->name('faculty.managerequest');
     Route::get('/faculty/aboutus', [App\Http\Controllers\TeacherController::class, 'aboutUs'])->name('faculty.aboutus');
-    Route::get('/faculty/changepass', [App\Http\Controllers\TeacherController::class, 'changePass'])->name('faculty.changepass');
+    Route::get('/faculty/changepass', [App\Http\Controllers\TeacherController::class, 'changePass'])->name('faculty.changepass2');
     // Route::get('changeprofilePic', [App\Http\Controllers\TeacherController::class, 'changeprofilePic'])->name('profilepic.update');
+
+    //changepass
+    Route::post('/change-password', [\App\Http\Controllers\TeacherController::class, 'changePassword2'])->name('password.change2');
     
 
     //Request 

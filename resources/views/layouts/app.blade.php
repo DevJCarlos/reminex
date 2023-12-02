@@ -147,7 +147,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ReminEx Admin</title>
+    <title>STI Gensan Reminex Admin</title>
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('import/img/photos/reminexlogolink.png') }}" />
 
     <!-- Google Font: Source Sans Pro -->
@@ -192,7 +192,7 @@
                         @auth
                             @if(auth()->user()->notifications->isNotEmpty())
                                 <span class="dropdown-item dropdown-header">{{ auth()->user()->unreadNotifications->count() }} Unread Notifications</span>
-                                <div>
+                                <div class="notification-container" style="max-height: 500px; overflow-y: auto;">
                                     @foreach (auth()->user()->notifications as $notification)
                                         @if (isset($notification->data['request_id'], $notification->data['request_type']))
                                             @php

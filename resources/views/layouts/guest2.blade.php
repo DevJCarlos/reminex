@@ -20,7 +20,7 @@
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
 
-	<title>ReminEx Faculty</title>
+	<title>STI Gensan Reminex Faculty</title>
 
 	<link href="{{asset('import/css/app.css')}}" rel="stylesheet">
     <link href="{{asset('import/css/collapse.css')}}" rel="stylesheet">

@@ -97,9 +97,9 @@
                 </a>
                     <div class="dropdown-menu dropdown-menu-end">
                         <!-- <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i>Change Profile Image</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ route('faculty.changepass') }}"><i class="align-middle me-1" data-feather="user"></i> Change Password</a>
-								<div class="dropdown-divider"></div> -->
+                        <div class="dropdown-divider"></div> -->
+                        <a class="dropdown-item" href="{{ route('faculty.changepass2') }}"><i class="align-middle me-1" data-feather="user"></i> Change Password</a>
+								<div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('faculty.aboutus') }}"><i class="align-middle me-1" data-feather="info"></i> About Us</a>
 								<div class="dropdown-divider"></div>
                     {{-- <a class="dropdown-item" href="{{ route('logout') }}">Log out</a> --}}
