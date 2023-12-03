@@ -40,7 +40,7 @@
                         @endif
                     </div>
                 </a>
-               <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
+               <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" style="width: 400px;" aria-labelledby="alertsDropdown">
                 @auth
                     @if(auth()->user()->notifications->isNotEmpty())
                         <div class="dropdown-menu-header">
@@ -84,8 +84,6 @@
                 @else
                     <span class="dropdown-item dropdown-header">Please log in to view notifications.</span>
                 @endauth
-                </div>
-
                 </div>
             </li>
             

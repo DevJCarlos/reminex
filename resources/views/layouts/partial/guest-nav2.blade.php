@@ -40,7 +40,7 @@
                         @endif
                     </div>
                 </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" style="width: 400px;" aria-labelledby="alertsDropdown">
                 @auth
                     @if(auth()->user()->notifications->isNotEmpty())
                         <div class="dropdown-menu-header">
@@ -52,8 +52,11 @@
                                     @if (isset($notification->data['request_id'], $notification->data['request_type']))
                                         @php
                                             $newsched = App\Models\NewSched::find($notification->data['request_id']);
+                                            $formId = 'mark-as-read3-' . $notification->id;
                                         @endphp
-                                        <a href="{{ route('faculty.managerequest') }}" class="list-group-item dropdown-item @if(!$notification->read_at) bg-primary @endif" onclick="event.preventDefault(); document.getElementById('mark-as-read3-{{ $notification->id }}').submit();">
+
+                                        @if ($notification->data['request_type'] === "Reschedule Request")
+                                        <a href="{{ route('faculty.managerequest') }}" class="list-group-item dropdown-item @if(!$notification->read_at) bg-primary @endif" onclick="event.preventDefault(); document.getElementById('{{ $formId }}').submit();">
                                             <div class="row g-0 align-items-center">
                                                 <div class="col-2">
                                                     <i class="text-warning" data-feather="bell"></i>
@@ -65,6 +68,22 @@
                                                 </div>
                                             </div>
                                         </a>
+
+                                        @elseif ($notification->data['request_type'] === "Special Exam Request")
+                                        <a href="{{ route('faculty.studspecial') }}" class="list-group-item dropdown-item @if(!$notification->read_at) bg-primary @endif" onclick="event.preventDefault(); document.getElementById('{{ $formId }}').submit();">
+                                            <div class="row g-0 align-items-center">
+                                                    <div class="col-2">
+                                                        <i class="text-warning" data-feather="bell"></i>
+                                                    </div>
+                                                    <div class="col-10">
+                                                        <div> New {{ $notification->data['request_type'] }}!</div>
+                                                        <div class="float-left small mt-1">{{ $notification->data['stud_name'] }}: {{ $notification->data['subject'] }}</div>
+                                                        <div class="float-right small mt-1">{{ $notification->created_at->diffForHumans() }}</div>
+                                                    </div>
+                                            </div>
+                                        </a>
+
+                                        @endif
                                         <form id="mark-as-read3-{{ $notification->id }}" action="{{ route('teachermarkAsRead', ['notificationId' => $notification->id]) }}" method="POST" style="display: none;">
                                             @csrf
                                         </form>
@@ -82,7 +101,6 @@
                 @else
                     <span class="dropdown-item dropdown-header">Please log in to view notifications.</span>
                 @endauth
-                </div>
 
                 </div>
             </li>

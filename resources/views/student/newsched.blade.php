@@ -35,7 +35,7 @@
 												$minutesDifference = $currentDateTime->diffInMinutes($createdTime);
 											@endphp
 
-											@if ($minutesDifference <= 48 * 60) // Check if the difference is less than or equal to 48 hours in minutes
+											@if ($minutesDifference <= 48 * 60)
 											<tr>
 												<td class="table-secondary">{{$requestrecord4->created_at}}</td>
 												<td class="table-secondary">{{$requestrecord4->request_type2}}</td>
@@ -88,7 +88,7 @@
 												$minutesDifference = $currentDateTime->diffInMinutes($createdTime);
 											@endphp
 
-											@if ($minutesDifference >= 48 * 60) // Check if the difference is greater than or equal to 48 hours in minutes
+											@if ($minutesDifference >= 48 * 60)
 											<tr>
 												<td class="table-secondary">{{$requestrecord4->created_at}}</td>
 												<td class="table-secondary">{{$requestrecord4->request_type2}}</td>

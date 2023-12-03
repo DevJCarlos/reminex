@@ -11,6 +11,8 @@ class RequestModel extends Model
 
     protected $table = 'student_requests';
 
+    public $timestamps = true;
+
     protected $fillable = [
         'stud_name',
         'department',
@@ -24,6 +26,6 @@ class RequestModel extends Model
         'file_path',
         'status',
         'remarks',
-        'time_created',
     ];
+    
 }

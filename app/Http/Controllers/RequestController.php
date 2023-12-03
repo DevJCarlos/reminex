@@ -433,9 +433,27 @@ class RequestController extends Controller
 
         if ($notification) {
             $notification->markAsRead();
+
+            // Redirect based on request type
+            $requestType = $notification->data['request_type'];
+
+            switch ($requestType) {
+                case 'Reschedule Request':
+                    return redirect()->route('faculty.managerequest');
+                    break;
+                case 'Special Exam Request':
+                    return redirect()->route('faculty.studspecial');
+                    break;
+
+                default:
+                    // Default redirect, change as needed
+                    return redirect()->route('faculty.managerequest');
+                    break;
+            }
         }
 
-        return redirect()->route('faculty.managerequest'); // Change the route accordingly
+        // Handle the case where the notification is not found
+        return redirect()->route('faculty.managerequest');
     }
 
     public function checkScheduleExists(Request $request)

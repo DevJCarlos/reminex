@@ -20,8 +20,8 @@
                                             <th>Subject</th>
                                             <th>Instructor</th>
                                             <th>Requirements</th>
-                                            <th>Status</th>
-                                            <th>Remarks</th>
+                                            <th class="table-dark">Status</th>
+                                            <th class="table-dark">Remarks</th>
                                         </tr>
                                         </thead>
 
@@ -37,16 +37,16 @@
                                                 <a href="{{ route('request.download2', ['filePaths' => urlencode($requestrecord3->file_path)]) }}" class="btn btn-outline-warning">Download</a>
                                                 </td>
                                                 @if($requestrecord3->status === null)
-                                                <td><h5 class="badge badge-warning">Pending</h5></td>
+                                                <td class="table-secondary"><h5 class="badge badge-warning text-dark">Pending</h5></td>
                                                 @endif
                                                 @if($requestrecord3->status === "Approved")
                                                 @if($requestrecord3->request_type === "Reschedule Request")
-                                                <td><h5 class="badge badge-success">{{ $requestrecord3->status }}</h5></td>
-                                                <td class="text-success">{{ $requestrecord3->remarks }}</td>
+                                                <td class="table-secondary"><h5 class="badge badge-success">{{ $requestrecord3->status }}</h5></td>
+                                                <td class="table-secondary text-success" style="font-family: 'Prestige Elite Std';">{{ $requestrecord3->remarks }}</td>
                                                 @endif
                                                 @if($requestrecord3->request_type === "Special Exam Request")
-                                                <td><h5 class="badge badge-success">{{ $requestrecord3->status }}</h5></td>
-                                                <td class="text-light">
+                                                <td class="table-secondary"><h5 class="badge badge-success">{{ $requestrecord3->status }}</h5></td>
+                                                <td class="table-secondary  text-light" style="font-family: 'Prestige Elite Std';">
                                                   <div class="con-tooltip left">
                                                     {{ $requestrecord3->remarks }}
                                                     <div class="tooltip ">
@@ -58,18 +58,18 @@
                                                 @endif
                                                 @if($requestrecord3->status === "Completed")
                                                 @if($requestrecord3->request_type === "Special Exam Request")
-                                                <td><h5 class="badge badge-success">{{ $requestrecord3->status }}</h5></td>
-                                                <td class="text-success">Completed!</td>
+                                                <td class="table-secondary"><h5 class="badge badge-success">{{ $requestrecord3->status }}</h5></td>
+                                                <td class="table-secondary text-success" style="font-family: 'Prestige Elite Std';">Completed!</td>
                                                 @endif
                                                 @endif
                                                 @if($requestrecord3->status === "Rejected")
-                                                <td><h5 class="badge badge-danger">{{ $requestrecord3->status }}</h5></td>
-                                                <td class="text-danger">{{ $requestrecord3->remarks }}</td>   
+                                                <td class="table-secondary"><h5 class="badge badge-danger ">{{ $requestrecord3->status }}</h5></td>
+                                                <td class="table-secondary text-danger" style="font-family: 'Prestige Elite Std';">{{ $requestrecord3->remarks }}</td>   
                                                 @endif
                                                 @if($requestrecord3->status === "New Schedule Created")
-                                                <td><h5 class="badge badge-warning">{{ $requestrecord3->status }}</h5></td>
-                                                <td class="text-success">Completed!<br><br>
-                                                <a href="{{ route('student.newsched') }}" class="btn btn-outline-secondary">View Schedule</a>
+                                                <td class="table-secondary"><h5 class="badge badge-warning text-dark">{{ $requestrecord3->status }}</h5></td>
+                                                <td class="table-secondary text-success" style="font-family: 'Prestige Elite Std';">Completed!<br><br>
+                                                <a href="{{ route('student.newsched') }}" class="btn btn-outline-success">View Schedule</a>
                                                 </td> 
                                                 @endif
                                             </tr> 

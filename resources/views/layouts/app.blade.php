@@ -140,7 +140,13 @@
             height: auto;
             max-height: 500px;
             overflow-y: auto;
+            width:700px;
         }
+        .dropdown-divider {
+            height:100px;
+
+        }
+
 
 
     </style>
@@ -192,7 +198,7 @@
                         @auth
                             @if(auth()->user()->notifications->isNotEmpty())
                                 <span class="dropdown-item dropdown-header">{{ auth()->user()->unreadNotifications->count() }} Unread Notifications</span>
-                                <div class="notification-container" style="max-height: 500px; overflow-y: auto;">
+                                <div>
                                     @foreach (auth()->user()->notifications as $notification)
                                         @if (isset($notification->data['request_id'], $notification->data['request_type']))
                                             @php
@@ -202,7 +208,7 @@
                                                 <div class="dropdown-divider"></div>
                                                 <a href="{{ route('requests') }}" class="dropdown-item @if(!$notification->read_at) bg-secondary @endif" onclick="event.preventDefault(); document.getElementById('mark-as-read-{{ $notification->id }}').submit();">
                                                     <i class="fas fa-envelope mr-2"></i> New {{ $notification->data['request_type'] }}!<br>
-                                                    <p class="float-left text-sm">{{ $notification->data['stud_name'] }}: {{ $notification->data['subject'] }}</p>
+                                                    <p class="float-left text-xs">{{ $notification->data['stud_name'] }}: {{ $notification->data['subject'] }}</p>
                                                     <p class="float-right text-sm">{{ $notification->created_at->diffForHumans() }}</p><br>
                                                 </a>
                                                 <form id="mark-as-read-{{ $notification->id }}" action="{{ route('markAsRead', ['notificationId' => $notification->id]) }}" method="POST" style="display: none;">

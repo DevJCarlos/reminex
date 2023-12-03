@@ -29,27 +29,35 @@
                                             @foreach($requestrecords21 as $requestrecord21)
                                             @if ($requestrecord21->instructor === auth()->user()->name)
                                             @if($requestrecord21->request_type === "Special Exam Request")
+                                            @if($requestrecord21->status != "Rejected")
                                             <tr>
                                                 <td>{{ $requestrecord21->created_at }}</td>
                                                 <td>{{ $requestrecord21->stud_name }}</td>
                                                 <td>{{ $requestrecord21->request_type }}</td>
                                                 <td>{{ $requestrecord21->subject }}</td>
                                                 <td>{{ $requestrecord21->instructor }}</td>
-                                                @if($requestrecord21->status === null)
+                                                @if($requestrecord21->status == null)
                                                 <td><h5 class="badge badge-warning">Pending</h5></td>
+                                                <td class="text-warning" style="font-family: 'Prestige Elite Std';">
+                                                  Please wait for the approval.
+                                                </td>
                                                 @endif
                                                 @if($requestrecord21->status === "Approved")
                                                 <td><h5 class="badge badge-success">{{ $requestrecord21->status }}</h5></td>
-                                                @endif
-                                                @if($requestrecord21->status === "Completed")
-                                                <td><h5 class="badge badge-success">{{ $requestrecord21->status }}</h5></td>
-                                                @endif
                                                 <td>
                                                   <a href="{{ route('finish_request', $requestrecord21->id) }}">
                                                     <input type="submit" class="btn btn-outline-success" onclick="return confirm('Special exam request will be completed. Proceed?')" value="Finish">
                                                   </a>
                                                 </td>
+                                                @endif
+                                                @if($requestrecord21->status === "Completed")
+                                                <td><h5 class="badge badge-success">{{ $requestrecord21->status }}</h5></td>
+                                                <td class="text-success" style="font-family: 'Prestige Elite Std';">
+                                                  Finished!
+                                                </td>
+                                                @endif
                                             </tr> 
+                                            @endif
                                             @endif
                                             @endif
                                             @endforeach

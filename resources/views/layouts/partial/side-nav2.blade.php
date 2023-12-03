@@ -41,7 +41,17 @@
 				<li class="sidebar-item {{ request()->routeIs('faculty.studspecial') ? 'active' : '' }}">
 					<a class="sidebar-link" href="{{ route('faculty.studspecial') }}">
 						<i class="align-middle" data-feather="hard-drive"></i> <span class="align-middle">Student Special Exams</span>
-					</a>
+						@php
+						$currentUser = auth()->user();
+						$approvedRequestsCount = \App\Models\RequestModel::where('instructor', $currentUser->name)
+							->where('request_type', 'Special Exam Request')
+							->whereIn('status', ['Approved'])
+							->count();
+						@endphp
+						@if($approvedRequestsCount > 0)
+							<span class="indicator bg-danger rounded-circle">{{ $approvedRequestsCount }}</span>
+						@endif
+						</a>
 				</li>
 
 			<li class="sidebar-header">History</li>

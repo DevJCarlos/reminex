@@ -133,7 +133,6 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
     //Users module
     Route::get('admin-users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
-    // Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
     Route::get('faculty-users', [\App\Http\Controllers\UserController::class, 'indexFaculty'])->name('users.indexfaculty');
     Route::get('student-users', [\App\Http\Controllers\UserController::class, 'indexStudent'])->name('users.indexstudent');
     Route::get('/register', function () {
