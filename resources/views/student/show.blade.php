@@ -128,6 +128,12 @@
                 'X-CSRF-TOKEN': csrfToken
             },
         success: function(response) {
+            if (response && response.examTimes && response.examTimes.length > 0) {
+            console.log('Success');
+            } else {
+            alert("The Selected Schedule Has Not Been Created yet");
+             return;
+            }
             console.log(response);
             usersSection = [response.userSection];
             // usersSection = ['BSCS 1-2AA'];
@@ -154,8 +160,8 @@
             var alterdata =[];
             var TimeSchedule = [];
             var ExamDates = [];
-            // usersStatus = [response.userStatus];
-            usersStatus = ['Irregular'];
+            usersStatus = [response.userStatus];
+            // usersStatus = ['Irregular'];
             // console.log(usersStatus);
             if (usersStatus[0] === 'Regular') {
                 response.examTimes.forEach(function(examTime) {
@@ -220,7 +226,7 @@
                     alterdata.push({
                     Subject : Sections
                     })
-                    // console.log(TimeSchedule)    
+                    // console.log(TimeSchedule)     
                             
                 }); 
                 // console.log('TimeSchedule Data', TimeSchedule);
@@ -344,7 +350,6 @@
             }
             if((usersStatus[0] === 'Irregular')){
                 window.alert("youre Ireg");
-                
 
                 response.examTimes.forEach(function(examTime) {
                         

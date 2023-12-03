@@ -66,9 +66,10 @@
                                         
 										<div class="d-flex justify-content-between">
 											
-                                            <h5>Selection Left: <span id="selectionCounter"> </span></h5>
+                                            <h4>Selection Left: <span id="selectionCounter"> </span></h4>
 											<button type="submit" onclick="handleFormSubmit()" class="btn btn-success" style="width: 150px;">Find Schedule</button>
 										</div>
+                                        <h4>Exam Date: <span id="examDateHeader"> </span></h4>
                                         <br>
                                         
 									</div>
@@ -155,6 +156,7 @@
         }
         $('#tableBody').empty();
         $('#tableBody1').empty();
+        $('#examDateHeader').empty();
        
         var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -173,16 +175,18 @@
              return;
             }
             // getData(response);
+            console.log(response);
+            console.log('respnose 2: ',response);
+            usersNames = [response.userName];
+            subCount = [response.subcount];
 
-        console.log('respnose 2: ',response);
-        usersNames = [response.userName];
-        subCount = [response.subcount];
-
-        var alterdata =[];
-        var alterTime = [];
-        let TimeSchedule = [];
-        // var newSched = [];
-        // console.log( 'count',subCount);
+            var alterdata =[];
+            var alterTime = [];
+            let TimeSchedule = [];
+            var ExamDates = [];
+            // var newSched = [];
+            // console.log( 'count',subCount);
+        
         
             response.examTimes.forEach(function(examTime) {
                 
@@ -191,6 +195,14 @@
                 var SeCount = [];
                 var alterRooms = [];
                 var Sections = [];
+                var ExamDate = [examTime.exam_day];
+
+                ExamDate.forEach(function(dates) {
+                        
+                        
+                    ExamDates.push([dates.date]);
+                    
+                });
                     
 
                 examTime.exam_rooms.forEach(function(examRoom) {
@@ -201,6 +213,7 @@
                     alterRooms.push([examRoom.id, examRoom.room_name]);
                 });
                 // console.log('timerooms',TimeRooms);
+
                 
                 var alterSec = [];
                 var alterCount = [];
@@ -240,19 +253,24 @@
                 });
             //    console.log('check sec', alterTime);
                 
-            //     console.log('TimeSchedule Data', TimeSchedule);
+                // console.log('TimeSchedule Data', TimeSchedule);
                 
                 var alterdatas = [];
                 var DataFiltered = [];
+
+                //exam date
+                let examDate = ExamDates[0][0];
+                    let examDateHeader = document.getElementById('examDateHeader');
+                    examDateHeader.textContent += examDate;
 
             TimeSchedule.forEach((Timeslot) => {
                 const combinedData = Timeslot.rooms.map((room, index) => {
                     
                     const instructors = Timeslot.Subjects[index].Instructor.split(', ');
-                    console.log('check instructor:',Timeslot);
-                    
+                    // console.log('check instructor:',Timeslot);
+                    // console.log(instructors);
                     const hasMatchingInstructor = instructors.some(instructor => usersNames.includes(instructor));
-                    // console.log(hasMatchingInstructor);
+                    
                     if (hasMatchingInstructor) {
                         
                         DataFiltered.push({
@@ -289,7 +307,7 @@
                 });
                 
             });
-            
+            // console.log('alter data:', alterdatas);
 
             //subject filteration
             alterdatas.forEach((timeSlot) => {
@@ -300,7 +318,7 @@
             });
             //clone alter data
             newSched = JSON.parse(JSON.stringify(alterdatas));
-            console.log('first new sched:', newSched)
+            // console.log('first new sched:', newSched)
 
 
 
@@ -406,7 +424,7 @@
 
                 });
 
-            console.log('new sched:', newSched)
+            // console.log('new sched:', newSched)
             const tableBody1 = document.getElementById('tableBody1');
                 let uniqueTimeSlots1 = [];
                 

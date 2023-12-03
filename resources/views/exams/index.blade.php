@@ -48,10 +48,14 @@
                             </div>
                         </div>
                     </form>
+                    <h4>Exam Date: <span id="examDateHeader"> </span></h4>
+                    <br>
                     <div class="d-flex justify-content-between">
                         <button type="submit" class="btn btn-success">Excel</button>
                         <button type="submit" onclick="handleFormSubmit();" class="btn btn-success" style="width: 150px;">Find Schedule</button>
+                        
                     </div>
+                    
                 </div>
                 <div class="card-body">
                     <table class = "table table-bordered" id = "schedule">
@@ -145,8 +149,8 @@
         });
         
     });
-    // const TimeSchedule = [];
-    // const alterSchedule = [];
+    const TimeSchedule = [];
+    const alterSchedule = [];
     function handleFormSubmit() {
         var period = selectedValues; 
         var day = selectedValuesDay;
@@ -172,20 +176,22 @@
             dataType: 'json',
             success: function(data) {
             if (data && data.examTimes && data.examTimes.length > 0) {
-            console.log('Success');
+            console.log('Success',data);
             } else {
             alert("No data. Please create a schedule first.");
             
             }
 
-            const TimeSchedule = [];
-            const alterSchedule = [];
+            // const TimeSchedule = [];
+            // const alterSchedule = [];
+            var ExamDates = [];
             data.examTimes.forEach(function(examTime) {
                 var TimeRooms = [];
                 var TimeIDs = [];
                 var SeCount = [];
                 var alterRooms = [];
                 var resultArray = [];
+                var ExamDate = [examTime.exam_day];
 
                 examTime.exam_rooms.forEach(function(examRoom) {
                     // console.log('new',examRoom);
@@ -194,14 +200,21 @@
 
                     alterRooms.push([examRoom.id, examRoom.room_name]);
                 });
+                ExamDate.forEach(function(dates) {
+                        
+                    ExamDates.push([dates.date]);
+                    // console.log(ExamDates);
+                });
                 var Sections = [];
                 var alterSec = [];
                 var alterCount = [];
                 var alterSub = [];
                 examTime.exam_sub.forEach(function(subject) {
+                    // console.log(subject);
                     subject.exam_sectionss.forEach(function(subjectSec) {
                         Sections.push({
                             Subject_name: subject.subject_name,
+                            Subject_ID: subject.id,
                             Section: subjectSec.section_name,
                             Code: subjectSec.class_num,
                             Instructor: subjectSec.Instructor,
@@ -238,6 +251,9 @@
                 });
                 
             });
+            let examDate = ExamDates[0][0];
+            let examDateHeader = document.getElementById('examDateHeader');
+            examDateHeader.textContent += examDate;
            
             // console.log('alter Data',alterSchedule);
             // console.log('TimeSchedule Data',TimeSchedule);
@@ -245,7 +261,7 @@
 
             const tableBody = document.getElementById('tableBody');
             TimeSchedule.forEach((timeSlots) => {
-                // console.log(timeSlots);
+                console.log(timeSlots);
                     
                 timeSlots.Subjects.forEach((subject, index) => {
                     const row = document.createElement('tr');
@@ -293,10 +309,16 @@
                     // Edit Button
                     const editCell = document.createElement('td');
                     const editButton = document.createElement('button');
+                    const deleteButton = document.createElement('button');
                     editButton.textContent = 'Edit';
+                    deleteButton.textContent = 'delete';
                     editButton.addEventListener('click', () => handleEditClick(timeSlots.Rooms[index], timeSlots.RoomIDs[index], subject.Subject_name, subject.StudentCount, subject.Section, timeSlots.Time));
+                    deleteButton.addEventListener('click', () => handleDeleteClick(subject.Subject_ID,timeSlots.RoomIDs[index]));
                     editCell.appendChild(editButton);
+                    editCell.appendChild(deleteButton);
                     row.appendChild(editCell);
+
+                    
 
                     tableBody.appendChild(row);
                     });   
@@ -313,6 +335,7 @@
                 
     var editedRoomID, editedRoomName, roomOption, time, Subject_name, Section_name, Student_count;
     var editedRoomIDString,editedRoomNameString, SelectedRoom;
+
 
     function handleEditClick(roomName, roomID, timeslot, subject, section, studentcount) { 
         editedRoomID = roomID;
@@ -335,9 +358,13 @@
             } else {
             SelectedRoom = [timeId,parseInt(editedRoomIDString,10),editedRoomNameString,parseInt(Subject_name,10),Section_name,Student_count];
             }
-            // console.log('selected room: ',SelectedRoom);
+
+            console.log('selected room: ',SelectedRoom);
             var RoomCon = [];
-            alterSchedule.forEach(function (Time) {
+
+            console.log('roomcon',RoomCon);
+            console.log('altersched',alterSchedule);
+        alterSchedule.forEach(function (Time) {
             var combinedData = [];
 
             for (var i = 0; i < Time.Count.length; i++) {
@@ -349,6 +376,7 @@
             Time: Time.Time,
             Data: combinedData,
             })
+            
         });
 
         const duplicatedData = [];
@@ -359,7 +387,7 @@
                 timeData.Data.forEach((roomData) => {
                     const roomCapacity = roomData[0];
                     const isSameRoom = JSON.stringify(roomData[3]) === JSON.stringify(SelectedRoom[1]);
-                    // console.log('same data',SelectedRoom);
+                    console.log('same data',isSameRoom);
 
                     if (!isSameRoom && currentCapacity + roomCapacity <= 50) {
                         roomOptions.push([
@@ -367,7 +395,7 @@
                         roomData[1],
                         SelectedRoom[1]
                         ]);
-                    console.log('duplicateData1',roomOptions);
+                    // console.log('duplicateData1',roomOptions);
                         } else if (isSameRoom) {
                         duplicatedData.push([
                         roomData[4],
@@ -385,6 +413,7 @@
                     
         // console.log('Duplicated Data:', duplicatedData);
         // console.log('Check loggers', RoomCon);
+        $('#roomDropdown').empty();
         var dropdown = document.getElementById('roomDropdown');
         for (var i = 0; i < roomOptions.length; i++) {
         var option = document.createElement('option');
@@ -396,7 +425,6 @@
         var editModal = new bootstrap.Modal(document.getElementById('editModal'));
         editModal.show();
     }
-
     function updateRoom() {
         var selectedRoom = document.getElementById('roomDropdown').value;
         var [roomName, roomID] = selectedRoom.split(',');
@@ -426,7 +454,6 @@
         editModal.hide();
     }
     function deleteExamDay() {
-            
             var period = document.getElementById('dropdown1').value;
             var day = document.getElementById('dropdown2').value;
             var confirmDelete = confirm('Are you sure you want to delete this Exam Schedule?');
@@ -487,8 +514,11 @@
                         
                 }
             });
-        }
+    }
+    function handleDeleteClick(subjectid,roomid){
+        console.log('delete', subjectid, roomid);
 
+    }
     
    
    

@@ -217,6 +217,7 @@ class ExamUserController extends Controller
     public function select(Request $request){
        
         $user = Auth::user();
+        // $users = "MIGRINO,JOLINA M.";
 
     
         $filesInListSection = Storage::files('public/listsection');
@@ -227,23 +228,30 @@ class ExamUserController extends Controller
             
             $csv = Reader::createFromPath(storage_path("app/{$filePath}"), 'r');
             $records = $csv->getRecords();
-
+            // dd($records);
             foreach ($records as $record) {
                 
                 if ($record[25] == $user->name) {
                     
                     $subject = $record[4];
-
+                    
                     
                     if (!in_array($subject, array_column($procSubject, 'subject'))) {
                         $procSubject[] = $subject;
                     }
                 }
             }
+           
         }
+
+        // dd($user);
+        
         
         $filesInUploads = Storage::files('public/uploads');
         $MatrixPrelim = [];
+        $MatrixMidterm = [];
+        $MatrixPrefinal = [];
+        $MatrixFinal = [];
         foreach ($filesInUploads as $filePath) {
             $csv = Reader::createFromPath(storage_path("app/{$filePath}"), 'r');
             $records = $csv->getRecords();
@@ -268,9 +276,10 @@ class ExamUserController extends Controller
                 }
             }
         }
-        // dd($MatrixFinal);
+        // dd($MatrixPrelim);
         
         $commonValues1 = array_intersect($procSubject, $MatrixPrelim);
+        // dd($commonValues1);
         $subjectCounts1 = [];
 
         foreach ($commonValues1 as $value) {
@@ -282,6 +291,7 @@ class ExamUserController extends Controller
                 $subjectCounts1[$value]++;
             }
         }
+        // dd($commonValues1); //to know the common subject in matrix and listbysec csv of prelim
         $commonValues2 = array_intersect($procSubject, $MatrixMidterm);
         $subjectCounts2 = [];
 
@@ -321,6 +331,7 @@ class ExamUserController extends Controller
 
 
         $PrelimCount = count($subjectCounts1);
+        // dd($PrelimCount);
         $MidtermCount = count($subjectCounts1);
         $PrefinalCount = count($subjectCounts1);
         $FinalCount = count($subjectCounts1);
@@ -427,11 +438,13 @@ class ExamUserController extends Controller
                 if ($user && $user->subject_count === null) {
                     
                     $user->subject_count = $PrelimCount;
+                    // dd($PrelimCount);
                     $user->save();
                 }
                 // dd($userNameID);
                 // dd($period);
                 if ($day == '1') {
+                    // dd($PrelimCount);
                     // dd('tama and day 1');
                     return response()->json(['examTimes' => $Prelim1, 'userName' => $userName, 'subcount' => $userNamesubcounter]);
                 }
@@ -448,9 +461,11 @@ class ExamUserController extends Controller
                 }
             
             }if ($period == 'Midterms') {
+     
+                
 
                 $user = User::where('id', $userNameID)->first();
-                if ($user && $user->subject_count === null) {
+                if ($user && $user->subject_count === 0) {
                     
                     $user->subject_count = $MidtermCount;
                     $user->save();
@@ -473,7 +488,7 @@ class ExamUserController extends Controller
             }if ($period == 'Pre-Finals') {
 
                 $user = User::where('id', $userNameID)->first();
-                if ($user && $user->subject_count === null) {
+                if ($user && $user->subject_count === 0) {
                     
                     $user->subject_count = $PrefinalCount;
                     $user->save();
@@ -497,7 +512,7 @@ class ExamUserController extends Controller
             }if ($period == 'Finals') {
 
                 $user = User::where('id', $userNameID)->first();
-                if ($user && $user->subject_count === null) {
+                if ($user && $user->subject_count === 0) {
                     
                     $user->subject_count = $FinalCount;
                     $user->save();

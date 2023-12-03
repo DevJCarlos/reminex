@@ -47,42 +47,42 @@ class ExamTimeController extends Controller
         $day = $request->day;
 
 
-        $Prelim1 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+        $Prelim1 = ExamTime::with(['examSub.examSectionss', 'examRooms','examDay'])
         ->whereHas('examDay', function ($query) {
             $query->where('day_num', 1);
         })
         ->where('exam_period_ID', 1)
         ->get();
 
-        $Prelim2 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+        $Prelim2 = ExamTime::with(['examSub.examSectionss', 'examRooms','examDay'])
         ->whereHas('examDay', function ($query) {
             $query->where('day_num', 2);
         })
         ->where('exam_period_ID', 1)
         ->get();
 
-        $Prelim3 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+        $Prelim3 = ExamTime::with(['examSub.examSectionss', 'examRooms','examDay'])
         ->whereHas('examDay', function ($query) {
             $query->where('day_num', 3);
         })
         ->where('exam_period_ID', 1)
         ->get();
         //midterm days
-        $Midterm1 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+        $Midterm1 = ExamTime::with(['examSub.examSectionss', 'examRooms','examDay'])
         ->whereHas('examDay', function ($query) {
             $query->where('day_num', 1);
         })
         ->where('exam_period_ID', 2)
         ->get();
 
-        $Midterm2 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+        $Midterm2 = ExamTime::with(['examSub.examSectionss', 'examRooms','examDay'])
         ->whereHas('examDay', function ($query) {
             $query->where('day_num', 2);
         })
         ->where('exam_period_ID', 2)
         ->get();
 
-        $Midterm3 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+        $Midterm3 = ExamTime::with(['examSub.examSectionss', 'examRooms','examDay'])
         ->whereHas('examDay', function ($query) {
             $query->where('day_num', 3);
         })
@@ -90,21 +90,21 @@ class ExamTimeController extends Controller
         ->get();
 
         //prefi days
-        $Prefi1 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+        $Prefi1 = ExamTime::with(['examSub.examSectionss', 'examRooms','examDay'])
         ->whereHas('examDay', function ($query) {
             $query->where('day_num', 1);
         })
         ->where('exam_period_ID', 3)
         ->get();
 
-        $Prefi2 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+        $Prefi2 = ExamTime::with(['examSub.examSectionss', 'examRooms','examDay'])
         ->whereHas('examDay', function ($query) {
             $query->where('day_num', 2);
         })
         ->where('exam_period_ID', 3)
         ->get();
 
-        $Prefi3 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+        $Prefi3 = ExamTime::with(['examSub.examSectionss', 'examRooms','examDay'])
         ->whereHas('examDay', function ($query) {
             $query->where('day_num', 3);
         })
@@ -112,21 +112,21 @@ class ExamTimeController extends Controller
         ->get();
 
         //finals daya
-        $Final1 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+        $Final1 = ExamTime::with(['examSub.examSectionss', 'examRooms','examDay'])
         ->whereHas('examDay', function ($query) {
             $query->where('day_num', 1);
         })
         ->where('exam_period_ID', 4)
         ->get();
 
-        $Final2 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+        $Final2 = ExamTime::with(['examSub.examSectionss', 'examRooms','examDay'])
         ->whereHas('examDay', function ($query) {
             $query->where('day_num', 2);
         })
         ->where('exam_period_ID', 4)
         ->get();
 
-        $Final3 = ExamTime::with(['examSub.examSectionss', 'examRooms'])
+        $Final3 = ExamTime::with(['examSub.examSectionss', 'examRooms','examDay'])
         ->whereHas('examDay', function ($query) {
             $query->where('day_num', 3);
         })

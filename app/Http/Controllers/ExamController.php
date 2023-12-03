@@ -104,6 +104,8 @@ class ExamController extends Controller
                 $subjects[] = $subject;
             }
         }
+
+        // dd($subjects);
     
         return response()->json($subjects);
     } 
@@ -141,7 +143,8 @@ class ExamController extends Controller
                     $classNumber = trim($record[9]); 
                     $instructor = trim($record[25]); 
                     $numOfStudents = trim($record[28]); 
-    
+                    
+                    // dd($section);
                     
                     if (isset($additionalInfo[$subjectName])) {
                         
@@ -151,6 +154,7 @@ class ExamController extends Controller
                             "<br><strong>Class #:</strong> $classNumber" .
                             "<br><strong>Instructor:</strong> $instructor" .
                             "<br><strong># of students:</strong> $numOfStudents";
+                            
                     } else {
                         // If it doesn't exist, create a new entry with labels
                         $additionalInfo[$subjectName] = 
@@ -163,7 +167,7 @@ class ExamController extends Controller
                 }
             }
         }
-    
+        
         return response()->json($additionalInfo);
     }
     

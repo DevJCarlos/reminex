@@ -211,7 +211,7 @@ $(document).ready(function() {
         const roomIds = $(this).closest('tr').find('.btn-success').data('room-id1');
 
         const roomText = $(this).closest('tr').find('span').text();
-        const roomNames = roomText.split('2023','2024', '2025', '2026')[0].trim();
+        const roomNames = roomText.split('2023','2024', '2025', '2026', '2027','2028','2029','2030', 'Active','Inactive')[0].trim();
 
         
         $('#editRoomName').val(roomNames);

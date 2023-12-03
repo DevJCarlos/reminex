@@ -97,8 +97,6 @@
 
             table += '</tbody></table>';
             document.getElementById('subjects').innerHTML = table;
-
-            // Update the tableRows variable with the new table rows
             
             tableRows = document.querySelectorAll('#subjects tbody tr');
         }
@@ -752,7 +750,9 @@
                 .then(response => response.json())
                 .then(data => {
                     if(data.message === 'Successful'){
+                        alert('Exam Time Successfully added');
                         var examSubjectData = examSubjects(sortSchedule);
+
                         fetch('/exam-subjects', {
                         method: 'POST',
                         headers: {
@@ -765,6 +765,7 @@
 
                         .then(data => {
                             if(data.message === 'Successful'){
+                                alert('Subject Successfully added');
                                 var examRoomData = examRoom(sortSchedule);
                                 fetch('/exam-rooms', {
                                     method: 'POST',
@@ -777,7 +778,8 @@
                                 .then(response => response.json())
 
                                 .then(data => {
-                                     var examSectionPropertiesData = examSectionProperties(sortSchedule);
+                                    alert('Rooms Successfully added');
+                                    var examSectionPropertiesData = examSectionProperties(sortSchedule);
                                     fetch('/exam-SecPro', {
                                         method: 'POST',
                                         headers: {
@@ -789,6 +791,7 @@
                                     .then(response => response.json())
 
                                     .then(data => {
+                                        alert('Sections Successfully added');
                                         if(data.message === 'Successful'){
                                             alert('Exam Schedule Saved Successfully');
                                             location.reload();
