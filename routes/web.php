@@ -42,9 +42,11 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
     // Route::get('changeprofilePic', [App\Http\Controllers\StudentController::class, 'changeprofilePic'])->name('profilepic.update');
 
     //changepass
-    Route::post('/change-password', [\App\Http\Controllers\StudentController::class, 'changePassword'])->name('password.change');
-    //irreg student
+    Route::post('/change-password1', [App\Http\Controllers\StudentController::class, 'changePassword'])->name('student.password.change');
 
+
+
+    //irreg student
     Route::get('/irregstudent', [App\Http\Controllers\StudentController::class, 'showsubject'])->name('student.studentirreg');
     Route::post('/store-selected-data', [App\Http\Controllers\StudentController::class, 'storeSelectedData'])->name('store.selected.data');
     
@@ -78,7 +80,7 @@ Route::group(['middleware' => ['auth', 'role:teacher']], function(){
     // Route::get('changeprofilePic', [App\Http\Controllers\TeacherController::class, 'changeprofilePic'])->name('profilepic.update');
 
     //changepass
-    Route::post('/change-password', [\App\Http\Controllers\TeacherController::class, 'changePassword2'])->name('password.change2');
+    Route::post('/change-password', [\App\Http\Controllers\TeacherController::class, 'changePassword2'])->name('teacher.password.change');
     
 
     //Request 
