@@ -161,6 +161,7 @@
         location.reload();
         }
         $('#tableBody').empty();
+        $('#examDateHeader').empty();
         
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
         $.ajaxSetup({
@@ -214,7 +215,7 @@
                     subject.exam_sectionss.forEach(function(subjectSec) {
                         Sections.push({
                             Subject_name: subject.subject_name,
-                            Subject_ID: subject.id,
+                            Subject_ID: subjectSec.id,
                             Section: subjectSec.section_name,
                             Code: subjectSec.class_num,
                             Instructor: subjectSec.Instructor,
@@ -472,9 +473,11 @@
                     success: function(response) {
                     if (response.message === 'Exam day deleted successfully') {
                             window.alert('Deleted Successfully'); 
+                            
                         } else if (response.message === 'No matching exam day found') { 
                         window.alert('No Data of ' + period + ' Day ' + day + ' in Database '); 
-                        location.reload();
+                       
+
                     }
                     },
                     error: function(error) {
@@ -516,7 +519,39 @@
             });
     }
     function handleDeleteClick(subjectid,roomid){
-        console.log('delete', subjectid, roomid);
+        // console.log('delete', subjectid, roomid);
+        var subjectID = subjectid;
+        var roomID = roomid;
+        console.log(roomID);
+        var confirmDelete = confirm('Are you sure you want to delete this Schedule?');
+        if (confirmDelete) {
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                });
+                
+                $.ajax({
+                    method: 'POST',
+                    url: '/delete-exam-subject', 
+                    data: { subject_ID: subjectID, room_ID: roomID },
+                    success: function(response) {
+                    if (response.message === 'Records deleted successfully.') {
+                            window.alert('Deleted Successfully'); 
+                            handleFormSubmit();
+                        } else if (response.message === 'No matching exam day found') { 
+                        window.alert('Error could not delete the exam Subject '); 
+                        handleFormSubmit();
+                    }
+                    },
+                    error: function(error) {
+                        handleFormSubmit();
+                        console.error('Error deleting exam day:', error);
+                        
+                    }
+                });
+        }
 
     }
     

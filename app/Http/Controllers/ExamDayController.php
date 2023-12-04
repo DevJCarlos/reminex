@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\ExamDay;
 use App\Models\ExamPeriod;
+use App\Models\ExamRoom;
+use App\Models\ExamSection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -83,6 +85,29 @@ class ExamDayController extends Controller
         } else {
             return response()->json(['message' => 'No matching exam day found']);
         }
+    }
+    public function deleteSub(Request $request){
+        $subjectID = $request->input('subject_ID');
+        $roomID = implode(',', $request->input('room_ID'));
+
+
+        // dd($roomID);
+        $room = ExamRoom::find($roomID);
+        $section = ExamSection::find($subjectID);
+        
+        
+
+        if (!$room || !$section) {
+            // Records not found
+            return response()->json(['message' => 'Records not found.'], 404);
+        }
+
+        // Delete records
+        $room->delete();
+        $section->delete();
+
+    // Return success response
+    return response()->json(['message' => 'Records deleted successfully.']);
     }
     
 

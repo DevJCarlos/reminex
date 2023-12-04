@@ -185,6 +185,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::post('/update-room', [\App\Http\Controllers\RoomController::class, 'updateRoom']);
     //ExamUser
     Route::post('/saveExamData', [\App\Http\Controllers\ExamUserController::class, 'saveExamData'])->name('saveExamData');
+    //delete specific exam 
+    Route::post('/delete-exam-subject', [\App\Http\Controllers\ExamDayController::class, 'deleteSub'])->name('deleteSub');
 
 
 
