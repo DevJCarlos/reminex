@@ -42,7 +42,7 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
     // Route::get('changeprofilePic', [App\Http\Controllers\StudentController::class, 'changeprofilePic'])->name('profilepic.update');
 
     //changepass
-    Route::post('/change-password1', [App\Http\Controllers\StudentController::class, 'changePassword'])->name('student.password.change');
+    Route::post('/change-password', [App\Http\Controllers\StudentController::class, 'changePassword'])->name('student.password.change');
 
 
 
@@ -86,7 +86,7 @@ Route::group(['middleware' => ['auth', 'role:teacher']], function(){
     // Route::get('changeprofilePic', [App\Http\Controllers\TeacherController::class, 'changeprofilePic'])->name('profilepic.update');
 
     //changepass
-    Route::post('/change-password', [\App\Http\Controllers\TeacherController::class, 'changePassword2'])->name('teacher.password.change');
+    Route::post('/change-password1', [\App\Http\Controllers\TeacherController::class, 'changePassword2'])->name('teacher.password.change');
     
 
     //Request 

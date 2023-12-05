@@ -32,7 +32,7 @@
 						<div class="col-12 col-lg-8">
 							<div class="card">
 								<div class="card-body">
-								<form action="{{ url('/change-password1') }}" method="POST">
+								<form action="{{ route('student.password.change') }}" method="POST">
 
 										@csrf
 										<!-- Old Password input -->

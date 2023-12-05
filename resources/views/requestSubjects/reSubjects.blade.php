@@ -50,18 +50,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-12 col-lg-12">
                     <div class="card">
-                        <div class="card-body text-danger">
-
-                        <div class="alert alert-info">
-                            Subjects Datatable
-                        </div>
-
-                            <div class="card">
-                                <div class="table-responsive">
-
-                                    <table id="example" class="table table-striped" style="width:100%">
+                        <div class="card-body">
+                        <h5 class="card-title"><strong class="text-success">Subjects Datatable</strong></h5><br><br>
+                            <div class="table-responsive">
+                                
+                                <table id="example1" class="table table-bordered table-striped">
                                         <thead>
                                         <tr>
                                                 <th>Course</th>
@@ -77,12 +72,11 @@
                                         @endforeach    
                                         </tbody>
                                     </table>
-                                </div>
 
                             </div>
                         </div>
-                        </div>
                     </div>
+                </div>
             </div>
         </div><!-- /.container-fluid -->
     </div>
