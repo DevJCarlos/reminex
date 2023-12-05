@@ -74,6 +74,7 @@
                 </a>
             </li> -->
             
+            @if (auth()->user()->position === "Academic Head")
             <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="nav-icon fa-regular fa-calendar"></i>
@@ -97,7 +98,9 @@
                     </li>
                 </ul>
             </li>
+            @endif
 
+            @if (auth()->user()->department != "Academic Head")
             <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="nav-icon fa-solid fa-exclamation"></i>
@@ -121,7 +124,9 @@
                     </li>
                 </ul>
             </li>
+            @endif
 
+            @if (auth()->user()->department === "Academic Head")
             <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="nav-icon fa-solid fa-sliders"></i>
@@ -137,14 +142,15 @@
                             <p>Rooms</p>
                         </a>
                     </li>
-                    <!--<li class="nav-item">-->
-                    <!--    <a href="{{ route('requestSubjects.reSbjects') }}" class="nav-link">-->
-                    <!--        <i class="far fa-circle nav-icon"></i>-->
-                    <!--        <p>Subjects</p>-->
-                    <!--    </a>-->
-                    <!--</li>--> 
+                    <!-- <li class="nav-item">
+                       <a href="{{ route('requestSubjects.reSbjects') }}" class="nav-link">
+                           <i class="far fa-circle nav-icon"></i>
+                           <p>Subjects</p>
+                       </a>
+                    </li>  -->
                 </ul>
             </li>
+            @endif
             
             <li class="nav-item">
                 <a href="{{ route('about') }}" class="nav-link">

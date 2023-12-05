@@ -11,8 +11,8 @@
 						<div class="col-12">
 							<div class="card">
 							  <div class="card-body text-danger">
-								<div class="table-responsive">
-								  <table id="zero_config" class="table table-striped table-bordered" style="overflow-y: scroll; max-height: 2000px;">
+								<div class="table-responsive" style="overflow-y: scroll; max-height: 2000px;">
+								  <table id="userTable" class="table table-striped table-bordered">
                                         <thead>
                                         <tr>
                                             <th>Date</th>
@@ -58,7 +58,7 @@
                                                 @endif
                                                 @if($requestrecord3->status === "Completed")
                                                 @if($requestrecord3->request_type === "Special Exam Request")
-                                                <td class="table-secondary"><h5 class="badge badge-success">{{ $requestrecord3->status }}</h5></td>
+                                                <td class="table-secondary"><h5 class="badge badge-warning">{{ $requestrecord3->status }}</h5></td>
                                                 <td class="table-secondary text-success" style="font-family: 'Prestige Elite Std';">Completed!</td>
                                                 @endif
                                                 @endif

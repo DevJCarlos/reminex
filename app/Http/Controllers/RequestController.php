@@ -62,7 +62,6 @@ class RequestController extends Controller
             ->where('stud_name', auth()->user()->name)
             ->where(function ($query) {
                 $query->where('status', 'Approved')
-                    ->orWhere('status', 'New Schedule Created')
                     ->orWhereNull('status');
             })
             ->first();
@@ -128,26 +127,6 @@ class RequestController extends Controller
         return redirect(route('student.createrequest'))->with('success', 'Successfully Requested!');
     }
 
-    //deleting all requests
-    // public function destroyAllRequests()
-    // {
-    //     try {
-    //         // Delete all records from the RequestModel table
-    //         DB::table('student_requests')->delete();
-
-    //         // Optionally, you may also want to delete associated files from storage
-    //         // You can get the file paths from the database before deleting the records
-    //         $filePaths = RequestModel::pluck('file_path')->toArray();
-    //         foreach ($filePaths as $filePath) {
-    //             Storage::delete('uploads/' . $filePath);
-    //         }
-
-    //         return redirect()->back()->with('success', 'All requests deleted successfully.');
-    //     } catch (\Exception $e) {
-    //         return redirect()->back()->with('error', 'Failed to delete requests.');
-    //     }
-    // }
-
     // fetching data for dropdown selection
     public function createRequest()
     {
@@ -155,24 +134,6 @@ class RequestController extends Controller
         $subjectrecs = RequestSubject::all();
         return view('student.createrequest', compact('userrecords', 'subjectrecs'));
     }
-
-    // public function destroyRequest($id)
-    // {
-    //     // Find the request by ID
-    //     $request = RequestModel::find($id);
-
-    //     if (!$request) {
-    //         return redirect(route('adminArchiveRequest'))->with('error', 'Request not found!');
-    //     }
-
-    //     // Delete the file from storage
-    //     Storage::delete('uploads/' . $request->file_path);
-
-    //     // Delete the request from the database
-    //     $request->delete();
-
-    //     return redirect(route('adminArchiveRequest'))->with('success', 'Request deleted successfully!');
-    // }
     
     //showing request to assigned admin for approval *FirstCome-FirstServed basis*
     public function showRequest()
