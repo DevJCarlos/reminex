@@ -240,6 +240,7 @@
 
                     TimeSchedule.push({
                     Time: examTime.exam_time,
+                    period: examTime.exam_period_ID,
                     Subjects: Sections,
                     rooms: TimeRooms
                             
@@ -303,11 +304,12 @@
 
                 alterdatas.push({
                     Time: Timeslot.Time,
+                    period: Timeslot.period,
                     Data: combinedData.filter(entry => entry !== null),
                 });
                 
             });
-            // console.log('alter data:', alterdatas);
+            console.log('alter data:', alterdatas);
 
             //subject filteration
             alterdatas.forEach((timeSlot) => {
@@ -341,9 +343,10 @@
                 //selection turn
                 const subjectNames = DataFiltered.map(entry => entry.Subject_name);
                 // const uniqueSubjectNames = [...new Set(subjectNames)];
+                console.log('check subname',subjectNames);
+                var SelectionLeft = parseInt(subCount[0], 10);
 
-                var SelectionLeft = subCount;
-                // console.log('SelectionLeft:', SelectionLeft);
+                console.log('SelectionLeft to subcount:', SelectionLeft);
                 // console.log('check cnost:',SelectionLeft);
                 
                 // console.log('alterdata: ', alterdatas);
@@ -401,7 +404,7 @@
                         const editCell = document.createElement('td');
                         const editButton = document.createElement('button');
                         editButton.textContent = 'Select';
-                        editButton.addEventListener('click', () => handleEditClick(subject.SecId,SelectionLeft,editButton,usersNames));
+                        editButton.addEventListener('click', () => handleEditClick(subject.SecId, SelectionLeft, editButton, usersNames, timeSlots.Time));
                         editCell.appendChild(editButton);
                         row.appendChild(editCell);
                         
@@ -414,6 +417,7 @@
 
                 const proctorData1 = newSched.flatMap(timeSlot => timeSlot.Data)
                     .filter(entry => entry.proctor !== null); 
+                    // console.log('proctorDAta1', proctorData1);
                     
                 const proctorSecIds1 = proctorData.map(entry => entry.SecId);
                 newSched.forEach((timeSlot) => {
@@ -421,14 +425,14 @@
                     proctorSecIds.includes(entry.SecId)
                     );
                 
-
+                    // Console.log('proctorDAta1', proctorData1);
                 });
-
-            // console.log('new sched:', newSched)
+            
+            console.log('new sched:', newSched)
             const tableBody1 = document.getElementById('tableBody1');
                 let uniqueTimeSlots1 = [];
                 
-
+                // console.log('period', period);
                 newSched.forEach((timeSlots) => {
                     timeSlots.Data.forEach((subject, index) => {
                         const row = document.createElement('tr');
@@ -481,8 +485,6 @@
                         editCell.appendChild(editButton);
                         row.appendChild(editCell);
                         
-                        
-
                         tableBody1.appendChild(row);
                         
                     });
@@ -496,61 +498,63 @@
     
    
     var editClickCounter = 0;
-    function updateSelectionCounter() {
-        
+    // var editClickCounternega = ;
+ 
+
+    
+    
+   // Assume you have a variable to store selected times
+const selectedTimes = [];
+
+function handleEditClick(secID, selectionLeft, button, usersNames, time) {
+    // Check if the selected time has been previously selected
+    if (selectedTimes.includes(time)) {
+        // Alert the user and prevent further actions
+        window.alert("You can't select the subjects with same time your schedule will be conflict.");
+        return;
     }
 
-    updateSelectionCounter();
-    
-    function handleEditClick(secID, selectionLeft, button, usersNames) {
-        if (confirm("Are you sure you want to select this?")) {
-            if (editClickCounter < selectionLeft) {
-                
-            
-
-        
+    if (confirm("Are you sure you want to select this?")) {
+        if (selectionLeft !== editClickCounter) {
             button.classList.add('selected');
             var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-               
-                editClickCounter++;
-                selectionLeft --;
-                document.getElementById('selectionCounter').innerText = selectionLeft;
-                $.ajax({
+
+            selectionLeft--;
+
+            document.getElementById('selectionCounter').innerText = selectionLeft;
+            $.ajax({
                 method: 'POST',
-                url: '/exam-sections/update', 
-                data: { secID: secID, userName: usersNames, selectSub: selectionLeft},
+                url: '/exam-sections/update',
+                data: { secID: secID, userName: usersNames, selectSub: selectionLeft },
                 headers: {
                     'X-CSRF-TOKEN': csrfToken
                 },
-                success: function(response) {
+                success: function (response) {
                     window.alert('Updated Successfully');
-                    // location.reload();
                 },
-                error: function(error) {
+                error: function (error) {
                     console.error(error);
                 }
             });
 
-                
-               
-                // console.log('check 1',editClickCounter);
-                console.log('check 2',selectionLeft);
-            } else {
-                window.alert("You Have Reached The Maximum Selection");
-                // location.reload();
-            }
+            // Update the selectedTimes array
+            selectedTimes.push(time);
         } else {
-           
+            window.alert("You Have Reached The Maximum Selection");
         }
-        reloadTable();
-
+    } else {
+        window.alert("You Have Reached The Maximum Selection");
     }
+
+    reloadTable();
+}
+
     function handleDeselectClick(secID,selectionLeft, usersNames) {
         console.log('newsched', newSched)
         
         if (confirm("Are you sure you want to deselect?")) {
             selectionLeft++;
-            editClickCounter--;
+            
             document.getElementById('selectionCounter').innerText = selectionLeft;
 
             
@@ -576,7 +580,7 @@
             // editClickCounter++;
             // selectionLeft--;
             // console.log('check 1',editClickCounter);
-            console.log('check 2',selectionLeft);
+            // console.log('check 2',selectionLeft);
            
         } else {
            

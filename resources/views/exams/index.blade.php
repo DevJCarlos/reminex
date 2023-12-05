@@ -323,7 +323,7 @@
                     const editButton = document.createElement('button');
                     const deleteButton = document.createElement('button');
                     editButton.textContent = 'Edit';
-                    deleteButton.textContent = 'Delete';
+                    deleteButton.textContent = 'Remove';
                     editButton.addEventListener('click', () => handleEditClick(timeSlots.Rooms[index], timeSlots.RoomIDs[index], subject.Subject_name, subject.StudentCount, subject.Section, timeSlots.Time));
                     deleteButton.addEventListener('click', () => handleDeleteClick(subject.Subject_ID,timeSlots.RoomIDs[index]));
                     editCell.appendChild(editButton);
@@ -392,14 +392,15 @@
             })
             
         });
-        console.log('selected',SelectedRoom);
+        // console.log('selected',SelectedRoom);
         // console.log('altersched',alterSchedule);
         
        
-        console.log('usedroom',usedRooms1);
+        // console.log('usedroom',usedRooms1);
 
         if (usedRooms1 === 'No Unused Room') {
             console.log('allowed');
+            
         } else if (usedRooms1[1] !== SelectedRoom[5]) {
             window.alert("If you select another timeslot, the unused rooms will be reset");
             return usedRooms1 = 'No Unused Room';
@@ -413,86 +414,120 @@
         var usedRooms;
         usedRooms = usedRooms1;
         RoomCon.forEach(function (timeData) {
-            // usedRooms1 = usedRooms;
-            console.log('used rooms ni',usedRooms1);
-            if (timeData.Time.includes(SelectedRoom[5])) {
-                const currentCapacity = SelectedRoom[3];
-                
-                timeData.Data.forEach((roomData) => {
-                    
-                    const roomCapacity = roomData[0];
-                    const isSameRoom = JSON.stringify(roomData[3]) === JSON.stringify(SelectedRoom[1]);
-                    // console.log('same data',SelectedRoom);
-                    // let usedRooms = [];
-                    if (!isSameRoom && currentCapacity + roomCapacity <= 50) {
-                        roomOptions.push([
-                        roomData[4],
-                        roomData[1],
-                        SelectedRoom[1],
-                        usedRooms,
-                        ]);
-                    
-                        } else if (isSameRoom) {
-                        duplicatedData.push([
-                        roomData[4],
-                        roomData[1],
-                        roomData[3]
-                        ]);
-                    // console.log('duplicateData',duplicatedData);
-                    }
-                });
-            }
-            
+    if (timeData.Time.includes(SelectedRoom[5])) {
+        const currentCapacity = SelectedRoom[3];
 
-                        
+        timeData.Data.forEach((roomData) => {
+            const roomCapacity = roomData[0];
+            const isSameRoom = JSON.stringify(roomData[3]) === JSON.stringify(SelectedRoom[1]);
+
+            if (!isSameRoom && currentCapacity + roomCapacity <= 50) {
+                roomOptions.push([
+                    roomData[4],
+                    roomData[1],
+                    SelectedRoom[1],
+                    usedRooms,
+                ]);
+            } else if (isSameRoom) {
+                duplicatedData.push([
+                    roomData[4],
+                    roomData[1],
+                    roomData[3]
+                ]);
+            }
         });
+    }
+});
+
         console.log('duplicateData1',roomOptions);
         
                     
         // console.log('Duplicated Data:', duplicatedData);
         // console.log('Check roomOption', roomOptions);
+        
+        //kini ang nay problema naay default value daan!
         $('#roomDropdown').empty();
         var dropdown = document.getElementById('roomDropdown');
 
         // Add a default option
         var defaultOption = document.createElement('option');
         defaultOption.value = 'no value';
-        defaultOption.text = "--Select Rooms--";
+        defaultOption.text = "-- Select Rooms --";
         dropdown.add(defaultOption);
 
         // Add other options
+        
         for (var i = 0; i < roomOptions.length; i++) {
             var option = document.createElement('option');
             option.value = [roomOptions[i][0], roomOptions[i][2]];
             option.text = roomOptions[i][0] + ' (' + roomOptions[i][1] + ')';
             dropdown.add(option);
+            console.log('check value', option.value);
+
+        }
+        
+       
+
+        try {
+            $('#roomDropdown1').empty();
+            var dropdown1 = document.getElementById('roomDropdown1');
+
+            var defaultOption1 = document.createElement('option');
+            defaultOption1.value = 'no value';
+            defaultOption1.text = '-- Select --';
+
+            dropdown1.add(defaultOption1);
+
+            var option1 = document.createElement('option');
+            option1.value = [roomOptions[0][0], roomOptions[0][2]];
+            option1.text = roomOptions[0][3];
+
+            console.log('check value1', option.value1);
+            dropdown1.add(option1);
+        } catch (error) {
+            console.error(error); 
+
+            
+            window.alert('No available rooms for this schedule');
+            return
         }
 
-
-        $('#roomDropdown1').empty();
-        var dropdown1 = document.getElementById('roomDropdown1');
-        var option = document.createElement('option');
-        option.value = [roomOptions[0][0],roomOptions[0][2]];
-        option.text = [roomOptions[0][3]];
-
-        console.log('opt text',option.value,option.text);
-
-
-        
-        dropdown1.add(option);
         editModal = new bootstrap.Modal(document.getElementById('editModal'));
         editModal.show();
-        // console.log('check2',editModal);
+        console.log('check2',editModal);
         
     }
     function updateRoom() {
-        var selectedRoom = document.getElementById('roomDropdown').value;
-        var [roomName, roomID] = selectedRoom.split(',');
-        console.log('selected Room 1',SelectedRoom);
-        console.log('selected Room 1',selectedRoom);
-        // console.log('Room Name: ', roomName);
-        // console.log('Room ID: ', roomID);
-        // usedRooms = [];
+        var selectedRoom1;
+        var selectedRoom2;
+        var roomDropdown1Value = document.getElementById('roomDropdown1').value;
+        var roomDropdown2Value = document.getElementById('roomDropdown').value;
+        // console.log('check both values', roomDropdown1Value, roomDropdown2Value);
+        var [roomName, roomID] = [];
+
+        if (roomDropdown1Value !== 'no value') {
+            selectedRoom1 = document.getElementById('roomDropdown1').value;
+
+            [roomName, roomID] = selectedRoom1.split(',');
+
+            console.log('condition1', selectedRoom1);
+        } else if (roomDropdown2Value !== 'no value') {
+            selectedRoom2 = document.getElementById('roomDropdown').value;
+
+            [roomName, roomID] = selectedRoom2.split(',');
+
+            console.log('condition2', selectedRoom2);
+        } else {
+            console.log('Error');
+        }
+
+         
+
+
+
+        // console.log('selected Room 1',selectedRoom);
+
+
         
         $.ajax({
                 url: '/update-examroom', 

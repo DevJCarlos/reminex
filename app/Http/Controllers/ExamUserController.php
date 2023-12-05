@@ -343,6 +343,43 @@ class ExamUserController extends Controller
             $day = $request->day;
             $userName = $user->name;
 
+            $subcount = $user->subject_count;
+            // dd($subcount);
+
+            $user = User::where('id', $userNameID)->first();
+            if ($period == 'Prelims') {
+                
+                if ($user && $user->subject_count == null) {
+                    $user->subject_count = $PrelimCount;
+                    // dd($PrelimCount);
+                    $user->save();
+                }
+            }if($period == 'Midterms'){
+                if ($user && $user->subject_count == null) {
+                    
+                    $user->subject_count = $MidtermCount;
+                    $user->save();
+                }
+
+            }if($period == 'Pre-Finals'){
+                if ($user && $user->subject_count == null) {
+                    
+                    $user->subject_count = $PrefinalCount;
+                    $user->save();
+                }
+
+            }if($period == 'Finals'){
+                if ($user && $user->subject_count == null) {
+                    
+                    $user->subject_count = $FinalCount;
+                    $user->save();
+                }
+
+            }
+
+          
+
+
             
             $Prelim1 = ExamTime::with(['examSub.examSectionss', 'examRooms', 'examDay'])
             ->whereHas('examDay', function ($query){
@@ -434,15 +471,12 @@ class ExamUserController extends Controller
             
             if ($period == 'Prelims') {
 
-                $user = User::where('id', $userNameID)->first();
-                if ($user && $user->subject_count === null) {
-                    
-                    $user->subject_count = $PrelimCount;
-                    // dd($PrelimCount);
-                    $user->save();
-                }
-                // dd($userNameID);
-                // dd($period);
+                // if ($subcount == 0) {
+                //     $user->subject_count = -1;
+                //     $user->save();
+
+                // }
+
                 if ($day == '1') {
                     // dd($PrelimCount);
                     // dd('tama and day 1');
@@ -461,15 +495,12 @@ class ExamUserController extends Controller
                 }
             
             }if ($period == 'Midterms') {
+                if ($subcount == 0) {
+                    $user->update(['subject_count' => null]);
+
+                }
      
                 
-
-                $user = User::where('id', $userNameID)->first();
-                if ($user && $user->subject_count === 0) {
-                    
-                    $user->subject_count = $MidtermCount;
-                    $user->save();
-                }
                 if ($day == '1') {
                     // dd('tama and day 1');
                     return response()->json(['examTimes' => $Midterm1, 'userName' => $userName, 'subcount' => $userNamesubcounter]);
@@ -487,11 +518,9 @@ class ExamUserController extends Controller
                 }
             }if ($period == 'Pre-Finals') {
 
-                $user = User::where('id', $userNameID)->first();
-                if ($user && $user->subject_count === 0) {
-                    
-                    $user->subject_count = $PrefinalCount;
-                    $user->save();
+                if ($subcount == 0) {
+                    $user->update(['subject_count' => null]);
+
                 }
                 if ($day == '1') {
                     // dd('tama and day 1');
@@ -511,11 +540,9 @@ class ExamUserController extends Controller
     
             }if ($period == 'Finals') {
 
-                $user = User::where('id', $userNameID)->first();
-                if ($user && $user->subject_count === 0) {
-                    
-                    $user->subject_count = $FinalCount;
-                    $user->save();
+                if ($subcount == 0) {
+                    $user->update(['subject_count' => null]);
+
                 }
                 if ($day == '1') {
                     // dd('tama and day 1');

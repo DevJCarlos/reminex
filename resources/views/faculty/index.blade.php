@@ -77,6 +77,7 @@
 													<th>Rooms</th>
 													<th>Section</th>
 													<th>Section Number</th>
+                                                    <th>Instructor</th>
 													<th>Proctors</th>
 													<th>Student Count</th>
 													
@@ -288,8 +289,13 @@
 
                         // Instructor
                         const instructorCell = document.createElement('td');
-                        instructorCell.textContent = subject.proctor;
+                        instructorCell.textContent = subject.Instructor;
                         row.appendChild(instructorCell);
+                        // console.log(subject.Instructor);
+
+                        const proctorCell = document.createElement('td');
+                        proctorCell.textContent = subject.proctor;
+                        row.appendChild(proctorCell);
 
                         // Class Count
                         const classCountCell = document.createElement('td');
