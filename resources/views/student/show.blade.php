@@ -349,7 +349,7 @@
                 
             }
             if((usersStatus[0] === 'Irregular')){
-                window.alert("youre Ireg");
+                alert("the system detects that your an irregular student would you wish to customize your schedule?");
 
                 response.examTimes.forEach(function(examTime) {
                         

@@ -9,6 +9,7 @@ use League\Csv\Reader;
 use Illuminate\Support\Facades\Storage;
 use App\Models\IrregStudentSub;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 use Illuminate\Support\Facades\Hash;
 
@@ -197,4 +198,54 @@ class StudentController extends Controller
           return abort(404, 'Not authorized');
       }
   }
+    public function showSelected(){
+        $user = Auth::user();
+        if ($user && $user->hasRole('student')) {
+            
+            $data = IrregStudentSub::select('id', 'student_subject', 'subject_instructor', 'subject_section')
+                ->where('irreg_students_id', $user->id) 
+                ->get();
+
+            // dd($user);
+            // dd($data->toArray());
+
+            $idinfo = $data->pluck('id')->toArray();
+
+            $subjectsinfo = $data->pluck('student_subject')->toArray();
+            $instructorsinfo = $data->pluck('subject_instructor')->toArray();
+            $sectionsinfo = $data->pluck('subject_section')->toArray();
+            
+            // dd($idinfo);
+            return compact('subjectsinfo', 'instructorsinfo', 'sectionsinfo', 'idinfo');
+
+            
+        }
+    }
+
+
+    
+    public function deleteRow(Request $request, $index)
+    {
+        try {
+            // Find the record by 'id' and delete it
+            $record = IrregStudentSub::find($index);
+    
+            if ($record) {
+                // Delete the record
+                $record->delete();
+                Log::info('Row deleted successfully at index: ' . $index);
+                return response()->json(['message' => 'Row deleted successfully']);
+            } else {
+                Log::info('Record not found at index: ' . $index);
+                return response()->json(['message' => 'Record not found'], 404);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error deleting row: ' . $e->getMessage());
+            return response()->json(['message' => 'Error deleting row'], 500);
+        }
+    }
+    
+
+
+
 }

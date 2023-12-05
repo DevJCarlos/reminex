@@ -76,6 +76,7 @@
                                                 <th>Subject</th>
                                                 <th>Instructor</th>
                                                 <th>Section</th>
+                                                <th>code</th>
                                             </tr>
                                         </thead>
                                         <tbody id = "dataset">
@@ -91,7 +92,33 @@
                                     <!-- <button id="getSelectedDataButton1" class="btn btn-primary">update schedule</button> -->
                                     <button type="button" onclick="sendSelectedDataToServer()" class="btn btn-primary">Update Schedule</button>
                                 </div>
-                            </div>                          
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Your Schedule</h4>
+                                </div>
+                                <div class="card-body">
+                                
+                                <table id="newexample1" class="table table-striped table-bordered table-light" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Subject</th>
+                                            <th>Instructor</th>
+                                            <th>Section</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="dataset1">
+                                       
+                                    </tbody>
+                                </table>
+
+                                    <br>
+                                    <!-- <button id="getSelectedDataButton1" class="btn btn-primary">update schedule</button> -->
+                                    <button onclick="checkSchedules()">Check Schedules</button>
+                                    
+                                </div>
+                            </div>                                      
                         </div>
                     </div>
                 </div>
@@ -197,6 +224,61 @@
     }
 
 
+
+    function checkSchedules() {
+        $('#dataset1').empty();
+        $.ajax({
+            url: '{{ route("student.showSelected") }}',
+            method: 'GET',
+            dataType: 'json', // Assuming the response is in JSON format
+            success: function(response) {
+                // Handle the response data
+                var subjectsInfo = response.subjectsinfo;
+                var instructorsInfo = response.instructorsinfo;
+                var sectionsInfo = response.sectionsinfo;
+                var Idinfo = response.idinfo;
+
+                // Clear existing rows in the table body
+                console.log(Idinfo);
+                $('#dataset1').empty();
+
+                // Append new rows based on the fetched data    
+                for (var i = 0; i < subjectsInfo.length; i++) {
+                    var newRow = '<tr>' +
+                        '<td>' + subjectsInfo[i] + '</td>' +
+                        '<td>' + instructorsInfo[i] + '</td>' +
+                        '<td>' + sectionsInfo[i] + '</td>' +
+                        '<td><button onclick="deleteRow(' + Idinfo[i] + ')">Remove</button></td>' +
+                        '</tr>';
+                    $('#dataset1').append(newRow);
+                }
+            },
+            error: function(error) {
+                console.error('Error fetching data:', error);
+            }
+        });
+    }
+    function deleteRow(index) {
+        var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    
+        $.ajax({
+            url: '/student/delete-row/' + index,
+            data: { _token: csrfToken,
+            },
+            method: 'POST',
+            dataType: 'json',
+            success: function(response) {
+                // Handle success (if needed)
+                console.log(response.message);
+            },
+            error: function(error) {
+                console.error('Error deleting row:', error);
+            }
+        });
+        $('#dataset1').empty();
+        checkSchedules();
+    }
 
 
 </script>

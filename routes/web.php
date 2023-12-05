@@ -48,7 +48,12 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
 
     //irreg student
     Route::get('/irregstudent', [App\Http\Controllers\StudentController::class, 'showsubject'])->name('student.studentirreg');
+    Route::get('/student/show-selected', [App\Http\Controllers\StudentController::class, 'showSelected'])->name('student.showSelected');
+
+    Route::post('/student/delete-row/{index}', [App\Http\Controllers\StudentController::class, 'deleteRow'])->name('student.deleteRow');
     Route::post('/store-selected-data', [App\Http\Controllers\StudentController::class, 'storeSelectedData'])->name('store.selected.data');
+
+    
     
     
     //Request 
@@ -64,6 +69,7 @@ Route::group(['middleware' => ['auth', 'role:student']], function(){
 
     //PULL EXAM SCHED
     Route::post('/pull-exam-sched-student', [\App\Http\Controllers\ExamUserController::class, 'pullExamstudent'])->name('pullExamstudent');
+    
     
     
 
