@@ -45,6 +45,7 @@ class RequestController extends Controller
         $studName = $request->stud_name;
         $department = $request->department;
         $requestType = $request->request_type;
+        $period = $request->period;
         $subject = $request->subject;
         $instructor = $request->instructor;
         $reason = $request->reason;
@@ -57,11 +58,12 @@ class RequestController extends Controller
 
         $requirement->storeAs('uploads', $requirementName);
 
-       $existingRequest = RequestModel::where('subject', $subject)
+        $existingRequest = RequestModel::where('subject', $subject)
             ->where('request_type', $requestType)
+            ->where('period', $period)
             ->where('stud_name', auth()->user()->name)
             ->where(function ($query) {
-                $query->where('status', 'Approved')
+                $query->whereIn('status', ['Approved', 'New Schedule Created'])
                     ->orWhereNull('status');
             })
             ->first();
@@ -76,11 +78,13 @@ class RequestController extends Controller
             'stud_name' => 'required',
             'department' => 'required',
             'request_type' => 'required',
+            'period' => 'required',
             'subject' => [
                 'required',
                 Rule::unique('student_requests')->where(function ($query) use ($request) {
                     $query->where('subject', $request->subject)
                         ->where('request_type', $request->request_type)
+                        ->where('period', $request->period)
                         ->where('stud_name', auth()->user()->name)
                         ->where(function ($subQuery) {
                             $subQuery->where('status', 'Approved')
@@ -99,6 +103,7 @@ class RequestController extends Controller
             'stud_name' => $studName,
             'department' => $department,
             'request_type' => $requestType,
+            'period' => $period,
             'subject' => $subject,
             'instructor' => $instructor,
             'reason' => $reason,
@@ -285,6 +290,7 @@ class RequestController extends Controller
         // Extracting request data
         $studName = $request->stud_name2;
         $requestType = $request->request_type2;
+        $period = $request->period2;
         $subject = $request->subject2;
         $instructor = $request->instructor2;
         $examDay = $request->exam_day;
@@ -295,6 +301,7 @@ class RequestController extends Controller
         // Check if a schedule with the same subject, request type, and instructor already exists
         $existingSchedule = NewSched::where('subject2', $subject)
             ->where('request_type2', $requestType)
+            ->where('period2', $period)
             ->where('instructor2', $instructor)
             ->first();
 
@@ -307,11 +314,13 @@ class RequestController extends Controller
         $request->validate([
             'stud_name2' => 'required',
             'request_type2' => 'required',
+            'period2' => 'required',
             'subject2' => [
                 'required',
                 Rule::unique('new_schedule')->where(function ($query) use ($request) {
                     return $query->where('subject2', $request->subject2)
                         ->where('request_type2', $request->request_type2)
+                        ->where('period2', $request->period2)
                         ->where('instructor2', $request->instructor2);
                 }),
             ],
@@ -326,6 +335,7 @@ class RequestController extends Controller
         $newSchedule = NewSched::create([
             'stud_name2' => $studName,
             'request_type2' => $requestType,
+            'period2' => $period,
             'subject2' => $subject,
             'instructor2' => $instructor,
             'exam_day' => $examDay,

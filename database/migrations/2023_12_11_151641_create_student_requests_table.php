@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('stud_name');
             $table->string('department');
             $table->string('request_type');
+            $table->string('period');
             $table->string('subject');
             $table->string('instructor');
             $table->longtext('reason');

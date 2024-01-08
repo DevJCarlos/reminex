@@ -14,6 +14,15 @@
         <option value="Special Exam Request">Special Exam Request</option>
     </select>
 
+    <label for="period"><strong>Period: </strong></label>
+    <select class="form-select mb-3" name="period" id="period" required>
+        <option disabled selected>Select Period...</option>
+        <option value="Prelim">Prelim</option>
+        <option value="Midterm">Midterm</option>
+        <option value="Prefinals">Prefinals</option>
+        <option value="Finals">Finals</option>
+    </select>
+
     <label for="request"><strong>Subject to Take: </strong></label><br>
     <select class="form-select mb-3" name="subject" id="subject" required>
         <option disabled selected>Select Subject...</option>

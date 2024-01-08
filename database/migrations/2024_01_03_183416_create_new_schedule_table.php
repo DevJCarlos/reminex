@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('new_schedule', function (Blueprint $table) {
             $table->id();
             $table->string('stud_name2');
+            $table->string('period2');
             $table->string('request_type2');
             $table->string('subject2');
             $table->string('instructor2');

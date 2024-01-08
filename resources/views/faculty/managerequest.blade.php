@@ -43,6 +43,8 @@
                                             <input type="text" class="form-control" name="stud_name2" value="{{ $requestrecord2->stud_name }}" readonly><br>
                                             <label for="request"><strong>Request Type: &nbsp;</strong></label><br>
                                             <input type="text" class="form-control" name="request_type2" value="{{ $requestrecord2->request_type }}" readonly><br>
+                                            <label for="request"><strong>Period: &nbsp;</strong></label><br>
+                                            <input type="text" class="form-control" name="period2" value="{{ $requestrecord2->period }}" readonly><br>
                                             <label for="request"><strong>Subject to Take: &nbsp;</strong></label><br>
                                             <input type="text" class="form-control" name="subject2" value="{{ $requestrecord2->subject }}" readonly><br>
                                             <label for="request"><strong>Instructor: &nbsp;</strong></label><br>

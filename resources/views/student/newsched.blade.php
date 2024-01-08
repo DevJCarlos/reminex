@@ -16,6 +16,7 @@
 										<thead>
 											<tr>
 												<th class="table-dark">Date</th>
+												<th class="table-dark">Period</th>
 												<th class="table-dark">Request Type</th>
 												<th class="table-dark">Subject</th>
 												<th class="table-dark">Instructor</th>
@@ -38,6 +39,7 @@
 											@if ($minutesDifference <= 48 * 60)
 											<tr>
 												<td class="table-secondary">{{$requestrecord4->created_at}}</td>
+												<td class="table-secondary">{{$requestrecord4->period2}}</td>
 												<td class="table-secondary">{{$requestrecord4->request_type2}}</td>
 												<td class="table-warning">{{$requestrecord4->subject2}}</td>
 												<td class="table-warning">{{$requestrecord4->instructor2}}</td>
@@ -69,6 +71,7 @@
 										<thead>
 											<tr>
 												<th>Date</th>
+												<th>Period</th>
 												<th>Request Type</th>
 												<th>Subject</th>
 												<th>Instructor</th>
@@ -91,6 +94,7 @@
 											@if ($minutesDifference >= 48 * 60)
 											<tr>
 												<td class="table-secondary">{{$requestrecord4->created_at}}</td>
+												<td class="table-secondary">{{$requestrecord4->period2}}</td>
 												<td class="table-secondary">{{$requestrecord4->request_type2}}</td>
 												<td class="table-secondary">{{$requestrecord4->subject2}}</td>
 												<td class="table-secondary">{{$requestrecord4->instructor2}}</td>

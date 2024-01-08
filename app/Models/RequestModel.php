@@ -17,6 +17,7 @@ class RequestModel extends Model
         'stud_name',
         'department',
         'request_type',
+        'period',
         'subject',
         'instructor',
         'reason',

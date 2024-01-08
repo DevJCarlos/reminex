@@ -28,6 +28,7 @@
                                     <th class="th-sm">Date</th>
                                     <th class="th-sm">Name</th>
                                     <th class="th-sm">Request Type</th>
+                                    <th class="th-sm">Period</th>
                                     <th class="th-sm">Subject</th>
                                     <th class="th-sm">Instructor</th>
                                     <th class="th-sm">Reason</th>
@@ -44,16 +45,17 @@
                                 @if($requestrecord->status === null)
 
                                     <tr>
-                                        <td>{{ $requestrecord->created_at }}</td>
+                                        <td style="font-size:12px">{{ $requestrecord->created_at }}</td>
                                         <td>{{ $requestrecord->stud_name }}</td>
                                         <td>{{ $requestrecord->request_type }}</td>
+                                        <td>{{ $requestrecord->period }}</td>
                                         <td>{{ $requestrecord->subject }}</td>
                                         <td>{{ $requestrecord->instructor }}</td>
                                         <td class="text-warning">
                                         <span class="tool" data-tip="{{ $requestrecord->reason }}" tabindex="1">Reason</span>
                                         </td>
                                         <td>{{ $requestrecord->time_avail1}} - {{ $requestrecord->time_avail2}}</td>
-                                        <td>{{ $requestrecord->file_name }} 
+                                        <td style="font-size:12px">{{ $requestrecord->file_name }} 
 
                                         <a href="{{ route('request.download', ['filePaths' => urlencode($requestrecord->file_path)]) }}" class="btn btn-outline-secondary">Download</a>
 

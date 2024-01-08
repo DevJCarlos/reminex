@@ -18,6 +18,7 @@
                                         <thead>
                                         <tr>
                                             <th>Date</th>
+                                            <th>Period</th>
                                             <th>Student Name</th>
                                             <th>Subject</th>
                                             <th>Instructor</th>
@@ -32,6 +33,7 @@
                                         @if ($newsched->instructor2 === auth()->user()->name)
                                             <tr>
                                                 <td class="table-secondary">{{ $newsched->created_at }}</td>
+                                                <td class="table-secondary">{{ $newsched->period2 }}</td>
                                                 <td class="table-secondary">{{ $newsched->stud_name2 }}</td>
                                                 <td class="table-primary">{{ $newsched->subject2 }}</td>
                                                 <td class="table-primary">{{ $newsched->instructor2 }}</td>

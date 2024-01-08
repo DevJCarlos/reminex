@@ -14,6 +14,7 @@ class NewSched extends Model
     protected $fillable = [
         'stud_name2',
         'request_type2',
+        'period2',
         'subject2',
         'instructor2',
         'exam_day',
